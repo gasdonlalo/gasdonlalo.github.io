@@ -6,6 +6,8 @@ import MontoFaltante from "../components/pages/MontoFaltante";
 import Despacho from "../components/pages/Despacho";
 import Chartprueba from "../components/charts/Chartprueba";
 import Pdf_prueba from "../components/pdf_generador/Pdf_prueba";
+import Checklist from "../components/pages/Checklist";
+
 function Rutas() {
   return (
     <Router>
@@ -17,6 +19,7 @@ function Rutas() {
           <Route exact path="/montos-faltantes" element={<MontoFaltante />} />
           <Route exact path="/chart" element={<Chartprueba />} />
           <Route exact path="/pdf" element={<Pdf_prueba />} />
+          <Route exact path="/checklist" element={<Checklist />} />
         </Routes>
       </Layout>
     </Router>

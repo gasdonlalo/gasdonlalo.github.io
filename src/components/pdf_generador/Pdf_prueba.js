@@ -6,11 +6,19 @@ function Pdf_prueba() {
   const doc = new PDF(Options);
   //doc.addImage(imagen, formato, posicion x, posicion y, ancho, alto)
   doc.addImage(img, "PNG", 0, 0, 8.5, 11);
-  doc.text(Date(), 1.8, 1.8, { maxwidth: 1 });
+  doc.text(Date(), 1.8, 1.8, { align: "justify" });
+
   doc.text(
-    "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Arcu cursus vitae congue mauris rhoncus aenean vel elit. Duis at consectetur lorem donec massa sapien faucibus et molestie. Sed adipiscing diam donec adipiscing. Vehicula ipsum a arcu cursus vitae. Gravida in fermentum et sollicitudin. Sit amet volutpat consequat mauris nunc congue. Vel orci porta non pulvinar neque. Ac orci phasellus egestas tellus rutrum tellus. Purus in massa tempor nec feugiat nisl pretium fusce. Tellus pellentesque eu tincidunt tortor aliquam. Nunc consequat interdum varius sit amet mattis. A diam maecenas sed enim. Ut faucibus pulvinar elementum integer enim. Egestas congue quisque egestas diam in arcu cursus. Facilisis volutpat est velit egestas dui id ornare. Dolor magna eget est lorem ipsum dolor sit amet. Quis vel eros donec ac odio tempor. In est ante in nibh mauris cursus mattis molestie. Nisl purus in mollis nunc. Varius duis at consectetur lorem. Ultrices mi tempus imperdiet nulla malesuada. Elit at imperdiet dui accumsan sit amet. Diam ut venenatis tellus in metus vulputate eu scelerisque felis. Id consectetur purus ut faucibus. Turpis in eu mi bibendum neque egestas congue quisque egestas. Nam aliquam sem et tortor consequat id. Nulla aliquet enim tortor at auctor urna.",
+    "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Arcu cursus vitae congue mauris rhoncus aenean vel elit. Duis at consectetur lorem donec massa sapien faucibus et molestie. Sed adipiscing",
     1.1,
-    2.5
+    2.5,
+    { maxWidth: "5" }
+  );
+  doc.text(
+    "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Arcu cursus vitae congue mauris rhoncus aenean vel elit. Duis at consectetur lorem donec massa sapien faucibus et molestie. Sed adipiscing",
+    1.1,
+    4.75,
+    { maxWidth: "5" }
   );
 
   const generar = () => {
