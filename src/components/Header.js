@@ -2,7 +2,7 @@ import Logo from "../IMG/LogoGL.png";
 import { Link } from "react-router-dom";
 function Header() {
   return (
-    <div className="Header shadow-sm">
+    <div className="Header shadow-sm sticky-top ">
       <img
         src={Logo}
         className="ms-2 img-fluid"
