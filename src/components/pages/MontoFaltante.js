@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { Fragment, useState } from "react";
 import { Link } from "react-router-dom";
 import FormMontoFalt from "../../components/forms/FormMontoFalt";
 import Axios from "../../Caxios/Axios";
@@ -9,21 +9,28 @@ function MontoFaltante() {
     setData({ ...data, [e.target.name]: e.target.value });
     console.log(data);
   };
+
+  const enviar = (e) => {
+    e.preventDefault();
+    enviarDatos();
+    console.log(data);
+  };
   //añadir ruta
   const enviarDatos = async () => {
-    const resp = await Axios.post("/", data)
-      .then((res) => console.log(res))
-      .catch((err) => console.log(err));
+    const resp = await Axios.post("/monto-faltante-despachador", data);
+    console.log(resp);
+    if (resp.status === 200) {
+      window.alert("correcto");
+    } else {
+      window.alert("Incorrecto");
+    }
     console.log(resp);
   };
 
-  const enviar = () => {
-    enviarDatos();
-  };
   return (
-    <div className="ContentMain">
+    <Fragment>
       <div className="Main">
-        <div className="m-4">
+        <div>
           <Link className="link-primary" to="/despacho">
             Volver al despacho
           </Link>
@@ -31,7 +38,7 @@ function MontoFaltante() {
           <FormMontoFalt handle={handle} enviar={enviar} />
         </div>
       </div>
-    </div>
+    </Fragment>
   );
 }
 export default MontoFaltante;

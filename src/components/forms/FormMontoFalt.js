@@ -10,11 +10,11 @@ function FormMontoFalt({ handle, enviar }) {
             type="number"
             className="form-control"
             aria-describedby="emailHelp"
-            name="idempleado"
+            name="empleado"
             onChange={handle}
           />
         </div>
-        <div className="mb-3">
+        {/* <div className="mb-3">
           <label for="exampleInputEmail1" className="form-label">
             Nombre
           </label>
@@ -22,9 +22,22 @@ function FormMontoFalt({ handle, enviar }) {
             type="text"
             className="form-control"
             aria-describedby="emailHelp"
-            defaultvalue="ola"
+            defaultvalue={nombreEmpleado}
             disabled
             readonly
+          />
+        </div> */}
+        <div className="mb-3">
+          <label for="exampleInputEmail1" className="form-label">
+            Fecha
+          </label>
+          <input
+            type="date"
+            className="form-control"
+            aria-describedby="emailHelp"
+            name="fecha"
+            onChange={handle}
+            onDoubleClickCapture={handle}
           />
         </div>
         <div className="mb-3">
@@ -34,9 +47,10 @@ function FormMontoFalt({ handle, enviar }) {
           <input
             type="number"
             step="0.01"
+            min="0.00"
             className="form-control"
             aria-describedby="emailHelp"
-            name="monto"
+            name="cantidad"
             onChange={handle}
           />
         </div>

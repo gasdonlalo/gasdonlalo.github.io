@@ -1,9 +1,8 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import Axios from "../../Caxios/Axios";
-import FormChecklist from "../forms/FormChecklist";
+import FormUniforme from "../forms/FormUniforme";
 
-function Checklist() {
+function EvalUniforme() {
   const [data, setData] = useState([]);
 
   const handle = (e) => {
@@ -13,18 +12,8 @@ function Checklist() {
 
   const enviar = async (e) => {
     e.preventDefault();
-    enviarDatos();
+    //enviarDatos();
     console.log(data);
-  };
-
-  const enviarDatos = async () => {
-    const req = await Axios.post("/bomba-check", data);
-    console.log(req.status);
-    if (req.status === 200) {
-      window.alert("Correcto");
-    } else {
-      window.alert("Incorrecto");
-    }
   };
 
   return (
@@ -33,10 +22,10 @@ function Checklist() {
         <Link className="link-primary" to="/despacho">
           Volver al despacho
         </Link>
-        <h4>Checklist de bombas</h4>
-        <FormChecklist handle={handle} enviar={enviar} />
+        <h4>Evaluación de uniforme</h4>
+        <FormUniforme handle={handle} enviar={enviar} />
       </div>
     </div>
   );
 }
-export default Checklist;
+export default EvalUniforme;

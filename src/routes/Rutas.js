@@ -5,8 +5,9 @@ import Notfound from "../components/pages/Notfound";
 import MontoFaltante from "../components/pages/MontoFaltante";
 import Despacho from "../components/pages/Despacho";
 import Chartprueba from "../components/charts/Chartprueba";
-import Pdf_prueba from "../components/pdf_generador/Pdf_prueba";
+import Pdfprueba from "../components/pdf_generador/Pdfprueba";
 import Checklist from "../components/pages/Checklist";
+import EvalUniforme from "../components/pages/EvalUniforme";
 
 function Rutas() {
   return (
@@ -16,10 +17,20 @@ function Rutas() {
           <Route exact path="/" element={<Home />} />
           <Route exact path="*" element={<Notfound />} />
           <Route exact path="/despacho" element={<Despacho />} />
-          <Route exact path="/montos-faltantes" element={<MontoFaltante />} />
+          <Route
+            exact
+            path="/despacho/montos-faltantes"
+            element={<MontoFaltante />}
+          />
+          <Route exact path="/despacho/checklist" element={<Checklist />} />
+          <Route
+            exact
+            path="/despacho/evaluacion-uniforme"
+            element={<EvalUniforme />}
+          />
+
           <Route exact path="/chart" element={<Chartprueba />} />
-          <Route exact path="/pdf" element={<Pdf_prueba />} />
-          <Route exact path="/checklist" element={<Checklist />} />
+          <Route exact path="/pdf" element={<Pdfprueba />} />
         </Routes>
       </Layout>
     </Router>
