@@ -1,6 +1,6 @@
 .flex_container {
   display: flex;
-  height: 100vh;
+  height: 100%;
   flex-direction: column;
   background-color: white;
 }
@@ -12,30 +12,24 @@
   height: 10vh;
 }
 .Content {
-  margin: 10px;
   height: 90vh;
   flex-wrap: wrap;
   align-items: flex-start;
 }
-/* .ContentMain {
-  height: 90vh;
-  display: flex;
-} */
-
 .Content .Contenido {
   margin: 10px;
   display: flex;
   flex-wrap: wrap;
   justify-content: space-around;
 }
-.Main {
-  width: 100vw;
+.Content .Main {
+  margin: 10px;
 }
 .Captura {
   text-align: center;
   display: flex;
   flex-direction: column;
-  border: 1px solid grey;
+  border: 1px solid #bcd0c7;
   border-radius: 10px;
   width: 40%;
 }
@@ -52,7 +46,7 @@
   text-align: center;
   display: flex;
   flex-direction: column;
-  border: 1px solid grey;
+  border: 1px solid #bcd0c7;
   border-radius: 10px;
   width: 40%;
 }

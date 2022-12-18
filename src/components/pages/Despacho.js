@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 function Despacho() {
   return (
-    <Fragment>
+    <div className="Main">
       <h1 className="text-center border-bottom w-100">Despacho</h1>
       <div className="Contenido">
         <div className="Captura">
@@ -59,7 +59,7 @@ function Despacho() {
           </div>
         </div>
       </div>
-    </Fragment>
+    </div>
   );
 }
 export default Despacho;

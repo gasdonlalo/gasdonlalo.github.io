@@ -1,4 +1,4 @@
-function FormUniforme({ handle, enviar }) {
+function FormUniforme({ handle, enviar, uniforme, puntos }) {
   return (
     <div className="container">
       <form onSubmit={enviar}>
@@ -23,12 +23,31 @@ function FormUniforme({ handle, enviar }) {
               min="0"
               className="form-control"
               aria-describedby="emailHelp"
-              name="identrante"
+              name="idempleado"
               onChange={handle}
             />
           </div>
         </div>
-        <div className="mb-3">
+        {uniforme.map((e) => {
+          return (
+            <div className="mb-3">
+              <label for="exampleInputEmail1" className="form-label">
+                {e.cumplimiento}
+              </label>
+              <select
+                className="form-select"
+                name={e.cumplimiento}
+                onChange={puntos}
+                id={e.id}
+              >
+                <option value={null}>Elige una opción</option>
+                <option value="1">Cumple</option>
+                <option value="0">No cumple</option>
+              </select>
+            </div>
+          );
+        })}
+        {/* <div className="mb-3">
           <label for="exampleInputEmail1" className="form-label">
             Gorra en buen estado
           </label>
@@ -99,7 +118,7 @@ function FormUniforme({ handle, enviar }) {
             <option value="1">Cumple</option>
             <option value="0">No cumple</option>
           </select>
-        </div>
+        </div> */}
 
         <button type="submit" className="btn btn-primary">
           Enviar

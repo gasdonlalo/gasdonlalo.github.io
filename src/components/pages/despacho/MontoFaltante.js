@@ -1,7 +1,7 @@
 import { Fragment, useState } from "react";
 import { Link } from "react-router-dom";
-import FormMontoFalt from "../../components/forms/FormMontoFalt";
-import Axios from "../../Caxios/Axios";
+import FormMontoFalt from "../../forms/FormMontoFalt";
+import Axios from "../../../Caxios/Axios";
 function MontoFaltante() {
   const [data, setData] = useState([]);
   //recibe los datos del formulario
@@ -34,7 +34,7 @@ function MontoFaltante() {
           <Link className="link-primary" to="/despacho">
             Volver al despacho
           </Link>
-          <h4>Insertar Montos faltantes</h4>
+          <h4 className="border-bottom">Insertar Montos faltantes</h4>
           <FormMontoFalt handle={handle} enviar={enviar} />
         </div>
       </div>

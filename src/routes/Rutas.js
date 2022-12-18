@@ -2,12 +2,12 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Layout from "../GUI/Layout";
 import Home from "../components/pages/home/Home";
 import Notfound from "../components/pages/Notfound";
-import MontoFaltante from "../components/pages/MontoFaltante";
+import MontoFaltante from "../components/pages/despacho/MontoFaltante";
 import Despacho from "../components/pages/Despacho";
 import Chartprueba from "../components/charts/Chartprueba";
 import Pdfprueba from "../components/pdf_generador/Pdfprueba";
-import Checklist from "../components/pages/Checklist";
-import EvalUniforme from "../components/pages/EvalUniforme";
+import Checklist from "../components/pages/despacho/Checklist";
+import EvalUniforme from "../components/pages/despacho/EvalUniforme";
 
 function Rutas() {
   return (

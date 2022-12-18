@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import Axios from "../../Caxios/Axios";
-import FormChecklist from "../forms/FormChecklist";
+import Axios from "../../../Caxios/Axios";
+import FormChecklist from "../../forms/FormChecklist";
 
 function Checklist() {
   const [data, setData] = useState([]);
@@ -33,7 +33,7 @@ function Checklist() {
         <Link className="link-primary" to="/despacho">
           Volver al despacho
         </Link>
-        <h4>Checklist de bombas</h4>
+        <h4 className="border-bottom">Checklist de bombas</h4>
         <FormChecklist handle={handle} enviar={enviar} />
       </div>
     </div>
