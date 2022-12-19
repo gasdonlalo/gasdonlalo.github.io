@@ -36,11 +36,9 @@ function Chart({ datos }) {
     },
   };
   const labels = [
-    datos.map((e) => {
+    ...datos.map((e) => {
       return [e.nombre_completo];
     }),
-    "ola",
-    "si",
   ];
   console.log(labels);
   const data = {
@@ -51,56 +49,6 @@ function Chart({ datos }) {
         data: datos.map((e) => e.total),
         backgroundColor: "rgba(12, 162, 115, 0.5)",
       },
-      /* {
-        label: "Dataset 1",
-        data: [1, 4, 10],
-        backgroundColor: "rgba(255, 99, 132, 0.5)",
-      },
-      {
-        label: "Dataset 2",
-        data: [0, 3, 5],
-        backgroundColor: "rgba(53, 162, 235, 0.5)",
-      },
-      {
-        label: "Dataset 3",
-        data: [1, 3, 5],
-        backgroundColor: "rgba(53, 162, 235, 0.5)",
-      },
-      {
-        label: "Dataset 4",
-        data: [1, 3, 5, 2],
-        backgroundColor: "rgba(53, 162, 235, 0.5)",
-      },
-      {
-        label: "Dataset 5",
-        data: [1, 3, 5, 2],
-        backgroundColor: "rgba(53, 162, 235, 0.5)",
-      },
-      {
-        label: "Dataset 6",
-        data: [1, 3, 5, 2],
-        backgroundColor: "rgba(53, 162, 235, 0.5)",
-      },
-      {
-        label: "Dataset 7",
-        data: [1, 3, 5, 2],
-        backgroundColor: "rgba(53, 162, 235, 0.5)",
-      },
-      {
-        label: "Dataset 8",
-        data: [1, 3, 5, 2],
-        backgroundColor: "rgba(53, 162, 235, 0.5)",
-      },
-      {
-        label: "Dataset 9",
-        data: [1, 3, 5, 2],
-        backgroundColor: "rgba(53, 162, 235, 0.5)",
-      },
-      {
-        label: "Dataset 10",
-        data: [1, 3, 5, 2],
-        backgroundColor: "rgba(53, 162, 235, 0.5)",
-      }, */
     ],
   };
   console.log(datos);

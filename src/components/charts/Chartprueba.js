@@ -47,7 +47,7 @@ function Chartprueba() {
     labels,
     datasets: [
       {
-        label: datos[0].fecha,
+        label: 2,
         data: datos.map((e) => e.cantidad),
         backgroundColor: "rgba(12, 162, 115, 0.5)",
       },

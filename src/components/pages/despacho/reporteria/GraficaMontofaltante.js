@@ -4,6 +4,7 @@ import Chart from "../../../charts/Chart";
 import Axios from "../../../../Caxios/Axios";
 import Tabla from "../../../Tabla";
 import { Link } from "react-router-dom";
+import MontoFaltpdf from "../../../pdf_generador/MontoFaltpdf";
 
 function GraficaMontofaltante() {
   const [anio, setAnio] = useState(null);
@@ -62,11 +63,14 @@ function GraficaMontofaltante() {
             </div>
           </div>
         </form>
-        <div className="tabla">
+        <div id="tabla">
           <Tabla datos={datos} />
         </div>
-        <div className="grafica">
+        <div id="grafica">
           <Chart datos={datos} />
+        </div>
+        <div>
+          <MontoFaltpdf />
         </div>
       </div>
     </div>
