@@ -8,6 +8,7 @@ import Chartprueba from "../components/charts/Chartprueba";
 import Pdfprueba from "../components/pdf_generador/Pdfprueba";
 import Checklist from "../components/pages/despacho/Checklist";
 import EvalUniforme from "../components/pages/despacho/EvalUniforme";
+import GraficaMontofaltante from "../components/pages/despacho/reporteria/GraficaMontofaltante";
 
 function Rutas() {
   return (
@@ -27,6 +28,11 @@ function Rutas() {
             exact
             path="/despacho/evaluacion-uniforme"
             element={<EvalUniforme />}
+          />
+          <Route
+            exact
+            path="/despacho/reporteria/monto-faltante"
+            element={<GraficaMontofaltante />}
           />
 
           <Route exact path="/chart" element={<Chartprueba />} />

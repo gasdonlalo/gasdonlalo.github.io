@@ -23,15 +23,18 @@ function Pdf_prueba() {
     4.75,
     { maxWidth: "5" }
   );
-  doc.html("#tablaprueba", { width: 2, scale: 3 });
+  doc.html(document.getElementById("tabla"), {
+    width: 1,
+    windowWidth: 200,
+  });
 
   const generar = () => {
     doc.save("prueba.pdf");
   };
   return (
     <Fragment>
-      <div id="tabla">
-        <table class="table">
+      <div>
+        <table id="tabla" class="table">
           <thead>
             <tr>
               <th scope="col">#</th>

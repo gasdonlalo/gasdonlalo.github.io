@@ -48,8 +48,8 @@ function Despacho() {
           <div className="OpcionesReporteria">
             <Link
               type="button"
-              className="btn btn-primary disabled"
-              to="/montos-faltantes"
+              className="btn btn-primary"
+              to="/despacho/reporteria/monto-faltante"
             >
               Grafica monto faltante
             </Link>

@@ -1,27 +1,32 @@
 [
   {
-    "id_montofaltante": 1,
-    "cantidad": 250,
-    "fecha": "15-12-2022",
-    "empleado": "JESUS MANUEL ALEGRIA JIMENEZ"
-  },
-
-  {
-    "id_montofaltante": 2,
-    "cantidad": 100,
-    "fecha": "15-12-2022",
-    "empleado": "JESUS MANUEL ALEGRIA JIMENEZ"
-  },
-  {
-    "id_montofaltante": 3,
-    "cantidad": 0,
-    "fecha": "15-12-2022",
-    "empleado": "JESUS MANUEL ALEGRIA JIMENEZ"
+    "semana": [
+      {
+        "num": 2,
+        "empleado": [
+          { "nombre": "JESUS MANUEL alegria jimenez", "monto": "123.45" },
+          {
+            "nombre": "Jayro loide",
+            "monto": ""
+          },
+          { "nombre": "david", "monto": "" }
+        ]
+      }
+    ]
   },
   {
-    "id_montofaltante": 3,
-    "cantidad": 20,
-    "fecha": "15-12-2022",
-    "empleado": "JESUS MANUEL ALEGRIA JIMENEZ"
+    "semana": [
+      {
+        "num": 2,
+        "empleado": [
+          { "nombre": "JESUS MANUEL alegria jimenez", "monto": "123.45" },
+          {
+            "nombre": "Jayro loide",
+            "monto": ""
+          },
+          { "nombre": "david", "monto": "" }
+        ]
+      }
+    ]
   }
 ]
