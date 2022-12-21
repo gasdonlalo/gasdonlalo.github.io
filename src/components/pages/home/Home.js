@@ -26,8 +26,8 @@ function Home() {
       <Link type="button" className="btn btn-primary" to="/despacho">
         Despacho
       </Link>
-      <Link type="button" className="btn btn-primary" to="">
-        Mantenimiento
+      <Link type="button" className="btn btn-primary disabled" to="">
+        Calidad
       </Link>
       {datos && console.log(datos)}
     </Fragment>

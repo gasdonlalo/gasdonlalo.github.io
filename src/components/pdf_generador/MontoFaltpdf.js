@@ -3,14 +3,19 @@ import jsPDF from "jspdf";
 
 function MontoFaltpdf() {
   const generar = () => {
-    const element = document.getElementById("grafica");
-    html2canvas(element, { scale: 1 }).then((canvas) => {
-      const imgData = canvas.toDataURL("image/png");
-      const pdf = new jsPDF("landscape", "px", "letter");
-      var w = element.offsetWidth / 2;
-      var h = element.offsetHeight / 2;
+    const element = document.getElementById("render");
 
-      pdf.addImage(imgData, "JPEG", 0, 0, w, h);
+    html2canvas(element).then((canvas) => {
+      const imgData = canvas.toDataURL("image/png");
+      const pdf = new jsPDF("l", "px", "letter");
+
+      const imgprop = pdf.getImageProperties(imgData);
+      var w = pdf.internal.pageSize.getWidth() / 1.5;
+      var heig = pdf.internal.pageSize.getHeight();
+      var h = (imgprop.height * w) / imgprop.width;
+      console.log(w, heig);
+
+      pdf.addImage(imgData, "JPEG", 99, 100, w, h);
       pdf.save("hola.pdf");
     });
   };

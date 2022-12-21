@@ -9,7 +9,7 @@ import MontoFaltpdf from "../../../pdf_generador/MontoFaltpdf";
 function GraficaMontofaltante() {
   const [anio, setAnio] = useState(null);
   const [mes, setMes] = useState(null);
-  const [datos, setDatos] = useState([]);
+  const [datos, setDatos] = useState(null);
   const url = `monto-faltante-despachador/semanas/${anio}/${mes}`;
 
   useEffect(() => {
@@ -18,8 +18,7 @@ function GraficaMontofaltante() {
 
   const consultarDatos = async (x) => {
     const req = await Axios.get(x);
-    setDatos(req.data.response);
-    console.log(req.data.response);
+    setDatos(req.data);
   };
 
   return (
@@ -63,12 +62,11 @@ function GraficaMontofaltante() {
             </div>
           </div>
         </form>
-        <div id="tabla">
-          <Tabla datos={datos} />
+        <div id="render">
+          <div>{datos && <Tabla datos={datos} />}</div>
+          <div>{datos && <Chart datos={datos} />}</div>
         </div>
-        <div id="grafica">
-          <Chart datos={datos} />
-        </div>
+
         <div>
           <MontoFaltpdf />
         </div>

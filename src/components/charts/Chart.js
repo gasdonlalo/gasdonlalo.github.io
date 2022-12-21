@@ -10,6 +10,32 @@ import {
 import { Bar } from "react-chartjs-2";
 
 function Chart({ datos }) {
+  const datosCont = datos.response;
+  const val = [
+    ...datosCont.map((e) =>
+      e.semanas.map((el) => {
+        return el.cantidad;
+      })
+    ),
+  ];
+  let valFormat = [];
+  //reestructurador de datos
+  let contador = 0;
+  let paso = 0;
+  while (contador < datos.totalSemanas) {
+    if (paso <= datos.totalSemanas) {
+      valFormat.push(
+        val.map((e) => {
+          return e[paso];
+        })
+      );
+      //cantidades.push(valFormat);
+      paso = paso + 1;
+      contador = contador + 1;
+      console.log(valFormat);
+    }
+  }
+  //configuraciones de grafica de barra
   ChartJS.register(
     CategoryScale,
     LinearScale,
@@ -19,7 +45,6 @@ function Chart({ datos }) {
     Legend
   );
   const options = {
-    responsive: true,
     animation: false,
     plugins: {
       legend: {
@@ -28,7 +53,7 @@ function Chart({ datos }) {
       },
       title: {
         display: true,
-        text: "Grafica diaria de monto faltante de despachador",
+        text: "Grafica semanal de monto faltante de despachador",
         font: {
           size: "25",
         },
@@ -36,22 +61,33 @@ function Chart({ datos }) {
     },
   };
   const labels = [
-    ...datos.map((e) => {
-      return [e.nombre_completo];
+    ...datosCont.map((e) => {
+      return e.nombre_completo;
     }),
   ];
-  console.log(labels);
+  const dataSet = [
+    ...valFormat.map((e) => {
+      return {
+        label: "Semana",
+        data: e,
+        backgroundColor: "rgba(12, 162, 115, 0.5)",
+      };
+    }),
+  ];
+
   const data = {
     labels,
-    datasets: [
+    datasets: [...dataSet],
+
+    /* datasets: [
       {
-        label: datos.semana,
-        data: datos.map((e) => e.total),
+        label: "semana 1",
+        data: valFormat[0],
         backgroundColor: "rgba(12, 162, 115, 0.5)",
       },
-    ],
+    ], */
   };
-  console.log(datos);
+
   return <Bar options={options} data={data} className=" m-4" />;
 }
 

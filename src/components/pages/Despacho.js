@@ -19,26 +19,26 @@ function Despacho() {
               </Link>
               <Link
                 type="button"
-                className="btn btn-primary"
+                className="btn btn-primary "
                 to="/despacho/checklist"
               >
                 Checklist de bombas
               </Link>
               <Link
                 type="button"
-                className="btn btn-primary"
+                className="btn btn-primary disabled"
                 to="/despacho/evaluacion-uniforme"
               >
                 Evaluación de uniforme
               </Link>
             </Fragment>
-            <Link type="button" className="btn btn-primary">
+            <Link type="button" className="btn btn-primary disabled">
               Recoleccion de efectivo
             </Link>
-            <Link type="button" className="btn btn-primary">
+            <Link type="button" className="btn btn-primary disabled">
               Pasos para despachar
             </Link>
-            <Link type="button" className="btn btn-primary">
+            <Link type="button" className="btn btn-primary disabled">
               Recursos de despachador
             </Link>
           </div>
