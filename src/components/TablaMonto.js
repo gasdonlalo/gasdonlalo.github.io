@@ -1,4 +1,4 @@
-function Tabla({ datos }) {
+function TablaMonto({ datos }) {
   const datosCont = datos.response;
 
   const TablaSemana = () => {
@@ -41,4 +41,4 @@ function Tabla({ datos }) {
   );
 }
 
-export default Tabla;
+export default TablaMonto;
