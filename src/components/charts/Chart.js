@@ -24,12 +24,7 @@ function Chart({ datos }) {
   let paso = 0;
   while (contador < datos.totalSemanas) {
     if (paso <= datos.totalSemanas) {
-      valFormat.push(
-        val.map((e) => {
-          return e[paso];
-        })
-      );
-      //cantidades.push(valFormat);
+      valFormat.push(val.map((e) => e[paso]));
       paso = paso + 1;
       contador = contador + 1;
       console.log(valFormat);
@@ -50,6 +45,7 @@ function Chart({ datos }) {
       legend: {
         position: "right",
         scale: "",
+        CategoryScale: "3",
       },
       title: {
         display: true,

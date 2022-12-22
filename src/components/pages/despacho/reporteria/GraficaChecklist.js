@@ -1,32 +1,32 @@
 import { useState, useEffect } from "react";
-import Meses from "../Meses.json";
-import Chart from "../../../charts/Chart";
-import Axios from "../../../../Caxios/Axios";
-import Tabla from "../../../TablaMonto";
 import { Link } from "react-router-dom";
+import Meses from "../Meses.json";
+import Axios from "../../../../Caxios/Axios";
 import MontoFaltpdf from "../../../pdf_generador/MontoFaltpdf";
+import TablaCheck from "../../../TablaCheck";
 
-function GraficaMontofaltante() {
+function GraficaChecklist() {
+  const [datos, setDatos] = useState([]);
   const [anio, setAnio] = useState(null);
   const [mes, setMes] = useState(null);
-  const [datos, setDatos] = useState(null);
-  const url = `monto-faltante-despachador/semanas/${anio}/${mes}`;
+  const url = `/bomba-check/${anio}/${mes}`;
 
   useEffect(() => {
-    consultarDatos(url);
+    consulta(url);
   }, [url]);
 
-  const consultarDatos = async (x) => {
+  const consulta = async (x) => {
     const req = await Axios.get(x);
-    setDatos(req.data);
+    setDatos(req.data.response);
   };
-
+  console.log(url);
+  console.log(datos);
   return (
     <div className="Main">
       <Link className="link-primary" to="/despacho">
         Volver al despacho
       </Link>
-      <h3 className="border-bottom">Monto faltante por despachadores</h3>
+      <h3 className="border-bottom">Registro mensual de checklist</h3>
       <div className="container">
         <form>
           <div className="row">
@@ -36,9 +36,7 @@ function GraficaMontofaltante() {
               </label>
               <select
                 className="form-select"
-                onChange={(ev) => {
-                  setAnio(ev.target.value);
-                }}
+                onChange={(e) => setAnio(e.target.value)}
               >
                 <option value={null}>Elige una opción</option>
                 <option value="2022">2022</option>
@@ -51,9 +49,7 @@ function GraficaMontofaltante() {
               </label>
               <select
                 className="form-select"
-                onChange={(ev) => {
-                  setMes(ev.target.value);
-                }}
+                onChange={(ev) => setMes(ev.target.value)}
               >
                 {Meses.map((e) => {
                   return <option value={e.id}>{e.mes}</option>;
@@ -63,8 +59,9 @@ function GraficaMontofaltante() {
           </div>
         </form>
         <div id="render">
-          <div>{datos && <Tabla datos={datos} />}</div>
-          <div>{datos && <Chart datos={datos} />}</div>
+          <TablaCheck datos={datos} />
+          {/* <div>{datos && <Tabla datos={datos} />}</div>
+          <div>{datos && <Chart datos={datos} />}</div> */}
         </div>
 
         <div>
@@ -75,4 +72,4 @@ function GraficaMontofaltante() {
   );
 }
 
-export default GraficaMontofaltante;
+export default GraficaChecklist;

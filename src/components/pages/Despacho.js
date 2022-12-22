@@ -53,7 +53,11 @@ function Despacho() {
             >
               Grafica monto faltante
             </Link>
-            <Link type="button" className="btn btn-primary disabled" to="">
+            <Link
+              type="button"
+              className="btn btn-primary "
+              to="/despacho/reporteria/registro-checklist"
+            >
               Grafica mensual registro checklist
             </Link>
           </div>
