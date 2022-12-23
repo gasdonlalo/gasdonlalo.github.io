@@ -19,8 +19,8 @@ function GraficaChecklist() {
     const req = await Axios.get(x);
     setDatos(req.data.response);
   };
-  console.log(url);
-  console.log(datos);
+  /*   console.log(url);
+  console.log(datos); */
   return (
     <div className="Main">
       <Link className="link-primary" to="/despacho">
@@ -59,7 +59,8 @@ function GraficaChecklist() {
           </div>
         </form>
         <div id="render">
-          <TablaCheck datos={datos} />
+          <div>{datos && <TablaCheck datos={datos} />}</div>
+
           {/* <div>{datos && <Tabla datos={datos} />}</div>
           <div>{datos && <Chart datos={datos} />}</div> */}
         </div>

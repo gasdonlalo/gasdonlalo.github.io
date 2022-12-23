@@ -1,4 +1,6 @@
 function TablaCheck({ datos }) {
+  let dataExtract = datos.map((e) => e.data);
+  console.log(dataExtract);
   return (
     <div className="table-responsive">
       <table className="table table-bordered">
@@ -8,18 +10,23 @@ function TablaCheck({ datos }) {
             {datos.map((e) => {
               return <th>{e.fecha}</th>;
             })}
-
-            <th>Total mensual</th>
           </tr>
         </thead>
         <tbody>
-          {datos.map((e) => {
-            return (
-              <tr>
-                <th>{e.data.nombre_completo}</th>
-              </tr>
-            );
+          {!dataExtract[0]
+            ? false
+            : dataExtract[0].map((e) => {
+                return (
+                  <tr>
+                    <th>{e.nombre_completo}</th>
+                    <td>{e.cumple ? 1 : 0}</td>
+                  </tr>
+                );
+              })}
+          {dataExtract.map((e) => (e) => {
+            return <td>{e.cumple ? 1 : 0}</td>;
           })}
+
           {/* {datosCont.map((e) => {
             return (
               <tr>
@@ -31,10 +38,6 @@ function TablaCheck({ datos }) {
               </tr>
             );
           })} */}
-          <tr>
-            <td colSpan={datos.totalSemanas + 1}></td>
-            <td className="fw-bold">${datos.montoTotalMes}</td>
-          </tr>
         </tbody>
       </table>
     </div>
