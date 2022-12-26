@@ -31,7 +31,8 @@ function FormRecoleccion({ datos, enviar, handle }) {
           <input
             className="form-control"
             type="number"
-            min="0"
+            min="0.00"
+            step="0.01"
             name="cantidad"
             onChange={handle}
           />

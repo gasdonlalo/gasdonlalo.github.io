@@ -1,4 +1,4 @@
-function FormRecursosDesp({ enviar, datos, handle }) {
+function FormRecursosDesp({ enviar, datos, handle, pasos, puntos }) {
   return (
     <div>
       <form onSubmit={enviar}>
@@ -27,14 +27,25 @@ function FormRecursosDesp({ enviar, datos, handle }) {
           </select>
         </div>
         <div>
-          <label>Cantidad</label>
-          <input
-            className="form-control"
-            type="number"
-            min="0"
-            name="cantidad"
-            onChange={handle}
-          />
+          {!pasos.data
+            ? false
+            : pasos.data.response.map((e) => {
+                return (
+                  <div>
+                    <label>{e.recurso}</label>
+                    <select
+                      className="form-control"
+                      onChange={puntos}
+                      name={e.recurso}
+                      id={e.idrecurso}
+                    >
+                      <option value={null}>Selecciona una opcion</option>
+                      <option value="1">Cumple</option>
+                      <option value="0">No cumple</option>
+                    </select>
+                  </div>
+                );
+              })}
         </div>
         <button type="submit" className="btn btn-primary">
           Enviar

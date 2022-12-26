@@ -6,18 +6,27 @@ import useGetData from "../../../hooks/useGetData";
 function RecursosDesp() {
   //consulta de empleados
   const empleados = useGetData("/empleado?departamento=1");
+  const pasos = useGetData("/lista-recurso-despachador/get-recurso");
 
   const [data, setData] = useState([]);
+  //const [evalua, setEvalua] = useState([]);
   //recibe los datos del formulario
   const handle = (e) => {
     setData({ ...data, [e.target.name]: e.target.value });
-    console.log(data);
+  };
+  const puntos = (e) => {
+    setData({
+      ...data,
+      [e.target.name]: [e.target.value],
+      [e.target.id]: e.target.id,
+    });
   };
 
   const enviar = (e) => {
     e.preventDefault();
-    enviarDatos();
+    //enviarDatos();
     console.log(data);
+    //console.log(evalua);
   };
   //añadir ruta
   const enviarDatos = async () => {
@@ -38,7 +47,13 @@ function RecursosDesp() {
             Volver al despacho
           </Link>
           <h4 className="border-bottom">Evaluación de recursos despachador</h4>
-          <FormRecursosDesp datos={empleados} handle={handle} enviar={enviar} />
+          <FormRecursosDesp
+            datos={empleados}
+            handle={handle}
+            enviar={enviar}
+            pasos={pasos}
+            puntos={puntos}
+          />
         </div>
       </div>
     </Fragment>
