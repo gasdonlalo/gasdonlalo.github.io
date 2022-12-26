@@ -36,8 +36,7 @@ function FormDespachar({ handle, handleEval, datos, enviar, pasos }) {
                     <label>{e.paso}</label>
                     <select
                       className="form-control"
-                      name={e.paso}
-                      id={e.idpaso_despachar}
+                      name={e.idpaso_despachar}
                       onChange={handleEval}
                     >
                       <option value={null}>Selecciona una opcion</option>

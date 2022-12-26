@@ -36,8 +36,7 @@ function FormRecursosDesp({ enviar, datos, handle, pasos, puntos }) {
                     <select
                       className="form-control"
                       onChange={puntos}
-                      name={e.recurso}
-                      id={e.idrecurso}
+                      name={e.idrecurso}
                     >
                       <option value={null}>Selecciona una opcion</option>
                       <option value="1">Cumple</option>

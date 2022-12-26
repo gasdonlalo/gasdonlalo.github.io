@@ -8,29 +8,26 @@ function RecursosDesp() {
   const empleados = useGetData("/empleado?departamento=1");
   const pasos = useGetData("/lista-recurso-despachador/get-recurso");
 
-  const [data, setData] = useState([]);
-  //const [evalua, setEvalua] = useState([]);
+  const [data, setData] = useState({ recursos: [] });
+
   //recibe los datos del formulario
   const handle = (e) => {
     setData({ ...data, [e.target.name]: e.target.value });
   };
   const puntos = (e) => {
-    setData({
-      ...data,
-      [e.target.name]: [e.target.value],
-      [e.target.id]: e.target.id,
-    });
+    let evalua = data.recursos.filter((el) => el.idRecurso !== e.target.name);
+    evalua.push({ idRecurso: e.target.name, evaluacion: e.target.value });
+    setData({ ...data, recursos: evalua });
   };
 
   const enviar = (e) => {
     e.preventDefault();
-    //enviarDatos();
+    enviarDatos();
     console.log(data);
-    //console.log(evalua);
   };
-  //añadir ruta
+
   const enviarDatos = async () => {
-    const resp = await Axios.post("/monto-faltante-despachador", data);
+    const resp = await Axios.post("/lista-recurso-despachador", data);
     console.log(resp);
     if (resp.status === 200) {
       window.alert("correcto");

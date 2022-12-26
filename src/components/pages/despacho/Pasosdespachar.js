@@ -8,28 +8,27 @@ function Pasosdespachar() {
   const empleados = useGetData("/empleado?departamento=1");
   const pasos = useGetData("/pasos-despachar/get-pasos");
 
-  const [data, setData] = useState([]);
-  const [puntos, setPuntos] = useState([]);
+  const [data, setData] = useState({ pasos: [] });
+
   //recibe los datos del formulario
   const handle = (e) => {
     setData({ ...data, [e.target.name]: e.target.value });
   };
   const handleEval = (e) => {
-    setPuntos({
-      ...puntos,
-      [e.target.name]: e.target.value,
-      [e.target.name2]: e.target.id,
-    });
+    let evalua = data.pasos.filter((el) => el.idPaso !== e.target.name);
+    evalua.push({ idPaso: e.target.name, evaluacion: Number(e.target.value) });
+    console.log(evalua);
+    setData({ ...data, pasos: evalua });
   };
   const enviar = (e) => {
     e.preventDefault();
     enviarDatos(data);
     console.log(data);
-    console.log(puntos);
   };
 
   const enviarDatos = async (x) => {
-    const resp = await Axios.post("/recoleccion-efectivo/", x);
+    const resp = await Axios.post("/pasos-despachar", x);
+    console.log(resp);
     if (resp.status === 200) {
       window.alert("correcto");
     } else {
