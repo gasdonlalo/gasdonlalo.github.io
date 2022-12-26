@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import Axios from "../Caxios/Axios";
 
-export default function useGetData(url) {
+export default function useGetData(url, actualizar) {
   const [data, setData] = useState(null);
   const [error, setError] = useState(null);
   const [dataError, setDataError] = useState(null);
@@ -18,7 +18,14 @@ export default function useGetData(url) {
         setError(true);
         setIsPending(false);
       });
-  }, [url]);
+
+    return () => {
+      setData(null);
+      setError(null);
+      setDataError(null);
+      setIsPending(true);
+    };
+  }, [url, actualizar]);
 
   return { data, error, dataError, isPending };
 }

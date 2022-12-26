@@ -1,41 +1,44 @@
+import format from "./assets/format";
 function TablaMonto({ datos }) {
   const datosCont = datos.response;
 
-  const TablaSemana = () => {
-    const semana = [];
-    for (let i = 0; i < datos.totalSemanas; i++) {
-      semana.push(<th>Semana {i + 1}</th>);
-    }
-    return semana.map((el) => el);
-  };
-
   return (
     <div>
-      <table className="table table-bordered ">
+      <table className="table table-bordered">
         <thead>
-          <tr className="table-secondary">
-            <th scope="col">Nombre completo del despachador</th>
-            <TablaSemana />
-            <th>Total mensual</th>
+          <tr>
+            <th className="text-center align-middle">
+              NOMBRE COMPLETO DEL DESPACHADOR
+            </th>
+            {datosCont[0].semanas.map((el) => (
+              <td className="text-center">
+                <span className="fw-bold">semana {el.semana}</span>
+                <br />
+                {format.obtenerDiaMes(el.diaEmpiezo)} al{" "}
+                {format.obtenerDiaMes(el.diaTermino)} de{" "}
+                {format.formatMes(el.diaEmpiezo)}
+              </td>
+            ))}
+            <th className="text-center align-middle">Monto Mensual</th>
+          </tr>
+          {datosCont.map((el, i) => (
+            <tr key={i}>
+              <td>{el.nombre_completo}</td>
+              {el.semanas.map((se) => (
+                <td key={se.semana}>
+                  {se.cantidad > 0 ? format.formatDinero(se.cantidad) : null}{" "}
+                </td>
+              ))}
+              <td>{format.formatDinero(el.total)}</td>
+            </tr>
+          ))}
+          <tr>
+            <th colSpan={datos.totalSemanas + 1}></th>
+            <th className="bg-danger text-white">
+              {format.formatDinero(datos.montoTotalMes)}
+            </th>
           </tr>
         </thead>
-        <tbody>
-          {datosCont.map((e) => {
-            return (
-              <tr>
-                <th scope="row">{e.nombre_completo}</th>
-                {e.semanas.map((el) => {
-                  return <td>${el.cantidad}</td>;
-                })}
-                <td>${e.total}</td>
-              </tr>
-            );
-          })}
-          <tr>
-            <td colSpan={datos.totalSemanas + 1}></td>
-            <td className="fw-bold">${datos.montoTotalMes}</td>
-          </tr>
-        </tbody>
       </table>
     </div>
   );
