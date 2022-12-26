@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
-import TablaUniforme from "../../../TablaUniforme";
+//import TablaUniforme from "../../../TablaUniforme";
 import Meses from "../Meses.json";
 import MontoFaltpdf from "../../../pdf_generador/MontoFaltpdf";
 import Axios from "../../../../Caxios/Axios";
@@ -95,7 +95,7 @@ function Graficauniforme() {
           </div>
         </form>
         <div id="render">
-          <div>{datos && <TablaUniforme datos={datos} />}</div>
+          {/* <div>{datos && <TablaUniforme datos={datos} />}</div> */}
           {/* <div>{datos && <Chart datos={datos} />}</div> */}
         </div>
 

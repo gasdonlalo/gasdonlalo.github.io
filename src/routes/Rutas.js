@@ -11,6 +11,11 @@ import EvalUniforme from "../components/pages/despacho/EvalUniforme";
 import GraficaMontofaltante from "../components/pages/despacho/reporteria/GraficaMontofaltante";
 import GraficaChecklist from "../components/pages/despacho/reporteria/GraficaChecklist";
 import Graficauniforme from "../components/pages/despacho/reporteria/Graficauniforme";
+import OrdenTrabajo from "../components/pages/calidad/OrdenTrabajo";
+import DetalleMantenimiento from "../components/pages/calidad/DetalleMantenimiento";
+import RecolEfect from "../components/pages/despacho/RecolEfect";
+import Pasosdespachar from "../components/pages/despacho/Pasosdespachar";
+import RecursosDesp from "../components/pages/despacho/RecursosDesp";
 
 function Rutas() {
   return (
@@ -33,6 +38,26 @@ function Rutas() {
           />
           <Route
             exact
+            path="/despacho/recoleccion-de-efectivo"
+            element={<RecolEfect />}
+          />
+          <Route
+            exact
+            path="/despacho/pasos-para-despachar"
+            element={<Pasosdespachar />}
+          />
+          <Route
+            exact
+            path="/despacho/pasos-para-despachar"
+            element={<Pasosdespachar />}
+          />
+          <Route
+            exact
+            path="/despacho/recursos-despachador"
+            element={<RecursosDesp />}
+          />
+          <Route
+            exact
             path="/despacho/reporteria/monto-faltante"
             element={<GraficaMontofaltante />}
           />
@@ -49,6 +74,16 @@ function Rutas() {
 
           <Route exact path="/chart" element={<Chartprueba />} />
           <Route exact path="/pdf" element={<Pdfprueba />} />
+          <Route
+            exact
+            path="/calidad/ordenes-de-trabajo/:year/:month/:idEstacion"
+            element={<OrdenTrabajo />}
+          />
+          <Route
+            exact
+            path="/calidad/ordenes-de-trabajo/:year/:month/:idEstacion/:mantenimiento/:idMantenimiento"
+            element={<DetalleMantenimiento />}
+          />
         </Routes>
       </Layout>
     </Router>
