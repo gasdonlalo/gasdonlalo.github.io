@@ -12,8 +12,6 @@ const ModalAddIncumplimiento = ({ show, close }) => {
 
   const departamentos = useGetData("/departamento");
 
-  console.log({ departamentos });
-
   const enviar = async (e) => {
     e.preventDefault();
     setPendingForm(true);

@@ -3,10 +3,10 @@ import { Link } from "react-router-dom";
 import Axios from "../../../Caxios/Axios";
 import FormChecklist from "../../forms/FormChecklist";
 
-function Checklist() {
-  const [data, setData] = useState([]);
+function ChecklistBomba() {
+  // const [data, setData] = useState([]);
 
-  const handle = (e) => {
+  /* const handle = (e) => {
     setData({ ...data, [e.target.name]: e.target.value });
     //console.log(data);
   };
@@ -25,7 +25,7 @@ function Checklist() {
     } else {
       window.alert("Incorrecto");
     }
-  };
+  }; */
 
   return (
     <div className="Main">
@@ -34,9 +34,10 @@ function Checklist() {
           Volver al despacho
         </Link>
         <h4 className="border-bottom">Checklist de bombas</h4>
-        <FormChecklist handle={handle} enviar={enviar} />
+        {/* <FormChecklist handle={handle} enviar={enviar} /> */}
+        <FormChecklist />
       </div>
     </div>
   );
 }
-export default Checklist;
+export default ChecklistBomba;

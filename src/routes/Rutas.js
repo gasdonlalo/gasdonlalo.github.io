@@ -6,7 +6,7 @@ import MontoFaltante from "../components/pages/despacho/MontoFaltante";
 import Despacho from "../components/pages/Despacho";
 import Chartprueba from "../components/charts/Chartprueba";
 import Pdfprueba from "../components/pdf_generador/Pdfprueba";
-import Checklist from "../components/pages/despacho/Checklist";
+import ChecklistBomba from "../components/pages/despacho/ChecklistBomba";
 import EvalUniforme from "../components/pages/despacho/EvalUniforme";
 import GraficaMontofaltante from "../components/pages/despacho/reporteria/GraficaMontofaltante";
 import GraficaChecklist from "../components/pages/despacho/reporteria/GraficaChecklist";
@@ -54,7 +54,11 @@ function Rutas() {
             path="/despacho/reporteria/monto-faltante/empleado"
             element={<MontoFaltanteEmpleado />}
           />
-          <Route exact path="/despacho/checklist" element={<Checklist />} />
+          <Route
+            exact
+            path="/despacho/checklist"
+            element={<ChecklistBomba />}
+          />
           <Route
             exact
             path="/despacho/evaluacion-uniforme"
