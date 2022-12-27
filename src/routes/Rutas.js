@@ -15,6 +15,7 @@ import DetalleMantenimiento from "../components/pages/calidad/DetalleMantenimien
 import DetallesMontoFaltante from "../components/pages/despacho/DetallesMontoFaltante";
 import MontoFaltanteEmpleado from "../components/pages/despacho/MontoFaltanteEmpleado";
 import SalidaNoConforme from "../components/pages/salidaNoConforme/SalidaNoConforme";
+import PDFSalidaNoConforme from "../components/pages/despacho/PDFSalidaNoConforme";
 
 function Rutas() {
   return (
@@ -77,6 +78,16 @@ function Rutas() {
 
           <Route exact path="/chart" element={<Chartprueba />} />
           <Route exact path="/pdf" element={<Pdfprueba />} />
+          <Route
+            exact
+            path="/luis"
+            element={
+              <PDFSalidaNoConforme
+                inconformidad="A nusez"
+                fecha={"asdasdd"}
+              ></PDFSalidaNoConforme>
+            }
+          />
         </Routes>
       </Layout>
     </Router>

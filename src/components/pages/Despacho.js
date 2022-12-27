@@ -26,7 +26,7 @@ function Despacho() {
               </Link>
               <Link
                 type="button"
-                className="btn btn-primary disabled"
+                className="btn btn-primary"
                 to="/despacho/evaluacion-uniforme"
               >
                 Evaluación de uniforme
