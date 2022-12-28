@@ -1,9 +1,9 @@
-function FormMontoFalt({ handle, enviar }) {
+function FormMontoFalt({ handle, enviar, empleados }) {
   return (
     <div className="container">
       <form onSubmit={enviar}>
         <div className="mb-3">
-          <label for="exampleInputEmail1" className="form-label">
+          <label htmlFor="exampleInputEmail1" className="form-label">
             ID de empleado
           </label>
           <input
@@ -14,19 +14,6 @@ function FormMontoFalt({ handle, enviar }) {
             onChange={handle}
           />
         </div>
-        {/* <div className="mb-3">
-          <label for="exampleInputEmail1" className="form-label">
-            Nombre
-          </label>
-          <input
-            type="text"
-            className="form-control"
-            aria-describedby="emailHelp"
-            defaultvalue={nombreEmpleado}
-            disabled
-            readonly
-          />
-        </div> */}
         <div className="mb-3">
           <label for="exampleInputEmail1" className="form-label">
             Fecha

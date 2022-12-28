@@ -71,6 +71,7 @@ function Chart({ datos }) {
     }),
   ];
 
+  console.log({ dataSet });
   const data = {
     labels,
     datasets: [...dataSet],

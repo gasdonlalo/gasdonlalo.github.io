@@ -6,7 +6,7 @@ import MontoFaltante from "../components/pages/despacho/MontoFaltante";
 import Despacho from "../components/pages/Despacho";
 import Chartprueba from "../components/charts/Chartprueba";
 import Pdfprueba from "../components/pdf_generador/Pdfprueba";
-import Checklist from "../components/pages/despacho/Checklist";
+import ChecklistBomba from "../components/pages/despacho/ChecklistBomba";
 import EvalUniforme from "../components/pages/despacho/EvalUniforme";
 import GraficaMontofaltante from "../components/pages/despacho/reporteria/GraficaMontofaltante";
 import GraficaChecklist from "../components/pages/despacho/reporteria/GraficaChecklist";
@@ -16,6 +16,10 @@ import DetalleMantenimiento from "../components/pages/calidad/DetalleMantenimien
 import RecolEfect from "../components/pages/despacho/RecolEfect";
 import Pasosdespachar from "../components/pages/despacho/Pasosdespachar";
 import RecursosDesp from "../components/pages/despacho/RecursosDesp";
+import DetallesMontoFaltante from "../components/pages/despacho/DetallesMontoFaltante";
+import MontoFaltanteEmpleado from "../components/pages/despacho/MontoFaltanteEmpleado";
+import SalidaNoConforme from "../components/pages/salidaNoConforme/SalidaNoConforme";
+import SalidasNoConformesReportes from "../components/pages/SalidasNoConformesReportes";
 
 function Rutas() {
   return (
@@ -24,17 +28,26 @@ function Rutas() {
         <Routes>
           <Route exact path="/" element={<Home />} />
           <Route exact path="*" element={<Notfound />} />
+          <Route
+            exact
+            path="/calidad/ordenes-de-trabajo/:year/:month/:idEstacion"
+            element={<OrdenTrabajo />}
+          />
+          <Route
+            exact
+            path="/calidad/ordenes-de-trabajo/:year/:month/:idEstacion/:mantenimiento/:idMantenimiento"
+            element={<DetalleMantenimiento />}
+          />
           <Route exact path="/despacho" element={<Despacho />} />
           <Route
             exact
             path="/despacho/montos-faltantes"
             element={<MontoFaltante />}
           />
-          <Route exact path="/despacho/checklist" element={<Checklist />} />
           <Route
             exact
-            path="/despacho/evaluacion-uniforme"
-            element={<EvalUniforme />}
+            path="/despacho/montos-faltantes/detalles"
+            element={<DetallesMontoFaltante />}
           />
           <Route
             exact
@@ -63,6 +76,21 @@ function Rutas() {
           />
           <Route
             exact
+            path="/despacho/reporteria/monto-faltante/empleado"
+            element={<MontoFaltanteEmpleado />}
+          />
+          <Route
+            exact
+            path="/despacho/checklist"
+            element={<ChecklistBomba />}
+          />
+          <Route
+            exact
+            path="/despacho/evaluacion-uniforme"
+            element={<EvalUniforme />}
+          />
+          <Route
+            exact
             path="/despacho/reporteria/registro-checklist"
             element={<GraficaChecklist />}
           />
@@ -70,6 +98,11 @@ function Rutas() {
             exact
             path="/despacho/reporteria/uniforme"
             element={<Graficauniforme />}
+          />
+          <Route
+            exact
+            path="/salidas-no-conformes"
+            element={<SalidaNoConforme />}
           />
 
           <Route exact path="/chart" element={<Chartprueba />} />
@@ -83,6 +116,11 @@ function Rutas() {
             exact
             path="/calidad/ordenes-de-trabajo/:year/:month/:idEstacion/:mantenimiento/:idMantenimiento"
             element={<DetalleMantenimiento />}
+          />
+          <Route
+            exact
+            path="/reporteria/salidas-no-conformes"
+            element={<SalidasNoConformesReportes />}
           />
         </Routes>
       </Layout>

@@ -1,17 +1,17 @@
 import { Link } from "react-router-dom";
-import FormUniforme from "../../forms/FormUniforme";
+import FormChecklist from "../../forms/FormChecklist";
 
-function EvalUniforme() {
+function ChecklistBomba() {
   return (
     <div className="Main">
       <div>
         <Link className="link-primary" to="/despacho">
           Volver al despacho
         </Link>
-        <h4 className="border-bottom">Evaluación de uniforme</h4>
-        <FormUniforme />
+        <h4 className="border-bottom">Checklist de bombas</h4>
+        <FormChecklist />
       </div>
     </div>
   );
 }
-export default EvalUniforme;
+export default ChecklistBomba;

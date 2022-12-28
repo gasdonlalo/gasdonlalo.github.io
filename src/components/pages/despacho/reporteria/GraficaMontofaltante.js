@@ -1,25 +1,38 @@
-import { useState, useEffect } from "react";
-import Meses from "../Meses.json";
-import Chart from "../../../charts/Chart";
-import Axios from "../../../../Caxios/Axios";
+import { useState } from "react";
+import Bar from "../../../charts/Bar";
 import Tabla from "../../../TablaMonto";
 import { Link } from "react-router-dom";
+import InputChangeMes from "../../../forms/InputChangeMes";
+import InputChangeYear from "../../../forms/InputChangeYear";
 import MontoFaltpdf from "../../../pdf_generador/MontoFaltpdf";
+import useGetData from "../../../../hooks/useGetData";
+import ErrorHttp from "../../../assets/ErrorHttp";
 
 function GraficaMontofaltante() {
-  const [anio, setAnio] = useState(null);
-  const [mes, setMes] = useState(null);
-  const [datos, setDatos] = useState(null);
-  const url = `monto-faltante-despachador/semanas/${anio}/${mes}`;
+  const date = new Date();
+  const [year, setYear] = useState(date.getFullYear());
+  const [month, setMonth] = useState(date.getMonth() + 1);
 
-  useEffect(() => {
-    consultarDatos(url);
-  }, [url]);
+  const url = `monto-faltante-despachador/semanas/${year}/${month}`;
+  const montoF = useGetData(url);
+  let dataBar = {};
 
-  const consultarDatos = async (x) => {
-    const req = await Axios.get(x);
-    setDatos(req.data);
+  const changeMes = (e) => {
+    setMonth(e.target.value);
   };
+  const changeYear = (e) => {
+    setYear(e.target.value);
+  };
+
+  if (!montoF.error && !montoF.isPending) {
+    dataBar = {
+      labels: montoF.data.response.map((el) => el.nombre_completo.split(" ")),
+      dataset: montoF.data.response[0].semanas.map((el, i) => ({
+        data: montoF.data.response.map((eld) => eld.semanas[i].cantidad),
+        label: `semana ${i + 1}`,
+      })),
+    };
+  }
 
   return (
     <div className="Main">
@@ -31,45 +44,37 @@ function GraficaMontofaltante() {
         <form>
           <div className="row">
             <div className="mb-3 col 6">
-              <label for="exampleInputEmail1" className="form-label">
-                Año
-              </label>
-              <select
-                className="form-select"
-                onChange={(ev) => {
-                  setAnio(ev.target.value);
-                }}
-              >
-                <option value={null}>Elige una opción</option>
-                <option value="2022">2022</option>
-                <option value="2023">2023</option>
-              </select>
+              <label>Año</label>
+              <InputChangeYear defaultYear={year} handle={changeYear} />
             </div>
             <div className="mb-3 col-6">
-              <label for="exampleInputEmail1" className="form-label">
-                Mes
-              </label>
-              <select
-                className="form-select"
-                onChange={(ev) => {
-                  setMes(ev.target.value);
-                }}
-              >
-                {Meses.map((e) => {
-                  return <option value={e.id}>{e.mes}</option>;
-                })}
-              </select>
+              <label>Mes</label>
+              <InputChangeMes defaultMes={month} handle={changeMes} />
             </div>
           </div>
         </form>
-        <div id="render">
-          <div>{datos && <Tabla datos={datos} />}</div>
-          <div>{datos && <Chart datos={datos} />}</div>
-        </div>
+        {!montoF.error && !montoF.isPending && (
+          <>
+            <div id="render">
+              <div>
+                <Tabla datos={montoF.data} />
+              </div>
+              <div>
+                <Bar
+                  datos={dataBar}
+                  text="GRÁFICA SEMANAL DE MONTO FALTANTE DESPACHADOR"
+                />
+              </div>
+            </div>
 
-        <div>
-          <MontoFaltpdf />
-        </div>
+            <div>
+              <MontoFaltpdf />
+            </div>
+          </>
+        )}
+        {montoF.error && !montoF.isPending && (
+          <ErrorHttp code={montoF.dataError.code} msg={montoF.dataError.msg} />
+        )}
       </div>
     </div>
   );
