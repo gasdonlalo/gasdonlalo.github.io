@@ -1,4 +1,6 @@
 import React from "react";
+import Roboto from "../../assets/fonts/Roboto/Roboto-Regular.tff";
+
 import gdl from "../../assets/img/GDL.png";
 import {
   Page,
@@ -8,8 +10,18 @@ import {
   Image,
   StyleSheet,
   PDFViewer,
+  Font,
 } from "@react-pdf/renderer";
 
+const ola = "../../assets/fonts/Roboto/Roboto-Regular.tff";
+
+Font.register({
+  family: "Roboto",
+  fonts: [
+    { src: ola },
+    { scr: "../../assets/fonts/Roboto/Roboto-Bold.tff", fontWeight: "bold" },
+  ],
+});
 // Create styles
 const styles = StyleSheet.create({
   page: {
@@ -22,11 +34,12 @@ const styles = StyleSheet.create({
     display: "flex",
     flexDirection: "row",
     justifyContent: "center",
+
     // border: "1px solid black",
     padding: "5px",
   },
   img: {
-    width: "60px",
+    width: "100px",
   },
   textCenter: {
     textAlign: "center",
@@ -45,7 +58,7 @@ const PDFSalidaNoConforme = ({
 }) => (
   <PDFViewer width="100%" height="100%">
     <Document title={title}>
-      <Page size="A4" orientation="portrait" margin="100" wrap>
+      <Page size="LETTER" orientation="portrait" margin="100" wrap>
         <View style={styles.page} wrap={false}>
           <View style={{ ...styles.header, position: "relative" }}>
             <Image
@@ -68,6 +81,8 @@ const PDFSalidaNoConforme = ({
                   marginTop: "5px",
                   marginHorizontal: "auto",
                   fontSize: "12pt",
+                  fontFamily: "Roboto",
+                  fontWeight: "bold",
                 }}
               >
                 Salidas no corformes
@@ -76,13 +91,19 @@ const PDFSalidaNoConforme = ({
           </View>
           <View style={{ marginTop: "15px", marginLeft: "10px" }}>
             <Text
-              style={{ marginTop: "15px" }}
+              style={{ marginTop: "15px", fontSize: "11pt" }}
               render={() => {
                 return `Fecha: ${fecha}`;
               }}
               fixed
             />
-            <Text style={{ marginTop: "15px", fontWeight: "800" }}>
+            <Text
+              style={{
+                marginTop: "15px",
+                fontFamily: "Helvetica",
+                fontWeight: "900",
+              }}
+            >
               Descripción de la falla (Inconformidad):{" "}
             </Text>
             <Text
@@ -92,6 +113,7 @@ const PDFSalidaNoConforme = ({
                 border: "1px solid black",
                 padding: "5px",
                 minHeight: "100px",
+                fontSize: "15pt",
               }}
               render={() => inconformidad}
             ></Text>
@@ -105,10 +127,11 @@ const PDFSalidaNoConforme = ({
                 border: "1px solid black",
                 padding: "5px",
                 minHeight: "100px",
+                fontSize: "15pt",
               }}
               render={() => corregir}
             ></Text>
-            <Text style={{ marginTop: "15px", fontWeight: "800" }}>
+            <Text style={{ marginTop: "15px", fontWeight: 800 }}>
               En caso de autorizar la liberación de la falla sin aplicar ninguna
               acción, describir las conceciones:
             </Text>
@@ -119,6 +142,7 @@ const PDFSalidaNoConforme = ({
                 border: "1px solid black",
                 padding: "5px",
                 minHeight: "100px",
+                fontSize: "15pt",
               }}
               render={() => incumple}
             />
@@ -131,10 +155,18 @@ const PDFSalidaNoConforme = ({
               flexDirection: "row",
             }}
           >
-            <Text style={{ marginRight: "100px" }}>Autorizado por:</Text>
+            <Text style={{ marginRight: "100px", fontSize: "14pt" }}>
+              Autorizado por:
+            </Text>
             <View>
               <Text>_________________________________</Text>
-              <Text style={{ marginHorizontal: "auto", marginTop: "10px" }}>
+              <Text
+                style={{
+                  marginHorizontal: "auto",
+                  marginTop: "10px",
+                  fontSize: "14pt",
+                }}
+              >
                 Nombre y Firma
               </Text>
             </View>
@@ -145,14 +177,14 @@ const PDFSalidaNoConforme = ({
   </PDFViewer>
 );
 
-PDFSalidaNoConforme.defaultProps = {
+/* PDFSalidaNoConforme.defaultProps = {
   title: "Salidas no conformes",
   fecha: "14/12/2022",
   inconformidad:
     'El 27 de noviembre, en Gasolinería Don Lalo 1, identificada como Estación de Servicio 0377, en el turno de la mañana (comprendido de las 6:00 am a 2:00 pm) la Despachadora Isabel Alvarado López al momento de hacer su liquidacion saco un pagare de $120.85 la cual pago en el momento ya que habia sido del otro turno; la no conformidad aqui descrita es un incumplimiento a los documentos estandarizados del Sistema de Gestion de la Calidad de Gasolineria Don Lalo S.A de C.V. llamado: "Diagrama de proceso Liquidación" y "Descripción de puesto Despachador"',
   corregir: "",
   incumple: "",
-};
+}; */
 
 /* <View>
             <View

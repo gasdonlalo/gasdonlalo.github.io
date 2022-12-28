@@ -85,6 +85,8 @@ function Rutas() {
               <PDFSalidaNoConforme
                 inconformidad="A nusez"
                 fecha={"asdasdd"}
+                corregir="olaa"
+                incumple="sijoder"
               ></PDFSalidaNoConforme>
             }
           />
