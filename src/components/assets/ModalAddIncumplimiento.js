@@ -47,11 +47,13 @@ const ModalAddIncumplimiento = ({ show, close }) => {
           />
           {!departamentos.error && !departamentos.isPending && (
             <select name="departamento" onChange={handle}>
-              {departamentos.data.response.map((el) => (
-                <option key={el.iddepartamento} value={el.iddepartamento}>
-                  {el.departamento}
-                </option>
-              ))}
+              {!departamentos.data.response
+                ? false
+                : departamentos.data.response.map((el) => (
+                    <option key={el.iddepartamento} value={el.iddepartamento}>
+                      {el.departamento}
+                    </option>
+                  ))}
             </select>
           )}
           {pendingForm && <Loader size="1.5" />}

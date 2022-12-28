@@ -34,6 +34,10 @@ const format = {
       .slice(1);
     return primeraLetra + textoEntero;
   },
+  formatFechaComplete: (date) =>
+    new Intl.DateTimeFormat("es-MX", {
+      dateStyle: "short",
+    }).format(new Date(date)),
 };
 
 export default format;

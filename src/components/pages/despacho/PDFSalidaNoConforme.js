@@ -1,4 +1,5 @@
 import React from "react";
+
 import gdl from "../../assets/img/GDL.png";
 import tabla from "../../assets/img/TablaDis.png";
 import calibri from "../../assets/fuentes/calibri.ttf";
@@ -223,7 +224,7 @@ const PDFSalidaNoConforme = ({
   );
 };
 
-PDFSalidaNoConforme.defaultProps = {
+/* PDFSalidaNoConforme.defaultProps = {
   title: "Salidas no conformes",
   fecha: "14/12/2022",
   inconformidad:
@@ -231,5 +232,8 @@ PDFSalidaNoConforme.defaultProps = {
   corregir: "",
   concesiones: "",
 };
+=======
+  incumple: "",
+}; */
 
 export default PDFSalidaNoConforme;
