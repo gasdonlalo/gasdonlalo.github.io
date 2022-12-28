@@ -61,11 +61,6 @@ function Rutas() {
           />
           <Route
             exact
-            path="/despacho/pasos-para-despachar"
-            element={<Pasosdespachar />}
-          />
-          <Route
-            exact
             path="/despacho/recursos-despachador"
             element={<RecursosDesp />}
           />
