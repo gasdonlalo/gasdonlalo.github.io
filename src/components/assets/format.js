@@ -1,4 +1,9 @@
 const format = {
+  formatFechaComplete: (date) =>
+    new Intl.DateTimeFormat("es-MX", {
+      dateStyle: "short",
+    }).format(new Date(date)),
+
   formatFecha: (date) =>
     new Intl.DateTimeFormat("es-MX", {
       day: "numeric",

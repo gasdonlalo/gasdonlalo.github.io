@@ -8,21 +8,40 @@ import { useState } from "react";
 import Loader from "../assets/Loader";
 
 function FormUniforme() {
-  const [body, setBody] = useState({ evaluaciones: [] });
+  const [body, setBody] = useState({
+    evaluaciones: [
+      { idCumplimiento: 1, cumple: 1 },
+      { idCumplimiento: 2, cumple: 1 },
+      { idCumplimiento: 3, cumple: 1 },
+      { idCumplimiento: 4, cumple: 1 },
+      { idCumplimiento: 5, cumple: 1 },
+      { idCumplimiento: 6, cumple: 1 },
+      { idCumplimiento: 7, cumple: 1 },
+    ],
+  });
+
   const [modalSuccess, setModalSuccess] = useState(false);
   const [modalError, setModalError] = useState(false);
   const [formPending, setFormPending] = useState(false);
+  const pasosDespacho = useGetData("/evaluacion-uniforme/get-pasos");
+  const despachadores = useGetData("/empleado?departamento=1");
 
   const enviar = async (e) => {
     e.preventDefault();
     setFormPending(true);
     console.log(body);
+
     try {
       let res = await Axios.post("/evaluacion-uniforme", body);
       console.log(res);
       setFormPending(false);
       setModalSuccess(true);
-      setBody({});
+      setBody({
+        evaluaciones: body.evaluaciones.map((el) => ({
+          idCumplimiento: el.idCumplimiento,
+          cumple: 1,
+        })),
+      });
       e.target.reset();
     } catch (err) {
       console.log(err);
@@ -42,14 +61,15 @@ function FormUniforme() {
 
   const handleEv = (e) => {
     let cuerpo = body.evaluaciones.filter(
-      (el) => el.idCumplimiento !== e.target.name
+      (el) => el.idCumplimiento !== Number(e.target.name)
     );
-    cuerpo.push({ idCumplimiento: e.target.name, cumple: e.target.value });
+    cuerpo.push({
+      idCumplimiento: Number(e.target.name),
+      cumple: Number(e.target.value),
+    });
     setBody({ ...body, evaluaciones: cuerpo });
   };
 
-  const pasosDespacho = useGetData("/evaluacion-uniforme/get-pasos");
-  const despachadores = useGetData("/empleado?departamento=1");
   return (
     <form onSubmit={enviar} className="row m-auto" style={{ width: "900px" }}>
       <ModalError show={modalError} close={modalClose} />
@@ -93,6 +113,7 @@ function FormUniforme() {
                       className="input-check-form"
                       value={1}
                       onChange={handleEv}
+                      defaultChecked
                     />
                   </label>
                   <label className="form-label rounded border p-2 d-flex flex-column mx-1">

@@ -32,13 +32,13 @@ function Despacho() {
                 Evaluación de uniforme
               </Link>
             </Fragment>
-            <Link type="button" className="btn btn-primary disabled">
+            <Link type="button" className="btn btn-primary">
               Recoleccion de efectivo
             </Link>
-            <Link type="button" className="btn btn-primary disabled">
+            <Link type="button" className="btn btn-primary">
               Pasos para despachar
             </Link>
-            <Link type="button" className="btn btn-primary disabled">
+            <Link type="button" className="btn btn-primary">
               Recursos de despachador
             </Link>
           </div>
@@ -59,6 +59,13 @@ function Despacho() {
               to="/despacho/reporteria/registro-checklist"
             >
               Grafica mensual registro checklist
+            </Link>
+            <Link
+              type="button"
+              className="btn btn-primary "
+              to="/reporteria/salidas-no-conformes"
+            >
+              Gráfica Salidas no conformes
             </Link>
           </div>
         </div>
