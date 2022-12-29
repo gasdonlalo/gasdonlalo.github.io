@@ -6,6 +6,7 @@ import useGetData from "../../../../hooks/useGetData";
 import Loader from "../../../assets/Loader";
 import format from "../../../assets/format";
 import Scale from "../../../charts/Scale";
+import PdfGraficas from "../../../pdf_generador/PdfGraficas";
 
 function GraficaChecklist() {
   const date = new Date();
@@ -58,29 +59,32 @@ const Success = ({ data }) => {
 
   return (
     <div>
-      <table className="table table-bordered w-75 m-auto mt-4" border="1px">
-        <thead>
-          <tr>
-            <th>Nombre del despachador</th>
-            {data.map((el) => (
-              <th key={format.obtenerDiaMes(el.fecha)}>
-                {format.obtenerDiaMes(el.fecha)}
-              </th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          {data[0].data.map((el, i) => (
+      <div id="render">
+        <table className="table table-bordered w-90 m-auto mt-4" border="1px">
+          <thead>
             <tr>
-              <td>{el.nombre_completo}</td>
-              {data.map((da) => (
-                <td>{validarInserciones(da.data[i])}</td>
+              <th>Nombre del despachador</th>
+              {data.map((el) => (
+                <th key={format.obtenerDiaMes(el.fecha)}>
+                  {format.obtenerDiaMes(el.fecha)}
+                </th>
               ))}
             </tr>
-          ))}
-        </tbody>
-      </table>
-      <Scale></Scale>
+          </thead>
+          <tbody>
+            {data[0].data.map((el, i) => (
+              <tr>
+                <td>{el.nombre_completo}</td>
+                {data.map((da) => (
+                  <td>{validarInserciones(da.data[i])}</td>
+                ))}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+        <Scale></Scale>
+      </div>
+      <PdfGraficas />
     </div>
   );
 };

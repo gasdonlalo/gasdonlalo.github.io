@@ -90,7 +90,7 @@ function Despacho() {
               className="btn btn-primary "
               to="/reporteria/salidas-no-conformes"
             >
-              Gráfica Salidas no conformes
+              Salidas no conformes
             </Link>
           </div>
         </div>
