@@ -12,7 +12,7 @@
   height: 10vh;
 }
 .Content {
-  height: 90vh;
+  min-height: 80vh;
   flex-wrap: wrap;
   align-items: flex-start;
 }
@@ -58,4 +58,7 @@
 }
 .OpcionesReporteria .btn {
   margin: 2px;
+}
+.footer{
+  height: 10vh;
 }
