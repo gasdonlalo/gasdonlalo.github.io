@@ -20,6 +20,8 @@ import DetallesMontoFaltante from "../components/pages/despacho/DetallesMontoFal
 import MontoFaltanteEmpleado from "../components/pages/despacho/MontoFaltanteEmpleado";
 import SalidaNoConforme from "../components/pages/salidaNoConforme/SalidaNoConforme";
 import SalidasNoConformesReportes from "../components/pages/SalidasNoConformesReportes";
+import ChecklistBombaDetalle from "../components/pages/despacho/ChecklistBombaDetalle";
+import GraficaEvUnifome from "../components/pages/despacho/reporteria/GraficaEvUnifome";
 
 function Rutas() {
   return (
@@ -33,12 +35,17 @@ function Rutas() {
             path="/calidad/ordenes-de-trabajo/:year/:month/:idEstacion"
             element={<OrdenTrabajo />}
           />
+          <Route exact path="/despacho" element={<Despacho />} />
           <Route
             exact
             path="/calidad/ordenes-de-trabajo/:year/:month/:idEstacion/:mantenimiento/:idMantenimiento"
             element={<DetalleMantenimiento />}
           />
-          <Route exact path="/despacho" element={<Despacho />} />
+          <Route
+            exact
+            path="/despacho/reporteria/registro-checklist/detalles"
+            element={<ChecklistBombaDetalle />}
+          />
           <Route
             exact
             path="/despacho/montos-faltantes"
@@ -92,7 +99,7 @@ function Rutas() {
           <Route
             exact
             path="/despacho/reporteria/uniforme"
-            element={<Graficauniforme />}
+            element={<GraficaEvUnifome />}
           />
           <Route
             exact

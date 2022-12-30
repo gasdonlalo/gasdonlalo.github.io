@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import InputChangeYear from "../../../forms/InputChangeYear";
 import InputChangeMes from "../../../forms/InputChangeMes";
 import useGetData from "../../../../hooks/useGetData";
@@ -13,7 +13,6 @@ function GraficaChecklist() {
   const [year, setYear] = useState(date.getFullYear());
   const [month, setMonth] = useState(date.getMonth() + 1);
   const checkBomba = useGetData(`/bomba-check/${year}/${month}`);
-  console.log(checkBomba);
 
   const handleYear = (e) => {
     setYear(e.target.value);
@@ -22,6 +21,8 @@ function GraficaChecklist() {
   const handleMonth = (e) => {
     setMonth(e.target.value);
   };
+  let navigate = useNavigate();
+
   return (
     <div className="Main">
       <Link className="link-primary" to="/despacho">
@@ -37,54 +38,97 @@ function GraficaChecklist() {
         </div>
       </div>
       {!checkBomba.error && !checkBomba.isPending && (
-        <Success data={checkBomba.data.response} />
+        <Success data={checkBomba.data.response} year={year} month={month} />
       )}
       {checkBomba.isPending && <Loader />}
+      <div className="d-flex justify-content-center">
+        <span
+          className="border rounded p-1 m-1"
+          role="button"
+          onClick={() => navigate("detalles")}
+        >
+          Mostrar detalles {">"}
+        </span>
+      </div>
     </div>
   );
 }
 
-const Success = ({ data }) => {
+const Success = ({ data, year, month }) => {
   const validarInserciones = (el) => {
     if (el.cumple) {
-      return <span className="text-success m-0 p-0">1</span>;
+      return <span className="text-success m-0 p-0 fw-bold">1</span>;
     } else {
       if (!el.fecha_db) {
         return null;
       } else {
-        return <span className="text-danger m-0 p-0">0</span>;
+        return <span className="text-danger m-0 p-0 fw-bold">0</span>;
       }
     }
   };
 
+  const totalChkB = useGetData(`/bomba-check/total/${year}/${month}`);
+  let dataScale = {};
+
+  if (!totalChkB.error && !totalChkB.isPending) {
+    dataScale = {
+      labels: totalChkB.data.response.map((el) => el.nombre_completo),
+      datasets: [
+        {
+          label: "Empleados",
+          data: totalChkB.data.response.map((el) => el.total_checklist),
+          borderColor: "rgb(255, 99, 132)",
+          backgroundColor: "rgba(255, 99, 132, 0.5)",
+        },
+        {
+          label: "Minimo",
+          data: totalChkB.data.response.map((el) => 28),
+          borderColor: "rgb(53, 162, 235)",
+          backgroundColor: "rgba(53, 162, 235, 0.5)",
+        },
+      ],
+    };
+  }
+
   return (
     <div>
-      <div id="render">
-        <table className="table table-bordered w-90 m-auto mt-4" border="1px">
-          <thead>
-            <tr>
-              <th>Nombre del despachador</th>
-              {data.map((el) => (
-                <th key={format.obtenerDiaMes(el.fecha)}>
-                  {format.obtenerDiaMes(el.fecha)}
-                </th>
+      <table className="table table-bordered w-100 m-auto mt-4" border="1px">
+        <thead>
+          <tr>
+            <th rowSpan={2} align="center">
+              Nombre del despachador
+            </th>
+            <th colSpan={data.length}>
+              <span className="text-center">
+                {format.formatTextoMayusPrimeraLetra(
+                  format.formatMes(data[0].fecha)
+                )}{" "}
+                del {format.formatYear(data[0].fecha)}
+              </span>
+            </th>
+          </tr>
+          <tr>
+            {data.map((el) => (
+              <th key={format.obtenerDiaMes(el.fecha)}>
+                {format.obtenerDiaMes(el.fecha)}
+              </th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {data[0].data.map((el, i) => (
+            <tr key={i}>
+              <td>{el.nombre_completo}</td>
+              {data.map((da, j) => (
+                <td key={i + j}>{validarInserciones(da.data[i])}</td>
               ))}
             </tr>
-          </thead>
-          <tbody>
-            {data[0].data.map((el, i) => (
-              <tr>
-                <td>{el.nombre_completo}</td>
-                {data.map((da) => (
-                  <td>{validarInserciones(da.data[i])}</td>
-                ))}
-              </tr>
-            ))}
-          </tbody>
-        </table>
-        <Scale></Scale>
-      </div>
-      <PdfGraficas />
+          ))}
+        </tbody>
+      </table>
+      {!totalChkB.error && !totalChkB.isPending && (
+        <div className="w-75 m-auto">{<Scale data={dataScale} />}</div>
+      )}
     </div>
   );
 };
