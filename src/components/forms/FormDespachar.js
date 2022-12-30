@@ -1,17 +1,24 @@
-function FormDespachar({ handle, handleEval, datos, enviar, pasos }) {
+import { useState } from "react";
+import InputFecha from "./InputFecha";
+function FormDespachar({}) {
+  const [body, setBody] = useState(null);
+
+  const handle = (e) => {
+    setBody(e.target.value);
+  };
+
+  const enviar = (e) => {
+    e.preventDefault();
+  };
+
   return (
     <div>
-      <form onSubmit={enviar}>
-        <div>
+      <form onSubmit={enviar} className="row">
+        <div className="col-md-5">
           <label>Fecha</label>
-          <input
-            className="form-control"
-            type="date"
-            name="fecha"
-            onChange={handle}
-          />
+          <InputFecha handle={handle} />
         </div>
-        <div>
+        {/* <div>
           <label>Empleado</label>
           <select className="form-control" name="empleado" onChange={handle}>
             <option value="0"> Selecciona un empleado...</option>
@@ -46,7 +53,7 @@ function FormDespachar({ handle, handleEval, datos, enviar, pasos }) {
                   </div>
                 );
               })}
-        </div>
+        </div> */}
         <button type="submit" className="btn btn-primary">
           Enviar
         </button>

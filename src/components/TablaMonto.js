@@ -10,8 +10,8 @@ function TablaMonto({ datos }) {
             <th className="text-center align-middle">
               NOMBRE COMPLETO DEL DESPACHADOR
             </th>
-            {datosCont[0].semanas.map((el) => (
-              <td className="text-center">
+            {datosCont[0].semanas.map((el, i) => (
+              <td className="text-center" key={i}>
                 <span className="fw-bold">semana {el.semana}</span>
                 <br />
                 {format.obtenerDiaMes(el.diaEmpiezo)} al{" "}

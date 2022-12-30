@@ -32,10 +32,14 @@ export default function useGetData(url, actualizar) {
 
 const consultar = (url) =>
   new Promise(async (resolve, reject) => {
-    const consulta = await Axios.get(url);
-    if (consulta.data.success) {
-      resolve(consulta);
-    } else {
-      reject(consulta);
+    try {
+      const consulta = await Axios.get(url);
+      if (consulta.data.success) {
+        resolve(consulta);
+      } else {
+        reject(consulta);
+      }
+    } catch (err) {
+      reject(err.response);
     }
   });

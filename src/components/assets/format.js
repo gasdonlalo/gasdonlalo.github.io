@@ -15,6 +15,10 @@ const format = {
     new Intl.DateTimeFormat("es-MX", {
       month: "long",
     }).format(new Date(date)),
+  formatYear: (date) =>
+    new Intl.DateTimeFormat("es-MX", {
+      year: "numeric",
+    }).format(new Date(date)),
 
   obtenerDiaMes: (date) =>
     new Date(
