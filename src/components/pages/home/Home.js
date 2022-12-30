@@ -7,7 +7,7 @@ function Home() {
       <Link type="button" className="btn btn-primary" to="/despacho">
         Despacho
       </Link>
-      <Link type="button" className="btn btn-primary disabled" to="">
+      <Link type="button" className="btn btn-primary" to="/calidad">
         Calidad
       </Link>
     </Fragment>

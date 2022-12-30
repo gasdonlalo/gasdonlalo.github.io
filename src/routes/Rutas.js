@@ -20,6 +20,8 @@ import DetallesMontoFaltante from "../components/pages/despacho/DetallesMontoFal
 import MontoFaltanteEmpleado from "../components/pages/despacho/MontoFaltanteEmpleado";
 import SalidaNoConforme from "../components/pages/salidaNoConforme/SalidaNoConforme";
 import SalidasNoConformesReportes from "../components/pages/SalidasNoConformesReportes";
+import Calidad from "../components/pages/Calidad";
+import Ordtrabajo from "../components/pages/calidad/Ordtrabajo";
 
 function Rutas() {
   return (
@@ -28,6 +30,7 @@ function Rutas() {
         <Routes>
           <Route exact path="/" element={<Home />} />
           <Route exact path="*" element={<Notfound />} />
+          <Route exact path="/calidad" element={<Calidad />}/>
           <Route
             exact
             path="/calidad/ordenes-de-trabajo/:year/:month/:idEstacion"
@@ -37,6 +40,16 @@ function Rutas() {
             exact
             path="/calidad/ordenes-de-trabajo/:year/:month/:idEstacion/:mantenimiento/:idMantenimiento"
             element={<DetalleMantenimiento />}
+          />
+          <Route
+            exact
+            path="/calidad/Ordtrabajo"
+            element={<Ordtrabajo />}
+          />
+          <Route
+            exact
+            path="/calidad/DetalleMantenimiento"
+            element={<DetalleMantenimiento/>}
           />
           <Route exact path="/despacho" element={<Despacho />} />
           <Route
