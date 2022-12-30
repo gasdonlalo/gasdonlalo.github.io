@@ -6,6 +6,7 @@ import InputChangeYear from "../../../forms/InputChangeYear";
 import InputSelectEmpleado from "../../../forms/InputSelectEmpleado";
 import format from "../../../assets/format";
 import Bar from "../../../charts/Bar";
+import PdfGraficas from "../../../pdf_generador/PdfGraficas";
 import Loader from "../../../assets/Loader";
 import ErrorHttp from "../../../assets/ErrorHttp";
 
@@ -68,6 +69,9 @@ const GraficaEvUnifome = () => {
           idempleado={iddespachador}
         />
       )}
+      <div>
+        <PdfGraficas />
+      </div>
     </div>
   );
 };
@@ -95,8 +99,8 @@ const Success = ({ pasos, year, month, idempleado }) => {
     console.log(dataBar);
   }
   return (
-    <div className="mt-5 w-75 m-auto">
-      <table className="">
+    <div id="render" className="mt-5 m-auto">
+      <table className="table container">
         <thead className="border">
           <tr>
             <th className="border text-center">Fecha</th>
