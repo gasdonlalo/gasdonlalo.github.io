@@ -68,7 +68,7 @@ function GraficaMontofaltante() {
             </div>
 
             <div>
-              <PdfGraficas />
+              <PdfGraficas mes={month} year={year} />
             </div>
           </>
         )}

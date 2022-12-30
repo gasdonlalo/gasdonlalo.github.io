@@ -50,6 +50,9 @@ function GraficaChecklist() {
           Mostrar detalles {">"}
         </span>
       </div>
+      <div>
+        <PdfGraficas mes={month} year={year} />
+      </div>
     </div>
   );
 }
@@ -91,7 +94,7 @@ const Success = ({ data, year, month }) => {
   }
 
   return (
-    <div>
+    <div id="render">
       <table className="table table-bordered w-100 m-auto mt-4" border="1px">
         <thead>
           <tr>
