@@ -14,6 +14,8 @@ export const SalidasNoConformesReportes = () => {
 
   const reportes = useGetData(`salida-no-conforme/${year}/${month}`);
 
+  console.log(reportes);
+
   const handleMonth = (e) => {
     setMonth(e.target.value);
   };

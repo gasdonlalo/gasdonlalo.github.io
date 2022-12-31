@@ -10,9 +10,9 @@ import ChecklistBomba from "../components/pages/despacho/ChecklistBomba";
 import EvalUniforme from "../components/pages/despacho/EvalUniforme";
 import GraficaMontofaltante from "../components/pages/despacho/reporteria/GraficaMontofaltante";
 import GraficaChecklist from "../components/pages/despacho/reporteria/GraficaChecklist";
-import Graficauniforme from "../components/pages/despacho/reporteria/Graficauniforme";
+import GraficaEvUnifome from "../components/pages/despacho/reporteria/GraficaEvUnifome";
 import OrdenTrabajo from "../components/pages/calidad/OrdenTrabajo";
-import DetalleMantenimiento from "../components/pages/calidad/DetalleMantenimiento";
+import DetalleMantenimiento from "../components/pages/calidad/reporteria/DetalleMantenimiento";
 import RecolEfect from "../components/pages/despacho/RecolEfect";
 import Pasosdespachar from "../components/pages/despacho/Pasosdespachar";
 import RecursosDesp from "../components/pages/despacho/RecursosDesp";
@@ -36,6 +36,7 @@ function Rutas() {
             path="/calidad/ordenes-de-trabajo/:year/:month/:idEstacion"
             element={<OrdenTrabajo />}
           />
+          <Route exact path="/despacho" element={<Despacho />} />
           <Route
             exact
             path="/calidad/ordenes-de-trabajo/:year/:month/:idEstacion/:mantenimiento/:idMantenimiento"
@@ -105,7 +106,7 @@ function Rutas() {
           <Route
             exact
             path="/despacho/reporteria/uniforme"
-            element={<Graficauniforme />}
+            element={<GraficaEvUnifome />}
           />
           <Route
             exact

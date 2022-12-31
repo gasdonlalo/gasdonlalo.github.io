@@ -45,9 +45,9 @@ function FormChecklist() {
       console.log(res);
       setFormPending(false);
       setModalSuccess(true);
-      setBody({});
+      setBody({ islaLimpia: 1, aceitesCompletos: 1, turno: "Mañana" });
       e.target.reset();
-    } catch (error) {
+    } catch (err) {
       setFormPending(false);
       setModalError(true);
     }
