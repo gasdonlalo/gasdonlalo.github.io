@@ -59,6 +59,16 @@
 .OpcionesReporteria .btn {
   margin: 2px;
 }
-.footer{
+.footer {
   height: 10vh;
+}
+
+.home {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  align-content: center;
+}
+.home .card {
+  margin: 10px;
 }
