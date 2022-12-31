@@ -98,6 +98,7 @@ const PDFSalidaNoConforme = ({
                   width: "80px",
                   height: "50px",
                   borderLeft: "1px solid black",
+                  backgroundColor: "#d2d2d2",
                 }}
               ></View>
             </View>
