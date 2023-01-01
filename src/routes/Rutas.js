@@ -10,7 +10,7 @@ import ChecklistBomba from "../components/pages/despacho/ChecklistBomba";
 import EvalUniforme from "../components/pages/despacho/EvalUniforme";
 import GraficaMontofaltante from "../components/pages/despacho/reporteria/GraficaMontofaltante";
 import GraficaChecklist from "../components/pages/despacho/reporteria/GraficaChecklist";
-import Graficauniforme from "../components/pages/despacho/reporteria/Graficauniforme";
+// import Graficauniforme from "../components/pages/despacho/reporteria/Graficauniforme";
 import OrdenTrabajo from "../components/pages/calidad/OrdenTrabajo";
 import DetalleMantenimiento from "../components/pages/calidad/DetalleMantenimiento";
 import RecolEfect from "../components/pages/despacho/RecolEfect";
@@ -22,6 +22,8 @@ import SalidaNoConforme from "../components/pages/salidaNoConforme/SalidaNoConfo
 import SalidasNoConformesReportes from "../components/pages/SalidasNoConformesReportes";
 import ChecklistBombaDetalle from "../components/pages/despacho/ChecklistBombaDetalle";
 import GraficaEvUnifome from "../components/pages/despacho/reporteria/GraficaEvUnifome";
+import GraficaRecolEfectivo from "../components/pages/despacho/reporteria/GraficaRecolEfectivo";
+import GraficaPasoDes from "../components/pages/despacho/reporteria/GraficaPasoDes";
 
 function Rutas() {
   return (
@@ -123,6 +125,16 @@ function Rutas() {
             exact
             path="/reporteria/salidas-no-conformes"
             element={<SalidasNoConformesReportes />}
+          />
+          <Route
+            exact
+            path="/despacho/reporteria/recoleccion-efectivo"
+            element={<GraficaRecolEfectivo />}
+          />
+          <Route
+            exact
+            path="/despacho/reporteria/evaluacion-despachar"
+            element={<GraficaPasoDes />}
           />
         </Routes>
       </Layout>

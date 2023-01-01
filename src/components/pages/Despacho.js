@@ -80,10 +80,18 @@ function Despacho() {
             >
               Grafica de uniforme
             </Link>
-            <Link type="button" className="btn btn-primary disabled">
+            <Link
+              type="button"
+              className="btn btn-primary"
+              to="/despacho/reporteria/recoleccion-efectivo"
+            >
               Grafica de incumplimientos de recoleccion de efectivo
             </Link>
-            <Link type="button" className="btn btn-primary disabled">
+            <Link
+              type="button"
+              className="btn btn-primary"
+              to="/despacho/reporteria/evaluacion-despachar"
+            >
               Analisis de evaluacion de pasos para despachar
             </Link>
             <Link

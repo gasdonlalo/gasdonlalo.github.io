@@ -1,26 +1,62 @@
 import { useState } from "react";
 import InputFecha from "./InputFecha";
 import InputSelectEmpleado from "./InputSelectEmpleado";
+import ModalSuccess from "../assets/ModalSuccess";
+import ModalError from "../assets/ModalError";
 import useGetData from "../../hooks/useGetData";
 import Loader from "../assets/Loader";
-function FormRecoleccion({ datos }) {
+import Axios from "../../Caxios/Axios";
+import HeaderForm from "../../GUI/HeaderForm";
+function FormRecoleccion() {
   const [body, setBody] = useState(null);
   const [formPending, setFormPending] = useState(false);
+  const [modalError, setModalError] = useState({ status: false, msg: null });
+  const [modalSuccess, setModalSuccess] = useState(false);
   const despacho = useGetData("/empleado?departamento=1");
 
   const handle = (e) => {
     setBody({ ...body, [e.target.name]: e.target.value });
   };
 
-  const enviar = (e) => {
+  const modalClose = () => {
+    setModalError({ status: false, msg: null });
+    setModalSuccess(false);
+  };
+
+  const enviar = async (e) => {
     setFormPending(true);
     e.preventDefault();
-    console.log(body);
+
+    try {
+      const res = await Axios.post(`recoleccion-efectivo`, body);
+      console.log(res);
+      setModalSuccess(true);
+      setFormPending(false);
+      e.target.reset();
+    } catch (err) {
+      console.log(err);
+      if (err.hasOwnProperty("response")) {
+        setModalError({
+          status: true,
+          msg: err.response.data.msg,
+        });
+      } else {
+        setModalError({ status: true, msg: err.code });
+      }
+      setFormPending(false);
+    }
   };
 
   return (
     <div>
-      <form onSubmit={enviar} style={{ width: "300px" }} className="m-auto">
+      <ModalError show={modalError.status} close={modalClose} />
+      <ModalSuccess show={modalSuccess} close={modalClose} />
+      <form
+        onSubmit={enviar}
+        style={{ maxWidth: "500px" }}
+        className="m-auto shadow p-4 mt-4 row"
+      >
+        <HeaderForm />
         <div>
           <label className="form-label">Selecciona la fecha</label>
           <InputFecha
@@ -59,7 +95,11 @@ function FormRecoleccion({ datos }) {
           </div>
         </div>
         <div>
-          <button type="submit" className="btn btn-primary mt-2 m-auto d-block">
+          <button
+            type="submit"
+            className="btn btn-primary mt-2 m-auto d-block"
+            disabled={formPending}
+          >
             {formPending ? <Loader size="1.5" /> : "Enviar"}
           </button>
         </div>

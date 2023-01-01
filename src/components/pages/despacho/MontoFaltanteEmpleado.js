@@ -41,11 +41,17 @@ const MontoFaltanteEmpleado = () => {
         </div>
       </div>
       {empleados.isPending && <Loader />}
-      <div className="my-4">
-        <label className="mb-2">Selecciona el periodo de tiempo</label>
-        <div className="d-flex" style={{ width: "200px" }}>
-          <InputChangeYear handle={changeYear} defaultYear={year} />
-          <InputChangeMes handle={changeMonth} defaultMes={month} />
+      <div className="my-4 w-25 m-auto">
+        <label className="mb-2 w-100 text-center">
+          Selecciona el periodo de tiempo
+        </label>
+        <div className="row w-100">
+          <div className="col-md-6">
+            <InputChangeYear handle={changeYear} defaultYear={year} />
+          </div>
+          <div className="col-md-6">
+            <InputChangeMes handle={changeMonth} defaultMes={month} />
+          </div>
         </div>
       </div>
       {!empleados.error && !empleados.isPending && (
@@ -95,13 +101,13 @@ const Success = ({ empleados, url, date }) => {
   }
 
   return (
-    <div>
-      <div>
+    <div className="">
+      <div className="w-25 m-auto">
         <label>Selecciona el empleado</label>
         <InputSelectEmpleado empleados={empleados} handle={setEmpleado} />
       </div>
       {!dEmpleado.error && !dEmpleado.isPending && (
-        <div className="d-flex">
+        <div className="d-flex justify-content-center">
           <div className="d-flex mt-4 ms-2">
             <table
               className="table table-bordered m-auto"
@@ -143,7 +149,11 @@ const Success = ({ empleados, url, date }) => {
           </div>
         </div>
       )}
-      {dEmpleado.error && !dEmpleado.isPending && <div></div>}
+      {dEmpleado.error && !dEmpleado.isPending && (
+        <div className="mt-5">
+          <ErrorHttp code={404} msg="Selecciona un despachador" />
+        </div>
+      )}
     </div>
   );
 };

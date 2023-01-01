@@ -13,6 +13,8 @@ function GraficaChecklist() {
   const [month, setMonth] = useState(date.getMonth() + 1);
   const checkBomba = useGetData(`/bomba-check/${year}/${month}`);
 
+  console.log(checkBomba);
+
   const handleYear = (e) => {
     setYear(e.target.value);
   };

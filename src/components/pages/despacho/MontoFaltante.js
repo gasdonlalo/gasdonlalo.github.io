@@ -114,11 +114,7 @@ const Success = ({ empleados }) => {
         </div>
       </div>
       <div className="d-flex flex- align-items-center">
-        <form
-          className="w-25 ps-5"
-          style={{ width: "300px" }}
-          onSubmit={enviar}
-        >
+        <form className="w-25 ms-5 rounded p-3 shadow" onSubmit={enviar}>
           <div className="w-100">
             <div className="p-2">
               <label>Selecciona el despachador</label>

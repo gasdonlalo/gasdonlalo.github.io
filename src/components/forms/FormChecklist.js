@@ -6,9 +6,10 @@ import { useState } from "react";
 import Axios from "../../Caxios/Axios";
 import ModalSuccess from "../assets/ModalSuccess";
 import ModalError from "../assets/ModalError";
-
+import HeaderForm from "../../GUI/HeaderForm";
 function FormChecklist() {
-  const [bomba, setBomba] = useState(1);
+  const [bomba, setBomba] = useState(null);
+  const [estacionS, setEstacionS] = useState(null);
   const [modalSuccess, setModalSuccess] = useState(false);
   const [modalError, setModalError] = useState(false);
   const [formPending, setFormPending] = useState(false);
@@ -21,9 +22,11 @@ function FormChecklist() {
   const estacion = useGetData("/estaciones-servicio");
   const bombas = useGetData(`/bomba/${bomba}`);
   const despachador = useGetData(`/empleado?departamento=1`);
+  const turnos = useGetData(`/estaciones-servicio/turnos/${estacionS}`);
 
   const changeEstacion = (e) => {
-    setBomba(e.target.value);
+    setEstacionS(Number(e.target.value));
+    setBomba(Number(e.target.value));
   };
 
   const handle = (e) => {
@@ -57,7 +60,21 @@ function FormChecklist() {
     <div className="container">
       <ModalSuccess show={modalSuccess} close={closeModal} />
       <ModalError show={modalError} close={closeModal} />
-      <form className="row m-auto" style={{ width: "800px" }} onSubmit={enviar}>
+      <form
+        className="row m-auto shadow rounded p-3 mt-3"
+        style={{ width: "800px" }}
+        onSubmit={enviar}
+      >
+        {/* <div className="col-md-4">
+          <img src={gdl} alt="gdl" className="w-25" />
+        </div>
+        <div className="col-md-4 fw-bold">GASOLINERÍA DON LALO</div>
+        <div className="col-md-4">
+          <div className="d-flex justify-content-end">
+            <img src={pemex} alt="pemex" className="w-50" />
+          </div>
+        </div> */}
+        <HeaderForm />
         <div className="col-6">
           <label className="form-label">Fecha de check</label>
           <InputFecha
@@ -67,19 +84,7 @@ function FormChecklist() {
             name="fecha"
           />
         </div>
-        <div className="col-md-6">
-          <label className="form-label">Turno</label>
-          <select
-            name="turno"
-            className="form-select"
-            defaultValue={1}
-            onChange={handle}
-          >
-            <option value="Mañana">Mañana</option>
-            <option value="Tarde">Tarde</option>
-            <option value="Noche">Noche</option>
-          </select>
-        </div>
+
         <div className="col-md-6">
           <label className="form-label">Escoje la estacion de servicio</label>
           <select
@@ -88,6 +93,12 @@ function FormChecklist() {
             onChange={changeEstacion}
             defaultValue={1}
           >
+            {estacion.isPending && (
+              <option value="">Cargando estaciones...</option>
+            )}
+            {!estacion.error && !estacion.isPending && (
+              <option value="">Estacion de servicio</option>
+            )}
             {!estacion.error &&
               !estacion.isPending &&
               estacion.data.response.map((el) => (
@@ -98,25 +109,52 @@ function FormChecklist() {
                   {el.nombre}
                 </option>
               ))}
+            {estacion.isPending && (
+              <option value="">Cargando estaciones ... </option>
+            )}
+          </select>
+        </div>
+        <div className="col-md-6">
+          <label className="form-label">Turno</label>
+          <select
+            name="turno"
+            className="form-select"
+            defaultValue={1}
+            onChange={handle}
+          >
+            {!turnos.error && !turnos.isPending && (
+              <option value=""> -- Selecciona el turno -- </option>
+            )}
+            {!turnos.error &&
+              !turnos.isPending &&
+              turnos.data.response.map((el) => (
+                <option key={el.idturno} value={el.turno}>
+                  {el.turno}
+                </option>
+              ))}
+            {turnos.isPending && <option value="">Cargando turnos</option>}
+            {turnos.error && !turnos.isPending && <option value=""></option>}
           </select>
         </div>
         <div className="col-md-6">
           <label className="form-label">Escoje la bomba</label>
-          {!bombas.error && !bombas.isPending && (
-            <select
-              name="idbomba"
-              className="form-select"
-              onChange={handle}
-              required
-            >
-              <option value="#">-- Escoje la bomba --</option>
-              {bombas.data.response.map((el) => (
+          <select
+            name="idbomba"
+            className="form-select"
+            onChange={handle}
+            required
+          >
+            {!bombas.error && !bombas.isPending && (
+              <option value=""> -- Selecciona bomba -- </option>
+            )}
+            {!bombas.error &&
+              !bombas.isPending &&
+              bombas.data.response.map((el) => (
                 <option value={el.idbomba} key={el.idbomba}>
                   {el.bomba}
                 </option>
               ))}
-            </select>
-          )}
+          </select>
         </div>
 
         <div className="col-md-6  text-center ">

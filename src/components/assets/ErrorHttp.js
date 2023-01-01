@@ -1,4 +1,5 @@
 import React from "react";
+import gdl from "../assets/img/GDL.png";
 
 const ErrorHttp = ({ code, msg }) => {
   return (
@@ -11,6 +12,9 @@ const ErrorHttp = ({ code, msg }) => {
       <p className="text-center">
         <span className="btn text-danger fw-bold">{msg}</span>
       </p>
+      <div style={{ width: "150px" }} className="m-auto">
+        <img className="w-100 d-block m-auto " src={gdl} alt="gasdonlalo" />
+      </div>
     </div>
   );
 };

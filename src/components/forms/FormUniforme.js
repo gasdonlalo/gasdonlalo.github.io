@@ -4,6 +4,7 @@ import useGetData from "../../hooks/useGetData";
 import ModalError from "../assets/ModalError";
 import ModalSuccess from "../assets/ModalSuccess";
 import Axios from "../../Caxios/Axios";
+import HeaderForm from "../../GUI/HeaderForm";
 import { useState } from "react";
 import Loader from "../assets/Loader";
 
@@ -71,9 +72,14 @@ function FormUniforme() {
   };
 
   return (
-    <form onSubmit={enviar} className="row m-auto" style={{ width: "900px" }}>
+    <form
+      onSubmit={enviar}
+      className="row m-auto shadow p-2 mb-3"
+      style={{ width: "900px" }}
+    >
       <ModalError show={modalError} close={modalClose} />
       <ModalSuccess show={modalSuccess} close={modalClose} />
+      <HeaderForm />
       <div className="col-md-6">
         <label className="form-label">Fecha a evaluar</label>
         <InputFecha
