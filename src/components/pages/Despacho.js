@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 function Despacho() {
   return (
     <div className="d-flex gap-3 justify-content-evenly ">
-      <div className="m-auto text-center mt-3">
+      <div className="m-auto text-center mt-3 border-end">
         <h3>Captura de indicadores de desempeño</h3>
 
         <div className="w-100 d-flex justify-content-evenly flex-wrap mt-5">

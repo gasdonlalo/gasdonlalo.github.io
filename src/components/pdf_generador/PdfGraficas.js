@@ -1,7 +1,7 @@
 import { useLocation } from "react-router-dom";
 import gdl from "../assets/img/GDL.png";
-import pemex from "../assets/img/PEMEX.png";
-import tabla from "../assets/img/TablaDis.png";
+import pemex from "../assets/img/pemex.png";
+import tabladis from "../assets/img/TablaDis.png";
 import calibri from "../assets/fuentes/calibri.ttf";
 import calibriN from "../assets/fuentes/calibrib.ttf";
 import html2canvas from "html2canvas";
@@ -17,6 +17,8 @@ import {
   PDFViewer,
   Font,
 } from "@react-pdf/renderer";
+import useGetData from "../../hooks/useGetData";
+import format from "../assets/format";
 //funcion para setear nombre de la grafica
 function NombreGrafica() {
   //obtiene la ruta actual para dar nombre a la grafica en el pdf
@@ -28,15 +30,19 @@ function NombreGrafica() {
     nombre = nombre + " MENSUAL DE REGISTRO DE CHECKLIST";
   } else if (location.match("uniforme")) {
     nombre = nombre + " DE UNIFORME DESPACHO";
+  } else if (location.match("recoleccion")) {
+    nombre = nombre + " MENSUAL INCUMPLIMIENTOS DE RECOLECCION DE EFECTIVO";
   }
-
   return nombre;
 }
 
-function PdfGraficas({ year, mes }) {
+function PdfGraficas({ year, mes, tabla, idempleado }) {
+  const empleado = useGetData(`/empleado/${idempleado}`);
+
   //variable donde se guarda la imagen
   const [img, setImg] = useState();
-  //lista con los mese para setear en el pdf
+  const [img2, setImg2] = useState(); // TABLA LARGA
+  //lista con los meses para setear en el pdf
   const meses = [
     "ENERO",
     "FEBRERO",
@@ -100,6 +106,14 @@ function PdfGraficas({ year, mes }) {
     html2canvas(element, { scale: 4, allowTaint: true }).then((canvas) => {
       setImg(canvas.toDataURL("image/JPEG"));
     });
+    capturarTabla();
+  };
+
+  const capturarTabla = () => {
+    const elementTabla = document.getElementById(tabla);
+    html2canvas(elementTabla, { scale: 4, allowTaint: true }).then((canvas) => {
+      setImg2(canvas.toDataURL("image/JPEG"));
+    });
   };
 
   return (
@@ -153,6 +167,7 @@ function PdfGraficas({ year, mes }) {
                     {meses[mes - 1]}
                   </Text>
                 </View>
+
                 <View
                   style={{
                     left: "60%",
@@ -176,13 +191,54 @@ function PdfGraficas({ year, mes }) {
                   </Text>
                 </View>
               </View>
+              {/* Nombre de empleado  */}
+              {!idempleado ? (
+                false
+              ) : (
+                <View
+                  style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    marginBottom: "10px",
+                    marginRight: "18px",
+                    fontFamily: "calibri",
+                    fontSize: "12px",
+                    justifyContent: "flex-end",
+                  }}
+                >
+                  <Text>Nombre del evaluado</Text>
+                  <Text
+                    style={{
+                      border: "0.5px solid black",
+                      marginLeft: "4px",
+                      marginRight: "50px",
+                      minWidth: "100px",
+                    }}
+                  >
+                    {!empleado.data
+                      ? false
+                      : format.formatTextoMayusPrimeraLetra(
+                          `${empleado.data.response[0].nombre} ${empleado.data.response[0].apellido_paterno} ${empleado.data.response[0].apellido_materno}`
+                        )}
+                  </Text>
+                </View>
+              )}
               {/* Termina mes y año */}
               <View style={styles.grafica}>
+                {!img2 ? (
+                  false
+                ) : (
+                  <Image
+                    src={img2}
+                    style={{ width: "95%", marginBottom: "10px" }}
+                  />
+                )}
+                {/* Tabla larga */}
                 {!img ? false : <Image src={img} style={{ width: "55%" }} />}
               </View>
               {/* Termina grafica */}
               <View style={styles.tabla}>
-                <Image src={tabla} style={{ width: "85px" }} />
+                <Image src={tabladis} style={{ width: "85px" }} />
               </View>
               {/* Termina tabla de disposicion */}
               <Text
