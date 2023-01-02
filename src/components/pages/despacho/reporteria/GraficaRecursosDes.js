@@ -71,6 +71,7 @@ const Success = ({ recursos }) => {
       return {
         idempleado: el.idempleado,
         nombre_completo: el.nombre_completo,
+        puntaje_minimo: el.puntaje_minimo,
         cantidad: 0,
       };
     }
@@ -83,6 +84,7 @@ const Success = ({ recursos }) => {
       idempleado: el.idempleado,
       nombre_completo: el.nombre_completo,
       cantidad: sumaPuntos,
+      puntaje_minimo: el.puntaje_minimo,
     };
   });
 
@@ -94,6 +96,12 @@ const Success = ({ recursos }) => {
         backgroundColor: "rgba(6,43,223,1)",
         borderColor: "rgba(6,43,223,1)",
         label: "Total",
+      },
+      {
+        data: tableTotalPuntos.map((el) => el.puntaje_minimo),
+        backgroundColor: "rgba(253,124,13,1)",
+        borderColor: "rgba(253,124,13,1)",
+        label: "Puntaje minimo",
       },
     ],
   };
@@ -140,9 +148,8 @@ const Success = ({ recursos }) => {
               </tbody>
             </table>
           </div>
-        ) : (
-          <div>
-            <ErrorHttp />
+          <div style={{ flexGrow: "1" }}>
+            <Scale data={dataScale} y={[0, 20]}></Scale>
           </div>
         )}
 
