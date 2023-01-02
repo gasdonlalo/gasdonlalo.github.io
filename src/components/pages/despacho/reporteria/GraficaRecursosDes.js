@@ -13,12 +13,10 @@ const GraficaRecursosDes = () => {
   const [year, setYear] = useState(date.getFullYear());
   const [month, setMonth] = useState(date.getMonth() + 1);
   const [quincena, setQuincena] = useState(1);
-  const [idEmpleado, setIdEmpleado] = useState(null);
   const despachador = useGetData("/empleado?departamento=1");
   const recursos = useGetData(
-    `lista-recurso-despachador/quincena/${year}/${month}/${idEmpleado}/${quincena}`
+    `/lista-recurso-despachador/empleados/${year}/${month}/${quincena}`
   );
-  const changeDespachador = (e) => setIdEmpleado(e.target.value);
   const changeYear = (e) => setYear(e.target.value);
   const changeMonth = (e) => setMonth(e.target.value);
   const handleQuincena = (e) => setQuincena(e.target.value);
@@ -30,8 +28,8 @@ const GraficaRecursosDes = () => {
       <div>
         <h3 className="border-bottom">Reporte de recursos de despachador</h3>
       </div>
-      <div className="w-75 m-auto row">
-        <div className="col-md-3">
+      <div className="w-50 m-auto row">
+        <div className="col-md-4">
           <label className="form-label">Selecciona la quincena</label>
           <select
             className="form-select"
@@ -42,26 +40,11 @@ const GraficaRecursosDes = () => {
             <option value="2">Segunda Quincena</option>
           </select>
         </div>
-        <div className="col-md-5">
-          <label className="form-label">Selecciona el empleado</label>
-          {!despachador.error && !despachador.isPending && (
-            <InputSelectEmpleado
-              defaultValue={idEmpleado}
-              empleados={despachador.data.response}
-              handle={changeDespachador}
-            />
-          )}
-          {despachador.isPending && (
-            <label className="form-label text-danger">
-              Cargando empleados ...
-            </label>
-          )}
-        </div>
-        <div className="col-md-2">
+        <div className="col-md-4">
           <label className="form-label">Selecciona el mes</label>
           <InputChangeMes handle={changeMonth} defaultMes={month} />
         </div>
-        <div className="col-md-2">
+        <div className="col-md-4">
           <label className="form-label">Selecciona el año</label>
           <InputChangeYear handle={changeYear} defaultYear={year} />
         </div>
@@ -80,44 +63,116 @@ const GraficaRecursosDes = () => {
 };
 
 const Success = ({ recursos }) => {
-  console.log(recursos);
-  let dataBar = {
-    labels: recursos.map((el) => el.recurso),
-    dataset: [
+  const table = recursos.filter((re) => re.recursos.length > 0);
+
+  const tableTotalPuntos = recursos.map((el) => {
+    if (el.recursos.length < 0) {
+      return {
+        idempleado: el.idempleado,
+        nombre_completo: el.nombre_completo,
+        cantidad: 0,
+      };
+    }
+
+    let sumaPuntos = el.recursos
+      .map((re) => (re.evaluacion ? 1 : 0))
+      .reduce((a, b) => a + b, 0);
+
+    return {
+      idempleado: el.idempleado,
+      nombre_completo: el.nombre_completo,
+      cantidad: sumaPuntos,
+    };
+  });
+
+  let dataScale = {
+    labels: tableTotalPuntos.map((el) => el.nombre_completo),
+    datasets: [
       {
-        data: recursos.map((el) => (el.evaluacion ? 1 : 0)),
-        label: "re",
+        data: tableTotalPuntos.map((el) => el.cantidad),
+        backgroundColor: "rgba(6,43,223,1)",
+        borderColor: "rgba(6,43,223,1)",
+        label: "Total",
       },
     ],
   };
-  console.log(dataBar);
+  console.log(dataScale);
+
   return (
     <div className="mt-5">
-      <table className="table table-bordered w-25">
-        <thead>
-          <tr>
-            <th>Recurso</th>
-            <th>Cumple</th>
-          </tr>
-        </thead>
-        <tbody>
-          {recursos.map((el) => (
-            <tr key={el.idrecurso}>
-              <td>{el.recurso}</td>
-              <td className="text-center fw-bold">
-                {el.evaluacion ? (
-                  <span className="text-success">1</span>
-                ) : (
-                  <span className="text-danger">0</span>
-                )}
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-      <div className="w-75">
-        <Scale data={dataBar}></Scale>
-      </div>
+      {table.length > 0 ? (
+        <div style={{ overflowX: "scroll" }}>
+          <table className="text-center">
+            <thead>
+              <tr>
+                <th className="border">
+                  <div style={{ width: "350px" }}>Empleado</div>
+                </th>
+                {table[0].recursos.map((el) => (
+                  <th key={el.idrecurso_despachador} className="border">
+                    <div style={{ width: "145px" }}>{el.recurso}</div>
+                  </th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {table.map((el, i) => (
+                <tr key={i}>
+                  <td className="text-start border">{el.nombre_completo}</td>
+                  {table[i].recursos.map((re) => (
+                    <td
+                      key={re.idrecurso_despachador}
+                      className="fw-bold border"
+                    >
+                      {re.evaluacion ? (
+                        <span className="text-success">1</span>
+                      ) : (
+                        <span className="text-danger">0</span>
+                      )}
+                    </td>
+                  ))}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      ) : (
+        <div>
+          <ErrorHttp />
+        </div>
+      )}
+
+      {table.length > 0 && (
+        <div className="mt-4 d-flex justify-content-between">
+          <div>
+            <table>
+              <thead>
+                <tr>
+                  <th className="border">
+                    <div>Nombre completo</div>
+                  </th>
+                  <th className="border">
+                    <div>Puntos obtenidos</div>
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {tableTotalPuntos.map((el) => (
+                  <tr key={el.idempleado}>
+                    <td className="border">{el.nombre_completo}</td>
+                    <td className="text-center fw-semibold border">
+                      {el.cantidad}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          <div style={{ flexGrow: "1" }}>
+            <Scale data={dataScale}></Scale>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
