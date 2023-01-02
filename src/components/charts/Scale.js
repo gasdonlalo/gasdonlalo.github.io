@@ -21,7 +21,7 @@ ChartJS.register(
   Legend
 );
 
-const Scale = ({ data }) => {
+const Scale = ({ data, y }) => {
   const datos = {
     labels: data.labels,
     datasets: data.datasets,
@@ -31,13 +31,17 @@ const Scale = ({ data }) => {
     resposive: true,
     scales: {
       y: {
-        min: 0,
-        max: 30,
+        min: y[0],
+        max: y[1],
       },
     },
   };
 
   return <Line data={datos} options={options} />;
+};
+
+Scale.defaultProps = {
+  y: [0, 30],
 };
 
 export default Scale;
