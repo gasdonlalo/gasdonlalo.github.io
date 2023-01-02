@@ -230,7 +230,10 @@ function PdfGraficas({ year, mes, tabla, idempleado }) {
                 ) : (
                   <Image
                     src={img2}
-                    style={{ width: "95%", marginBottom: "10px" }}
+                    style={{
+                      width: "95%",
+                      marginBottom: "10px",
+                    }}
                   />
                 )}
                 {/* Tabla larga */}

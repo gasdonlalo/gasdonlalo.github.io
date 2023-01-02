@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { Fragment, useState } from "react";
 import { Link } from "react-router-dom";
 import useGetData from "../../../../hooks/useGetData";
 import InputSelectEmpleado from "../../../forms/InputSelectEmpleado";
@@ -7,6 +7,7 @@ import InputChangeMes from "../../../forms/InputChangeMes";
 import Loader from "../../../assets/Loader";
 import ErrorHttp from "../../../assets/ErrorHttp";
 import Scale from "../../../charts/Scale";
+import PdfGraficas from "../../../pdf_generador/PdfGraficas";
 
 const GraficaRecursosDes = () => {
   const date = new Date();
@@ -99,81 +100,88 @@ const Success = ({ recursos }) => {
   console.log(dataScale);
 
   return (
-    <div className="mt-5">
-      {table.length > 0 ? (
-        <div style={{ overflowX: "scroll" }}>
-          <table className="text-center">
-            <thead>
-              <tr>
-                <th className="border">
-                  <div style={{ width: "350px" }}>Empleado</div>
-                </th>
-                {table[0].recursos.map((el) => (
-                  <th key={el.idrecurso_despachador} className="border">
-                    <div style={{ width: "145px" }}>{el.recurso}</div>
-                  </th>
-                ))}
-              </tr>
-            </thead>
-            <tbody>
-              {table.map((el, i) => (
-                <tr key={i}>
-                  <td className="text-start border">{el.nombre_completo}</td>
-                  {table[i].recursos.map((re) => (
-                    <td
-                      key={re.idrecurso_despachador}
-                      className="fw-bold border"
-                    >
-                      {re.evaluacion ? (
-                        <span className="text-success">1</span>
-                      ) : (
-                        <span className="text-danger">0</span>
-                      )}
-                    </td>
-                  ))}
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      ) : (
-        <div>
-          <ErrorHttp />
-        </div>
-      )}
-
-      {table.length > 0 && (
-        <div className="mt-4 d-flex justify-content-between">
-          <div>
-            <table>
+    <Fragment>
+      <div className="mt-5">
+        {table.length > 0 ? (
+          <div style={{ overflowX: "scroll" }}>
+            <table className="text-center" id="tabla">
               <thead>
                 <tr>
                   <th className="border">
-                    <div>Nombre completo</div>
+                    <div style={{ width: "350px" }}>Empleado</div>
                   </th>
-                  <th className="border">
-                    <div>Puntos obtenidos</div>
-                  </th>
+                  {table[0].recursos.map((el) => (
+                    <th key={el.idrecurso_despachador} className="border">
+                      <div style={{ width: "80px", fontSize: "10pt" }}>
+                        {el.recurso}
+                      </div>
+                    </th>
+                  ))}
                 </tr>
               </thead>
               <tbody>
-                {tableTotalPuntos.map((el) => (
-                  <tr key={el.idempleado}>
-                    <td className="border">{el.nombre_completo}</td>
-                    <td className="text-center fw-semibold border">
-                      {el.cantidad}
-                    </td>
+                {table.map((el, i) => (
+                  <tr key={i}>
+                    <td className="text-start border">{el.nombre_completo}</td>
+                    {table[i].recursos.map((re) => (
+                      <td
+                        key={re.idrecurso_despachador}
+                        className="fw-bold border"
+                      >
+                        {re.evaluacion ? (
+                          <span className="text-success">1</span>
+                        ) : (
+                          <span className="text-danger">0</span>
+                        )}
+                      </td>
+                    ))}
                   </tr>
                 ))}
               </tbody>
             </table>
           </div>
-          <div style={{ flexGrow: "1" }}>
-            <Scale data={dataScale}></Scale>
+        ) : (
+          <div>
+            <ErrorHttp />
           </div>
-        </div>
-      )}
-    </div>
+        )}
+
+        {table.length > 0 && (
+          <div className="mt-4 d-flex justify-content-between" id="render">
+            <div>
+              <table>
+                <thead>
+                  <tr>
+                    <th className="border">
+                      <div>Nombre completo</div>
+                    </th>
+                    <th className="border">
+                      <div>Puntos obtenidos</div>
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {tableTotalPuntos.map((el) => (
+                    <tr key={el.idempleado}>
+                      <td className="border">{el.nombre_completo}</td>
+                      <td className="text-center fw-semibold border">
+                        {el.cantidad}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+            <div style={{ flexGrow: "1" }}>
+              <Scale data={dataScale}></Scale>
+            </div>
+          </div>
+        )}
+      </div>
+      <div>
+        <PdfGraficas tabla={"tabla"} />
+      </div>
+    </Fragment>
   );
 };
 export default GraficaRecursosDes;
