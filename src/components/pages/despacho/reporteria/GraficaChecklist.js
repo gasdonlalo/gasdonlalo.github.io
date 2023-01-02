@@ -6,6 +6,7 @@ import useGetData from "../../../../hooks/useGetData";
 import Loader from "../../../assets/Loader";
 import format from "../../../assets/format";
 import Scale from "../../../charts/Scale";
+import PdfGraficas from "../../../pdf_generador/PdfGraficas";
 
 function GraficaChecklist() {
   const date = new Date();
@@ -51,6 +52,9 @@ function GraficaChecklist() {
           Mostrar detalles {">"}
         </span>
       </div>
+      <div>
+        <PdfGraficas mes={month} year={year} />
+      </div>
     </div>
   );
 }
@@ -92,7 +96,7 @@ const Success = ({ data, year, month }) => {
   }
 
   return (
-    <div>
+    <div id="render">
       <table className="table table-bordered w-100 m-auto mt-4" border="1px">
         <thead>
           <tr>

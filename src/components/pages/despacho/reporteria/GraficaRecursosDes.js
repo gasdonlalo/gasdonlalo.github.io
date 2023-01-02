@@ -8,7 +8,7 @@ import Loader from "../../../assets/Loader";
 import ErrorHttp from "../../../assets/ErrorHttp";
 import Bar from "../../../charts/Bar";
 
-const GraficaPasoDes = () => {
+const GraficaRecursosDes = () => {
   const date = new Date();
   const [year, setYear] = useState(date.getFullYear());
   const [month, setMonth] = useState(date.getMonth() + 1);
@@ -125,4 +125,4 @@ const Success = ({ data }) => {
   );
 };
 
-export default GraficaPasoDes;
+export default GraficaRecursosDes;

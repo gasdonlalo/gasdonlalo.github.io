@@ -4,9 +4,9 @@ import Tabla from "../../../TablaMonto";
 import { Link } from "react-router-dom";
 import InputChangeMes from "../../../forms/InputChangeMes";
 import InputChangeYear from "../../../forms/InputChangeYear";
-import MontoFaltpdf from "../../../pdf_generador/MontoFaltpdf";
 import useGetData from "../../../../hooks/useGetData";
 import ErrorHttp from "../../../assets/ErrorHttp";
+import PdfGraficas from "../../../pdf_generador/PdfGraficas";
 
 function GraficaMontofaltante() {
   const date = new Date();
@@ -29,7 +29,7 @@ function GraficaMontofaltante() {
       labels: montoF.data.response.map((el) => el.nombre_completo.split(" ")),
       dataset: montoF.data.response[0].semanas.map((el, i) => ({
         data: montoF.data.response.map((eld) => eld.semanas[i].cantidad),
-        label: `semana ${i + 1}`,
+        label: `Semana ${i + 1}`,
       })),
     };
   }
@@ -68,7 +68,7 @@ function GraficaMontofaltante() {
             </div>
 
             <div>
-              <MontoFaltpdf />
+              <PdfGraficas mes={month} year={year} />
             </div>
           </>
         )}

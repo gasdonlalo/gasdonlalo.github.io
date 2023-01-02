@@ -1,8 +1,5 @@
 import { Link } from "react-router-dom";
 import FormRecoleccion from "../../forms/FormRecoleccion";
-import useGetData from "../../../hooks/useGetData";
-import Axios from "../../../Caxios/Axios";
-import { useState } from "react";
 
 function RecolEfect() {
   return (

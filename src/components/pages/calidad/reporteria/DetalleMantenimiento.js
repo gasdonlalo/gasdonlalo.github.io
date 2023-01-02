@@ -1,7 +1,7 @@
 import React from "react";
 import { useParams } from "react-router-dom";
-import useGetData from "../../../hooks/useGetData";
-import Pastel from "../../charts/Pastel";
+import useGetData from "../../../../hooks/useGetData";
+import Pastel from "../../../charts/Pastel";
 
 const DetalleMantenimiento = () => {
   const { year, month, idEstacion, idMantenimiento, mantenimiento } =

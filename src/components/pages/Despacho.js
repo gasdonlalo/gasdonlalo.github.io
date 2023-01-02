@@ -1,109 +1,86 @@
-import { Fragment } from "react";
-import { Link } from "react-router-dom";
-
+import { useNavigate } from "react-router-dom";
 function Despacho() {
   return (
-    <div className="Main">
-      <h1 className="text-center border-bottom w-100">Despacho</h1>
-      <div className="Contenido">
-        <div className="Captura">
-          <h3>Captura de indicadores de desempeño</h3>
-          <div className="OpcionesCaptura">
-            <Fragment>
-              <Link
-                type="button"
-                className="btn btn-primary"
-                to="/despacho/montos-faltantes"
-              >
-                Monto faltante
-              </Link>
-              <Link
-                type="button"
-                className="btn btn-primary "
-                to="/despacho/checklist"
-              >
-                Checklist de bombas
-              </Link>
-              <Link
-                type="button"
-                className="btn btn-primary"
-                to="/despacho/evaluacion-uniforme"
-              >
-                Evaluación de uniforme
-              </Link>
-            </Fragment>
-            <Link
-              type="button"
-              className="btn btn-primary"
-              to="/despacho/recoleccion-de-efectivo"
-            >
-              Recoleccion de efectivo
-            </Link>
-            <Link
-              type="button"
-              className="btn btn-primary"
-              to="/despacho/pasos-para-despachar"
-            >
-              Pasos para despachar
-            </Link>
-            <Link
-              type="button"
-              className="btn btn-primary"
-              to="/despacho/recursos-despachador"
-            >
-              Recursos de despachador
-            </Link>
-          </div>
+    <div className="d-flex gap-3 justify-content-evenly ">
+      <div className="m-auto text-center mt-3">
+        <h3>Captura de indicadores de desempeño</h3>
+
+        <div className="w-100 d-flex justify-content-evenly flex-wrap mt-5">
+          <Card
+            url="montos-faltantes"
+            icon="money-bills"
+            text="Monto faltante"
+          />
+          <Card url="checklist" icon="check" text="Checklist bomba" />
+          <Card
+            url="evaluacion-uniforme"
+            icon="shirt"
+            text="Evaluación uniforme"
+          />
+          <Card
+            url="recoleccion-efectivo"
+            icon="sack-dollar"
+            text="Recoleccion efectivo"
+          />
+          <Card
+            url="pasos-despachar"
+            icon="list-check"
+            text="Pasos para despachar"
+          />
+          <Card
+            url="recurso-despachador"
+            icon="stapler"
+            text="Recursos despachador"
+          />
         </div>
-        {/* Comienza reporteria */}
-        <div className="Reporteria">
-          <h3>Reporteria</h3>
-          <div className="OpcionesReporteria">
-            <Link
-              type="button"
-              className="btn btn-primary"
-              to="/despacho/reporteria/monto-faltante"
-            >
-              Grafica monto faltante
-            </Link>
-            <Link
-              type="button"
-              className="btn btn-primary "
-              to="/despacho/reporteria/registro-checklist"
-            >
-              Grafica mensual registro checklist
-            </Link>
-            <Link
-              type="button"
-              className="btn btn-primary"
-              to="/despacho/reporteria/uniforme"
-            >
-              Grafica de uniforme
-            </Link>
-            <Link
-              type="button"
-              className="btn btn-primary"
-              to="/despacho/reporteria/recoleccion-efectivo"
-            >
-              Grafica de incumplimientos de recoleccion de efectivo
-            </Link>
-            <Link
-              type="button"
-              className="btn btn-primary"
-              to="/despacho/reporteria/evaluacion-despachar"
-            >
-              Analisis de evaluacion de pasos para despachar
-            </Link>
-            <Link
-              className="btn btn-primary "
-              to="/reporteria/salidas-no-conformes"
-            >
-              Gráfica Salidas no conformes
-            </Link>
-          </div>
+      </div>
+      <div className="text-center m-auto">
+        <h3>Reportes</h3>
+        <div className="d-flex justify-content-evenly flex-wrap mt-5">
+          <Card
+            url="montos-faltantes-reporte"
+            icon="chart-simple"
+            text="Monto faltante"
+          />
+          <Card
+            url="checklist-reporte"
+            icon="chart-line"
+            text="Checklist Bomba"
+          />
+          <Card
+            url="evaluacion-uniforme-reporte"
+            icon="chart-simple"
+            text="Evaluacion uniforme"
+          />
+          <Card
+            url="recoleccion-efectivo-reporte"
+            icon="chart-simple"
+            text="Recoleccion efectivo"
+          />
+          <Card
+            url="pasos-despachar-reporte"
+            icon="chart-simple"
+            text="Pasos para despachar"
+          />
+          <Card
+            url="recursos-despachador-resporte"
+            icon="chart-simple"
+            text="Recursos despachador"
+          />
         </div>
       </div>
     </div>
   );
 }
+
+const Card = ({ url, text, icon }) => {
+  const navigate = useNavigate();
+  return (
+    <div className="rounded p-2 btn-select m-1" onClick={() => navigate(url)}>
+      <i className={`fa-regular fa-${icon}`} style={{ fontSize: "50px" }}></i>
+      <p className="p-0 m-0">{text}</p>
+    </div>
+  );
+};
+
 export default Despacho;

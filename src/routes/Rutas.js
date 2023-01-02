@@ -1,37 +1,55 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Layout from "../GUI/Layout";
-import Home from "../components/pages/home/Home";
 import Notfound from "../components/pages/Notfound";
-import MontoFaltante from "../components/pages/despacho/MontoFaltante";
+import Layout from "../GUI/Layout";
+// Importacion de despacho
 import Despacho from "../components/pages/Despacho";
-import Chartprueba from "../components/charts/Chartprueba";
-import Pdfprueba from "../components/pdf_generador/Pdfprueba";
+import MontoFaltante from "../components/pages/despacho/MontoFaltante";
 import ChecklistBomba from "../components/pages/despacho/ChecklistBomba";
 import EvalUniforme from "../components/pages/despacho/EvalUniforme";
-import GraficaMontofaltante from "../components/pages/despacho/reporteria/GraficaMontofaltante";
-import GraficaChecklist from "../components/pages/despacho/reporteria/GraficaChecklist";
-// import Graficauniforme from "../components/pages/despacho/reporteria/Graficauniforme";
-import OrdenTrabajo from "../components/pages/calidad/OrdenTrabajo";
-import DetalleMantenimiento from "../components/pages/calidad/DetalleMantenimiento";
 import RecolEfect from "../components/pages/despacho/RecolEfect";
 import Pasosdespachar from "../components/pages/despacho/Pasosdespachar";
 import RecursosDesp from "../components/pages/despacho/RecursosDesp";
-import DetallesMontoFaltante from "../components/pages/despacho/DetallesMontoFaltante";
-import MontoFaltanteEmpleado from "../components/pages/despacho/MontoFaltanteEmpleado";
-import SalidaNoConforme from "../components/pages/salidaNoConforme/SalidaNoConforme";
-import SalidasNoConformesReportes from "../components/pages/SalidasNoConformesReportes";
-import ChecklistBombaDetalle from "../components/pages/despacho/ChecklistBombaDetalle";
-import GraficaEvUnifome from "../components/pages/despacho/reporteria/GraficaEvUnifome";
-import GraficaRecolEfectivo from "../components/pages/despacho/reporteria/GraficaRecolEfectivo";
-import GraficaPasoDes from "../components/pages/despacho/reporteria/GraficaPasoDes";
+//importacion de graficos despacho
+import GMF from "../components/pages/despacho/reporteria/GraficaMontofaltante";
+import CCB from "../components/pages/despacho/reporteria/GraficaChecklist";
+import GEU from "../components/pages/despacho/reporteria/GraficaEvUnifome";
+import DRE from "../components/pages/despacho/reporteria/GraficaRecolEfectivo";
+import GPD from "../components/pages/despacho/reporteria/GraficaPasoDes";
 
 function Rutas() {
   return (
     <Router>
-      <Layout>
+      <Routes>
+        {/* Rutas de despacho */}
+        <Route path="*" element={<Layout />}>
+          <Route index element={<Notfound />} />
+        </Route>
+        <Route path="/despacho" element={<Layout />}>
+          <Route index element={<Despacho />} />;
+          <Route path="montos-faltantes" element={<MontoFaltante />} />;
+          <Route path="montos-faltantes-reporte" element={<GMF />} />;
+          <Route path="checklist" element={<ChecklistBomba />} />;
+          <Route path="checklist-reporte" element={<CCB />} />;
+          <Route path="evaluacion-uniforme" element={<EvalUniforme />} />;
+          <Route path="evaluacion-uniforme-reporte" element={<GEU />} />;
+          <Route path="recoleccion-efectivo" element={<RecolEfect />} />;
+          <Route path="recoleccion-efectivo-reporte" element={<DRE />} />;
+          <Route path="pasos-despachar" element={<Pasosdespachar />} />;
+          <Route path="pasos-despachar-reporte" element={<GPD />} />;
+          <Route path="recurso-despachador" element={<RecursosDesp />} />;
+          <Route path="*" element={<Notfound />} />
+        </Route>
+      </Routes>
+      {/* <Routes>
+        <Route path="*" element={<Layout />}>
+          <Route index element={<Notfound />} />
+        </Route>
+      </Routes> */}
+      {/* <Layout>
         <Routes>
           <Route exact path="/" element={<Home />} />
           <Route exact path="*" element={<Notfound />} />
+          <Route exact path="/calidad" element={<Calidad />} />
           <Route
             exact
             path="/calidad/ordenes-de-trabajo/:year/:month/:idEstacion"
@@ -43,11 +61,13 @@ function Rutas() {
             path="/calidad/ordenes-de-trabajo/:year/:month/:idEstacion/:mantenimiento/:idMantenimiento"
             element={<DetalleMantenimiento />}
           />
+          <Route exact path="/calidad/Ordtrabajo" element={<Ordtrabajo />} />
           <Route
             exact
-            path="/despacho/reporteria/registro-checklist/detalles"
-            element={<ChecklistBombaDetalle />}
+            path="/calidad/DetalleMantenimiento"
+            element={<DetalleMantenimiento />}
           />
+          <Route exact path="/despacho" element={<Despacho />} />
           <Route
             exact
             path="/despacho/montos-faltantes"
@@ -137,7 +157,7 @@ function Rutas() {
             element={<GraficaPasoDes />}
           />
         </Routes>
-      </Layout>
+      </Layout> */}
     </Router>
   );
 }

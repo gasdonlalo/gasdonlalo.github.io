@@ -1,6 +1,5 @@
 .flex_container {
   display: flex;
-  height: 100%;
   flex-direction: column;
   background-color: white;
 }
@@ -11,8 +10,9 @@
   justify-content: space-between;
   height: 10vh;
 }
+
 .Content {
-  height: 90vh;
+  min-height: 80vh;
   flex-wrap: wrap;
   align-items: flex-start;
 }
@@ -29,7 +29,7 @@
   text-align: center;
   display: flex;
   flex-direction: column;
-  border: 1px solid #bcd0c7;
+  /* border: 1px solid #bcd0c7; */
   border-radius: 10px;
   width: 40%;
 }
@@ -58,4 +58,27 @@
 }
 .OpcionesReporteria .btn {
   margin: 2px;
+}
+.footer {
+  height: 10vh;
+}
+
+.home {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  align-content: center;
+}
+.home .card {
+  margin: 10px;
+}
+
+.btn-select {
+  background-color: white;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-select:hover {
+  background-color: #e4e4e4;
 }

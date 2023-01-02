@@ -12,6 +12,7 @@ const SalidaNoConforme = () => {
   const empleadoS = useGetData("/empleado?departamento");
   const empleadoA = useGetData("/empleado?departamento=2");
   const incumplimiento = useGetData("/incumplimiento/1");
+  //recupera la id del formulario enviado para generar el pdf
   const [idsalida, setIdsalida] = useState(null);
 
   const [show, setShow] = useState(false);
@@ -19,7 +20,6 @@ const SalidaNoConforme = () => {
   const [datos, setDatos] = useState([]);
   const enviar = (e) => {
     e.preventDefault();
-    console.log(datos);
     enviarDatos(datos);
   };
 
@@ -31,12 +31,6 @@ const SalidaNoConforme = () => {
     `/salida-no-conforme/${!idsalida ? false : idsalida.insertId}`
   );
   const ola = !consultarPdf.data ? false : consultarPdf.data;
-  console.log(
-    !ola.response ? false : ola.response.map((e) => e.fecha),
-    "fecha"
-  );
-  /* const url = `/salida-no-conforme/${!idsalida ? false : idsalida.idInsert}`;
-  console.log(url); */
 
   const handle = (e) => {
     setDatos({ ...datos, [e.target.name]: e.target.value });
@@ -50,8 +44,6 @@ const SalidaNoConforme = () => {
   const cerrarModal = () => {
     setShow(false);
   };
-  console.log(idsalida, "response post");
-  console.log(!consultarPdf.data ? false : consultarPdf.data.response);
 
   return (
     <div>
@@ -63,8 +55,8 @@ const SalidaNoConforme = () => {
         <h4 className="border-bottom">Captura de salidas no conformes</h4>
       </div>
       <div style={{ display: "flex", flexdirection: "column" }}>
-        <div>
-          <form style={{ width: "300px" }} onSubmit={enviar}>
+        <div className="me-3">
+          <form onSubmit={enviar}>
             <div className="mb">
               <label className="form-label">Fecha</label>
               <InputFecha
@@ -154,10 +146,12 @@ const SalidaNoConforme = () => {
               </button>
             </div>
           </form>
+        </div>
 
-          {!consultarPdf.data ? (
-            false
-          ) : (
+        {!consultarPdf.data ? (
+          false
+        ) : (
+          <div className="flex-fill">
             <PDFSalidaNoConforme
               title="salida no conforme"
               fecha={
@@ -175,12 +169,12 @@ const SalidaNoConforme = () => {
                   ? false
                   : ola.response.map((e) => e.acciones_corregir)
               }
-              incumple={
+              concesiones={
                 !ola.response ? false : ola.response.map((e) => e.concesiones)
               }
             />
-          )}
-        </div>
+          </div>
+        )}
       </div>
     </div>
   );
