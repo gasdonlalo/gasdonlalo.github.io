@@ -41,3 +41,22 @@ const Scale = ({ data }) => {
 };
 
 export default Scale;
+
+/* const labels = Utils.months({ count: 7 });
+const data = {
+  labels: labels,
+  datasets: [
+    {
+      label: "Dataset 1",
+      data: Utils.numbers(NUMBER_CFG),
+      borderColor: Utils.CHART_COLORS.red,
+      backgroundColor: Utils.CHART_COLORS.red,
+    },
+    {
+      label: "Dataset 2",
+      data: Utils.numbers(NUMBER_CFG),
+      borderColor: Utils.CHART_COLORS.blue,
+      backgroundColor: Utils.CHART_COLORS.blue,
+    },
+  ],
+}; */

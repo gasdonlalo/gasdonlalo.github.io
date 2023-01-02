@@ -1,6 +1,7 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Notfound from "../components/pages/Notfound";
 import Layout from "../GUI/Layout";
+import Home from "../components/pages/home/Home";
 // Importacion de despacho
 import Despacho from "../components/pages/Despacho";
 import MontoFaltante from "../components/pages/despacho/MontoFaltante";
@@ -15,14 +16,17 @@ import CCB from "../components/pages/despacho/reporteria/GraficaChecklist";
 import GEU from "../components/pages/despacho/reporteria/GraficaEvUnifome";
 import DRE from "../components/pages/despacho/reporteria/GraficaRecolEfectivo";
 import GPD from "../components/pages/despacho/reporteria/GraficaPasoDes";
+import GRD from "../components/pages/despacho/reporteria/GraficaRecursosDes";
 
 function Rutas() {
   return (
     <Router>
       <Routes>
         {/* Rutas de despacho */}
-        <Route path="*" element={<Layout />}>
-          <Route index element={<Notfound />} />
+        <Route path="/" element={<Layout />}>
+          <Route index element={<Home />} />
+          <Route path="home" element={<Home />} />
+          <Route path="*" element={<Notfound />} />
         </Route>
         <Route path="/despacho" element={<Layout />}>
           <Route index element={<Despacho />} />;
@@ -37,6 +41,8 @@ function Rutas() {
           <Route path="pasos-despachar" element={<Pasosdespachar />} />;
           <Route path="pasos-despachar-reporte" element={<GPD />} />;
           <Route path="recurso-despachador" element={<RecursosDesp />} />;
+          <Route path="recurso-despachador-reporte" element={<GRD />} />
+          ;
           <Route path="*" element={<Notfound />} />
         </Route>
       </Routes>

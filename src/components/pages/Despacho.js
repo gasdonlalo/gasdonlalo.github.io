@@ -63,7 +63,7 @@ function Despacho() {
             text="Pasos para despachar"
           />
           <Card
-            url="recursos-despachador-resporte"
+            url="recurso-despachador-reporte"
             icon="chart-simple"
             text="Recursos despachador"
           />

@@ -6,18 +6,18 @@ import InputChangeYear from "../../../forms/InputChangeYear";
 import InputChangeMes from "../../../forms/InputChangeMes";
 import Loader from "../../../assets/Loader";
 import ErrorHttp from "../../../assets/ErrorHttp";
-import Bar from "../../../charts/Bar";
+import Scale from "../../../charts/Scale";
 
 const GraficaRecursosDes = () => {
   const date = new Date();
   const [year, setYear] = useState(date.getFullYear());
   const [month, setMonth] = useState(date.getMonth() + 1);
   const [quincena, setQuincena] = useState(1);
-  const [idEmpleado, setIdEmpleado] = useState(2);
-  const evaluacion = useGetData(
-    `/pasos-despachar/${year}/${month}/${quincena}/${idEmpleado}`
-  );
+  const [idEmpleado, setIdEmpleado] = useState(null);
   const despachador = useGetData("/empleado?departamento=1");
+  const recursos = useGetData(
+    `lista-recurso-despachador/quincena/${year}/${month}/${idEmpleado}/${quincena}`
+  );
   const changeDespachador = (e) => setIdEmpleado(e.target.value);
   const changeYear = (e) => setYear(e.target.value);
   const changeMonth = (e) => setMonth(e.target.value);
@@ -28,7 +28,7 @@ const GraficaRecursosDes = () => {
         Volver al despacho
       </Link>
       <div>
-        <h3 className="border-bottom">Evaluacion de despacho</h3>
+        <h3 className="border-bottom">Reporte de recursos de despachador</h3>
       </div>
       <div className="w-75 m-auto row">
         <div className="col-md-3">
@@ -66,63 +66,59 @@ const GraficaRecursosDes = () => {
           <InputChangeYear handle={changeYear} defaultYear={year} />
         </div>
       </div>
-      {!evaluacion.error && !evaluacion.isPending && (
-        <Success data={evaluacion.data.response} />
+      {!recursos.error && !recursos.isPending && (
+        <Success recursos={recursos.data.response} />
       )}
-      {evaluacion.error && !evaluacion.isPending && (
+      {recursos.error && !recursos.isPending && (
         <div className="mt-5">
-          {" "}
           <ErrorHttp />
         </div>
       )}
-      {evaluacion.isPending && <Loader />}
+      {recursos.isPending && <Loader />}
     </div>
   );
 };
 
-const Success = ({ data }) => {
-  const pasosDes = useGetData("/pasos-despachar/get-pasos");
-  console.log({ data: data.evaluaciones });
+const Success = ({ recursos }) => {
+  console.log(recursos);
+  let dataBar = {
+    labels: recursos.map((el) => el.recurso),
+    dataset: [
+      {
+        data: recursos.map((el) => (el.evaluacion ? 1 : 0)),
+        label: "re",
+      },
+    ],
+  };
+  console.log(dataBar);
   return (
-    <div>
-      <div>
-        <table className="mt-4 mx-auto">
-          <thead>
-            <tr>
-              <th className="border text-center">Evaluación</th>
-              {!pasosDes.error &&
-                !pasosDes.isPending &&
-                pasosDes.data.response.map((el) => (
-                  <th
-                    className="border text-center p-2"
-                    style={{ width: "100px" }}
-                    key={el.idpaso_despachar}
-                  >
-                    {el.paso}
-                  </th>
-                ))}
+    <div className="mt-5">
+      <table className="table table-bordered w-25">
+        <thead>
+          <tr>
+            <th>Recurso</th>
+            <th>Cumple</th>
+          </tr>
+        </thead>
+        <tbody>
+          {recursos.map((el) => (
+            <tr key={el.idrecurso}>
+              <td>{el.recurso}</td>
+              <td className="text-center fw-bold">
+                {el.evaluacion ? (
+                  <span className="text-success">1</span>
+                ) : (
+                  <span className="text-danger">0</span>
+                )}
+              </td>
             </tr>
-          </thead>
-          <tbody>
-            {data.evaluaciones.map((el, i) => (
-              <tr key={i}>
-                <td className="text-center px-4 border">Evaluación {i + 1}</td>
-                {data.evaluaciones[i].map((ev) => (
-                  <td
-                    key={ev.idevaluacion_despachar}
-                    className="text-center border"
-                  >
-                    {ev.evaluacion ? "1" : "0"}
-                  </td>
-                ))}
-              </tr>
-            ))}
-          </tbody>
-        </table>
+          ))}
+        </tbody>
+      </table>
+      <div className="w-75">
+        <Scale data={dataBar}></Scale>
       </div>
-      <div>{/* <Bar /> */}</div>
     </div>
   );
 };
-
 export default GraficaRecursosDes;
