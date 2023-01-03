@@ -1,19 +1,20 @@
-import { useState } from "react";
+import { Fragment, useState } from "react";
 import { Link } from "react-router-dom";
 import useGetData from "../../../../hooks/useGetData";
-import InputSelectEmpleado from "../../../forms/InputSelectEmpleado";
+//import InputSelectEmpleado from "../../../forms/InputSelectEmpleado";
 import InputChangeYear from "../../../forms/InputChangeYear";
 import InputChangeMes from "../../../forms/InputChangeMes";
 import Loader from "../../../assets/Loader";
 import ErrorHttp from "../../../assets/ErrorHttp";
 import Scale from "../../../charts/Scale";
+import PdfGraficas from "../../../pdf_generador/PdfGraficas";
 
 const GraficaRecursosDes = () => {
   const date = new Date();
   const [year, setYear] = useState(date.getFullYear());
   const [month, setMonth] = useState(date.getMonth() + 1);
   const [quincena, setQuincena] = useState(1);
-  const despachador = useGetData("/empleado?departamento=1");
+  //const despachador = useGetData("/empleado?departamento=1");
   const recursos = useGetData(
     `/lista-recurso-despachador/empleados/${year}/${month}/${quincena}`
   );
@@ -50,7 +51,12 @@ const GraficaRecursosDes = () => {
         </div>
       </div>
       {!recursos.error && !recursos.isPending && (
-        <Success recursos={recursos.data.response} />
+        <Success
+          recursos={recursos.data.response}
+          year={year}
+          month={month}
+          quincena={quincena}
+        />
       )}
       {recursos.error && !recursos.isPending && (
         <div className="mt-5">
@@ -62,7 +68,7 @@ const GraficaRecursosDes = () => {
   );
 };
 
-const Success = ({ recursos }) => {
+const Success = ({ recursos, year, month, quincena }) => {
   const table = recursos.filter((re) => re.recursos.length > 0);
 
   const tableTotalPuntos = recursos.map((el) => {
@@ -107,81 +113,93 @@ const Success = ({ recursos }) => {
   console.log(dataScale);
 
   return (
-    <div className="mt-5">
-      {table.length > 0 ? (
-        <div style={{ overflowX: "scroll" }}>
-          <table className="text-center">
-            <thead>
-              <tr>
-                <th className="border">
-                  <div style={{ width: "350px" }}>Empleado</div>
-                </th>
-                {table[0].recursos.map((el) => (
-                  <th key={el.idrecurso_despachador} className="border">
-                    <div style={{ width: "145px" }}>{el.recurso}</div>
-                  </th>
-                ))}
-              </tr>
-            </thead>
-            <tbody>
-              {table.map((el, i) => (
-                <tr key={i}>
-                  <td className="text-start border">{el.nombre_completo}</td>
-                  {table[i].recursos.map((re) => (
-                    <td
-                      key={re.idrecurso_despachador}
-                      className="fw-bold border"
-                    >
-                      {re.evaluacion ? (
-                        <span className="text-success">1</span>
-                      ) : (
-                        <span className="text-danger">0</span>
-                      )}
-                    </td>
-                  ))}
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      ) : (
-        <div>
-          <ErrorHttp />
-        </div>
-      )}
-
-      {table.length > 0 && (
-        <div className="mt-4 d-flex justify-content-between">
-          <div>
-            <table>
+    <Fragment>
+      <div className="mt-5">
+        {table.length > 0 ? (
+          <div style={{ overflowX: "scroll" }}>
+            <table className="text-center" id="tabla">
               <thead>
                 <tr>
                   <th className="border">
-                    <div>Nombre completo</div>
+                    <div style={{ width: "350px" }}>Empleado</div>
                   </th>
-                  <th className="border">
-                    <div>Puntos obtenidos</div>
-                  </th>
+                  {table[0].recursos.map((el) => (
+                    <th key={el.idrecurso_despachador} className="border">
+                      <div style={{ width: "85px", fontSize: "10pt" }}>
+                        {el.recurso}
+                      </div>
+                    </th>
+                  ))}
                 </tr>
               </thead>
               <tbody>
-                {tableTotalPuntos.map((el) => (
-                  <tr key={el.idempleado}>
-                    <td className="border">{el.nombre_completo}</td>
-                    <td className="text-center fw-semibold border">
-                      {el.cantidad}
-                    </td>
+                {table.map((el, i) => (
+                  <tr key={i}>
+                    <td className="text-start border">{el.nombre_completo}</td>
+                    {table[i].recursos.map((re) => (
+                      <td
+                        key={re.idrecurso_despachador}
+                        className="fw-bold border"
+                      >
+                        {re.evaluacion ? (
+                          <span className="text-success">1</span>
+                        ) : (
+                          <span className="text-danger">0</span>
+                        )}
+                      </td>
+                    ))}
                   </tr>
                 ))}
               </tbody>
             </table>
           </div>
+        ) : (
           <div style={{ flexGrow: "1" }}>
             <Scale data={dataScale} y={[0, 20]}></Scale>
           </div>
-        </div>
-      )}
-    </div>
+        )}
+
+        {table.length > 0 && (
+          <div className="mt-4 d-flex justify-content-between" id="render">
+            <div>
+              <table>
+                <thead>
+                  <tr>
+                    <th className="border">
+                      <div>Nombre completo</div>
+                    </th>
+                    <th className="border">
+                      <div>Puntos obtenidos</div>
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {tableTotalPuntos.map((el) => (
+                    <tr key={el.idempleado}>
+                      <td className="border">{el.nombre_completo}</td>
+                      <td className="text-center fw-semibold border">
+                        {el.cantidad}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+            <div style={{ flexGrow: "1" }}>
+              <Scale data={dataScale}></Scale>
+            </div>
+          </div>
+        )}
+      </div>
+      <div>
+        <PdfGraficas
+          tabla={"tabla"}
+          year={year}
+          mes={month}
+          quincena={quincena}
+        />
+      </div>
+    </Fragment>
   );
 };
 export default GraficaRecursosDes;

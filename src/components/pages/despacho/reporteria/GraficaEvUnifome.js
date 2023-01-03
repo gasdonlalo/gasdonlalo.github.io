@@ -68,7 +68,7 @@ const GraficaEvUnifome = () => {
         />
       )}
       <div>
-        <PdfGraficas />
+        <PdfGraficas mes={month} year={year} idempleado={iddespachador} />
       </div>
     </div>
   );

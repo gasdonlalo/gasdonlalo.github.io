@@ -7,6 +7,7 @@ import InputChangeMes from "../../../forms/InputChangeMes";
 import Loader from "../../../assets/Loader";
 import ErrorHttp from "../../../assets/ErrorHttp";
 import Bar from "../../../charts/Bar";
+import PdfGraficas from "../../../pdf_generador/PdfGraficas";
 
 const GraficaPasoDes = () => {
   const date = new Date();
@@ -154,7 +155,7 @@ const Success = ({ data, year, month, idEmpleado, quincena }) => {
   }
 
   return (
-    <div>
+    <div id="render">
       <div>
         <table className="mt-4 mx-auto">
           <thead>
@@ -267,6 +268,9 @@ const Success = ({ data, year, month, idEmpleado, quincena }) => {
           </div>
         </div>
       )}
+      <div>
+        <PdfGraficas year={year} mes={month} idempleado={idEmpleado} />
+      </div>
     </div>
   );
 };
