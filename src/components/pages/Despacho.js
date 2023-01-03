@@ -32,6 +32,16 @@ function Despacho() {
             icon="stapler"
             text="Recursos despachador"
           />
+          <Card
+            url="recurso-despachador"
+            icon="stapler"
+            text="Recursos despachador"
+          />
+          <Card
+            url="salida-no-conforme"
+            icon="thumbs-down"
+            text="Salidas no conformes"
+          />
         </div>
       </div>
       <div className="text-center m-auto">
@@ -64,8 +74,13 @@ function Despacho() {
           />
           <Card
             url="recurso-despachador-reporte"
-            icon="chart-simple"
+            icon="chart-line"
             text="Recursos despachador"
+          />
+          <Card
+            url="salida-no-conforme-files"
+            icon="file-pdf"
+            text="Salidas no conformes"
           />
         </div>
       </div>
