@@ -9,7 +9,7 @@ import {
 } from "chart.js";
 import { Bar } from "react-chartjs-2";
 
-function Grafica({ datos, text }) {
+function Grafica({ datos, text, y, legend }) {
   //configuraciones de grafica de barra
   ChartJS.register(
     CategoryScale,
@@ -24,6 +24,7 @@ function Grafica({ datos, text }) {
     animation: false,
     plugins: {
       legend: {
+        display: legend,
         position: "right",
         scale: "",
         CategoryScale: "3",
@@ -38,6 +39,15 @@ function Grafica({ datos, text }) {
     },
   };
 
+  if (y) {
+    options.scales = {
+      y: {
+        min: y[0],
+        max: y[1],
+      },
+    };
+  }
+
   const background = [
     "rgba(5,64,237,1)",
     "rgba(237,50,5,1)",
@@ -51,16 +61,19 @@ function Grafica({ datos, text }) {
     datasets: datos.dataset,
   };
 
-  data.datasets = data.datasets.map((el, i) => ({
-    ...el,
-    backgroundColor: background[i],
-  }));
+  if (!datos.dataset[0].hasOwnProperty("backgroundColor")) {
+    data.datasets = data.datasets.map((el, i) => ({
+      ...el,
+      backgroundColor: background[i],
+    }));
+  }
 
   return <Bar options={options} data={data} className=" m-4" />;
 }
 
 Grafica.defaultProps = {
   text: "Gráfica",
+  legend: true,
 };
 
 export default Grafica;

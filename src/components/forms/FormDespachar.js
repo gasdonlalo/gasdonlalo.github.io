@@ -17,6 +17,7 @@ function FormDespachar() {
   const pasosEv = useGetData("/pasos-despachar/get-pasos");
 
   const handle = (e) => {
+    console.log({ [e.target.name]: e.target.value });
     setBody({ ...body, [e.target.name]: e.target.value });
   };
 
@@ -67,7 +68,12 @@ function FormDespachar() {
         <HeaderForm />
         <div className="col-md-6">
           <label className="form-label">Fecha</label>
-          <InputFecha handle={handle} data={body} setData={setBody} />
+          <InputFecha
+            handle={handle}
+            data={body}
+            setData={setBody}
+            name="fecha"
+          />
         </div>
         <div className="col-md-6">
           <label className="form-label">Selecciona el empleado</label>

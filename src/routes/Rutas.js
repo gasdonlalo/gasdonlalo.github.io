@@ -10,6 +10,8 @@ import EvalUniforme from "../components/pages/despacho/EvalUniforme";
 import RecolEfect from "../components/pages/despacho/RecolEfect";
 import Pasosdespachar from "../components/pages/despacho/Pasosdespachar";
 import RecursosDesp from "../components/pages/despacho/RecursosDesp";
+import SalidaNoConforme from "../components/pages/salidaNoConforme/SalidaNoConforme";
+import SNR from "../components/pages/salidaNoConforme/SalidasNoConformesReportes";
 //importacion de graficos despacho
 import GMF from "../components/pages/despacho/reporteria/GraficaMontofaltante";
 import CCB from "../components/pages/despacho/reporteria/GraficaChecklist";
@@ -28,6 +30,7 @@ function Rutas() {
           <Route path="home" element={<Home />} />
           <Route path="*" element={<Notfound />} />
         </Route>
+        <Route path="salida-no-conforme-reportes" />
         <Route path="/despacho" element={<Layout />}>
           <Route index element={<Despacho />} />;
           <Route path="montos-faltantes" element={<MontoFaltante />} />;
@@ -42,7 +45,8 @@ function Rutas() {
           <Route path="pasos-despachar-reporte" element={<GPD />} />;
           <Route path="recurso-despachador" element={<RecursosDesp />} />;
           <Route path="recurso-despachador-reporte" element={<GRD />} />
-          ;
+          <Route path="salida-no-conforme" element={<SalidaNoConforme />} />
+          <Route path="salida-no-conforme-files" element={<SNR />} />;
           <Route path="*" element={<Notfound />} />
         </Route>
       </Routes>
