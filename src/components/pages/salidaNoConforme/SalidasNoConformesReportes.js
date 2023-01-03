@@ -38,13 +38,13 @@ export const SalidasNoConformesReportes = () => {
         <div style={{ width: "min-content" }} className="me-3">
           <div
             className="rounded p-2 btn-select m-1 d-flex flex-column align-items-center"
-            onClick={() => navigate("/salida-no-conforme-reportes")}
+            onClick={() => navigate("/salida-no-conforme-reporte-mensual")}
           >
             <i
               className="fa-regular fa-chart-simple text-info"
               style={{ fontSize: "50px" }}
             ></i>
-            <p className="p-0 m-0">Reportes</p>
+            <p className="p-0 m-0 text-nowrap">Reportes mensuales</p>
           </div>
         </div>
       </div>
