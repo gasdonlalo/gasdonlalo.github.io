@@ -7,7 +7,7 @@ const InputFecha = ({ handle, name, data, setData }) => {
       .toISOString()
       .split("T")[0]; //Obtiene la fecha actual
     inputFecha.current.value = hoy;
-    setData({ ...data, fecha: hoy });
+    setData({ ...data, [name]: hoy });
   };
   return (
     <div className="input-group">
