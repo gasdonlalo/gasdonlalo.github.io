@@ -34,6 +34,8 @@ function NombreGrafica() {
     nombre = nombre + " MENSUAL INCUMPLIMIENTOS DE RECOLECCION DE EFECTIVO";
   } else if (location.match("recurso")) {
     nombre = nombre + " MENSUAL DE REGISTRO DE RECURSOS DE DESPACHADOR";
+  } else if (location.match("pasos")) {
+    nombre = nombre + " ANALISIS DE EVALUACION PASOS PARA DESPACHARGIT";
   }
   return nombre;
 }
