@@ -5,3 +5,4 @@ export default function SolicitudesEmpleo() {
     <div>SolicitudesEmpleo</div>
   )
 }
+

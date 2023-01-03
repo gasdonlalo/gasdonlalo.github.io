@@ -33,11 +33,6 @@ function Despacho() {
             text="Recursos despachador"
           />
           <Card
-            url="recurso-despachador"
-            icon="stapler"
-            text="Recursos despachador"
-          />
-          <Card
             url="salida-no-conforme"
             icon="thumbs-down"
             text="Salidas no conformes"
@@ -84,7 +79,7 @@ function Despacho() {
           />
         </div>
       </div>
-    </div>
+    </div>  
   );
 }
 

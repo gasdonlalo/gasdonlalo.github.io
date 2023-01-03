@@ -19,6 +19,9 @@ import GEU from "../components/pages/despacho/reporteria/GraficaEvUnifome";
 import DRE from "../components/pages/despacho/reporteria/GraficaRecolEfectivo";
 import GPD from "../components/pages/despacho/reporteria/GraficaPasoDes";
 import GRD from "../components/pages/despacho/reporteria/GraficaRecursosDes";
+//importaciones recursos humanos
+import RecursosHumanos from "../components/pages/RecursosHumanos";
+import SolicitudesEmpleo from "../components/pages/RecursosHumanos/SolicitudesEmpleo";
 
 function Rutas() {
   return (
@@ -48,6 +51,11 @@ function Rutas() {
           <Route path="salida-no-conforme" element={<SalidaNoConforme />} />
           <Route path="salida-no-conforme-files" element={<SNR />} />;
           <Route path="*" element={<Notfound />} />
+        </Route>
+
+        <Route path="/recursos-humanos" element={<Layout />}>
+        <Route index element={<RecursosHumanos/> } />;
+          <Route path="recusos-humanos" element={<SolicitudesEmpleo />} />
         </Route>
       </Routes>
       {/* <Routes>

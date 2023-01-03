@@ -44,7 +44,7 @@ function Home() {
       </div>
 
       <div className="card text-center" style={{ width: "18rem" }}>
-        <Link to="/RecursosHumanos">
+        <Link to="/recursos-humanos">
           <i className="bi bi-people" style={{ fontSize: "72pt" }}></i>
         </Link>
         <div className="card-body">
