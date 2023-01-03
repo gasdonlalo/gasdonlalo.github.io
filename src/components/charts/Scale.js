@@ -21,7 +21,7 @@ ChartJS.register(
   Legend
 );
 
-const Scale = ({ data, y }) => {
+const Scale = ({ data, y, legend }) => {
   const datos = {
     labels: data.labels,
     datasets: data.datasets,
@@ -42,6 +42,7 @@ const Scale = ({ data, y }) => {
 
 Scale.defaultProps = {
   y: [0, 30],
+  legend: true,
 };
 
 export default Scale;
