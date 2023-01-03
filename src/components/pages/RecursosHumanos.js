@@ -3,12 +3,12 @@ import { useNavigate } from "react-router-dom";
 function RecursosHumanos() {
   return (
     <div className="d-flex gap-3 justify-content-evenly">
-      <div className="m-auto text-center mt-3 border-end">
+      <div className="m-auto text-center mt-3 border-end w-50">
         <h3>Captura de documentos</h3>
 
-        <div className="w-100 d-flex justify-content-evenly flex-wrap mt-5">
+        <div className="d-flex justify-content-evenly flex-wrap mt-5">
           <Card
-            url="solicitudes-empleo"
+            url="captura-solicitud"
             icon="address-book"
             text="Solicitudes de empleo"
           />
@@ -42,11 +42,16 @@ function RecursosHumanos() {
             icon="fa-thin fa-hand-holding-hand"
             text="Entrega de recursos"
           />
+          <Card
+            url="pago-recursos"
+            icon="fa-thin fa-circle-dollar-to-slot"
+            text="Compromiso de pago de recursos"
+          />
         </div>
       </div>
-      <div className="text-centter m-auto">
+      <div className="mt-3 text-center m-auto w-50">
         <h3>Reportes</h3>
-        <div className="d-flex justify-content=evenly fow wrap mt-5">
+        <div className="d-flex justify-content-evenly wrap mt-5">
           <Card
             url="grafica-mensual"
             icon="chart-simple"
