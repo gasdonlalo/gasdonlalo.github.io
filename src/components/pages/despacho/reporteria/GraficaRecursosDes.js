@@ -1,7 +1,7 @@
 import { Fragment, useState } from "react";
 import { Link } from "react-router-dom";
 import useGetData from "../../../../hooks/useGetData";
-import InputSelectEmpleado from "../../../forms/InputSelectEmpleado";
+//import InputSelectEmpleado from "../../../forms/InputSelectEmpleado";
 import InputChangeYear from "../../../forms/InputChangeYear";
 import InputChangeMes from "../../../forms/InputChangeMes";
 import Loader from "../../../assets/Loader";
@@ -14,7 +14,7 @@ const GraficaRecursosDes = () => {
   const [year, setYear] = useState(date.getFullYear());
   const [month, setMonth] = useState(date.getMonth() + 1);
   const [quincena, setQuincena] = useState(1);
-  const despachador = useGetData("/empleado?departamento=1");
+  //const despachador = useGetData("/empleado?departamento=1");
   const recursos = useGetData(
     `/lista-recurso-despachador/empleados/${year}/${month}/${quincena}`
   );
@@ -51,7 +51,12 @@ const GraficaRecursosDes = () => {
         </div>
       </div>
       {!recursos.error && !recursos.isPending && (
-        <Success recursos={recursos.data.response} />
+        <Success
+          recursos={recursos.data.response}
+          year={year}
+          month={month}
+          quincena={quincena}
+        />
       )}
       {recursos.error && !recursos.isPending && (
         <div className="mt-5">
@@ -63,7 +68,7 @@ const GraficaRecursosDes = () => {
   );
 };
 
-const Success = ({ recursos }) => {
+const Success = ({ recursos, year, month, quincena }) => {
   const table = recursos.filter((re) => re.recursos.length > 0);
 
   const tableTotalPuntos = recursos.map((el) => {
@@ -120,7 +125,7 @@ const Success = ({ recursos }) => {
                   </th>
                   {table[0].recursos.map((el) => (
                     <th key={el.idrecurso_despachador} className="border">
-                      <div style={{ width: "80px", fontSize: "10pt" }}>
+                      <div style={{ width: "85px", fontSize: "10pt" }}>
                         {el.recurso}
                       </div>
                     </th>
@@ -148,6 +153,7 @@ const Success = ({ recursos }) => {
               </tbody>
             </table>
           </div>
+        ) : (
           <div style={{ flexGrow: "1" }}>
             <Scale data={dataScale} y={[0, 20]}></Scale>
           </div>
@@ -186,7 +192,12 @@ const Success = ({ recursos }) => {
         )}
       </div>
       <div>
-        <PdfGraficas tabla={"tabla"} />
+        <PdfGraficas
+          tabla={"tabla"}
+          year={year}
+          mes={month}
+          quincena={quincena}
+        />
       </div>
     </Fragment>
   );
