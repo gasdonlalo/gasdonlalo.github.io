@@ -9,8 +9,12 @@ function Header() {
         width="200px"
         alt="Gasolineria Don Lalo"
       />
-      <Link type="button" className="btn btn-primary me-2" to="/">
-        Home
+      <Link
+        type="button"
+        className="btn btn-primary me-2 rounded-circle"
+        to="/"
+      >
+        <i className="bi bi-house" style={{ fontSize: "15pt" }} />
       </Link>
     </div>
   );
