@@ -19,6 +19,7 @@ import GEU from "../components/pages/despacho/reporteria/GraficaEvUnifome";
 import DRE from "../components/pages/despacho/reporteria/GraficaRecolEfectivo";
 import GPD from "../components/pages/despacho/reporteria/GraficaPasoDes";
 import GRD from "../components/pages/despacho/reporteria/GraficaRecursosDes";
+import GMSN from "../components/pages/salidaNoConforme/SalidaNoConformeGraficaMensual";
 
 function Rutas() {
   return (
@@ -30,7 +31,10 @@ function Rutas() {
           <Route path="home" element={<Home />} />
           <Route path="*" element={<Notfound />} />
         </Route>
-        <Route path="salida-no-conforme-reportes" />
+        <Route element={<Layout />}>
+          <Route path="salida-no-conforme-reportes" />
+          <Route path="salida-no-conforme-reporte-mensual" element={<GMSN />} />
+        </Route>
         <Route path="/despacho" element={<Layout />}>
           <Route index element={<Despacho />} />;
           <Route path="montos-faltantes" element={<MontoFaltante />} />;
@@ -46,7 +50,7 @@ function Rutas() {
           <Route path="recurso-despachador" element={<RecursosDesp />} />;
           <Route path="recurso-despachador-reporte" element={<GRD />} />
           <Route path="salida-no-conforme" element={<SalidaNoConforme />} />
-          <Route path="salida-no-conforme-files" element={<SNR />} />;
+          <Route path="salida-no-conforme-files" element={<SNR />} />; ;
           <Route path="*" element={<Notfound />} />
         </Route>
       </Routes>
