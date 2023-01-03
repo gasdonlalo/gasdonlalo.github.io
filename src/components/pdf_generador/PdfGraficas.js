@@ -164,44 +164,51 @@ function PdfGraficas({ year, mes, tabla, idempleado, quincena }) {
                 <Image src={pemex} style={{ width: "80px" }}></Image>
               </View>
               {/* Termina encabezado */}
-              <View
-                style={{
-                  display: "flex",
-                  flexDirection: "row",
-                  fontSize: "12pt",
-                  fontFamily: "calibri",
-                }}
-              >
+              {!year && !mes ? (
+                false
+              ) : (
                 <View
                   style={{
-                    left: "50%",
-                    height: "5%",
                     display: "flex",
                     flexDirection: "row",
-                    alignItems: "center",
-                    justifyContent: "flex-end",
+                    fontSize: "12pt",
+                    fontFamily: "calibri",
+                    marginRight: "94px",
                   }}
                 >
-                  <Text>Mes:</Text>
-                  <Text style={styles.textoBorde}>
-                    {format.formatTextoMayusPrimeraLetra(meses[mes - 1])}
-                  </Text>
-                </View>
+                  <View
+                    style={{
+                      left: "50%",
+                      height: "5%",
+                      display: "flex",
+                      flexDirection: "row",
+                      alignItems: "center",
+                      justifyContent: "flex-end",
+                    }}
+                  >
+                    <Text>Mes:</Text>
+                    <Text style={styles.textoBorde}>
+                      {!mes
+                        ? false
+                        : format.formatTextoMayusPrimeraLetra(meses[mes - 1])}
+                    </Text>
+                  </View>
 
-                <View
-                  style={{
-                    left: "60%",
-                    height: "5%",
-                    display: "flex",
-                    flexDirection: "row",
-                    alignItems: "center",
-                    justifyContent: "flex-end",
-                  }}
-                >
-                  <Text>Año:</Text>
-                  <Text style={styles.textoBorde}>{year}</Text>
+                  <View
+                    style={{
+                      left: "60%",
+                      height: "5%",
+                      display: "flex",
+                      flexDirection: "row",
+                      alignItems: "center",
+                      justifyContent: "flex-end",
+                    }}
+                  >
+                    <Text>Año:</Text>
+                    <Text style={styles.textoBorde}>{year}</Text>
+                  </View>
                 </View>
-              </View>
+              )}
               {/* Nombre de empleado  */}
               {!idempleado ? (
                 false
