@@ -13,14 +13,13 @@ function FormChecklist() {
   const [bomba, setBomba] = useState(null);
   const [estacionS, setEstacionS] = useState(null);
   const [modalSuccess, setModalSuccess] = useState(false);
-  const [modalError, setModalError] = useState(false);
+  const [modalError, setModalError] = useState({ status: false, msg: "" });
   const [formPending, setFormPending] = useState(false);
   const [body, setBody] = useState({
     islaLimpia: 1,
     aceitesCompletos: 1,
     turno: "Mañana",
   });
-  const [showMEm, setShowMEm] = useState(false);
 
   const estacion = useGetData("/estaciones-servicio");
   const bombas = useGetData(`/bomba/${bomba}`);
@@ -32,28 +31,11 @@ function FormChecklist() {
     setBomba(Number(e.target.value));
   };
 
-  const selectSaliente = useRef();
-
-  const handle = (e) => {
-    setBody({ ...body, [e.target.name]: e.target.value });
-    console.log(e.target.name, e.target.value);
-  };
-
-  const selectEmpleado = (data) => {
-    console.log(data);
-    setBody({ ...body, idempleadoSaliente: Number(data.id) });
-    const option = document.createElement("option");
-    option.value = Number(data.id);
-    option.textContent = `Empleado Seleccionado`;
-    selectSaliente.current.appendChild(option);
-    selectSaliente.current.value = data.id;
-    selectSaliente.current.disabled = true;
-  };
+  const handle = (e) => setBody({ ...body, [e.target.name]: e.target.value });
 
   const closeModal = () => {
-    setModalError(false);
+    setModalError({ status: false, msg: "" });
     setModalSuccess(false);
-    setShowMEm(false);
   };
 
   const enviar = async (e) => {
@@ -68,15 +50,27 @@ function FormChecklist() {
       setBody({ islaLimpia: 1, aceitesCompletos: 1, turno: "Mañana" });
       e.target.reset();
     } catch (err) {
+      console.log(err);
+      if (err.hasOwnProperty("response")) {
+        setModalError({
+          status: true,
+          msg: err.response.data.msg,
+        });
+      } else {
+        setModalError({ status: true, msg: err.code });
+      }
       setFormPending(false);
-      setModalError(true);
     }
   };
 
   return (
     <div className="container">
       <ModalSuccess show={modalSuccess} close={closeModal} />
-      <ModalError show={modalError} close={closeModal} />
+      <ModalError
+        show={modalError.status}
+        close={closeModal}
+        text={modalError.msg}
+      />
       <form
         className="row m-auto shadow rounded p-3 mt-3"
         style={{ width: "800px" }}
@@ -92,7 +86,6 @@ function FormChecklist() {
             name="fecha"
           />
         </div>
-
         <div className="col-md-6">
           <label className="form-label">Escoje la estacion de servicio</label>
           <select
@@ -164,7 +157,6 @@ function FormChecklist() {
               ))}
           </select>
         </div>
-
         <div className="col-md-6  text-center ">
           <label className="form-label">Isla limpia</label>
           <div className="w-100 d-flex justify-content-evenly">
@@ -191,7 +183,6 @@ function FormChecklist() {
             </label>
           </div>
         </div>
-
         <div className="col-md-6  text-center ">
           <label className="form-label">Aceites completos</label>
           <div className="w-100 d-flex justify-content-evenly">
@@ -218,7 +209,6 @@ function FormChecklist() {
             </label>
           </div>
         </div>
-
         <div className="col-md-6">
           <label className="form-label">Empleado Entrante</label>
           {!despachador.error && !despachador.isPending && (
@@ -229,48 +219,68 @@ function FormChecklist() {
             />
           )}
         </div>
-
-        <div className="col-md-6">
-          <label className="form-label">Empleado Saliente</label>
-          <div className="input-group">
-            <select
-              name="idempleadoSaliente"
-              className="form-select"
-              onChange={handle}
-              ref={selectSaliente}
-            >
-              <option value="">-- Escoge empleado -- </option>
-              {!despachador.error &&
-                !despachador.isPending &&
-                despachador.data.response.map((el) => (
-                  <option value={el.idempleado} key={el.idempleado}>
-                    {el.nombre} {el.apellido_paterno} {el.apellido_materno}
-                  </option>
-                ))}
-              {despachador.isPending && <option value="">Cargando...</option>}
-            </select>
-            <span
-              className="input-group-text"
-              role="button"
-              onClick={() => setShowMEm(true)}
-            >
-              empleados
-            </span>
-          </div>
-        </div>
-
+        <InputEmpleados despachador={despachador} handle={handle} />
         <div className="col-md-12 mt-4">
           <button type="submit" className="btn btn-primary m-auto d-block">
             {formPending ? <Loader size="1.5" /> : "Guardar Check"}
           </button>
         </div>
       </form>
+    </div>
+  );
+}
+
+const InputEmpleados = ({ despachador, handle }) => {
+  const [showMEm, setShowMEm] = useState(false);
+  const [options, setOptions] = useState(null);
+  const selectSaliente = useRef();
+
+  const closeModal = () => setShowMEm(false);
+
+  const selectEmpleado = (data) => setOptions([data]);
+
+  return (
+    <>
+      <div className="col-md-6">
+        <label className="form-label">Empleado Saliente</label>
+        <div className="input-group">
+          <select
+            name="idempleadoSaliente"
+            className="form-select"
+            onChange={handle}
+            ref={selectSaliente}
+          >
+            <option value="">-- Escoge empleado -- </option>
+            {options
+              ? options.map((el) => (
+                  <option value={el.idempleado} key={el.idempleado}>
+                    {el.nombre} {el.apellido_paterno} {el.apellido_materno}
+                  </option>
+                ))
+              : !despachador.error &&
+                !despachador.isPending &&
+                despachador.data.response.map((el) => (
+                  <option value={el.idempleado} key={el.idempleado}>
+                    {el.nombre} {el.apellido_paterno} {el.apellido_materno}
+                  </option>
+                ))}
+            {despachador.isPending && <option value="">Cargando...</option>}
+          </select>
+          <span
+            className="input-group-text"
+            role="button"
+            onClick={() => setShowMEm(true)}
+          >
+            empleados
+          </span>
+        </div>
+      </div>
       <ModalEmpleados
         show={showMEm}
         close={closeModal}
         setEmpleado={selectEmpleado}
       />
-    </div>
+    </>
   );
-}
+};
 export default FormChecklist;

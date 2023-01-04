@@ -36,7 +36,11 @@ const format = {
   formatFechaComplete: (date) =>
     new Intl.DateTimeFormat("es-MX", {
       dateStyle: "short",
-    }).format(new Date(date)),
+    }).format(
+      new Date(
+        new Date(date).getTime() + new Date().getTimezoneOffset() * 60000
+      )
+    ),
 };
 
 export default format;

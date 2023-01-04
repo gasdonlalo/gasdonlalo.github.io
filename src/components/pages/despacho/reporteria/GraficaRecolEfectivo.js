@@ -54,6 +54,7 @@ const GraficaRecolEfectivo = () => {
 };
 
 const Success = ({ data }) => {
+  console.log(data);
   return (
     <Fragment>
       <div>
@@ -103,7 +104,9 @@ const TableTotal = ({ data }) => {
     labels: data.map((el) => el.empleado.nombre_completo.split(" ")),
     dataset: [
       {
-        data: data.map((el) => el.empleado.total_de_recolecciones),
+        data: data.map(
+          (el) => el.dataFecha.filter((el) => el.total_cantidad).length
+        ),
         label: "Total de recolecciones",
       },
     ],
@@ -133,7 +136,7 @@ const TableTotal = ({ data }) => {
               <tr key={el.empleado.idempleado}>
                 <td className="p-0 ps-1">{el.empleado.nombre_completo}</td>
                 <td className=" text-center p-0">
-                  {el.empleado.total_de_recolecciones}
+                  {el.dataFecha.filter((el) => el.total_cantidad).length}
                 </td>
               </tr>
             ))}
@@ -141,7 +144,11 @@ const TableTotal = ({ data }) => {
         </table>
       </div>
       <div className="w-75 m-auto">
-        <Bar datos={dataBar} text="Recolecciones de efectivo al mes" />
+        <Bar
+          datos={dataBar}
+          text="Recolecciones de efectivo al mes"
+          legend={false}
+        />
       </div>
     </div>
   );

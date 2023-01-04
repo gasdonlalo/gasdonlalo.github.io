@@ -37,9 +37,6 @@ const SalidaNoConformeGraficaMensual = () => {
         </div>
         {!sn.error && !sn.isPending && <Success data={sn.data.response} />}
         {sn.isPending && <Loader />}
-        {!sn.error && !sn.isPending && (
-          <Success data={sn.data.response} year={year} month={month} />
-        )}
       </div>
     </div>
   );

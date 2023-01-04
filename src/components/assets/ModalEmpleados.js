@@ -7,27 +7,23 @@ const ModalEmpleados = ({ show, close, setEmpleado }) => {
   const dep = useGetData("/departamento");
   const emp = useGetData(`/empleado?departamento=${departamento}`);
 
+  let empleadoSelect = {};
+
   const enviar = (e) => {
     e.preventDefault();
-    setEmpleado({
-      id: e.target.empleado.value,
-      data: emp.data.response.find(
-        (el) => (el.idempleado = Number(e.target.empleado.value))
-      ),
-    });
+    setEmpleado(empleadoSelect);
     close();
+    setDepartamento(null);
   };
 
   const handleDepartamento = (e) => setDepartamento(e.target.value);
-  /* 
-  const handleEmpleado = (e) => {
-    setEmpleado({
-      id: e.target.value,
-      data: emp.data.response.find(
-        (el) => (el.idempleado = Number(e.target.value))
-      ),
-    });
-  }; */
+
+  const handleEmpleados = (e) => {
+    const findEmpleado = emp.data.response.find(
+      (emp) => (emp.idempleado = e.target.value)
+    );
+    empleadoSelect = findEmpleado;
+  };
 
   return (
     <Modal show={show} onHide={close} centered>
@@ -36,11 +32,11 @@ const ModalEmpleados = ({ show, close, setEmpleado }) => {
       </Modal.Header>
       <Modal.Body>
         <div>
-          <form onSubmit={enviar}>
+          <form>
             <div>
               <label className="form-label">Selecciona el departamento</label>
               <select onChange={handleDepartamento} className="form-select">
-                <option value="">--</option>
+                <option value="">-- departamentos --</option>
                 {!dep.error &&
                   !dep.isPending &&
                   dep.data.response.map((el) => (
@@ -55,10 +51,14 @@ const ModalEmpleados = ({ show, close, setEmpleado }) => {
               <>
                 <div>
                   <label className="form-label">Selecciona empleado</label>
-                  <select className="form-select" name="empleado">
+                  <select
+                    className="form-select"
+                    name="empleado"
+                    onChange={handleEmpleados}
+                  >
                     <option value="">--</option>
-                    {emp.data.response.map((el) => (
-                      <option value={el.idempleado} key={el.idempleado}>
+                    {emp.data.response.map((el, i) => (
+                      <option value={el.idempleado} key={i}>
                         {el.nombre} {el.apellido_paterno} {el.apellido_materno}
                       </option>
                     ))}
@@ -66,9 +66,10 @@ const ModalEmpleados = ({ show, close, setEmpleado }) => {
                 </div>
                 <div className="w-100">
                   <input
-                    type="submit"
+                    type="button"
                     value="Escoger"
                     className="btn btn-primary mx-auto mt-2"
+                    onClick={enviar}
                   />
                 </div>
               </>

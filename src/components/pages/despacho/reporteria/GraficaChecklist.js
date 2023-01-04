@@ -40,7 +40,12 @@ function GraficaChecklist() {
         </div>
       </div>
       {!checkBomba.error && !checkBomba.isPending && (
-        <Success data={checkBomba.data.response} year={year} month={month} />
+        <Success
+          data={checkBomba.data.response}
+          year={year}
+          month={month}
+          navigate={navigate}
+        />
       )}
       {checkBomba.isPending && <Loader />}
       <div className="d-flex justify-content-center">
@@ -59,15 +64,37 @@ function GraficaChecklist() {
   );
 }
 
-const Success = ({ data, year, month }) => {
-  const validarInserciones = (el) => {
+const Success = ({ data, year, month, navigate }) => {
+  const validarInserciones = (el, da) => {
     if (el.cumple) {
-      return <span className="text-success m-0 p-0 fw-bold">1</span>;
+      return (
+        <span
+          className="text-success m-0 p-0 fw-bold"
+          onClick={() =>
+            navigate(`/despacho/checklist/${da.idempleado}/${da.fechaGenerada}`)
+          }
+          role="button"
+        >
+          1
+        </span>
+      );
     } else {
       if (!el.fecha_db) {
         return null;
       } else {
-        return <span className="text-danger m-0 p-0 fw-bold">0</span>;
+        return (
+          <span
+            className="text-danger m-0 p-0 fw-bold"
+            onClick={() =>
+              navigate(
+                `/despacho/checklist/${da.idempleado}/${da.fechaGenerada}`
+              )
+            }
+            role="button"
+          >
+            0
+          </span>
+        );
       }
     }
   };
@@ -125,7 +152,9 @@ const Success = ({ data, year, month }) => {
             <tr key={i}>
               <td>{el.nombre_completo}</td>
               {data.map((da, j) => (
-                <td key={i + j}>{validarInserciones(da.data[i])}</td>
+                <td key={i + j}>
+                  {validarInserciones(da.data[i], da.data[i])}
+                </td>
               ))}
             </tr>
           ))}

@@ -6,6 +6,7 @@ import Home from "../components/pages/home/Home";
 import Despacho from "../components/pages/Despacho";
 import MontoFaltante from "../components/pages/despacho/MontoFaltante";
 import ChecklistBomba from "../components/pages/despacho/ChecklistBomba";
+import CheckBombaInfo from "../components/pages/despacho/ChecklistBombaDetalle";
 import EvalUniforme from "../components/pages/despacho/EvalUniforme";
 import RecolEfect from "../components/pages/despacho/RecolEfect";
 import Pasosdespachar from "../components/pages/despacho/Pasosdespachar";
@@ -23,7 +24,7 @@ import GMSN from "../components/pages/salidaNoConforme/SalidaNoConformeGraficaMe
 import GSNI from "../components/pages/salidaNoConforme/SalidaInconformidadesGrafica";
 //importaciones recursos humanos
 import SolicitudesEmpleo from "../components/pages/RecursosHumanos/SolicitudesEmpleo";
-//
+//importaciones de calidad
 import Ordtrabajo from "../components/pages/calidad/Ordtrabajo";
 import Calidad from "../components/pages/Calidad";
 
@@ -47,6 +48,7 @@ function Rutas() {
           <Route path="montos-faltantes" element={<MontoFaltante />} />;
           <Route path="montos-faltantes-reporte" element={<GMF />} />;
           <Route path="checklist" element={<ChecklistBomba />} />;
+          <Route path="checklist/:idE/:fecha" element={<CheckBombaInfo />} />;
           <Route path="checklist-reporte" element={<CCB />} />;
           <Route path="evaluacion-uniforme" element={<EvalUniforme />} />;
           <Route path="evaluacion-uniforme-reporte" element={<GEU />} />;
