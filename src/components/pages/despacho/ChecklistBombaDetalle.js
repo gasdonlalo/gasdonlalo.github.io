@@ -1,98 +1,102 @@
-import { useState } from "react";
-import { Link } from "@react-pdf/renderer";
-import InputChangeMes from "../../forms/InputChangeMes";
-import InputChangeYear from "../../forms/InputChangeYear";
+import { useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 import useGetData from "../../../hooks/useGetData";
-import Loader from "../../assets/Loader";
 import format from "../../assets/format";
-import Scale from "../../charts/Scale";
+import Loader from "../../assets/Loader";
+import gdl from "../../assets/img/GDL.png";
 
 const ChecklistBombaDetalle = () => {
-  const date = new Date();
-  const [year, setYear] = useState(date.getFullYear());
-  const [month, setMonth] = useState(date.getMonth() + 1);
-  const totalChkB = useGetData(`/bomba-check/total/${year}/${month}`);
-
-  const handleYear = (e) => {
-    setYear(e.target.value);
-  };
-
-  const handleMonth = (e) => {
-    setMonth(e.target.value);
-  };
+  const { idE, fecha } = useParams();
+  const { data, error, isPending } = useGetData(
+    `/bomba-check/findCheck/${idE}/${fecha}`
+  );
 
   return (
     <div className="Main">
-      <Link className="link-primary" to="/despacho">
-        Volver al despacho
+      <Link className="link-primary" to="/despacho/checklist-reporte">
+        Volver a reportes checklist de bombas
       </Link>
-      <h3 className="border-bottom">
-        Total de checklist de bomba por empleado
-      </h3>
-      <div className="row w-75 mx-auto">
-        <div className="col-md-6">
-          <InputChangeMes defaultMes={month} handle={handleMonth} />
+      <h3 className="border-bottom">Detalle del check</h3>
+      {isPending && (
+        <div className="mt-5">
+          <Loader />
         </div>
-        <div className="col-md-6">
-          <InputChangeYear defaultYear={year} handle={handleYear} />
-        </div>
-      </div>
-      {!totalChkB.error && !totalChkB.isPending && (
-        <Success data={totalChkB.data.response} />
       )}
-      {totalChkB.isPending && <Loader />}
-    </div>
-  );
-};
+      {!isPending && !error && (
+        <div>
+          <div className="m-auto" style={{ width: "min-content" }}>
+            <p className="text-nowrap">
+              <span className="fw-bold">Empleado: </span>
+              <span className="fw-semibold">
+                {format.formatTextoMayusPrimeraLetra(
+                  data.response[0].nombre_completo_entrante
+                )}{" "}
+              </span>
+            </p>
+          </div>
 
-const Success = ({ data }) => {
-  const dataScale = {
-    labels: data.map((el) => el.nombre_completo),
-    datasets: [
-      {
-        label: "Empleados",
-        data: data.map((el) => el.total_checklist),
-        borderColor: "rgb(255, 99, 132)",
-        backgroundColor: "rgba(255, 99, 132, 0.5)",
-      },
-      {
-        label: "Minimo",
-        data: data.map((el) => 28),
-        borderColor: "rgb(53, 162, 235)",
-        backgroundColor: "rgba(53, 162, 235, 0.5)",
-      },
-    ],
-  };
-
-  return (
-    <div className="mt-4">
-      <div className="d-flex ">
-        <table className="table table-bordered" style={{ width: "500px" }}>
-          <thead>
-            <tr>
-              <th>Nombre del Despachador</th>
-              <th>Total</th>
-              <th>Limite Minimo</th>
-            </tr>
-          </thead>
-          <tbody>
-            {data.map((el) => (
-              <tr key={el.idempleado}>
-                <td className="p-0 ps-1">
-                  {format.formatTextoMayusPrimeraLetra(el.nombre_completo)}
-                </td>
-                <td className="p-0 text-center">{el.total_checklist}</td>
-                <td className="p-0 text-center">28</td>
+          <table className="m-auto">
+            <thead>
+              <tr>
+                <th className="border px-2 text-center">Estación</th>
+                <th className="border px-2 text-center">Bomba</th>
+                <th className="border px-2 text-center">Turno</th>
+                <th className="border px-2 text-center">Fecha</th>
+                <th className="border px-2 text-center">Aceites completos</th>
+                <th className="border px-2 text-center">Isla limpia</th>
+                <th className="border px-2 text-center">Empleado saliente</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
-        <div style={{ maxWidth: "max-content" }}>
-          <Scale data={dataScale}></Scale>
+            </thead>
+            <tbody>
+              {data.response.map((el) => (
+                <tr key={el.idchecklist_bomba}>
+                  <td className="border text-center px-2">
+                    {el.estacion_servicio}
+                  </td>
+                  <td className="border text-center px-2">{el.bomba}</td>
+                  <td className="border text-center px-2">{el.turno}</td>
+                  <td className="border text-center px-2">
+                    {format.formatFechaComplete(el.fecha)}
+                  </td>
+                  <td className="border text-center px-2">
+                    {el.aceites_completos ? (
+                      <span className="text-success fw-semibold">Cumple</span>
+                    ) : (
+                      <span className="text-danger fw-semibold">No cumple</span>
+                    )}
+                  </td>
+                  <td className="border text-center px-2">
+                    {el.isla_limpia ? (
+                      <span className="text-success fw-semibold">Cumple</span>
+                    ) : (
+                      <span className="text-danger fw-semibold">No cumple</span>
+                    )}
+                  </td>
+                  <td className="border text-center px-2">
+                    {format.formatTextoMayusPrimeraLetra(
+                      el.nombre_completo_saliente
+                    )}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
-      </div>
+      )}
+      {!isPending && error && (
+        <div>
+          <div>
+            <p
+              style={{ fontSize: "60px" }}
+              className="text-danger fw-bold text-center"
+            >
+              Sin resultados :(
+            </p>
+            <img src={gdl} alt="gdl" className="w-25 m-auto d-block" />
+          </div>
+        </div>
+      )}
     </div>
   );
 };
-
 export default ChecklistBombaDetalle;
