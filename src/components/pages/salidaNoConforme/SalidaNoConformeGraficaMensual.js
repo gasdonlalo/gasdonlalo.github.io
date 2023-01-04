@@ -130,7 +130,7 @@ const Success = ({ data, year, month }) => {
         </div>
       </div>
       <div>
-        <PdfGraficas year={year} mes={month} />
+        <PdfGraficas year={year} mes={month} anchografica="45%" />
       </div>
     </Fragment>
   );

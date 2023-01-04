@@ -1,5 +1,5 @@
 import gdl from "../components/assets/img/GDL.png";
-import pemex from "../components/assets/img/PEMEX.png";
+import pemex from "../components/assets/img/pemex.png";
 
 const HeaderForm = () => {
   return (
