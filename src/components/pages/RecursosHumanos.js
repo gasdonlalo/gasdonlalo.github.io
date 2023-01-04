@@ -2,7 +2,9 @@ import { useNavigate } from "react-router-dom";
 
 function RecursosHumanos() {
   return (
-    <div className="d-flex gap-3 justify-content-evenly">
+    <div className="Main">
+      <h1 className="text-center border-bottom w-100">Recursos Humanos</h1>
+      <div className="d-flex gap-3 justify-content-evenly">
       <div className="m-auto text-center mt-3 border-end w-50">
         <h3>Captura de documentos</h3>
 
@@ -61,6 +63,8 @@ function RecursosHumanos() {
         </div>
       </div>
     </div>
+    </div>
+    
   );
 }
 

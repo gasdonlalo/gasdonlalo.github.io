@@ -21,11 +21,27 @@ import GPD from "../components/pages/despacho/reporteria/GraficaPasoDes";
 import GRD from "../components/pages/despacho/reporteria/GraficaRecursosDes";
 import GMSN from "../components/pages/salidaNoConforme/SalidaNoConformeGraficaMensual";
 //importaciones recursos humanos
-import RecursosHumanos from "../components/pages/RecursosHumanos";
 import SolicitudesEmpleo from "../components/pages/RecursosHumanos/SolicitudesEmpleo";
-//importaciones Calidad
+import RecursosHumanos from "../components/pages/RecursosHumanos";
+//importaciones calidad
+import Ordtrabajo from "../components/pages/calidad/Ordtrabajo";
+import OrdenTrabajo from "../components/pages/calidad/OrdenTrabajo";
 import Calidad from "../components/pages/Calidad";
-import Ordtrabajo from "../components/pages/calidad/OrdenTrabajo";
+//importaciones seguridad
+import Seguridad from "../components/pages/Seguridad";
+
+//importaciones administrativo
+import Administrativo from "../components/pages/Administrativo";
+
+//importaciones mantenimiento
+import Mantenimiento from "../components/pages/Mantenimiento";
+
+//importaciones almacen
+import Almacen from "../components/pages/Almacen";
+
+//importaciones documentosSGC
+import DocumentosSGC from "../components/pages/DocumentosSGC";
+
 
 function Rutas() {
   return (
@@ -60,19 +76,162 @@ function Rutas() {
           <Route path="*" element={<Notfound />} />
         </Route>
 
-        {/* rutas para recursos humanos */}
+        {/* Recursos humanos */}
         <Route path="/recursos-humanos" element={<Layout />}>
-        <Route index element={<RecursosHumanos/> } />;
+          <Route index element={<RecursosHumanos/>}/>
           <Route path="captura-solicitud" element={<SolicitudesEmpleo />} />
         </Route>
-
-        {/* Rutas para calidad */}
+        
+        {/* Calidad */}
         <Route path="/calidad" element={<Layout />}>
           <Route index element={<Calidad />} />
-          <Route path="orden-trabajo" element={<Ordtrabajo/> } />
+          <Route path="orden-trabajo" element={<Ordtrabajo />} />;
+          <Route path="orden-mensual" element={<OrdenTrabajo />} />;
+        </Route>
+      
+      {/* Seguridad */}
+      <Route path="/seguridad" element={<Layout />}>
+        <Route index element={<Seguridad/>} />
+        </Route>
+        
+
+        {/* Administrativo */}
+        <Route path="/administrativo" element={<Layout />}>
+          <Route index element={<Administrativo/>}/>
         </Route>
 
-      </Routes>
+        {/* Mantenimiento */}
+        <Route path="/mantenimiento" element={<Layout />}>
+          <Route index element={<Mantenimiento/>}/>
+        </Route>
+
+        {/* Almacen */}
+        <Route path="/almacen1" element={<Layout />}>
+          <Route index element={<Almacen/>}/>
+        </Route>
+
+        {/* Documentos SGC */}
+        <Route path="/documentos-sgc" element={<Layout />}>
+          <Route index element={<DocumentosSGC/>}/>
+        </Route>
+
+        {/* Siempre debe ir abajo */}
+      </Routes> 
+
+
+      {/* <Layout>
+        <Routes>
+          <Route exact path="/" element={<Home />} />
+          <Route exact path="*" element={<Notfound />} />
+          <Route exact path="/calidad" element={<Calidad />} />
+          <Route
+            exact
+            path="/calidad/ordenes-de-trabajo/:year/:month/:idEstacion"
+            element={<OrdenTrabajo />}
+          />
+          <Route exact path="/despacho" element={<Despacho />} />
+          <Route
+            exact
+            path="/calidad/ordenes-de-trabajo/:year/:month/:idEstacion/:mantenimiento/:idMantenimiento"
+            element={<DetalleMantenimiento />}
+          />
+          <Route exact path="/calidad/Ordtrabajo" element={<Ordtrabajo />} />
+          <Route
+            exact
+            path="/calidad/DetalleMantenimiento"
+            element={<DetalleMantenimiento />}
+          />
+          <Route exact path="/despacho" element={<Despacho />} />
+          <Route
+            exact
+            path="/despacho/montos-faltantes"
+            element={<MontoFaltante />}
+          />
+          <Route
+            exact
+            path="/despacho/montos-faltantes/detalles"
+            element={<DetallesMontoFaltante />}
+          />
+          <Route
+            exact
+            path="/despacho/recoleccion-de-efectivo"
+            element={<RecolEfect />}
+          />
+          <Route
+            exact
+            path="/despacho/pasos-para-despachar"
+            element={<Pasosdespachar />}
+          />
+          <Route
+            exact
+            path="/despacho/recursos-despachador"
+            element={<RecursosDesp />}
+          />
+          <Route
+            exact
+            path="/despacho/reporteria/monto-faltante"
+            element={<GraficaMontofaltante />}
+          />
+          <Route
+            exact
+            path="/despacho/reporteria/monto-faltante/empleado"
+            element={<MontoFaltanteEmpleado />}
+          />
+          <Route
+            exact
+            path="/despacho/checklist"
+            element={<ChecklistBomba />}
+          />
+          <Route
+            exact
+            path="/despacho/evaluacion-uniforme"
+            element={<EvalUniforme />}
+          />
+          <Route
+            exact
+            path="/despacho/reporteria/registro-checklist"
+            element={<GraficaChecklist />}
+          />
+          <Route
+            exact
+            path="/despacho/reporteria/uniforme"
+            element={<GraficaEvUnifome />}
+          />
+          <Route
+            exact
+            path="/salidas-no-conformes"
+            element={<SalidaNoConforme />}
+          />
+
+          <Route exact path="/chart" element={<Chartprueba />} />
+          <Route exact path="/pdf" element={<Pdfprueba />} />
+          <Route
+            exact
+            path="/calidad/ordenes-de-trabajo/:year/:month/:idEstacion"
+            element={<OrdenTrabajo />}
+          />
+          <Route
+            exact
+            path="/calidad/ordenes-de-trabajo/:year/:month/:idEstacion/:mantenimiento/:idMantenimiento"
+            element={<DetalleMantenimiento />}
+          />
+          <Route
+            exact
+            path="/reporteria/salidas-no-conformes"
+            element={<SalidasNoConformesReportes />}
+          />
+          <Route
+            exact
+            path="/despacho/reporteria/recoleccion-efectivo"
+            element={<GraficaRecolEfectivo />}
+          />
+          <Route
+            exact
+            path="/despacho/reporteria/evaluacion-despachar"
+            element={<GraficaPasoDes />}
+          />
+        </Routes>
+      </Layout> */}
     </Router>
   );
 }

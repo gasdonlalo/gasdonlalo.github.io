@@ -13,16 +13,16 @@ function Home() {
       </div>
 
       <div className="card text-center" style={{ width: "18rem" }}>
-        <Link to="/">
+        <Link to="/mantenimiento">
           <i className="bi bi-tools" style={{ fontSize: "72pt" }}></i>
         </Link>
         <div className="card-body">
           <h5>Mantenimiento</h5>
         </div>
-      </div>
+      </div> 
 
-      <div className="card text-center" style={{ width: "18rem" }}>
-        <Link tp="/">
+      <div className="card text-center shadow-sm" style={{ width: "18rem" }}>
+        <Link to="/almacen1">
           <i className="bi bi-box2" style={{ fontSize: "72pt" }}></i>
         </Link>
         <div className="card-body">
@@ -53,7 +53,7 @@ function Home() {
       </div>
 
       <div className="card text-center shadow-sm" style={{ width: "18rem" }}>
-        <Link to="/">
+        <Link to="/administrativo">
           <i className="bi bi-card-checklist" style={{ fontSize: "72pt" }}></i>
         </Link>
         <div className="card-body">
@@ -62,7 +62,7 @@ function Home() {
       </div>
 
       <div className="card text-center" style={{ width: "18rem" }}>
-        <Link to="/">
+        <Link to="/seguridad">
           <i className="bi bi-shield-lock" style={{ fontSize: "72pt" }}></i>
         </Link>
         <div className="card-body">
@@ -71,7 +71,7 @@ function Home() {
       </div>
 
       <div className="card text-center" style={{ width: "18rem" }}>
-        <Link to="/">
+        <Link to="/documentos-sgc">
           <i
             className="bi bi-file-earmark-pdf"
             style={{ fontSize: "72pt" }}
