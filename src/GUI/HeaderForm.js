@@ -1,5 +1,5 @@
 import gdl from "../components/assets/img/GDL.png";
-// import pemex from "../components/assets/img/pemex.png";
+import pemex from "../components/assets/img/pemex.png";
 
 const HeaderForm = () => {
   return (
@@ -15,9 +15,9 @@ const HeaderForm = () => {
         </div>
       </div>
       <div className="col-md-4">
-        {/* <div className="d-flex justify-content-end align-items-center h-100">
+        <div className="d-flex justify-content-end align-items-center h-100">
           <img src={pemex} alt="pemex" style={{ height: "30px" }} />
-        </div> */}
+        </div>
       </div>
     </div>
   );

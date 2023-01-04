@@ -10,7 +10,7 @@ import HeaderForm from "../../../GUI/HeaderForm";
 import format from "../../assets/format";
 
 const SalidaNoConforme = () => {
-  const empleadoS = useGetData("/empleado?departamento");
+  const empleadoS = useGetData("/empleado?departamento=1");
   const empleadoA = useGetData("/empleado?departamento=2");
   const incumplimiento = useGetData("/incumplimiento/1");
   //recupera la id del formulario enviado para generar el pdf

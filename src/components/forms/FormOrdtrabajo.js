@@ -1,16 +1,4 @@
-import { useState } from "react";
-import useGetData from "../../hooks/useGetData";
-
 function FormOrdtrabajo({ datos, handle, enviar }) {
-  const [bomba, setBomba] = useState(1);
-
-
-  const estacion = useGetData("/estaciones-servicio");
-
-  const changeEstacion = (e) => {
-    setBomba(e.target.value);
-  }
-
   return (
     <div className="container">
       <form onSubmit={enviar}>
@@ -48,7 +36,7 @@ function FormOrdtrabajo({ datos, handle, enviar }) {
                   Area
                 </label>
                 <select className="form-select" name="idArea" onChange={handle}>
-                  <option value={null}>--Selecciona un área--</option>
+                  <option value={null}>Selecciona un área</option>
                   <option value="1">Area despacho</option>
                   <option value="2">Area descarga</option>
                   <option value="3">Cuarto electrico/maquina</option>
@@ -66,7 +54,7 @@ function FormOrdtrabajo({ datos, handle, enviar }) {
                   name="idEmpleadoSolicita"
                   onChange={handle}
                 >
-                  <option value="0">--Selecciona un empleado--</option>
+                  <option value="0"> Selecciona un empleado</option>
                   {!datos.data
                     ? false
                     : datos.data.response.map((e) => {
@@ -82,26 +70,20 @@ function FormOrdtrabajo({ datos, handle, enviar }) {
 
             {/* SEGUNDO CUADRO */}
             <div className=" row border mb-3">
-        <div className="col-md-6">
-          <label className="form-label">Escoje la estacion de servicio</label>
-          <select
-            name="estacionServicio"
-            className="form-select"
-            onChange={changeEstacion}
-            defaultValue={1}
-          >
-            {!estacion.error &&
-              !estacion.isPending &&
-              estacion.data.response.map((el) => (
-                <option
-                  value={el.idestacion_servicio}
-                  key={el.idestacion_servicio}
+              <div className="mb-3 col-6">
+                <label for="exampleInputEmail1" className="form-label">
+                  Estacion de Servicio
+                </label>
+                <select
+                  className="form-select"
+                  name="idEstacionServicio"
+                  onChange={handle}
                 >
-                  {el.nombre}
-                </option>
-              ))}
-          </select>
-        </div>
+                  <option value={null}>Selecciona una estacion</option>
+                  <option value="1">GDL1</option>
+                  <option value="2">GDL2</option>
+                </select>
+              </div>
 
               <div className="mb-3 col-6">
                 <label for="exampleInputEmail1" className="form-label">
@@ -112,7 +94,7 @@ function FormOrdtrabajo({ datos, handle, enviar }) {
                   name="tipoMantenimiento"
                   onChange={handle}
                 >
-                  <option value={null}>--Elige una opción--</option>
+                  <option value={null}>Elige una opción</option>
                   <option value="1">Preventivo</option>
                   <option value="2">Correctivo</option>
                 </select>

@@ -76,7 +76,7 @@ const GraficaEvUnifome = () => {
 
 const Success = ({ pasos, year, month, idempleado }) => {
   const evUni = useGetData(
-    `evaluacion-uniforme/periodo-mensual/${year}/${month}/${idempleado}`
+    `evaluacion-uniforme/periodo-mensual/${year}/${month}/${idempleado || null}`
   );
   let dataBar = {};
 
@@ -94,8 +94,9 @@ const Success = ({ pasos, year, month, idempleado }) => {
         label: evaluaciones[i],
       })),
     };
-    console.log(dataBar);
   }
+
+  console.log(evUni);
   return (
     <div id="render" className="mt-5 m-auto">
       <table className="table container">
