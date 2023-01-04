@@ -20,6 +20,7 @@ import DRE from "../components/pages/despacho/reporteria/GraficaRecolEfectivo";
 import GPD from "../components/pages/despacho/reporteria/GraficaPasoDes";
 import GRD from "../components/pages/despacho/reporteria/GraficaRecursosDes";
 import GMSN from "../components/pages/salidaNoConforme/SalidaNoConformeGraficaMensual";
+import GSNI from "../components/pages/salidaNoConforme/SalidaInconformidadesGrafica";
 //importaciones recursos humanos
 import SolicitudesEmpleo from "../components/pages/RecursosHumanos/SolicitudesEmpleo";
 
@@ -36,6 +37,7 @@ function Rutas() {
         <Route element={<Layout />}>
           <Route path="salida-no-conforme-reportes" />
           <Route path="salida-no-conforme-reporte-mensual" element={<GMSN />} />
+          <Route path="salida-no-conformexinconformidad" element={<GSNI />} />
         </Route>
         <Route path="/despacho" element={<Layout />}>
           <Route index element={<Despacho />} />;

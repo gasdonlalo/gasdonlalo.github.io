@@ -1,6 +1,6 @@
 import { useLocation } from "react-router-dom";
 import gdl from "../assets/img/GDL.png";
-import pemex from "../assets/img/pemex.png";
+import pemex from "../assets/img/PEMEX.png";
 import tabladis from "../assets/img/TablaDis.png";
 import calibri from "../assets/fuentes/calibri.ttf";
 import calibriN from "../assets/fuentes/calibrib.ttf";

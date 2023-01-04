@@ -2,11 +2,13 @@ import useGetData from "../../hooks/useGetData";
 import InputFecha from "./InputFecha";
 import InputSelectEmpleado from "./InputSelectEmpleado";
 import Loader from "../assets/Loader";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import Axios from "../../Caxios/Axios";
 import ModalSuccess from "../assets/ModalSuccess";
 import ModalError from "../assets/ModalError";
 import HeaderForm from "../../GUI/HeaderForm";
+import ModalEmpleados from "../assets/ModalEmpleados";
+
 function FormChecklist() {
   const [bomba, setBomba] = useState(null);
   const [estacionS, setEstacionS] = useState(null);
@@ -18,6 +20,7 @@ function FormChecklist() {
     aceitesCompletos: 1,
     turno: "Mañana",
   });
+  const [showMEm, setShowMEm] = useState(false);
 
   const estacion = useGetData("/estaciones-servicio");
   const bombas = useGetData(`/bomba/${bomba}`);
@@ -29,14 +32,28 @@ function FormChecklist() {
     setBomba(Number(e.target.value));
   };
 
+  const selectSaliente = useRef();
+
   const handle = (e) => {
     setBody({ ...body, [e.target.name]: e.target.value });
     console.log(e.target.name, e.target.value);
   };
 
+  const selectEmpleado = (data) => {
+    console.log(data);
+    setBody({ ...body, idempleadoSaliente: Number(data.id) });
+    const option = document.createElement("option");
+    option.value = Number(data.id);
+    option.textContent = `Empleado Seleccionado`;
+    selectSaliente.current.appendChild(option);
+    selectSaliente.current.value = data.id;
+    selectSaliente.current.disabled = true;
+  };
+
   const closeModal = () => {
     setModalError(false);
     setModalSuccess(false);
+    setShowMEm(false);
   };
 
   const enviar = async (e) => {
@@ -65,15 +82,6 @@ function FormChecklist() {
         style={{ width: "800px" }}
         onSubmit={enviar}
       >
-        {/* <div className="col-md-4">
-          <img src={gdl} alt="gdl" className="w-25" />
-        </div>
-        <div className="col-md-4 fw-bold">GASOLINERÍA DON LALO</div>
-        <div className="col-md-4">
-          <div className="d-flex justify-content-end">
-            <img src={pemex} alt="pemex" className="w-50" />
-          </div>
-        </div> */}
         <HeaderForm />
         <div className="col-6">
           <label className="form-label">Fecha de check</label>
@@ -224,13 +232,31 @@ function FormChecklist() {
 
         <div className="col-md-6">
           <label className="form-label">Empleado Saliente</label>
-          {!despachador.error && !despachador.isPending && (
-            <InputSelectEmpleado
-              empleados={despachador.data.response}
+          <div className="input-group">
+            <select
               name="idempleadoSaliente"
-              handle={handle}
-            />
-          )}
+              className="form-select"
+              onChange={handle}
+              ref={selectSaliente}
+            >
+              <option value="">-- Escoge empleado -- </option>
+              {!despachador.error &&
+                !despachador.isPending &&
+                despachador.data.response.map((el) => (
+                  <option value={el.idempleado} key={el.idempleado}>
+                    {el.nombre} {el.apellido_paterno} {el.apellido_materno}
+                  </option>
+                ))}
+              {despachador.isPending && <option value="">Cargando...</option>}
+            </select>
+            <span
+              className="input-group-text"
+              role="button"
+              onClick={() => setShowMEm(true)}
+            >
+              empleados
+            </span>
+          </div>
         </div>
 
         <div className="col-md-12 mt-4">
@@ -239,6 +265,11 @@ function FormChecklist() {
           </button>
         </div>
       </form>
+      <ModalEmpleados
+        show={showMEm}
+        close={closeModal}
+        setEmpleado={selectEmpleado}
+      />
     </div>
   );
 }

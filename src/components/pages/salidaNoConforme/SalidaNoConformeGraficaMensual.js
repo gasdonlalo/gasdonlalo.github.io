@@ -5,6 +5,7 @@ import InputChangeMes from "../../forms/InputChangeMes";
 import InputChangeYear from "../../forms/InputChangeYear";
 import format from "../../assets/format";
 import Scale from "../../charts/Scale";
+import Loader from "../../assets/Loader";
 
 const { formatMes, obtenerDiaMes } = format;
 
@@ -22,7 +23,7 @@ const SalidaNoConformeGraficaMensual = () => {
 
   return (
     <div className="Main">
-      <Link className="link-primary" to="/despacho">
+      <Link className="link-primary" to="/despacho/salida-no-conforme-files">
         Volver al despacho
       </Link>
       <h3 className="border-bottom">Reporte mensual salidas no conformes</h3>
@@ -34,6 +35,7 @@ const SalidaNoConformeGraficaMensual = () => {
           <InputChangeYear defaultYear={year} handle={handleYear} />
         </div>
         {!sn.error && !sn.isPending && <Success data={sn.data.response} />}
+        {sn.isPending && <Loader />}
       </div>
     </div>
   );

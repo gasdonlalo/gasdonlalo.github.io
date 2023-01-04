@@ -1,9 +1,13 @@
 import { Fragment, useState } from "react";
 import { Link } from "react-router-dom";
 import useGetData from "../../../../hooks/useGetData";
+import InputChangeMes from "../../../forms/InputChangeMes";
+import InputChangeYear from "../../../forms/InputChangeYear";
 import format from "../../../assets/format";
 import Bar from "../../../charts/Bar";
+import Loader from "../../../assets/Loader";
 import PdfGraficas from "../../../pdf_generador/PdfGraficas";
+import ErrorHttp from "../../../assets/ErrorHttp";
 
 const GraficaRecolEfectivo = () => {
   const date = new Date();
@@ -12,6 +16,8 @@ const GraficaRecolEfectivo = () => {
   const recolecciones = useGetData(
     `/recoleccion-efectivo/general/${year}/${month}`
   );
+  const changeYear = (e) => setYear(e.target.value);
+  const changeMonth = (e) => setMonth(e.target.value);
   return (
     <div className="Main">
       <Link className="link-primary" to="/despacho">
@@ -20,9 +26,29 @@ const GraficaRecolEfectivo = () => {
       <div>
         <h3 className="border-bottom">Recoleccion de efectivo</h3>
       </div>
+
+      <div className="d-flex justify-content-around m-auto w-50">
+        <div className="">
+          <label className="form-label">Selecciona el mes</label>
+          <InputChangeMes handle={changeMonth} defaultMes={month} />
+        </div>
+        <div className="">
+          <label className="form-label">Selecciona el año</label>
+          <InputChangeYear handle={changeYear} defaultYear={year} />
+        </div>
+      </div>
       {!recolecciones.error && !recolecciones.isPending && (
         <Success data={recolecciones.data.response} />
       )}
+      {recolecciones.error && !recolecciones.isPending && (
+        <div className="mt-5">
+          <ErrorHttp
+            code={recolecciones.dataError.code}
+            msg={recolecciones.dataError.msg}
+          />
+        </div>
+      )}
+      {recolecciones.isPending && <Loader />}
     </div>
   );
 };

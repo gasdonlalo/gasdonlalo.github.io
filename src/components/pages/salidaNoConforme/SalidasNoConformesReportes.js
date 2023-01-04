@@ -35,16 +35,26 @@ export const SalidasNoConformesReportes = () => {
           </Link>
           <h3>Registro de salidas no conformes</h3>
         </div>
-        <div style={{ width: "min-content" }} className="me-3">
+        <div style={{ width: "min-content" }} className="me-3 d-flex">
           <div
             className="rounded p-2 btn-select m-1 d-flex flex-column align-items-center"
             onClick={() => navigate("/salida-no-conforme-reporte-mensual")}
           >
             <i
-              className="fa-regular fa-chart-simple text-info"
+              className="fa-regular fa-chart-line text-success"
               style={{ fontSize: "50px" }}
             ></i>
             <p className="p-0 m-0 text-nowrap">Reportes mensuales</p>
+          </div>
+          <div
+            className="rounded p-2 btn-select m-1 d-flex flex-column align-items-center"
+            onClick={() => navigate("/salida-no-conformexinconformidad")}
+          >
+            <i
+              className="fa-regular fa-chart-simple text-info"
+              style={{ fontSize: "50px" }}
+            ></i>
+            <p className="p-0 m-0 text-nowrap">Reportes por inconformidad</p>
           </div>
         </div>
       </div>
