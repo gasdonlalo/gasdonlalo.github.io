@@ -27,6 +27,8 @@ import SolicitudesEmpleo from "../components/pages/RecursosHumanos/SolicitudesEm
 //importaciones de calidad
 import Ordtrabajo from "../components/pages/calidad/Ordtrabajo";
 import Calidad from "../components/pages/Calidad";
+import OrdenTrabajo from "../components/pages/calidad/OrdenTrabajo";
+import DetalleMantenimiento from "../components/pages/calidad/reporteria/DetalleMantenimiento";
 
 function Rutas() {
   return (
@@ -69,6 +71,12 @@ function Rutas() {
         <Route path="/calidad" element={<Layout />}>
           <Route index element={<Calidad />} />
           <Route path="orden-trabajo" element={<Ordtrabajo />} />
+          <Route path="orden-trabajo-reporte/" element={<OrdenTrabajo />} />
+          <Route
+            exact
+            path="/calidad/orden-trabajo-reporte/:year/:month/:idEstacion/:mantenimiento/:idMantenimiento"
+            element={<DetalleMantenimiento />}
+          />
         </Route>
       </Routes>
       {/* <Routes>
