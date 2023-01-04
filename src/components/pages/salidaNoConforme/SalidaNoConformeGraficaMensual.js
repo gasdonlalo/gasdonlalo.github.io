@@ -1,11 +1,15 @@
-import { useState } from "react";
+import { Fragment, useState } from "react";
 import { Link } from "react-router-dom";
 import useGetData from "../../../hooks/useGetData";
 import InputChangeMes from "../../forms/InputChangeMes";
 import InputChangeYear from "../../forms/InputChangeYear";
 import format from "../../assets/format";
 import Scale from "../../charts/Scale";
+<<<<<<< HEAD
 import Loader from "../../assets/Loader";
+=======
+import PdfGraficas from "../../pdf_generador/PdfGraficas";
+>>>>>>> e04c9bf4405dd969caf0d738af08b12f5585b71d
 
 const { formatMes, obtenerDiaMes } = format;
 
@@ -36,12 +40,15 @@ const SalidaNoConformeGraficaMensual = () => {
         </div>
         {!sn.error && !sn.isPending && <Success data={sn.data.response} />}
         {sn.isPending && <Loader />}
+        {!sn.error && !sn.isPending && (
+          <Success data={sn.data.response} year={year} month={month} />
+        )}
       </div>
     </div>
   );
 };
 
-const Success = ({ data }) => {
+const Success = ({ data, year, month }) => {
   const totalSalidasNC = data
     .map((el) => {
       let suma = el.map((sm) => sm.total).reduce((a, b) => a + b);
@@ -66,59 +73,72 @@ const Success = ({ data }) => {
   console.log(dataScale);
 
   return (
-    <div>
-      <div className="mt-5">
-        <table className="">
-          <thead className="border">
-            <tr>
-              <th rowSpan={2} className="border px-2">
-                Nombre completo despachador
-              </th>
-              {data[0].map((el, i) => (
-                <td key={i} className="border-end text-center fw-semibold px-2">
-                  SNC
-                </td>
-              ))}
-              <td className="px-2 fw-bold" rowSpan={2}>
-                Total
-              </td>
-            </tr>
-            <tr>
-              {data[0].map((el, i) => (
-                <td key={i} className="border-end text-center fw-semibold px-2">
-                  {obtenerDiaMes(el.diaEmpiezo)} al{" "}
-                  {obtenerDiaMes(el.diaTermino)} de {formatMes(el.diaEmpiezo)}
-                </td>
-              ))}
-              <td></td>
-            </tr>
-          </thead>
-          <tbody>
-            {data.map((el, i) => (
-              <tr key={i} className="border">
-                <td className="border p-1">{el[0].nombre_completo}</td>
-
-                {data[i].map((sm) => (
-                  <td className="border text-center">{sm.total}</td>
+    <Fragment>
+      <div id="render">
+        <div className="mt-5">
+          <table>
+            <thead className="border">
+              <tr>
+                <th rowSpan={2} className="border px-2">
+                  Nombre completo despachador
+                </th>
+                {data[0].map((el, i) => (
+                  <td
+                    key={i}
+                    className="border-end text-center fw-semibold px-2"
+                  >
+                    SNC
+                  </td>
                 ))}
-                <td className="fw-semibold text-center">
-                  {data[i].map((sm) => sm.total).reduce((a, b) => a + b)}
+                <td className="px-2 fw-bold" rowSpan={2}>
+                  Total
                 </td>
               </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-      <div className="border mt-2 p-1" style={{ width: "min-content" }}>
-        <span className="text-nowrap">
-          <span className="fw-bold">Total salidas no conformes del mes: </span>{" "}
-          <span className="fw-semibold text-danger">{totalSalidasNC}</span>
-        </span>
+              <tr>
+                {data[0].map((el, i) => (
+                  <td
+                    key={i}
+                    className="border-end text-center fw-semibold px-2"
+                  >
+                    {obtenerDiaMes(el.diaEmpiezo)} al{" "}
+                    {obtenerDiaMes(el.diaTermino)} de {formatMes(el.diaEmpiezo)}
+                  </td>
+                ))}
+                <td></td>
+              </tr>
+            </thead>
+            <tbody>
+              {data.map((el, i) => (
+                <tr key={i} className="border">
+                  <td className="border p-1">{el[0].nombre_completo}</td>
+
+                  {data[i].map((sm) => (
+                    <td className="border text-center">{sm.total}</td>
+                  ))}
+                  <td className="fw-semibold text-center">
+                    {data[i].map((sm) => sm.total).reduce((a, b) => a + b)}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        <div className="border mt-2 p-1" style={{ width: "min-content" }}>
+          <span className="text-nowrap">
+            <span className="fw-bold">
+              Total salidas no conformes del mes:{" "}
+            </span>{" "}
+            <span className="fw-semibold text-danger">{totalSalidasNC}</span>
+          </span>
+        </div>
+        <div>
+          <Scale data={dataScale} legend={false} />
+        </div>
       </div>
       <div>
-        <Scale data={dataScale} legend={false} />
+        <PdfGraficas year={year} mes={month} />
       </div>
-    </div>
+    </Fragment>
   );
 };
 

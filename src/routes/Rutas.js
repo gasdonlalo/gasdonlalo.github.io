@@ -23,6 +23,9 @@ import GMSN from "../components/pages/salidaNoConforme/SalidaNoConformeGraficaMe
 import GSNI from "../components/pages/salidaNoConforme/SalidaInconformidadesGrafica";
 //importaciones recursos humanos
 import SolicitudesEmpleo from "../components/pages/RecursosHumanos/SolicitudesEmpleo";
+//
+import Ordtrabajo from "../components/pages/calidad/Ordtrabajo";
+import Calidad from "../components/pages/Calidad";
 
 function Rutas() {
   return (
@@ -60,6 +63,10 @@ function Rutas() {
 
         <Route path="/recursos-humanos" element={<Layout />}>
           <Route path="captura-solicitud" element={<SolicitudesEmpleo />} />
+        </Route>
+        <Route path="/calidad" element={<Layout />}>
+          <Route index element={<Calidad />} />
+          <Route path="orden-trabajo" element={<Ordtrabajo />} />
         </Route>
       </Routes>
       {/* <Routes>

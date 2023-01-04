@@ -36,6 +36,8 @@ function NombreGrafica() {
     nombre = nombre + " MENSUAL DE REGISTRO DE RECURSOS DE DESPACHADOR";
   } else if (location.match("pasos")) {
     nombre = nombre + " ANALISIS DE EVALUACION PASOS PARA DESPACHARGIT";
+  } else if (location.match("no-conforme-reporte-mensual")) {
+    nombre = nombre + " TOTAL MENSUAL DE SALIDAS NO CONFORMES POR DESPACHADOR";
   }
   return nombre;
 }
@@ -94,6 +96,7 @@ function PdfGraficas({ year, mes, tabla, idempleado, quincena }) {
       marginLeft: "4px",
       marginRight: "50px",
       minWidth: "100px",
+      paddingLeft: "10px",
     },
     grafica: {
       width: "100%",
@@ -161,42 +164,51 @@ function PdfGraficas({ year, mes, tabla, idempleado, quincena }) {
                 <Image src={pemex} style={{ width: "80px" }}></Image>
               </View>
               {/* Termina encabezado */}
-              <View
-                style={{
-                  display: "flex",
-                  flexDirection: "row",
-                  fontSize: "12pt",
-                  fontFamily: "calibri",
-                }}
-              >
+              {!year && !mes ? (
+                false
+              ) : (
                 <View
                   style={{
-                    left: "50%",
-                    height: "5%",
                     display: "flex",
                     flexDirection: "row",
-                    alignItems: "center",
-                    justifyContent: "flex-end",
+                    fontSize: "12pt",
+                    fontFamily: "calibri",
+                    marginRight: "94px",
                   }}
                 >
-                  <Text>Mes</Text>
-                  <Text style={styles.textoBorde}>{meses[mes - 1]}</Text>
-                </View>
+                  <View
+                    style={{
+                      left: "50%",
+                      height: "5%",
+                      display: "flex",
+                      flexDirection: "row",
+                      alignItems: "center",
+                      justifyContent: "flex-end",
+                    }}
+                  >
+                    <Text>Mes:</Text>
+                    <Text style={styles.textoBorde}>
+                      {!mes
+                        ? false
+                        : format.formatTextoMayusPrimeraLetra(meses[mes - 1])}
+                    </Text>
+                  </View>
 
-                <View
-                  style={{
-                    left: "60%",
-                    height: "5%",
-                    display: "flex",
-                    flexDirection: "row",
-                    alignItems: "center",
-                    justifyContent: "flex-end",
-                  }}
-                >
-                  <Text>Año</Text>
-                  <Text style={styles.textoBorde}>{year}</Text>
+                  <View
+                    style={{
+                      left: "60%",
+                      height: "5%",
+                      display: "flex",
+                      flexDirection: "row",
+                      alignItems: "center",
+                      justifyContent: "flex-end",
+                    }}
+                  >
+                    <Text>Año:</Text>
+                    <Text style={styles.textoBorde}>{year}</Text>
+                  </View>
                 </View>
-              </View>
+              )}
               {/* Nombre de empleado  */}
               {!idempleado ? (
                 false
@@ -235,7 +247,7 @@ function PdfGraficas({ year, mes, tabla, idempleado, quincena }) {
                   />
                 )}
                 {/* Tabla larga */}
-                {!img ? false : <Image src={img} style={{ width: "55%" }} />}
+                {!img ? false : <Image src={img} style={{ width: "50%" }} />}
               </View>
               {/* Termina grafica */}
               <View style={styles.tabla}>
