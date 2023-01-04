@@ -22,7 +22,7 @@ import GRD from "../components/pages/despacho/reporteria/GraficaRecursosDes";
 import GMSN from "../components/pages/salidaNoConforme/SalidaNoConformeGraficaMensual";
 //importaciones recursos humanos
 import SolicitudesEmpleo from "../components/pages/RecursosHumanos/SolicitudesEmpleo";
-//
+//importaciones calidad
 import Ordtrabajo from "../components/pages/calidad/Ordtrabajo";
 import Calidad from "../components/pages/Calidad";
 
