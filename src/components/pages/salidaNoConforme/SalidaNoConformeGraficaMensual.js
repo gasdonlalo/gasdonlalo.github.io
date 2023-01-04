@@ -5,11 +5,8 @@ import InputChangeMes from "../../forms/InputChangeMes";
 import InputChangeYear from "../../forms/InputChangeYear";
 import format from "../../assets/format";
 import Scale from "../../charts/Scale";
-<<<<<<< HEAD
 import Loader from "../../assets/Loader";
-=======
 import PdfGraficas from "../../pdf_generador/PdfGraficas";
->>>>>>> e04c9bf4405dd969caf0d738af08b12f5585b71d
 
 const { formatMes, obtenerDiaMes } = format;
 
