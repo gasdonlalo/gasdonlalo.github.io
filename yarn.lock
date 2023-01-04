@@ -3357,10 +3357,15 @@
   "resolved" "https://registry.npmjs.org/char-regex/-/char-regex-2.0.1.tgz"
   "version" "2.0.1"
 
-"chart.js@^4.0.0", "chart.js@^4.0.1":
+"chart.js@^4.0.0", "chart.js@^4.0.1", "chart.js@>=3.0.0":
   "integrity" "sha512-5/8/9eBivwBZK81mKvmIwTb2Pmw4D/5h1RK9fBWZLLZ8mCJ+kfYNmV9rMrGoa5Hgy2/wVDBMLSUDudul2/9ihA=="
   "resolved" "https://registry.npmjs.org/chart.js/-/chart.js-4.0.1.tgz"
   "version" "4.0.1"
+
+"chartjs-plugin-datalabels@^2.2.0":
+  "integrity" "sha512-14ZU30lH7n89oq+A4bWaJPnAG8a7ZTk7dKf48YAzMvJjQtjrgg5Dpk9f+LbjCF6bpx3RAGTeL13IXpKQYyRvlw=="
+  "resolved" "https://registry.npmjs.org/chartjs-plugin-datalabels/-/chartjs-plugin-datalabels-2.2.0.tgz"
+  "version" "2.2.0"
 
 "check-types@^11.1.1":
   "integrity" "sha512-HBiYvXvn9Z70Z88XKjz3AEKd4HJhBXsa3j7xFnITAzoS8+q6eIGi8qDB8FKPBAjtuxjI/zFpwuiCb8oDtKOYrA=="

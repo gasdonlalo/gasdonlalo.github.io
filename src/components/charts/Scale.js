@@ -1,4 +1,5 @@
 import React from "react";
+import ChartDataLabels from "chartjs-plugin-datalabels";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -18,7 +19,8 @@ ChartJS.register(
   LineElement,
   Title,
   Tooltip,
-  Legend
+  Legend,
+  ChartDataLabels
 );
 
 const Scale = ({ data, y, legend }) => {
@@ -34,6 +36,26 @@ const Scale = ({ data, y, legend }) => {
         min: y[0],
         max: y[1],
       },
+    },
+    plugins: {
+      /* Empieza formato datalabel */
+      datalabels: {
+        backgroundColor: function (context) {
+          return context.dataset.backgroundColor;
+        },
+        align: "top",
+        anchor: "end",
+        borderRadius: 25,
+        color: "white",
+        display: function (context) {
+          var dataset = context.dataset;
+          var value = dataset.data[context.dataIndex];
+          return value;
+        },
+        font: {
+          weight: "bold",
+        },
+      } /* Termina formato de datalabel */,
     },
   };
 

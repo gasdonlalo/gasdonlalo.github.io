@@ -44,7 +44,7 @@ const OrdenTrabajo = () => {
       <Link className="link-primary" to="/calidad">
         Volver a calidad
       </Link>
-      <h3 className="border-bottom">Monto faltante por despachadores</h3>
+      <h3 className="border-bottom">Vista general de ordenes de trabajo</h3>
       <div className="container">
         <form>
           <div className="row">
