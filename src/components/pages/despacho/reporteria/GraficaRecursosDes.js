@@ -17,6 +17,7 @@ const GraficaRecursosDes = () => {
   const recursos = useGetData(
     `/lista-recurso-despachador/empleados/${year}/${month}/${quincena}`
   );
+  console.log(recursos);
   const changeYear = (e) => setYear(e.target.value);
   const changeMonth = (e) => setMonth(e.target.value);
   const handleQuincena = (e) => setQuincena(e.target.value);
@@ -153,8 +154,8 @@ const Success = ({ recursos, year, month, quincena }) => {
             </table>
           </div>
         ) : (
-          <div style={{ flexGrow: "1" }}>
-            <Scale data={dataScale} y={[0, 20]}></Scale>
+          <div>
+            <ErrorHttp />
           </div>
         )}
 
@@ -190,14 +191,16 @@ const Success = ({ recursos, year, month, quincena }) => {
           </div>
         )}
       </div>
-      <div>
-        <PdfGraficas
-          tabla={"tabla"}
-          year={year}
-          mes={month}
-          quincena={quincena}
-        />
-      </div>
+      {table.length > 0 && (
+        <div>
+          <PdfGraficas
+            tabla={"tabla"}
+            year={year}
+            mes={month}
+            quincena={quincena}
+          />
+        </div>
+      )}
     </Fragment>
   );
 };
