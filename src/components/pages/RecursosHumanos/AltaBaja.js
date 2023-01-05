@@ -1,5 +1,5 @@
 import { useState } from "react";
-import TablaEmpleados from "./TablaEmpleados";
+import TablaEmpleados from "../../tablas/TablaEmpleados";
 
 function AltaBaja() {
   const [id, setId] = useState(null);
