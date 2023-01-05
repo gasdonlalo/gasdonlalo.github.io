@@ -20,7 +20,7 @@ function Calidad() {
           <h3>Reportes</h3>
           <div className="d-flex justify-content-evenly wrap mt-5">
             <Card
-              url=""
+              url="orden-trabajo-reporte"
               icon="chart-simple"
               text="Grafica mensual de mantenimiento"
             />

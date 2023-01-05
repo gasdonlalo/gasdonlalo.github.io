@@ -7,6 +7,7 @@ import {
   Tooltip,
   Legend,
 } from "chart.js";
+import ChartDataLabels from "chartjs-plugin-datalabels";
 import { Bar } from "react-chartjs-2";
 
 function Grafica({ datos, text, y, legend }) {
@@ -17,12 +18,31 @@ function Grafica({ datos, text, y, legend }) {
     BarElement,
     Title,
     Tooltip,
-    Legend
+    Legend,
+    ChartDataLabels
   );
 
   const options = {
     animation: false,
     plugins: {
+      /* Empieza formato datalabel */
+      datalabels: {
+        backgroundColor: function (context) {
+          return context.dataset.backgroundColor;
+        },
+        borderRadius: 25,
+        color: "white",
+        display: function (context) {
+          var dataset = context.dataset;
+
+          var value = dataset.data[context.dataIndex];
+          return value;
+        },
+        font: {
+          weight: "bold",
+        },
+        padding: 6,
+      } /* Termina formato de datalabel */,
       legend: {
         display: legend,
         position: "right",

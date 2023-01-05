@@ -1,15 +1,7 @@
-import { useState } from "react";
 import useGetData from "../../hooks/useGetData";
 
 function FormOrdtrabajo({ datos, handle, enviar }) {
-  const [bomba, setBomba] = useState(1);
-
-
   const estacion = useGetData("/estaciones-servicio");
-
-  const changeEstacion = (e) => {
-    setBomba(e.target.value);
-  }
 
   return (
     <div className="container">
@@ -82,26 +74,28 @@ function FormOrdtrabajo({ datos, handle, enviar }) {
 
             {/* SEGUNDO CUADRO */}
             <div className=" row border mb-3">
-        <div className="col-md-6">
-          <label className="form-label">Escoje la estacion de servicio</label>
-          <select
-            name="estacionServicio"
-            className="form-select"
-            onChange={changeEstacion}
-            defaultValue={1}
-          >
-            {!estacion.error &&
-              !estacion.isPending &&
-              estacion.data.response.map((el) => (
-                <option
-                  value={el.idestacion_servicio}
-                  key={el.idestacion_servicio}
+              <div className="col-md-6">
+                <label className="form-label">
+                  Escoje la estacion de servicio
+                </label>
+                <select
+                  name="idEstacionServicio"
+                  className="form-select"
+                  onChange={handle}
+                  defaultValue={1}
                 >
-                  {el.nombre}
-                </option>
-              ))}
-          </select>
-        </div>
+                  {!estacion.error &&
+                    !estacion.isPending &&
+                    estacion.data.response.map((el) => (
+                      <option
+                        value={el.idestacion_servicio}
+                        key={el.idestacion_servicio}
+                      >
+                        {el.nombre}
+                      </option>
+                    ))}
+                </select>
+              </div>
 
               <div className="mb-3 col-6">
                 <label for="exampleInputEmail1" className="form-label">

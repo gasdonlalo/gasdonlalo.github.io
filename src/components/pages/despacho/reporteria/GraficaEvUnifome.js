@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { Fragment, useState } from "react";
 import { Link } from "react-router-dom";
 import useGetData from "../../../../hooks/useGetData";
 import InputChangeMes from "../../../forms/InputChangeMes";
@@ -65,16 +65,14 @@ const GraficaEvUnifome = () => {
           month={month}
           pasos={pasos.data.response}
           idempleado={iddespachador}
+          iddespachador={iddespachador}
         />
       )}
-      <div>
-        <PdfGraficas mes={month} year={year} idempleado={iddespachador} />
-      </div>
     </div>
   );
 };
 
-const Success = ({ pasos, year, month, idempleado }) => {
+const Success = ({ pasos, year, month, idempleado, iddespachador }) => {
   const evUni = useGetData(
     `evaluacion-uniforme/periodo-mensual/${year}/${month}/${idempleado || null}`
   );
@@ -98,55 +96,64 @@ const Success = ({ pasos, year, month, idempleado }) => {
 
   console.log(evUni);
   return (
-    <div id="render" className="mt-5 m-auto">
-      <table className="table container">
-        <thead className="border">
-          <tr>
-            <th className="border text-center">Fecha</th>
+    <Fragment>
+      <div id="render" className="mt-5 m-auto">
+        <table className="table container">
+          <thead className="border">
+            <tr>
+              <th className="border text-center">Fecha</th>
+              {!evUni.error &&
+                !evUni.isPending &&
+                evUni.data.response.map((el, i) => (
+                  <th key={i} className="py-1 text-center border">
+                    {el.fecha ? (
+                      format.formatFechaComplete(el.fecha)
+                    ) : (
+                      <span className="text-secondary">Sin asignar</span>
+                    )}
+                  </th>
+                ))}
+            </tr>
+            <tr>
+              <th className="p-1 text-center border">Cumplimientos</th>
+              <th className="p-1 text-center border">Primera evaluación</th>
+              <th className="p-1 text-center border">Segunda evaluación</th>
+            </tr>
+          </thead>
+          <tbody>
             {!evUni.error &&
               !evUni.isPending &&
-              evUni.data.response.map((el, i) => (
-                <th key={i} className="py-1 text-center border">
-                  {el.fecha ? (
-                    format.formatFechaComplete(el.fecha)
+              pasos.map((el, i) => (
+                <tr key={el.idcumplimiento_uniforme} className="border">
+                  <td className="border">{el.cumplimiento}</td>
+                  {evUni.data.response[0].evaluaciones.length > 0 ? (
+                    <td className="text-center border">
+                      {evUni.data.response[0].evaluaciones[i].cumple
+                        ? "1"
+                        : "0"}
+                    </td>
                   ) : (
-                    <span className="text-secondary">Sin asignar</span>
+                    <td className="bg-secondary"></td>
                   )}
-                </th>
+                  {evUni.data.response[1].evaluaciones.length > 0 ? (
+                    <td className="text-center border">
+                      {evUni.data.response[1].evaluaciones[i].cumple
+                        ? "1"
+                        : "0"}
+                    </td>
+                  ) : (
+                    <td className="bg-secondary"></td>
+                  )}
+                </tr>
               ))}
-          </tr>
-          <tr>
-            <th className="p-1 text-center border">Cumplimientos</th>
-            <th className="p-1 text-center border">Primera evaluación</th>
-            <th className="p-1 text-center border">Segunda evaluación</th>
-          </tr>
-        </thead>
-        <tbody>
-          {!evUni.error &&
-            !evUni.isPending &&
-            pasos.map((el, i) => (
-              <tr key={el.idcumplimiento_uniforme} className="border">
-                <td className="border">{el.cumplimiento}</td>
-                {evUni.data.response[0].evaluaciones.length > 0 ? (
-                  <td className="text-center border">
-                    {evUni.data.response[0].evaluaciones[i].cumple ? "1" : "0"}
-                  </td>
-                ) : (
-                  <td className="bg-secondary"></td>
-                )}
-                {evUni.data.response[1].evaluaciones.length > 0 ? (
-                  <td className="text-center border">
-                    {evUni.data.response[1].evaluaciones[i].cumple ? "1" : "0"}
-                  </td>
-                ) : (
-                  <td className="bg-secondary"></td>
-                )}
-              </tr>
-            ))}
-        </tbody>
-      </table>
-      {!evUni.error && !evUni.isPending && <Bar datos={dataBar} />}
-    </div>
+          </tbody>
+        </table>
+        {!evUni.error && !evUni.isPending && <Bar datos={dataBar} />}
+      </div>
+      <div>
+        <PdfGraficas mes={month} year={year} idempleado={iddespachador} />
+      </div>
+    </Fragment>
   );
 };
 
