@@ -41,8 +41,7 @@ function Ordtrabajo(){
                 </Link>
                 <h4 className="border-bottom">Orden de trabajo</h4>
                 <FormOrdtrabajo datos={empleado} handle={handle} enviar={enviar} />
-                {/* <FormOrdtrabajo datos={area}/>
-                <FormOrdtrabajo datos={estservicio}/> */}
+
             </div>
         </div>
     )

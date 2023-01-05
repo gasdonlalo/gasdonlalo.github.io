@@ -40,7 +40,7 @@ function FormOrdtrabajo({ datos, handle, enviar }) {
                   Area
                 </label>
                 <select className="form-select" name="idArea" onChange={handle}>
-                  <option value={null}>--Selecciona un área--</option>
+                  <option value={null}>Selecciona un área</option>
                   <option value="1">Area despacho</option>
                   <option value="2">Area descarga</option>
                   <option value="3">Cuarto electrico/maquina</option>
@@ -58,7 +58,7 @@ function FormOrdtrabajo({ datos, handle, enviar }) {
                   name="idEmpleadoSolicita"
                   onChange={handle}
                 >
-                  <option value="0">--Selecciona un empleado--</option>
+                  <option value="0"> Selecciona un empleado</option>
                   {!datos.data
                     ? false
                     : datos.data.response.map((e) => {
@@ -106,7 +106,7 @@ function FormOrdtrabajo({ datos, handle, enviar }) {
                   name="tipoMantenimiento"
                   onChange={handle}
                 >
-                  <option value={null}>--Elige una opción--</option>
+                  <option value={null}>Elige una opción</option>
                   <option value="1">Preventivo</option>
                   <option value="2">Correctivo</option>
                 </select>
