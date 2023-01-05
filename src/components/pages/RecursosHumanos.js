@@ -15,6 +15,11 @@ function RecursosHumanos() {
             text="Solicitudes de empleo"
           />
           <Card
+            url="altas-y-bajas"
+            icon ="fa-solid fa-arrow-right-arrow-left"
+            text="A & B Empleados"    
+          />
+          <Card
             url="documentos-trabajadores"
             icon="fa-solid fa-book"
             text="Documentos de trabajadores"
