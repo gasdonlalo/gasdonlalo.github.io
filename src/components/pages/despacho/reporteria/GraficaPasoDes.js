@@ -98,7 +98,7 @@ const Success = ({ data, year, month, idEmpleado, quincena }) => {
     let total;
     if (pro.length > 0) {
       total = pro.map((el) => (el.evaluacion ? 1 : 0)).reduce((a, b) => a + b);
-      promedio = (total / pro.length) * 100;
+      promedio = (total / pro.length) * 10;
     } else {
       promedio = 0;
     }
@@ -254,7 +254,6 @@ const Success = ({ data, year, month, idEmpleado, quincena }) => {
               <Bar
                 datos={dataBarPromedioQuincena}
                 text="Promedio"
-                y={[80, 100]}
                 legend={false}
               />
             </div>
