@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import Axios from "../../../Caxios/Axios";
 import FormSolEmpleo from "../../forms/FormSolEmpleo";
 
 function SolicitudesEmpleo() {
@@ -12,7 +13,13 @@ function SolicitudesEmpleo() {
   const enviar = (e) => {
     e.preventDefault();
     console.log(datos);
+    enviarDatos();
   };
+
+  const enviarDatos = async () => {
+    const req = await Axios.post("/solicitudes/nuevo", datos)
+    console.log(req)
+  }
   return (
     <div className="Main">
       <div>

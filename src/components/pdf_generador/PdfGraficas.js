@@ -38,11 +38,13 @@ function NombreGrafica() {
     nombre = nombre + " ANALISIS DE EVALUACION PASOS PARA DESPACHARGIT";
   } else if (location.match("no-conforme-reporte-mensual")) {
     nombre = nombre + " TOTAL MENSUAL DE SALIDAS NO CONFORMES POR DESPACHADOR";
+  } else if (location.match("conformexinconformidad")) {
+    nombre = nombre + " MENSUAL SALIDAS NO CONFORMES POR INCORFORMIDAD";
   }
   return nombre;
 }
 
-function PdfGraficas({ year, mes, tabla, idempleado, quincena }) {
+function PdfGraficas({ year, mes, tabla, idempleado, quincena, anchografica }) {
   //consulta de empleado para el formato
   const empleado = useGetData(
     !idempleado ? "/empleado" : `/empleado/${idempleado}`
@@ -100,7 +102,7 @@ function PdfGraficas({ year, mes, tabla, idempleado, quincena }) {
     },
     grafica: {
       width: "100%",
-      heigth: "70%",
+      maxHeigth: "60%",
       display: "flex",
       alignItems: "center",
     },
@@ -247,7 +249,16 @@ function PdfGraficas({ year, mes, tabla, idempleado, quincena }) {
                   />
                 )}
                 {/* Tabla larga */}
-                {!img ? false : <Image src={img} style={{ width: "50%" }} />}
+                {!img ? (
+                  false
+                ) : (
+                  <Image
+                    src={img}
+                    style={
+                      !anchografica ? { width: "60%" } : { width: anchografica }
+                    }
+                  />
+                )}
               </View>
               {/* Termina grafica */}
               <View style={styles.tabla}>

@@ -225,16 +225,14 @@ const PDFSalidaNoConforme = ({
   );
 };
 
-/* PDFSalidaNoConforme.defaultProps = {
+PDFSalidaNoConforme.defaultProps = {
   title: "Salidas no conformes",
   fecha: "14/12/2022",
   inconformidad:
     'El 27 de noviembre, en Gasolinería Don Lalo 1, identificada como Estación de Servicio 0377, en el turno de la mañana (comprendido de las 6:00 am a 2:00 pm) la Despachadora Isabel Alvarado López al momento de hacer su liquidacion saco un pagare de $120.85 la cual pago en el momento ya que habia sido del otro turno; la no conformidad aqui descrita es un incumplimiento a los documentos estandarizados del Sistema de Gestion de la Calidad de Gasolineria Don Lalo S.A de C.V. llamado: "Diagrama de proceso Liquidación" y "Descripción de puesto Despachador"',
   corregir: "",
-  concesiones: "",
-};
-=======
+  concesiones: "No aplica.",
   incumple: "",
-}; */
+};
 
 export default PDFSalidaNoConforme;

@@ -1,4 +1,8 @@
+import useGetData from "../../hooks/useGetData";
+
 function FormOrdtrabajo({ datos, handle, enviar }) {
+  const estacion = useGetData("/estaciones-servicio");
+
   return (
     <div className="container">
       <form onSubmit={enviar}>
@@ -70,18 +74,26 @@ function FormOrdtrabajo({ datos, handle, enviar }) {
 
             {/* SEGUNDO CUADRO */}
             <div className=" row border mb-3">
-              <div className="mb-3 col-6">
-                <label for="exampleInputEmail1" className="form-label">
-                  Estacion de Servicio
+              <div className="col-md-6">
+                <label className="form-label">
+                  Escoje la estacion de servicio
                 </label>
                 <select
-                  className="form-select"
                   name="idEstacionServicio"
+                  className="form-select"
                   onChange={handle}
+                  defaultValue={1}
                 >
-                  <option value={null}>Selecciona una estacion</option>
-                  <option value="1">GDL1</option>
-                  <option value="2">GDL2</option>
+                  {!estacion.error &&
+                    !estacion.isPending &&
+                    estacion.data.response.map((el) => (
+                      <option
+                        value={el.idestacion_servicio}
+                        key={el.idestacion_servicio}
+                      >
+                        {el.nombre}
+                      </option>
+                    ))}
                 </select>
               </div>
 

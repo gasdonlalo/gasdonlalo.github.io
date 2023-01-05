@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { Fragment, useState } from "react";
 import { Link } from "react-router-dom";
 import useGetData from "../../../hooks/useGetData";
 import InputChangeMes from "../../forms/InputChangeMes";
@@ -6,6 +6,7 @@ import InputChangeYear from "../../forms/InputChangeYear";
 import Loader from "../../assets/Loader";
 import Bar from "../../charts/Bar";
 import ErrorHttp from "../../assets/ErrorHttp";
+import PdfGraficas from "../../pdf_generador/PdfGraficas";
 
 const SalidaInconformidadesGrafica = () => {
   const date = new Date();
@@ -41,7 +42,11 @@ const SalidaInconformidadesGrafica = () => {
         </div>
       </div>
       {!incumplimientos.error && !incumplimientos.isPending && (
-        <Success data={incumplimientos.data.response} />
+        <Success
+          data={incumplimientos.data.response}
+          year={year}
+          month={month}
+        />
       )}
       {incumplimientos.isPending && <Loader />}
       {incumplimientos.error && !incumplimientos.isPending && (
@@ -56,7 +61,7 @@ const SalidaInconformidadesGrafica = () => {
   );
 };
 
-const Success = ({ data }) => {
+const Success = ({ data, year, month }) => {
   console.log(data);
   const dataBar = {
     labels: data.map((el) => el.incumplimiento),
@@ -68,38 +73,46 @@ const Success = ({ data }) => {
     ],
   };
   return (
-    <div className="mt-4 mx-auto">
-      <div className="d-flex justify-content-between align-items-center">
-        <div style={{ flexGrow: "1" }}>
-          <table>
-            <thead>
-              <tr>
-                <th className="border p-2 text-center">
-                  Incumplimientos e inconformidades <br /> en el area de
-                  despacho
-                </th>
-                <th className="border p-2">Incumplimientos</th>
-              </tr>
-            </thead>
-            <tbody>
-              {data.map((el) => (
+    <Fragment>
+      <div className="mt-4 mx-auto">
+        <div
+          className="d-flex justify-content-between align-items-center"
+          id="render"
+        >
+          <div style={{ flexGrow: "1" }}>
+            <table>
+              <thead>
                 <tr>
-                  <td className="border text-center">{el.incumplimiento}</td>
-                  <td className="border text-center">{el.total}</td>
+                  <th className="border p-2 text-center">
+                    Incumplimientos e inconformidades <br /> en el area de
+                    despacho
+                  </th>
+                  <th className="border p-2">Incumplimientos</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-        <div style={{ flexGrow: "1" }}>
-          <Bar
-            datos={dataBar}
-            legend={false}
-            text="Cumplimientos e inconformidades en el área de despacho"
-          />
+              </thead>
+              <tbody>
+                {data.map((el) => (
+                  <tr>
+                    <td className="border text-center">{el.incumplimiento}</td>
+                    <td className="border text-center">{el.total}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          <div style={{ flexGrow: "1" }}>
+            <Bar
+              datos={dataBar}
+              legend={false}
+              text="Cumplimientos e inconformidades en el área de despacho"
+            />
+          </div>
         </div>
       </div>
-    </div>
+      <div>
+        <PdfGraficas year={year} mes={month} anchografica="80%s" />
+      </div>
+    </Fragment>
   );
 };
 

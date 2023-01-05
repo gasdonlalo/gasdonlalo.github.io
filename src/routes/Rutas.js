@@ -29,20 +29,17 @@ import SolicitudesEmpleo from "../components/pages/RecursosHumanos/SolicitudesEm
 import Ordtrabajo from "../components/pages/calidad/Ordtrabajo";
 import OrdenTrabajo from "../components/pages/calidad/OrdenTrabajo";
 import Calidad from "../components/pages/Calidad";
-//importaciones seguridad
+import DetalleMantenimiento from "../components/pages/calidad/reporteria/DetalleMantenimiento";
+//importaciones de seguridad
 import Seguridad from "../components/pages/Seguridad";
-
-//importaciones administrativo
-import Administrativo from "../components/pages/Administrativo";
-
-//importaciones mantenimiento
-import Mantenimiento from "../components/pages/Mantenimiento";
-
-//importaciones almacen
+//importaciones de almacen
 import Almacen from "../components/pages/Almacen";
-
+//importaciones de mantenimiento
+import Mantenimiento from "../components/pages/Mantenimiento";
 //importaciones documentosSGC
 import DocumentosSGC from "../components/pages/DocumentosSGC";
+//importaciones administrativos
+import Administrativo from "../components/pages/Administrativo";
 
 
 function Rutas() {
@@ -89,8 +86,13 @@ function Rutas() {
         {/* Calidad */}
         <Route path="/calidad" element={<Layout />}>
           <Route index element={<Calidad />} />
-          <Route path="orden-trabajo" element={<Ordtrabajo />} />;
-          <Route path="orden-mensual" element={<OrdenTrabajo />} />;
+          <Route path="orden-trabajo" element={<Ordtrabajo />} />
+          <Route path="orden-trabajo-reporte/" element={<OrdenTrabajo />} />
+          <Route
+            exact
+            path="/calidad/orden-trabajo-reporte/:year/:month/:idEstacion/:mantenimiento/:idMantenimiento"
+            element={<DetalleMantenimiento />}
+          />
         </Route>
       
       {/* Seguridad */}
