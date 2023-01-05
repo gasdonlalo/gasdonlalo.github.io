@@ -3,6 +3,7 @@ function FormSolEmpleo({ handle, enviar, setData, data }) {
 
   const dept = useGetData("/departamento");
 
+
   return (
     <div className="container">
       <form onSubmit={enviar}>
@@ -76,10 +77,22 @@ function FormSolEmpleo({ handle, enviar, setData, data }) {
               <option value={null}>--Selecciona un estatus--</option>
               <option value={Number("1")}>Aceptado</option>
               <option value={Number("2")}>Pasante</option>
-              <option value={Number("3")}>Pendiente</option>
+              <option value={Number("3")}>Despido</option>
               <option value={Number("4")}>Rechazo</option>
-              <option value={Number("5")}>Despido</option>
+              <option value={Number("5")}>Pendiente</option>
             </select>
+          </div>
+
+          <div className="mb-3 col-6">
+            <label className="form-label">
+              Ingresar ID 
+            </label>
+            <input
+              type="number"
+              className="form-control"
+              name="idEmpleado"
+              onChange={handle}
+            />
           </div>
         </div>
 

@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import TablaEmpleados from "../../tablas/TablaEmpleados";
 
 function AltaBaja() {
@@ -6,6 +7,12 @@ function AltaBaja() {
   console.log(id);
   return (
     <div className="Main">
+      <div>
+        <Link className="Link-primary" to="/recursos-humanos">
+          Volver a recursos humanos
+        </Link>
+        <h4 className="border-bottom">Altas y bajas de Empleados</h4>
+      </div>
       <div className="container">
         <form>
           <label className="form-label">Seleccionar tipo de empleado</label>

@@ -25,6 +25,9 @@ import GSNI from "../components/pages/salidaNoConforme/SalidaInconformidadesGraf
 //importaciones recursos humanos
 import RecursosHumanos from "../components/pages/RecursosHumanos";
 import SolicitudesEmpleo from "../components/pages/RecursosHumanos/SolicitudesEmpleo";
+import AltaBaja from "../components/pages/RecursosHumanos/AltaBaja";
+import FaltasRetardos from "../components/pages/RecursosHumanos/FaltasRetardos";
+
 //importaciones de calidad
 import Ordtrabajo from "../components/pages/calidad/Ordtrabajo";
 import OrdenTrabajo from "../components/pages/calidad/OrdenTrabajo";
@@ -40,7 +43,6 @@ import Mantenimiento from "../components/pages/Mantenimiento";
 import DocumentosSGC from "../components/pages/DocumentosSGC";
 //importaciones administrativos
 import Administrativo from "../components/pages/Administrativo";
-import AltaBaja from "../components/pages/RecursosHumanos/AltaBaja";
 
 function Rutas() {
   return (
@@ -82,6 +84,7 @@ function Rutas() {
           <Route index element={<RecursosHumanos />} />
           <Route path="captura-solicitud" element={<SolicitudesEmpleo />} />
           <Route path="alta-baja-empleados" element={<AltaBaja />} />
+          <Route path="faltas-retardo" element={<FaltasRetardos/>}/>
         </Route>
 
         {/* Calidad */}
