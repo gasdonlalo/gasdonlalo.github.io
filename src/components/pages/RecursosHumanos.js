@@ -25,7 +25,7 @@ function RecursosHumanos() {
             text="Documentos de trabajadores"
           />
           <Card
-            url="faltas-retardos"
+            url="faltas-retardo"
             icon="fa solid fa-business-time"
             text="Faltas y retardos"
           />
