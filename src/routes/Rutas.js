@@ -41,7 +41,7 @@ import Mantenimiento from "../components/pages/Mantenimiento";
 import DocumentosSGC from "../components/pages/DocumentosSGC";
 //importaciones administrativos
 import Administrativo from "../components/pages/Administrativo";
-
+import AltaBaja from "../components/pages/RecursosHumanos/AltaBaja";
 
 function Rutas() {
   return (
@@ -80,11 +80,11 @@ function Rutas() {
 
         {/* Recursos humanos */}
         <Route path="/recursos-humanos" element={<Layout />}>
-          <Route index element={<RecursosHumanos/>}/>
+          <Route index element={<RecursosHumanos />} />
           <Route path="captura-solicitud" element={<SolicitudesEmpleo />} />
-          <Route path="altas-y-bajas" element={<AltayBajasEmpleados/>} />
+          <Route path="alta-baja-empleados" element={<AltaBaja />} />
         </Route>
-        
+
         {/* Calidad */}
         <Route path="/calidad" element={<Layout />}>
           <Route index element={<Calidad />} />
@@ -96,36 +96,34 @@ function Rutas() {
             element={<DetalleMantenimiento />}
           />
         </Route>
-      
-      {/* Seguridad */}
-      <Route path="/seguridad" element={<Layout />}>
-        <Route index element={<Seguridad/>} />
+
+        {/* Seguridad */}
+        <Route path="/seguridad" element={<Layout />}>
+          <Route index element={<Seguridad />} />
         </Route>
-        
 
         {/* Administrativo */}
         <Route path="/administrativo" element={<Layout />}>
-          <Route index element={<Administrativo/>}/>
+          <Route index element={<Administrativo />} />
         </Route>
 
         {/* Mantenimiento */}
         <Route path="/mantenimiento" element={<Layout />}>
-          <Route index element={<Mantenimiento/>}/>
+          <Route index element={<Mantenimiento />} />
         </Route>
 
         {/* Almacen */}
         <Route path="/almacen1" element={<Layout />}>
-          <Route index element={<Almacen/>}/>
+          <Route index element={<Almacen />} />
         </Route>
 
         {/* Documentos SGC */}
         <Route path="/documentos-sgc" element={<Layout />}>
-          <Route index element={<DocumentosSGC/>}/>
+          <Route index element={<DocumentosSGC />} />
         </Route>
 
         {/* Siempre debe ir abajo */}
-      </Routes> 
-
+      </Routes>
 
       {/* <Layout>
         <Routes>
