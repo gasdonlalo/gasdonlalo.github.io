@@ -33,6 +33,7 @@ import Ordtrabajo from "../components/pages/calidad/Ordtrabajo";
 import OrdenTrabajo from "../components/pages/calidad/OrdenTrabajo";
 import Calidad from "../components/pages/Calidad";
 import DetalleMantenimiento from "../components/pages/calidad/reporteria/DetalleMantenimiento";
+
 //importaciones de seguridad
 import Seguridad from "../components/pages/Seguridad";
 //importaciones de almacen
@@ -43,6 +44,7 @@ import Mantenimiento from "../components/pages/Mantenimiento";
 import DocumentosSGC from "../components/pages/DocumentosSGC";
 //importaciones administrativos
 import Administrativo from "../components/pages/Administrativo";
+import Documentos from "../components/pages/RecursosHumanos/Documentos";
 
 function Rutas() {
   return (
@@ -85,6 +87,7 @@ function Rutas() {
           <Route path="captura-solicitud" element={<SolicitudesEmpleo />} />
           <Route path="alta-baja-empleados" element={<AltaBaja />} />
           <Route path="faltas-retardo" element={<FaltasRetardos/>}/>
+          <Route path="documentos-trabajadores" element={<Documentos/>}/>
         </Route>
 
         {/* Calidad */}

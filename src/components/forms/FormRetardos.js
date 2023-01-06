@@ -46,7 +46,7 @@ function FormRetardos({ datos, enviar }) {
                       return (
                         <option
                           value={e.iddepartamento}
-                        >{`${e.iddepartamento}`}</option>
+                        >{`${e.departamento}`}</option>
                       );
                 })}
                 </select>
