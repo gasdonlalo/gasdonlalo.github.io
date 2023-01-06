@@ -1,6 +1,6 @@
 import useGetData from "../../hooks/useGetData";
 
-function FormOrdtrabajo({ datos, handle, enviar }) {
+function FormOrdtrabajomante({ datos, handle, enviar }) {
   const estacion = useGetData("/estaciones-servicio");
 
   return (
@@ -134,4 +134,4 @@ function FormOrdtrabajo({ datos, handle, enviar }) {
   );
 }
 
-export default FormOrdtrabajo;
+export default FormOrdtrabajomante;
