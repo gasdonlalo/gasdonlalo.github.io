@@ -1,17 +1,13 @@
 import useGetData from "../../hooks/useGetData";
 function FormSolEmpleo({ handle, enviar, setData, data }) {
-
   const dept = useGetData("/departamento");
-
 
   return (
     <div className="container">
       <form onSubmit={enviar}>
         <div className="row">
           <div className="mb-3 col-4">
-            <label className="form-label">
-              Nombre
-            </label>
+            <label className="form-label">Nombre</label>
             <input
               type="text"
               className="form-control"
@@ -20,10 +16,8 @@ function FormSolEmpleo({ handle, enviar, setData, data }) {
               required
             />
           </div>
-           <div className="mb-3 col-4">
-            <label className="form-label">
-              apellido paterno
-            </label>
+          <div className="mb-3 col-4">
+            <label className="form-label">Apellido paterno</label>
             <input
               type="text"
               className="form-control"
@@ -32,10 +26,8 @@ function FormSolEmpleo({ handle, enviar, setData, data }) {
               required
             />
           </div>
-            <div className="mb-3 col-4">
-            <label className="form-label">
-              apellido materno
-            </label>
+          <div className="mb-3 col-4">
+            <label className="form-label">Apellido materno</label>
             <input
               type="text"
               className="form-control"
@@ -57,22 +49,28 @@ function FormSolEmpleo({ handle, enviar, setData, data }) {
               required
             />
           </div>
-            <div className="mb-3 col-6">
-            <label className="form-label">
-              Area solicitante
-            </label>
-            <select className="form-control" name="idDepartamento" onChange={handle}>
+          <div className="mb-3 col-6">
+            <label className="form-label">Area solicitante</label>
+            <select
+              className="form-control"
+              name="idDepartamento"
+              onChange={handle}
+            >
               <option value={null}>--Selecciona un departamento--</option>
-              {!dept.data ? false : dept.data.response.map(e => { return <option value={e.iddepartamento}>{e.departamento}</option>})}
+              {!dept.data
+                ? false
+                : dept.data.response.map((e) => {
+                    return (
+                      <option value={e.iddepartamento}>{e.departamento}</option>
+                    );
+                  })}
             </select>
           </div>
         </div>
 
         <div className="row">
           <div className="mb-3 col-6">
-            <label className="form-label">
-              Estatus
-            </label>
+            <label className="form-label">Estatus</label>
             <select className="form-select" name="estatus" onChange={handle}>
               <option value={null}>--Selecciona un estatus--</option>
               <option value={Number("1")}>Aceptado</option>
@@ -84,9 +82,7 @@ function FormSolEmpleo({ handle, enviar, setData, data }) {
           </div>
 
           <div className="mb-3 col-6">
-            <label className="form-label">
-              Ingresar ID 
-            </label>
+            <label className="form-label">Ingresar ID</label>
             <input
               type="number"
               className="form-control"
@@ -105,7 +101,7 @@ function FormSolEmpleo({ handle, enviar, setData, data }) {
             step="0.01"
             min="0.00"
             className="form-control"
-            name="Motivo"
+            name="motivo"
             onChange={handle}
           />
         </div>

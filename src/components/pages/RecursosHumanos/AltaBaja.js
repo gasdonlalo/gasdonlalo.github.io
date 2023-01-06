@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import TablaEmpleados from "./TablaEmpleados";
+import TablaEmpleados from "../../tablas/TablaEmpleados";
 
 function AltaBaja() {
   const [id, setId] = useState(null);
@@ -9,7 +9,7 @@ function AltaBaja() {
     <div className="Main">
       <div>
         <Link className="Link-primary" to="/recursos-humanos">
-        Volver a recursos humanos
+          Volver a recursos humanos
         </Link>
         <h4 className="border-bottom">Altas y bajas de Empleados</h4>
       </div>
