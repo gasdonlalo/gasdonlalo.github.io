@@ -23,12 +23,26 @@ import GRD from "../components/pages/despacho/reporteria/GraficaRecursosDes";
 import GMSN from "../components/pages/salidaNoConforme/SalidaNoConformeGraficaMensual";
 import GSNI from "../components/pages/salidaNoConforme/SalidaInconformidadesGrafica";
 //importaciones recursos humanos
+import RecursosHumanos from "../components/pages/RecursosHumanos";
 import SolicitudesEmpleo from "../components/pages/RecursosHumanos/SolicitudesEmpleo";
+import AltaBaja from "../components/pages/RecursosHumanos/AltaBaja";
+import FaltasRetardos from "../components/pages/RecursosHumanos/FaltasRetardos";
+
 //importaciones de calidad
 import Ordtrabajo from "../components/pages/calidad/Ordtrabajo";
-import Calidad from "../components/pages/Calidad";
 import OrdenTrabajo from "../components/pages/calidad/OrdenTrabajo";
+import Calidad from "../components/pages/Calidad";
 import DetalleMantenimiento from "../components/pages/calidad/reporteria/DetalleMantenimiento";
+//importaciones de seguridad
+import Seguridad from "../components/pages/Seguridad";
+//importaciones de almacen
+import Almacen from "../components/pages/Almacen";
+//importaciones de mantenimiento
+import Mantenimiento from "../components/pages/Mantenimiento";
+//importaciones documentosSGC
+import DocumentosSGC from "../components/pages/DocumentosSGC";
+//importaciones administrativos
+import Administrativo from "../components/pages/Administrativo";
 
 function Rutas() {
   return (
@@ -65,9 +79,15 @@ function Rutas() {
           <Route path="*" element={<Notfound />} />
         </Route>
 
+        {/* Recursos humanos */}
         <Route path="/recursos-humanos" element={<Layout />}>
+          <Route index element={<RecursosHumanos />} />
           <Route path="captura-solicitud" element={<SolicitudesEmpleo />} />
+          <Route path="alta-baja-empleados" element={<AltaBaja />} />
+          <Route path="faltas-retardo" element={<FaltasRetardos/>}/>
         </Route>
+
+        {/* Calidad */}
         <Route path="/calidad" element={<Layout />}>
           <Route index element={<Calidad />} />
           <Route path="orden-trabajo" element={<Ordtrabajo />} />
@@ -78,12 +98,35 @@ function Rutas() {
             element={<DetalleMantenimiento />}
           />
         </Route>
-      </Routes>
-      {/* <Routes>
-        <Route path="*" element={<Layout />}>
-          <Route index element={<Notfound />} />
+
+        {/* Seguridad */}
+        <Route path="/seguridad" element={<Layout />}>
+          <Route index element={<Seguridad />} />
         </Route>
-      </Routes> */}
+
+        {/* Administrativo */}
+        <Route path="/administrativo" element={<Layout />}>
+          <Route index element={<Administrativo />} />
+        </Route>
+
+        {/* Mantenimiento */}
+        <Route path="/mantenimiento" element={<Layout />}>
+          <Route index element={<Mantenimiento />} />
+        </Route>
+
+        {/* Almacen */}
+        <Route path="/almacen1" element={<Layout />}>
+          <Route index element={<Almacen />} />
+        </Route>
+
+        {/* Documentos SGC */}
+        <Route path="/documentos-sgc" element={<Layout />}>
+          <Route index element={<DocumentosSGC />} />
+        </Route>
+
+        {/* Siempre debe ir abajo */}
+      </Routes>
+
       {/* <Layout>
         <Routes>
           <Route exact path="/" element={<Home />} />

@@ -1,10 +1,10 @@
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import Axios from "../../../Caxios/Axios";
-import FormOrdtrabajo from "../../forms/FormOrdtrabajo";
+import FormRetardos from "../../forms/FormRetardos";
 import useGetData from "../../../hooks/useGetData";
 
-function Ordtrabajo(){
+function FaltasRetardos(){
     const [data, setData] = useState([]);
 
     //recibe los datos del formulario
@@ -13,7 +13,7 @@ function Ordtrabajo(){
         console.log(data)
     };
 
-    const empleado = useGetData("/empleado?departamento=3");
+    const empleado = useGetData("/empleado?departamento");
 
     const enviar = (e) => {
         e.preventDefault();
@@ -23,7 +23,7 @@ function Ordtrabajo(){
 
     //añade una ruta
     const enviarDatos = async () => {
-        const resp = await Axios.post("/orden-trabajo-calidad", data);
+        const resp = await Axios.post("", data);
         console.log(resp);
         if (resp.status === 200) {
             window.alert("correcto");
@@ -36,14 +36,14 @@ function Ordtrabajo(){
     return (
         <div className="Main">
             <div>
-                <Link className="Link-primary" to="/calidad">
-                    Volver a calidad
+                <Link className="Link-primary" to="/recursos-humanos">
+                    Volver a recursos humanos
                 </Link>
-                <h4 className="border-bottom">Orden de trabajo</h4>
-                <FormOrdtrabajo datos={empleado} handle={handle} enviar={enviar} />
+                <h4 className="border-bottom">Faltas y Retardos</h4>
+                <FormRetardos datos={empleado} handle={handle} enviar={enviar} />
 
             </div>
         </div>
     )
 }
-export default Ordtrabajo;
+export default FaltasRetardos;

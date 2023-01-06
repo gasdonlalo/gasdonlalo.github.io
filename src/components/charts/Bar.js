@@ -34,7 +34,6 @@ function Grafica({ datos, text, y, legend }) {
         color: "white",
         display: function (context) {
           var dataset = context.dataset;
-
           var value = dataset.data[context.dataIndex];
           return value;
         },

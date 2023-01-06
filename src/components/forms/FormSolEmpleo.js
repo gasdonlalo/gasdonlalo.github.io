@@ -1,67 +1,99 @@
-import InputFecha from "./InputFecha";
+import useGetData from "../../hooks/useGetData";
 function FormSolEmpleo({ handle, enviar, setData, data }) {
+  const dept = useGetData("/departamento");
+
   return (
     <div className="container">
       <form onSubmit={enviar}>
         <div className="row">
-          <div className="mb-3 col-6">
-            <label htmlFor="exampleInputEmail1" className="form-label">
-              Nombre del solicitante
-            </label>
+          <div className="mb-3 col-4">
+            <label className="form-label">Nombre</label>
             <input
               type="text"
               className="form-control"
-              aria-describedby="emailHelp"
-              name="empleado"
+              name="nombre"
+              onChange={handle}
+              required
+            />
+          </div>
+          <div className="mb-3 col-4">
+            <label className="form-label">Apellido paterno</label>
+            <input
+              type="text"
+              className="form-control"
+              name="apellidoPaterno"
+              onChange={handle}
+              required
+            />
+          </div>
+          <div className="mb-3 col-4">
+            <label className="form-label">Apellido materno</label>
+            <input
+              type="text"
+              className="form-control"
+              name="apellidoMaterno"
               onChange={handle}
               required
             />
           </div>
           <div className="mb-3 col-6">
-            <label for="exampleInputEmail1" className="form-label">
+            <label className="form-label">
               Fecha de nacimiento del solicitante
             </label>
             <input
               type="date"
               className="form-control"
-              aria-describedby="emailHelp"
-              name="fecha_nacimiento"
+              name="fechaNacimiento"
               onChange={handle}
               onDoubleClickCapture={handle}
               required
             />
           </div>
+          <div className="mb-3 col-6">
+            <label className="form-label">Area solicitante</label>
+            <select
+              className="form-control"
+              name="idDepartamento"
+              onChange={handle}
+            >
+              <option value={null}>--Selecciona un departamento--</option>
+              {!dept.data
+                ? false
+                : dept.data.response.map((e) => {
+                    return (
+                      <option value={e.iddepartamento}>{e.departamento}</option>
+                    );
+                  })}
+            </select>
+          </div>
         </div>
 
         <div className="row">
           <div className="mb-3 col-6">
-            <label for="exampleInputEmail1" className="form-label">
-              Fecha de registro de solicitud
-            </label>
-            <InputFecha
-              name="fecha_solicitud"
-              handle={handle}
-              data={data}
-              setData={setData}
-            />
+            <label className="form-label">Estatus</label>
+            <select className="form-select" name="estatus" onChange={handle}>
+              <option value={null}>--Selecciona un estatus--</option>
+              <option value={Number("1")}>Aceptado</option>
+              <option value={Number("2")}>Pasante</option>
+              <option value={Number("3")}>Despido</option>
+              <option value={Number("4")}>Rechazo</option>
+              <option value={Number("5")}>Pendiente</option>
+            </select>
           </div>
+
           <div className="mb-3 col-6">
-            <label htmlFor="exampleInputEmail1" className="form-label">
-              Status de solicutud
-            </label>
+            <label className="form-label">Ingresar ID</label>
             <input
-              type="text"
+              type="number"
               className="form-control"
-              aria-describedby="emailHelp"
-              name="status"
+              name="idEmpleado"
               onChange={handle}
-              required
             />
           </div>
         </div>
 
         <div className="mb-3">
-          <label for="exampleInputEmail1" className="form-label">
+          <label className="form-label">
             Motivo de solicitud/despido/rechazo
           </label>
           <textarea
@@ -69,10 +101,8 @@ function FormSolEmpleo({ handle, enviar, setData, data }) {
             step="0.01"
             min="0.00"
             className="form-control"
-            aria-describedby="emailHelp"
             name="motivo"
             onChange={handle}
-            required
           />
         </div>
 
