@@ -45,6 +45,7 @@ import DocumentosSGC from "../components/pages/DocumentosSGC";
 //importaciones administrativos
 import Administrativo from "../components/pages/Administrativo";
 import Documentos from "../components/pages/RecursosHumanos/Documentos";
+import Ordtrabajomante from "../components/pages/mantenimiento/Ordtrabajomante";
 
 function Rutas() {
   return (
@@ -115,6 +116,7 @@ function Rutas() {
         {/* Mantenimiento */}
         <Route path="/mantenimiento" element={<Layout />}>
           <Route index element={<Mantenimiento />} />
+          <Route path="orden-trabajo" element={<Ordtrabajomante/>}/>
         </Route>
 
         {/* Almacen */}

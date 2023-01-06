@@ -11,7 +11,7 @@ function Mantenimiento() {
           {/* primer tabla */}
           <div className="d-flex justify-content-evenly flex-wrap mt-5">
             <Card
-              url="/calidad/orden-trabajo"
+              url="/mantenimiento/orden-trabajo"
               icon="fa-thin fa-clipboard-list"
               text="Ordenes de trabajo"
             />

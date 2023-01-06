@@ -2,7 +2,7 @@ import { useState } from "react";
 import useGetData from "../../hooks/useGetData";
 import InputFecha from "./InputFecha";
 
-function FormRetardos({ datos, enviar }) {
+function FormRetardos({ datos, enviar, dept }) {
 
   const [estacionS] = useState(null);
   const turnos = useGetData(`/estaciones-servicio/turnos/${estacionS}`);
@@ -42,7 +42,7 @@ function FormRetardos({ datos, enviar }) {
                   <option value="0">--Selecciona un departamento--</option>
                   {!datos.data
                     ? false
-                    : datos.data.response.map((e) => {
+                    : dept.data.response.map((e) => {
                       return (
                         <option
                           value={e.iddepartamento}
