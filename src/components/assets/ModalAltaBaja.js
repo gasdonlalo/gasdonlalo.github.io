@@ -1,32 +1,67 @@
 import { Modal } from "react-bootstrap";
-import Button from "react-bootstrap/Button";
-function ModalAltaBaja({ show, handleClose, enviar, changeMotivo, tipo }) {
+function ModalAltaBaja({
+  show,
+  handleClose,
+  enviar,
+  changeMotivo,
+  encabezado,
+  mostrarId,
+}) {
   return (
     <Modal show={show} onHide={handleClose} backdrop="static" centered>
       <Modal.Header closeButton>
-        <Modal.Title>{tipo}</Modal.Title>
+        <Modal.Title>{encabezado}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <form onSubmit={enviar}>
-          <label>Motivo</label>
-          <input
-            className="form-control"
-            name="motivo"
-            onChange={changeMotivo}
-          />
+          {mostrarId === true ? (
+            <div className="row">
+              <div className="mb-3 col-6">
+                <label>Dar de alta como: </label>
+                <select
+                  className="form-control "
+                  name="estatus"
+                  required
+                  onChange={changeMotivo}
+                >
+                  <option value="">--Selecciona una opcion--</option>
+                  <option value="1">Contratado</option>
+                  <option value="2">Practicante</option>
+                </select>
+              </div>
+              <div className="mb-3 col-6">
+                <label>Ingresar ID</label>
+                <input
+                  className="form-control"
+                  type="number"
+                  min="0"
+                  name="idEmpleado"
+                  required
+                  onChange={changeMotivo}
+                />
+              </div>
+            </div>
+          ) : null}
+          <div className="mb-3">
+            <label>Motivo</label>
+            <textarea
+              className="form-control"
+              name="motivo"
+              onChange={changeMotivo}
+              placeholder="Puedes o no escribir un motivo."
+            />
+          </div>
+
           <button type="submit" className="btn btn-primary">
             Enviar
           </button>
         </form>
       </Modal.Body>
-      <Modal.Footer>
+      {/* <Modal.Footer>
         <Button variant="secondary" onClick={handleClose}>
           Cerrar
         </Button>
-        {/*         <Button variant="primary" onClick={handleClose}>
-          Save Changes
-        </Button> */}
-      </Modal.Footer>
+      </Modal.Footer> */}
     </Modal>
   );
 }

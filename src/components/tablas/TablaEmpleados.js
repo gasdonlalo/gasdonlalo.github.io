@@ -2,9 +2,11 @@ import { useState } from "react";
 import Axios from "../../Caxios/Axios";
 import useGetData from "../../hooks/useGetData";
 import ModalAltaBaja from "../assets/ModalAltaBaja";
+import ModalConfirmacion from "../assets/ModalConfirmacion";
 import { useLocation } from "react-router-dom";
 
 function TablaEmpleados({ id }) {
+  //setea los botones de acuerdo al tipo de empleados mostrados
   function SetBotones({ id, e }) {
     if (id === "1") {
       return (
@@ -33,7 +35,7 @@ function TablaEmpleados({ id }) {
             className="btn btn-success"
             onClick={() => contratar(e.idempleado, e.idsolicitud_empleo)}
           >
-            Dar de alta
+            Contratar
           </button>
         </td>
       );
@@ -43,16 +45,16 @@ function TablaEmpleados({ id }) {
           <button
             type="button"
             className="btn btn-danger me-2"
-            onClick={() => despedir(e.idempleado, e.idsolicitud_empleo)}
+            onClick={() => rechazar(e.idempleado, e.idsolicitud_empleo)}
           >
             Rechazar
           </button>
           <button
             type="button"
             className="btn btn-success"
-            onClick={() => contratar(e.idempleado, e.idsolicitud_empleo)}
+            onClick={() => alta(e.idempleado, e.idsolicitud_empleo)}
           >
-            Contratar
+            Dar de alta
           </button>
         </td>
       );
@@ -61,29 +63,41 @@ function TablaEmpleados({ id }) {
 
   const navigate = useLocation().pathname;
   const datos = useGetData(!id ? false : `/solicitudes/estatus/${id}`); //consulta el tipo de empleados
-  console.log(!datos.dataError ? false : datos.dataError.msg);
   //variables para modal
   const [show, setShow] = useState(false);
-  const handleClose = () => setShow(false);
+  const handleClose = () => {
+    setShow(false);
+    setMostrarIdForm(false);
+  }; //cierra y limpia la opcion de id en el modal
   const handleShow = () => setShow(true);
   const [encabezado, setEncabezado] = useState("");
+  const [mostrarIdForm, setMostrarIdForm] = useState(false);
+
+  const [confirmacion, setConfirmacion] = useState(false);
+  const showConfirmacion = () => setConfirmacion(true);
+  const closeConfirmacion = () => setConfirmacion(false);
   //variable actualizar motivo
   const [motivo, setMotivo] = useState([]);
   const [idsol, setIdsol] = useState(); //idsolicitud relativa a la tabla
+
   const enviar = (e) => {
     e.preventDefault();
-    enviarDatos();
     handleClose();
+    showConfirmacion();
   };
 
   const enviarDatos = async () => {
-    const req = await Axios.put(`/solicitudes/control/${idsol}`, motivo);
-    console.log(req);
+    try {
+      const req = await Axios.put(`/solicitudes/control/${idsol}`, motivo);
+      console.log(req);
+    } catch (err) {}
+
+    closeConfirmacion();
   };
   const changeMotivo = (e) => {
     setMotivo({ ...motivo, [e.target.name]: e.target.value });
   };
-
+  //funciones para acciones
   const despedir = (idempleado, idsolicitud) => {
     setMotivo({ ...motivo, estatus: 3, idEmpleado: idempleado });
     setIdsol(idsolicitud);
@@ -94,12 +108,40 @@ function TablaEmpleados({ id }) {
   const contratar = (idempleado, idsolicitud) => {
     setMotivo({ ...motivo, estatus: 1, idEmpleado: idempleado });
     setIdsol(idsolicitud);
-    setEncabezado("Dar de alta practicante");
+    setEncabezado("Contratar practicante");
+    handleShow();
+  };
+
+  const rechazar = (idempleado, idsolicitud) => {
+    setMotivo({ ...motivo, estatus: 4, idEmpleado: idempleado });
+    setIdsol(idsolicitud);
+    setEncabezado("Rechazar solicitud");
+    handleShow();
+  };
+
+  const alta = (idempleado, idsolicitud) => {
+    setMotivo({ ...motivo, idEmpleado: idempleado });
+    setIdsol(idsolicitud);
+    setEncabezado("Dar de alta empleado");
+    setMostrarIdForm(true);
     handleShow();
   };
 
   return (
     <div>
+      <ModalConfirmacion
+        handleClose={closeConfirmacion}
+        show={confirmacion}
+        enviar={enviarDatos}
+      />
+      <ModalAltaBaja
+        show={show}
+        handleClose={handleClose}
+        enviar={enviar}
+        changeMotivo={changeMotivo}
+        encabezado={encabezado}
+        mostrarId={mostrarIdForm}
+      />
       <table className="table align-middle">
         <thead>
           <tr>
@@ -110,7 +152,7 @@ function TablaEmpleados({ id }) {
             {id === "5" ? <th scope="col">Motivo de la solicitud</th> : null}
 
             {navigate.match("dados-baja") ? (
-              <th>Motivo de baja</th>
+              <th>Motivo de {id !== "4" ? "baja" : "rechazo"}</th>
             ) : (
               <th scope="col">Accion(es)</th>
             )}
@@ -136,13 +178,6 @@ function TablaEmpleados({ id }) {
               })}
         </tbody>
       </table>
-      <ModalAltaBaja
-        show={show}
-        handleClose={handleClose}
-        enviar={enviar}
-        changeMotivo={changeMotivo}
-        tipo={encabezado}
-      />
     </div>
   );
 }

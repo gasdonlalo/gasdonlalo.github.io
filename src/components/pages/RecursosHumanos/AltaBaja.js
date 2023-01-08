@@ -4,7 +4,6 @@ import TablaEmpleados from "../../tablas/TablaEmpleados";
 
 function AltaBaja() {
   const [id, setId] = useState(null);
-  console.log(id);
   return (
     <div className="Main">
       <div>
