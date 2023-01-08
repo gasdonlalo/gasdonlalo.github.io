@@ -1,17 +1,16 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
 import TablaEmpleados from "../../tablas/TablaEmpleados";
+import { Link } from "react-router-dom";
+import { useState } from "react";
 
-function AltaBaja() {
+function EmpleadosRechazados() {
   const [id, setId] = useState(null);
-  console.log(id);
   return (
     <div className="Main">
       <div>
         <Link className="Link-primary" to="/recursos-humanos">
           Volver a recursos humanos
         </Link>
-        <h4 className="border-bottom">Altas y bajas de Empleados</h4>
+        <h4 className="border-bottom">Empleados dados de baja</h4>
       </div>
       <div className="container">
         <form>
@@ -20,18 +19,15 @@ function AltaBaja() {
             className="form-control"
             onChange={(e) => setId(e.target.value)}
           >
-            <option value={null}>--Selecciona un opcion--</option>
-            <option value="1">Contratado</option>
-            <option value="2">Practicante</option>
-            <option value="5">Pendiente</option>
+            <option value="0">--Selecciona un opcion--</option>
+            <option value="3">Despedido/dado de baja</option>
+            <option value="4">Rechazado</option>
           </select>
         </form>
-        <div>
-          <TablaEmpleados id={id} />
-        </div>
+        <TablaEmpleados id={id} />
       </div>
     </div>
   );
 }
 
-export default AltaBaja;
+export default EmpleadosRechazados;

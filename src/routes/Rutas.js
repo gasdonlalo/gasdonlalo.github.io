@@ -43,6 +43,7 @@ import Mantenimiento from "../components/pages/Mantenimiento";
 import DocumentosSGC from "../components/pages/DocumentosSGC";
 //importaciones administrativos
 import Administrativo from "../components/pages/Administrativo";
+import EmpleadosRechazados from "../components/pages/RecursosHumanos/EmpleadosRechazados";
 
 function Rutas() {
   return (
@@ -84,7 +85,11 @@ function Rutas() {
           <Route index element={<RecursosHumanos />} />
           <Route path="captura-solicitud" element={<SolicitudesEmpleo />} />
           <Route path="alta-baja-empleados" element={<AltaBaja />} />
-          <Route path="faltas-retardo" element={<FaltasRetardos/>}/>
+          <Route path="faltas-retardo" element={<FaltasRetardos />} />
+          <Route
+            path="empleados-dados-baja"
+            element={<EmpleadosRechazados />}
+          />
         </Route>
 
         {/* Calidad */}

@@ -2,9 +2,18 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import Axios from "../../../Caxios/Axios";
 import FormSolEmpleo from "../../forms/FormSolEmpleo";
+import ModalSuccess from "../../assets/ModalSuccess";
+import ModalError from "../../assets/ModalError";
 
 function SolicitudesEmpleo() {
   const [datos, setDatos] = useState([]);
+  const [modalSuccess, setModalSuccess] = useState(false);
+  const [modalError, setModalError] = useState({ status: false, msg: "" });
+
+  const cerrarModal = () => {
+    setModalError(false);
+    setModalSuccess(false);
+  };
 
   const handle = (e) => {
     setDatos({ ...datos, [e.target.name]: e.target.value });
@@ -14,14 +23,26 @@ function SolicitudesEmpleo() {
     e.preventDefault();
     console.log(datos);
     enviarDatos();
+    e.target.reset();
   };
 
   const enviarDatos = async () => {
-    const req = await Axios.post("/solicitudes/nuevo", datos)
-    console.log(req)
-  }
+    try {
+      let req = await Axios.post("/solicitudes/nuevo", datos);
+      console.log(req);
+      setModalSuccess(true);
+    } catch (err) {
+      setModalError({ status: true, msg: err.response.data.msg });
+    }
+  };
   return (
     <div className="Main">
+      <ModalSuccess show={modalSuccess} close={cerrarModal} />
+      <ModalError
+        show={modalError.status}
+        close={cerrarModal}
+        text={modalError.msg}
+      />
       <div>
         <Link className="link-primary" to="/recursos-humanos">
           Volver a recursos humanos
