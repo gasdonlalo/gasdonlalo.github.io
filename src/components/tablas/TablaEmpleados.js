@@ -1,9 +1,11 @@
 import { useState } from "react";
+import { useLocation } from "react-router-dom";
 import Axios from "../../Caxios/Axios";
 import useGetData from "../../hooks/useGetData";
 import ModalAltaBaja from "../assets/ModalAltaBaja";
 import ModalConfirmacion from "../assets/ModalConfirmacion";
-import { useLocation } from "react-router-dom";
+import ModalSuccess from "../assets/ModalSuccess";
+import ModalError from "../assets/ModalError";
 
 function TablaEmpleados({ id }) {
   //setea los botones de acuerdo al tipo de empleados mostrados
@@ -72,10 +74,17 @@ function TablaEmpleados({ id }) {
   const handleShow = () => setShow(true);
   const [encabezado, setEncabezado] = useState("");
   const [mostrarIdForm, setMostrarIdForm] = useState(false);
-
+  //modal confirmacion
   const [confirmacion, setConfirmacion] = useState(false);
   const showConfirmacion = () => setConfirmacion(true);
   const closeConfirmacion = () => setConfirmacion(false);
+  //modal correcto e incorrecto
+  const [modalSuccess, setModalSuccess] = useState(false);
+  const [modalError, setModalError] = useState({ status: false, msg: "" });
+  const cerrarModal = () => {
+    setModalError(false);
+    setModalSuccess(false);
+  };
   //variable actualizar motivo
   const [motivo, setMotivo] = useState([]);
   const [idsol, setIdsol] = useState(); //idsolicitud relativa a la tabla
@@ -87,12 +96,19 @@ function TablaEmpleados({ id }) {
   };
 
   const enviarDatos = async () => {
+    console.log(motivo);
     try {
       const req = await Axios.put(`/solicitudes/control/${idsol}`, motivo);
       console.log(req);
-    } catch (err) {}
-
-    closeConfirmacion();
+      closeConfirmacion();
+      setModalSuccess(true);
+      setTimeout(() => {
+        cerrarModal();
+      }, "1500"); //cierra automaticamente el modal
+    } catch (err) {
+      closeConfirmacion();
+      setModalError({ status: true, msg: err.response.data.msg });
+    }
   };
   const changeMotivo = (e) => {
     setMotivo({ ...motivo, [e.target.name]: e.target.value });
@@ -129,6 +145,12 @@ function TablaEmpleados({ id }) {
 
   return (
     <div>
+      <ModalSuccess show={modalSuccess} close={cerrarModal} />
+      <ModalError
+        show={modalError.status}
+        close={cerrarModal}
+        text={modalError.msg}
+      />
       <ModalConfirmacion
         handleClose={closeConfirmacion}
         show={confirmacion}
