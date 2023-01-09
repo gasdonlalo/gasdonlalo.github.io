@@ -10,6 +10,7 @@ import format from "../assets/format";
 import Loader from "../assets/Loader";
 
 function TablaEmpleados({ id }) {
+  console.log(id);
   //setea los botones de acuerdo al tipo de empleados mostrados
   function SetBotones({ id, e }) {
     if (id === "1") {
@@ -177,7 +178,15 @@ function TablaEmpleados({ id }) {
         mostrarId={mostrarIdForm}
       />
       {datos.error ? (
-        <h4 className="text-center">{datos.dataError.msg + "..."}</h4> //Mensaje de datos vacios o error
+        id === " " || id === null ? (
+          <h4 className="text-center mt-2 fst-italic">
+            Por favor, selecciona una opción.
+          </h4>
+        ) : (
+          <h4 className="text-center mt-2 fst-italic">
+            {datos.dataError.msg + "..."}
+          </h4>
+        ) //Mensaje de datos vacios o error
       ) : (
         <table className="table align-middle table-bordered mt-2 shadow-sm">
           <thead className="table-light">
