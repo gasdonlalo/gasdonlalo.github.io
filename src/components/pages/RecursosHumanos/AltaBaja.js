@@ -25,6 +25,19 @@ function AltaBaja() {
             <option value="5">Pendiente</option>
           </select>
         </form>
+        {id === "1" ? (
+          <h4 className="border-bottom mt-2 fst-italic">
+            Mostrando empleados contratados.
+          </h4>
+        ) : id === "2" ? (
+          <h4 className="border-bottom mt-2 fst-italic">
+            Mostrando empleados practicantes.
+          </h4>
+        ) : id === "5" ? (
+          <h4 className="border-bottom mt-2 fst-italic">
+            Mostrando solicitudes pendientes.
+          </h4>
+        ) : null}
         <div>
           <TablaEmpleados id={id} />
         </div>

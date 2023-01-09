@@ -9,6 +9,7 @@ function SolicitudesEmpleo() {
   const [datos, setDatos] = useState([]);
   const [modalSuccess, setModalSuccess] = useState(false);
   const [modalError, setModalError] = useState({ status: false, msg: "" });
+  const [pendiente, setPendiente] = useState(false);
 
   const cerrarModal = () => {
     setModalError(false);
@@ -20,8 +21,8 @@ function SolicitudesEmpleo() {
   };
 
   const enviar = (e) => {
+    setPendiente(true);
     e.preventDefault();
-    console.log(datos);
     enviarDatos();
     e.target.reset();
   };
@@ -31,11 +32,18 @@ function SolicitudesEmpleo() {
       let req = await Axios.post("/solicitudes/nuevo", datos);
       console.log(req);
       setModalSuccess(true);
+      setPendiente(false);
       setTimeout(() => {
         cerrarModal();
       }, "1500"); //cierra el modal automaticamente
     } catch (err) {
-      setModalError({ status: true, msg: err.response.data.msg });
+      console.log(err);
+      if (err.hasOwnProperty("response")) {
+        setModalError({ status: true, msg: err.response.data.msg });
+      } else {
+        setModalError({ status: true, msg: "Error en la conexión" });
+      }
+      setPendiente(false);
     }
   };
   return (
@@ -53,12 +61,7 @@ function SolicitudesEmpleo() {
         <h4 className="border-bottom">Control de solicitudes de empleo</h4>
       </div>
       <div>
-        <FormSolEmpleo
-          handle={handle}
-          enviar={enviar}
-          data={datos}
-          setData={setDatos}
-        />
+        <FormSolEmpleo handle={handle} enviar={enviar} pendiente={pendiente} />
       </div>
     </div>
   );

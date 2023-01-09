@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { Fragment, useState } from "react";
 import { useLocation } from "react-router-dom";
 import Axios from "../../Caxios/Axios";
 import useGetData from "../../hooks/useGetData";
@@ -6,6 +6,8 @@ import ModalAltaBaja from "../assets/ModalAltaBaja";
 import ModalConfirmacion from "../assets/ModalConfirmacion";
 import ModalSuccess from "../assets/ModalSuccess";
 import ModalError from "../assets/ModalError";
+import format from "../assets/format";
+import Loader from "../assets/Loader";
 
 function TablaEmpleados({ id }) {
   //setea los botones de acuerdo al tipo de empleados mostrados
@@ -69,6 +71,7 @@ function TablaEmpleados({ id }) {
     !id ? false : `/solicitudes/estatus/${id}`,
     actualizar
   ); //consulta el tipo de empleados
+  console.log(datos);
   //variables para modales
   const [show, setShow] = useState(false);
   const handleClose = () => {
@@ -110,8 +113,13 @@ function TablaEmpleados({ id }) {
       }, "1500"); //cierra automaticamente el modal
       setActualizar(!actualizar);
     } catch (err) {
-      closeConfirmacion();
-      setModalError({ status: true, msg: err.response.data.msg });
+      if (err.hasOwnProperty("response")) {
+        closeConfirmacion();
+        setModalError({ status: true, msg: err.response.data.msg });
+      } else {
+        closeConfirmacion();
+        setModalError({ status: true, msg: "Error en la conexión" });
+      }
     }
   };
   const changeMotivo = (e) => {
@@ -169,19 +177,29 @@ function TablaEmpleados({ id }) {
         mostrarId={mostrarIdForm}
       />
       {datos.error ? (
-        <h4>{datos.dataError.msg}</h4>
+        <h4 className="text-center">{datos.dataError.msg + "..."}</h4> //Mensaje de datos vacios o error
       ) : (
-        <table className="table align-middle">
-          <thead>
+        <table className="table align-middle table-bordered mt-2 shadow-sm">
+          <thead className="table-light">
             <tr>
               <th scope="col">Nombre</th>
               <th scope="col">Apellido paterno</th>
               <th scope="col">Apellido Materno</th>
               {/* Muestra el motivo para una solicitud pendiente */}
-              {id === "5" ? <th scope="col">Motivo de la solicitud</th> : null}
+              {navigate.match("baja-empleados") ? (
+                <Fragment>
+                  <th scope="col">Motivo de la solicitud</th>
+                  <th scope="col">Fecha de registro de la solicitud</th>
+                </Fragment>
+              ) : null}
 
               {navigate.match("dados-baja") ? (
-                <th>Motivo de {id !== "4" ? "baja" : "rechazo"}</th>
+                <Fragment>
+                  <th scope="col">
+                    Motivo de {id !== "4" ? "baja" : "rechazo"}
+                  </th>
+                  <th scope="col">Fecha de baja</th>
+                </Fragment>
               ) : (
                 <th scope="col">Accion(es)</th>
               )}
@@ -196,9 +214,21 @@ function TablaEmpleados({ id }) {
                       <td>{e.nombre}</td>
                       <td>{e.apellido_paterno}</td>
                       <td>{e.apellido_materno}</td>
-                      {id === "5" ? <td>{e.motivo}</td> : null}
+                      {navigate.match("baja-empleados") ? (
+                        <Fragment>
+                          <td>{e.motivo}</td>
+                          <td>
+                            {format.formatFechaComplete(e.fecha_registro)}
+                          </td>
+                        </Fragment>
+                      ) : null}
                       {navigate.match("dados-baja") ? (
-                        <td>{e.motivo}</td>
+                        <Fragment>
+                          <td>{e.motivo}</td>
+                          <td className="text-danger">
+                            {format.formatFechaComplete(e.update_time)}
+                          </td>
+                        </Fragment>
                       ) : (
                         <SetBotones id={id} e={e} />
                       )}
@@ -208,6 +238,7 @@ function TablaEmpleados({ id }) {
           </tbody>
         </table>
       )}
+      {datos.isPending && <Loader />}
     </div>
   );
 }
