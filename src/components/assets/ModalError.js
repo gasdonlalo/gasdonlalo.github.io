@@ -12,7 +12,7 @@ const ModalError = ({ show, close, text }) => {
       <Modal.Body>{text}</Modal.Body>
       <Modal.Footer>
         <Button variant="danger" onClick={close}>
-          Intertar de nuevo
+          Intentar de nuevo
         </Button>
       </Modal.Footer>
     </Modal>

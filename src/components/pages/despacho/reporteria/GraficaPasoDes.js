@@ -121,7 +121,7 @@ const Success = ({ data, year, month, idEmpleado, quincena }) => {
       ],
       dataset: [
         {
-          data: [promedio.quin1, promedio.quin2],
+          data: [promedio.quin1.toFixed(2), promedio.quin2.toFixed(2)],
           label: "Diciembre",
           backgroundColor: "rgba(237,50,5,1)",
         },
