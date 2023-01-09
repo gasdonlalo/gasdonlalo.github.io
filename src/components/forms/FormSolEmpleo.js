@@ -1,5 +1,6 @@
 import useGetData from "../../hooks/useGetData";
-function FormSolEmpleo({ handle, enviar, setData, data }) {
+import Loader from "../assets/Loader";
+function FormSolEmpleo({ handle, enviar, pendiente }) {
   const dept = useGetData("/departamento");
 
   return (
@@ -56,7 +57,11 @@ function FormSolEmpleo({ handle, enviar, setData, data }) {
               name="idDepartamento"
               onChange={handle}
             >
-              <option value={null}>--Selecciona un departamento--</option>
+              <option value=" ">
+                {dept.isPending
+                  ? "Cargando departamentos..."
+                  : "--Selecciona una opción--"}
+              </option>
               {!dept.data
                 ? false
                 : dept.data.response.map((e) => {
@@ -104,7 +109,7 @@ function FormSolEmpleo({ handle, enviar, setData, data }) {
         </div>
 
         <button type="submit" className="btn btn-primary start-50">
-          Añadir
+          {pendiente ? <Loader size="1.5" /> : "Añadir"}
         </button>
       </form>
     </div>
