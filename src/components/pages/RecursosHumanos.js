@@ -17,7 +17,13 @@ function RecursosHumanos() {
             <Card
               url="alta-baja-empleados"
               icon="fa-solid fa-arrow-right-arrow-left"
-              text="A & B Empleados"
+              text="Altas y baja de empleados"
+              rotacion={90}
+            />
+            <Card
+              url={"control-documentos"}
+              icon="fa-solid fa-file-contract"
+              text="Control de documentos"
             />
             <Card
               url="documentos-trabajadores"
@@ -65,9 +71,9 @@ function RecursosHumanos() {
           <h3>Reportes</h3>
           <div className="d-flex justify-content-evenly wrap mt-5">
             <Card
-              url="grafica-mensual"
+              url="grafica-mensual-faltas-retardos"
               icon="chart-simple"
-              text="Grafica Mensual"
+              text="Grafica mensual faltas y retardos por empleado"
             />
           </div>
         </div>
@@ -76,11 +82,14 @@ function RecursosHumanos() {
   );
 }
 
-const Card = ({ url, text, icon }) => {
+const Card = ({ url, text, icon, rotacion }) => {
   const navigate = useNavigate();
   return (
     <div className="rounded p-2 btn-select m-1" onClick={() => navigate(url)}>
-      <i className={`fa-regular fa-${icon}`} style={{ fontSize: "50px" }}></i>
+      <i
+        className={`fa-regular fa-${icon}`}
+        style={{ fontSize: "50px", transform: `rotate(${rotacion}deg)` }}
+      ></i>
       <p className="p-0 m-0">{text}</p>
     </div>
   );

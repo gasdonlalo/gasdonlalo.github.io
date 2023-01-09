@@ -27,6 +27,9 @@ import RecursosHumanos from "../components/pages/RecursosHumanos";
 import SolicitudesEmpleo from "../components/pages/RecursosHumanos/SolicitudesEmpleo";
 import AltaBaja from "../components/pages/RecursosHumanos/AltaBaja";
 import FaltasRetardos from "../components/pages/RecursosHumanos/FaltasRetardos";
+import CM from "../components/pages/RecursosHumanos/ConcursoMadrugador";
+// Importación gráficos recursos
+import FRG from "../components/pages/RecursosHumanos/Reportes/FaltaRetardoGrafica";
 
 //importaciones de calidad
 import Ordtrabajo from "../components/pages/calidad/Ordtrabajo";
@@ -47,6 +50,8 @@ import Administrativo from "../components/pages/Administrativo";
 import EmpleadosRechazados from "../components/pages/RecursosHumanos/EmpleadosRechazados";
 import Documentos from "../components/pages/RecursosHumanos/Documentos";
 import Ordtrabajomante from "../components/pages/mantenimiento/Ordtrabajomante";
+import FaltaRetardoGrafica from "../components/pages/RecursosHumanos/Reportes/FaltaRetardoGrafica";
+import ControlDocumentos from "../components/pages/RecursosHumanos/ControlDocumentos";
 
 function Rutas() {
   return (
@@ -88,12 +93,25 @@ function Rutas() {
           <Route index element={<RecursosHumanos />} />
           <Route path="captura-solicitud" element={<SolicitudesEmpleo />} />
           <Route path="alta-baja-empleados" element={<AltaBaja />} />
+          <Route path="faltas-retardo">
+            <Route index element={<FaltasRetardos />} />
+            <Route path="reportes" element={<FRG />} />
+          </Route>
+          <Route path="documentos-trabajadores" element={<Documentos />} />
+          <Route path="consursos" element={<CM />}>
+            <Route path="madrugador" element={<CM />} />
+          </Route>
           <Route path="faltas-retardo" element={<FaltasRetardos />} />
           <Route
             path="empleados-dados-baja"
             element={<EmpleadosRechazados />}
           />
           <Route path="documentos-trabajadores" element={<Documentos />} />
+          <Route
+            path="grafica-mensual-faltas-retardos"
+            element={<FaltaRetardoGrafica />}
+          />
+          <Route path="control-documentos" element={<ControlDocumentos />} />
         </Route>
 
         {/* Calidad */}
@@ -136,120 +154,6 @@ function Rutas() {
 
         {/* Siempre debe ir abajo */}
       </Routes>
-
-      {/* <Layout>
-        <Routes>
-          <Route exact path="/" element={<Home />} />
-          <Route exact path="*" element={<Notfound />} />
-          <Route exact path="/calidad" element={<Calidad />} />
-          <Route
-            exact
-            path="/calidad/ordenes-de-trabajo/:year/:month/:idEstacion"
-            element={<OrdenTrabajo />}
-          />
-          <Route exact path="/despacho" element={<Despacho />} />
-          <Route
-            exact
-            path="/calidad/ordenes-de-trabajo/:year/:month/:idEstacion/:mantenimiento/:idMantenimiento"
-            element={<DetalleMantenimiento />}
-          />
-          <Route exact path="/calidad/Ordtrabajo" element={<Ordtrabajo />} />
-          <Route
-            exact
-            path="/calidad/DetalleMantenimiento"
-            element={<DetalleMantenimiento />}
-          />
-          <Route exact path="/despacho" element={<Despacho />} />
-          <Route
-            exact
-            path="/despacho/montos-faltantes"
-            element={<MontoFaltante />}
-          />
-          <Route
-            exact
-            path="/despacho/montos-faltantes/detalles"
-            element={<DetallesMontoFaltante />}
-          />
-          <Route
-            exact
-            path="/despacho/recoleccion-de-efectivo"
-            element={<RecolEfect />}
-          />
-          <Route
-            exact
-            path="/despacho/pasos-para-despachar"
-            element={<Pasosdespachar />}
-          />
-          <Route
-            exact
-            path="/despacho/recursos-despachador"
-            element={<RecursosDesp />}
-          />
-          <Route
-            exact
-            path="/despacho/reporteria/monto-faltante"
-            element={<GraficaMontofaltante />}
-          />
-          <Route
-            exact
-            path="/despacho/reporteria/monto-faltante/empleado"
-            element={<MontoFaltanteEmpleado />}
-          />
-          <Route
-            exact
-            path="/despacho/checklist"
-            element={<ChecklistBomba />}
-          />
-          <Route
-            exact
-            path="/despacho/evaluacion-uniforme"
-            element={<EvalUniforme />}
-          />
-          <Route
-            exact
-            path="/despacho/reporteria/registro-checklist"
-            element={<GraficaChecklist />}
-          />
-          <Route
-            exact
-            path="/despacho/reporteria/uniforme"
-            element={<GraficaEvUnifome />}
-          />
-          <Route
-            exact
-            path="/salidas-no-conformes"
-            element={<SalidaNoConforme />}
-          />
-
-          <Route exact path="/chart" element={<Chartprueba />} />
-          <Route exact path="/pdf" element={<Pdfprueba />} />
-          <Route
-            exact
-            path="/calidad/ordenes-de-trabajo/:year/:month/:idEstacion"
-            element={<OrdenTrabajo />}
-          />
-          <Route
-            exact
-            path="/calidad/ordenes-de-trabajo/:year/:month/:idEstacion/:mantenimiento/:idMantenimiento"
-            element={<DetalleMantenimiento />}
-          />
-          <Route
-            exact
-            path="/reporteria/salidas-no-conformes"
-            element={<SalidasNoConformesReportes />}
-          />
-          <Route
-            exact
-            path="/despacho/reporteria/recoleccion-efectivo"
-            element={<GraficaRecolEfectivo />}
-          />
-          <Route
-            exact
-            path="/despacho/reporteria/evaluacion-despachar"
-            element={<GraficaPasoDes />}
-          />
-        </Routes>
-      </Layout> */}
     </Router>
   );
 }
