@@ -1,5 +1,6 @@
 import useGetData from "../../hooks/useGetData";
-function FormSolEmpleo({ handle, enviar, setData, data }) {
+import Loader from "../assets/Loader";
+function FormSolEmpleo({ handle, enviar, pendiente }) {
   const dept = useGetData("/departamento");
 
   return (
@@ -56,7 +57,11 @@ function FormSolEmpleo({ handle, enviar, setData, data }) {
               name="idDepartamento"
               onChange={handle}
             >
-              <option value={null}>--Selecciona un departamento--</option>
+              <option value=" ">
+                {dept.isPending
+                  ? "Cargando departamentos..."
+                  : "--Selecciona una opción--"}
+              </option>
               {!dept.data
                 ? false
                 : dept.data.response.map((e) => {
@@ -73,11 +78,9 @@ function FormSolEmpleo({ handle, enviar, setData, data }) {
             <label className="form-label">Estatus</label>
             <select className="form-select" name="estatus" onChange={handle}>
               <option value={null}>--Selecciona un estatus--</option>
-              <option value={Number("1")}>Aceptado</option>
-              <option value={Number("2")}>Pasante</option>
-              <option value={Number("3")}>Despido</option>
-              <option value={Number("4")}>Rechazo</option>
-              <option value={Number("5")}>Pendiente</option>
+              <option value={1}>Aceptado</option>
+              <option value={2}>Pasante</option>
+              <option value={5}>Pendiente</option>
             </select>
           </div>
 
@@ -88,14 +91,13 @@ function FormSolEmpleo({ handle, enviar, setData, data }) {
               className="form-control"
               name="idEmpleado"
               onChange={handle}
+              placeholder="Dejar vacio si la solicitud es de estatus pendiente."
             />
           </div>
         </div>
 
         <div className="mb-3">
-          <label className="form-label">
-            Motivo de solicitud/despido/rechazo
-          </label>
+          <label className="form-label">Motivo de solicitud</label>
           <textarea
             type="text"
             step="0.01"
@@ -107,7 +109,7 @@ function FormSolEmpleo({ handle, enviar, setData, data }) {
         </div>
 
         <button type="submit" className="btn btn-primary start-50">
-          Añadir
+          {pendiente ? <Loader size="1.5" /> : "Añadir"}
         </button>
       </form>
     </div>

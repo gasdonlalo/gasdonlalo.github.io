@@ -4,7 +4,6 @@ import TablaEmpleados from "../../tablas/TablaEmpleados";
 
 function AltaBaja() {
   const [id, setId] = useState(null);
-  console.log(id);
   return (
     <div className="Main">
       <div>
@@ -20,11 +19,25 @@ function AltaBaja() {
             className="form-control"
             onChange={(e) => setId(e.target.value)}
           >
-            <option value={null}>--Selecciona un opcion--</option>
+            <option value=" ">--Selecciona un opcion--</option>
             <option value="1">Contratado</option>
             <option value="2">Practicante</option>
+            <option value="5">Pendiente</option>
           </select>
         </form>
+        {id === "1" ? (
+          <h4 className="border-bottom mt-2 fst-italic">
+            Mostrando empleados contratados.
+          </h4>
+        ) : id === "2" ? (
+          <h4 className="border-bottom mt-2 fst-italic">
+            Mostrando empleados practicantes.
+          </h4>
+        ) : id === "5" ? (
+          <h4 className="border-bottom mt-2 fst-italic">
+            Mostrando solicitudes pendientes.
+          </h4>
+        ) : null}
         <div>
           <TablaEmpleados id={id} />
         </div>
