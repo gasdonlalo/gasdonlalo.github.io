@@ -31,6 +31,9 @@ function SolicitudesEmpleo() {
       let req = await Axios.post("/solicitudes/nuevo", datos);
       console.log(req);
       setModalSuccess(true);
+      setTimeout(() => {
+        cerrarModal();
+      }, "1500"); //cierra el modal automaticamente
     } catch (err) {
       setModalError({ status: true, msg: err.response.data.msg });
     }

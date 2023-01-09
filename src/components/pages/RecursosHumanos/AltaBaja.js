@@ -19,7 +19,7 @@ function AltaBaja() {
             className="form-control"
             onChange={(e) => setId(e.target.value)}
           >
-            <option value={null}>--Selecciona un opcion--</option>
+            <option value=" ">--Selecciona un opcion--</option>
             <option value="1">Contratado</option>
             <option value="2">Practicante</option>
             <option value="5">Pendiente</option>

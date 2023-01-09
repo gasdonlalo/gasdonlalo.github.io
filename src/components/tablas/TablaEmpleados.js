@@ -63,9 +63,13 @@ function TablaEmpleados({ id }) {
     }
   }
 
-  const navigate = useLocation().pathname;
-  const datos = useGetData(!id ? false : `/solicitudes/estatus/${id}`); //consulta el tipo de empleados
-  //variables para modal
+  const navigate = useLocation().pathname; //obtiene la ruta actual para cambiar los encabezados de la tabla
+  const [actualizar, setActualizar] = useState(false); //actualiza la informacion XD
+  const datos = useGetData(
+    !id ? false : `/solicitudes/estatus/${id}`,
+    actualizar
+  ); //consulta el tipo de empleados
+  //variables para modales
   const [show, setShow] = useState(false);
   const handleClose = () => {
     setShow(false);
@@ -96,7 +100,6 @@ function TablaEmpleados({ id }) {
   };
 
   const enviarDatos = async () => {
-    console.log(motivo);
     try {
       const req = await Axios.put(`/solicitudes/control/${idsol}`, motivo);
       console.log(req);
@@ -105,6 +108,7 @@ function TablaEmpleados({ id }) {
       setTimeout(() => {
         cerrarModal();
       }, "1500"); //cierra automaticamente el modal
+      setActualizar(!actualizar);
     } catch (err) {
       closeConfirmacion();
       setModalError({ status: true, msg: err.response.data.msg });
@@ -164,42 +168,46 @@ function TablaEmpleados({ id }) {
         encabezado={encabezado}
         mostrarId={mostrarIdForm}
       />
-      <table className="table align-middle">
-        <thead>
-          <tr>
-            <th scope="col">Nombre</th>
-            <th scope="col">Apellido paterno</th>
-            <th scope="col">Apellido Materno</th>
-            {/* Muestra el motivo para una solicitud pendiente */}
-            {id === "5" ? <th scope="col">Motivo de la solicitud</th> : null}
+      {datos.error ? (
+        <h4>{datos.dataError.msg}</h4>
+      ) : (
+        <table className="table align-middle">
+          <thead>
+            <tr>
+              <th scope="col">Nombre</th>
+              <th scope="col">Apellido paterno</th>
+              <th scope="col">Apellido Materno</th>
+              {/* Muestra el motivo para una solicitud pendiente */}
+              {id === "5" ? <th scope="col">Motivo de la solicitud</th> : null}
 
-            {navigate.match("dados-baja") ? (
-              <th>Motivo de {id !== "4" ? "baja" : "rechazo"}</th>
-            ) : (
-              <th scope="col">Accion(es)</th>
-            )}
-          </tr>
-        </thead>
-        <tbody>
-          {!datos.data
-            ? false
-            : datos.data.response.map((e) => {
-                return (
-                  <tr>
-                    <td>{e.nombre}</td>
-                    <td>{e.apellido_paterno}</td>
-                    <td>{e.apellido_materno}</td>
-                    {id === "5" ? <td>{e.motivo}</td> : null}
-                    {navigate.match("dados-baja") ? (
-                      <td>{e.motivo}</td>
-                    ) : (
-                      <SetBotones id={id} e={e} />
-                    )}
-                  </tr>
-                );
-              })}
-        </tbody>
-      </table>
+              {navigate.match("dados-baja") ? (
+                <th>Motivo de {id !== "4" ? "baja" : "rechazo"}</th>
+              ) : (
+                <th scope="col">Accion(es)</th>
+              )}
+            </tr>
+          </thead>
+          <tbody>
+            {!datos.data
+              ? false
+              : datos.data.response.map((e) => {
+                  return (
+                    <tr>
+                      <td>{e.nombre}</td>
+                      <td>{e.apellido_paterno}</td>
+                      <td>{e.apellido_materno}</td>
+                      {id === "5" ? <td>{e.motivo}</td> : null}
+                      {navigate.match("dados-baja") ? (
+                        <td>{e.motivo}</td>
+                      ) : (
+                        <SetBotones id={id} e={e} />
+                      )}
+                    </tr>
+                  );
+                })}
+          </tbody>
+        </table>
+      )}
     </div>
   );
 }
