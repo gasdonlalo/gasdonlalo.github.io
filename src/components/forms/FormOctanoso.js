@@ -66,7 +66,7 @@ function FormOctanoso({ enviar, handle, data, setData, pendiente }) {
           </div>
         </div>
         <div className="mb-3">
-          <label>Monto</label>
+          <label>Litros vendidos</label>
           <input
             className="form-control "
             type="number"
