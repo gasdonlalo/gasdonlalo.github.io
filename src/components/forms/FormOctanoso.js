@@ -8,7 +8,7 @@ function FormOctanoso({ enviar, handle, data, setData, pendiente }) {
   console.log(pendiente);
 
   return (
-    <div className="container w-75 shadow">
+    <div className="container w-50 shadow mt-3">
       <form onSubmit={enviar}>
         <div className="row pt-3">
           <div className="mb-3 col-4">

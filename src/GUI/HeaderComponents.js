@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 
 const HeaderComponents = ({ urlBack, textUrlback, title, children }) => {
   return (
-    <div className="Main">
+    <div>
       <div>
         <div className="d-flex justify-content-between border-bottom align-items-center">
           <div>

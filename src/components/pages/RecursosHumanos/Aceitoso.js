@@ -1,11 +1,10 @@
 import FormOctanoso from "../../forms/FormOctanoso";
 import HeaderComponents from "../../../GUI/HeaderComponents";
-import { useState } from "react";
 import Axios from "../../../Caxios/Axios";
 import ModalSuccess from "../../assets/ModalSuccess";
 import ModalError from "../../assets/ModalError";
-
-function Octanoso() {
+import { useState } from "react";
+function Aceitoso() {
   const [datos, setDatos] = useState([]);
   const [modalSuccess, setModalSuccess] = useState(false);
   const [modalError, setModalError] = useState({ status: false, msg: "" });
@@ -23,13 +22,14 @@ function Octanoso() {
   const enviar = (e) => {
     setPendiente(true);
     e.preventDefault();
+    console.log(datos);
     enviarDatos();
     e.target.reset();
   };
 
   const enviarDatos = async () => {
     try {
-      const req = await Axios.post("/octanoso/registro", datos);
+      const req = await Axios.post("/aceitoso/registro", datos);
       console.log(req);
       setModalSuccess(true);
       setPendiente(false);
@@ -54,13 +54,11 @@ function Octanoso() {
         close={cerrarModal}
         text={modalError.msg}
       />
-      <div>
-        <HeaderComponents
-          urlBack="/recursos-humanos"
-          textUrlback="Volver a recursos humanos"
-          title="Registro de litros combustible vendidos"
-        />
-      </div>
+      <HeaderComponents
+        urlBack="/recursos-humanos"
+        textUrlback="Volver a recursos humanos"
+        title="Registro de litros de aceites vendidos"
+      />
       <FormOctanoso
         enviar={enviar}
         handle={handle}
@@ -72,4 +70,4 @@ function Octanoso() {
   );
 }
 
-export default Octanoso;
+export default Aceitoso;
