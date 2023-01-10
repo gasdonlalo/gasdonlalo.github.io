@@ -31,7 +31,7 @@ function RepOctanoso() {
       <HeaderComponents
         urlBack="/recursos-humanos"
         textUrlback="Volver a recursos humanos"
-        title="Reporte del concurso el octanoso"
+        title="Reporte de concurso el octanoso"
       />
       <div className="container">
         <form>
@@ -73,6 +73,8 @@ function RepOctanoso() {
               <th scope="col">Nombre de los despachadores</th>
               {!datosTabla.data
                 ? false
+                : !datosTabla.data.response[0].datos
+                ? false
                 : datosTabla.data.response[0].datos.map((e) => {
                     return <th>{format.formatFechaComplete(e.fecha)}</th>;
                   })}
@@ -84,11 +86,15 @@ function RepOctanoso() {
               : datosTabla.data.response.map((e) => {
                   return (
                     <tr>
-                      {!e.empleado ? false : <td>{e.empleado.nombre}</td>}
+                      {!e.empleado ? (
+                        false
+                      ) : (
+                        <td>{`${e.empleado.nombre} ${e.empleado.apellido_paterno} ${e.empleado.apellido_materno}`}</td>
+                      )}
                       {!e.datos
                         ? false
                         : e.datos.map((e) => (
-                            <td key={e.fecha}>{e.cantidad}</td>
+                            <td key={e.fecha}>{e.cantidad} L</td>
                           ))}
                     </tr>
                   );
