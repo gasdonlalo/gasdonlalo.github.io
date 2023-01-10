@@ -1,7 +1,6 @@
 import React, { Fragment, useState } from "react";
 import useGetData from "../../../hooks/useGetData";
 import HeaderComponents from "../../../GUI/HeaderComponents";
-import Axios from "../../../Caxios/Axios";
 
 function Documentos() {
   const empleado = useGetData("/empleado");
@@ -11,11 +10,6 @@ function Documentos() {
   const documentos = useGetData(!id ? false : `/control-documento/${id}`);
 
   console.log(documentos);
-
-  const completo = async () => {
-    const req = await Axios.put(`/control-documento/${id}`);
-    console.log(req);
-  };
 
   return (
     <div>
@@ -45,7 +39,15 @@ function Documentos() {
 
       <div>
         {documentos.error ? (
-          <h4 className="text-center">{documentos.dataError.msg + "..."}</h4>
+          id === "" || id === null ? (
+            <h4 className="text-center mt-2 fst-italic">
+              Por favor, selecciona un empleado para visualizar su documentación
+            </h4>
+          ) : (
+            <h4 className="text-center mt-2 fst-italic">
+              {documentos.dataError.msg + "..."}
+            </h4>
+          ) // para avisar que no hay datos
         ) : (
           <table className="container table table-bordered mt-2 shadow-sm">
             <thead className="table-light">
@@ -62,7 +64,6 @@ function Documentos() {
                 <th scope="col">R.F.C</th>
                 <th scope="col">C.U.R.P</th>
                 <th scope="col">Tarjeta bancaria</th>
-                <th scope="col">Listado final</th>
               </tr>
             </thead>
             <tbody>
