@@ -27,7 +27,8 @@ import RecursosHumanos from "../components/pages/RecursosHumanos";
 import SolicitudesEmpleo from "../components/pages/RecursosHumanos/SolicitudesEmpleo";
 import AltaBaja from "../components/pages/RecursosHumanos/AltaBaja";
 import FaltasRetardos from "../components/pages/RecursosHumanos/FaltasRetardos";
-import CM from "../components/pages/RecursosHumanos/ConcursoMadrugador";
+import ConcursoMadrugador from "../components/pages/RecursosHumanos/ConcursoMadrugador";
+
 // Importación gráficos recursos
 import FRG from "../components/pages/RecursosHumanos/Reportes/FaltaRetardoGrafica";
 
@@ -101,9 +102,7 @@ function Rutas() {
             <Route path="reportes" element={<FRG />} />
           </Route>
           <Route path="documentos-trabajadores" element={<Documentos />} />
-          <Route path="consursos" element={<CM />}>
-            <Route path="madrugador" element={<CM />} />
-          </Route>
+          <Route path="concurso-madrugador" element={<ConcursoMadrugador />} />
           <Route path="faltas-retardo" element={<FaltasRetardos />} />
           <Route
             path="empleados-dados-baja"

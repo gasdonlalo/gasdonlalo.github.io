@@ -68,10 +68,12 @@ function TablaEmpleados({ id }) {
 
   const navigate = useLocation().pathname; //obtiene la ruta actual para cambiar los encabezados de la tabla
   const [actualizar, setActualizar] = useState(false); //actualiza la informacion XD
+
   const datos = useGetData(
     !id ? false : `/solicitudes/estatus/${id}`,
     actualizar
   ); //consulta el tipo de empleados
+
   console.log(datos);
   //variables para modales
   const [show, setShow] = useState(false);
