@@ -50,6 +50,8 @@ import Administrativo from "../components/pages/Administrativo";
 import EmpleadosRechazados from "../components/pages/RecursosHumanos/EmpleadosRechazados";
 import Documentos from "../components/pages/RecursosHumanos/Documentos";
 import Ordtrabajomante from "../components/pages/mantenimiento/Ordtrabajomante";
+import FaltaRetardoGrafica from "../components/pages/RecursosHumanos/Reportes/FaltaRetardoGrafica";
+import ControlDocumentos from "../components/pages/RecursosHumanos/ControlDocumentos";
 
 function Rutas() {
   return (
@@ -105,6 +107,11 @@ function Rutas() {
             element={<EmpleadosRechazados />}
           />
           <Route path="documentos-trabajadores" element={<Documentos />} />
+          <Route
+            path="grafica-mensual-faltas-retardos"
+            element={<FaltaRetardoGrafica />}
+          />
+          <Route path="control-documentos" element={<ControlDocumentos />} />
         </Route>
 
         {/* Calidad */}
