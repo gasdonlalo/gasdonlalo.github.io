@@ -3,7 +3,7 @@ import React from "react";
 const InputSelectEmpleado = ({ handle, empleados, name, defaultValue }) => {
   return (
     <select
-      className="form-select form-select"
+      className="form-select"
       defaultValue={defaultValue || 0}
       onChange={handle}
       name={name}

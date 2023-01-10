@@ -3,7 +3,11 @@ const format = {
     new Intl.DateTimeFormat("es-MX", {
       day: "numeric",
       month: "long",
-    }).format(new Date(date)),
+    }).format(
+      new Date(
+        new Date(date).getTime() + new Date().getTimezoneOffset() * 60000
+      )
+    ),
 
   formatDinero: (monto) =>
     Intl.NumberFormat("es-MX", {
@@ -41,6 +45,7 @@ const format = {
         new Date(date).getTime() + new Date().getTimezoneOffset() * 60000
       )
     ),
+  formatFechaDB: (date) => new Date(date).toISOString().split("T")[0],
 };
 
 export default format;
