@@ -75,6 +75,16 @@ function RecursosHumanos() {
               icon="chart-simple"
               text="Grafica mensual faltas y retardos por empleado"
             />
+            <Card
+              url="concurso-octanoso/reporte"
+              icon="fa-thin fa-award"
+              text="Concurso el octanoso"
+            />
+            <Card
+              url="concurso-aceitoso/reporte"
+              icon="fa-thin fa-award"
+              text="Concurso el aceitoso"
+            />
           </div>
         </div>
       </div>

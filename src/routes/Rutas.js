@@ -55,6 +55,7 @@ import FaltaRetardoGrafica from "../components/pages/RecursosHumanos/Reportes/Fa
 import ControlDocumentos from "../components/pages/RecursosHumanos/ControlDocumentos";
 import Octanoso from "../components/pages/RecursosHumanos/Octanoso";
 import Aceitoso from "../components/pages/RecursosHumanos/Aceitoso";
+import RepOctanoso from "../components/pages/RecursosHumanos/Reportes/RepOctanoso";
 
 function Rutas() {
   return (
@@ -113,8 +114,15 @@ function Rutas() {
             element={<FaltaRetardoGrafica />}
           />
           <Route path="control-documentos" element={<ControlDocumentos />} />
-          <Route path="concurso-octanoso" element={<Octanoso />} />
-          <Route path="concurso-aceitoso" element={<Aceitoso />} />
+          {/* Rutas concursos */}
+          <Route path="concurso-octanoso">
+            <Route index element={<Octanoso />} />
+            <Route path="reporte" element={<RepOctanoso />} />
+          </Route>
+          <Route path="concurso-aceitoso">
+            <Route index element={<Aceitoso />} />
+            <Route path="reporte" />
+          </Route>
         </Route>
 
         {/* Calidad */}
