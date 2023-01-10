@@ -20,10 +20,8 @@ function ControlDocumentos() {
   };
 
   const enviar = (e, tipo) => {
-    console.log(tipo, "ola");
     e.preventDefault();
     enviarDatos(tipo);
-    console.log(datos);
   };
 
   const enviarDatos = async (tipoEntrega) => {
