@@ -132,6 +132,7 @@ const FaltaRetardoGrafica = () => {
 
 const Success = ({ weeks, data }) => {
   const [render, setRender] = useState(data.response);
+  console.log(data.response);
   const [dataBar, setDataBar] = useState(null);
   const createDataBar = (datos) => {
     let totalXtipo = [];
@@ -170,8 +171,11 @@ const Success = ({ weeks, data }) => {
 
   useEffect(() => {
     createDataBar(render);
+  }, [render]);
+
+  useEffect(() => {
     setRender(data.response);
-  }, [render, data]);
+  }, [data]);
 
   const chooseWeek = (e) => {
     if (e.target.value === "") return setRender(data.response);
@@ -186,10 +190,10 @@ const Success = ({ weeks, data }) => {
   };
 
   return (
-    <div className="d-flex">
-      <div>
+    <div className="d-flex w-100">
+      <div className="w-100">
         <div className="row mb-3">
-          <div className="col-8">
+          <div className="col-3">
             <label className="form-label fw-semibold mb-1">Semanas</label>
             <select className="form-select" onChange={chooseWeek}>
               <option value="">Todas las semanas del mes</option>
@@ -202,72 +206,63 @@ const Success = ({ weeks, data }) => {
             </select>
           </div>
         </div>
-        <nav>
-          {render.length > 0 ? (
-            render.map((el) => (
-              <div
-                key={el.idcaptura_entrada}
-                className="mb-3"
-                style={{ width: "max-content" }}
-              >
-                <p className="fw-bold mb-1">
-                  Fecha:{" "}
-                  <span className="fw-semibold">
-                    {format.formatFechaComplete(el.fecha)}
-                  </span>{" "}
-                  Turno: <span className="fw-semibold">{el.turno}</span>
-                </p>
-                <table>
-                  <thead>
-                    <tr>
-                      <th className="border px-2">Horario</th>
-                      <th className="border px-2">Hora Entrada</th>
-                      <th className="border px-2">Minutos de retardo</th>
-                      <th className="border px-2 text-center">Falta</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
+        <div className="row">
+          <nav className="col-4">
+            <div className="mb-3" style={{ width: "max-content" }}>
+              <table>
+                <thead>
+                  <tr>
+                    <th className="text-center border  px-1">fecha</th>
+                    <th className="text-center border  px-1">turno</th>
+                    <th className="text-center border  px-1">Hora entrada</th>
+                    <th className="text-center border  px-1">
+                      Minuto Retardos
+                    </th>
+                    <th className="text-center border  px-1">Tipo falta</th>
+                  </tr>
+                </thead>
+                {render.length > 0 ? (
+                  render.map((el) => (
+                    <tr key={el.idcaptura_entrada}>
                       <td className="text-center border">
-                        <span className="fw-semibold">{el.hora_anticipo}</span>
+                        {format.formatFechaComplete(el.fecha)}
                       </td>
-                      <td className="text-center border">
-                        <span className="fw-semibold">{el.hora_entrada}</span>
+                      <td className="text-center border px-1 fw-semibold">
+                        {el.turno}
                       </td>
-                      <td className="text-center border">
-                        <span
-                          className={`fw-semibold text-${
-                            el.minutosRetardos === "00:00"
-                              ? "success"
-                              : "danger"
-                          }`}
-                        >
-                          {el.minutosRetardos}
-                        </span>
+                      <td className="text-center border px-1 fw-semibold">
+                        {el.hora_entrada}
                       </td>
-                      <td className="border px-2 text-center fw-semibold">
+                      <td
+                        className={`text-center border px-1 fw-semibold text-${
+                          el.minutosRetardos === "00:00" ? "success" : "danger"
+                        }`}
+                      >
+                        {el.minutosRetardos}
+                      </td>
+                      <td className="text-center border px-1 fw-semibold">
                         {el.tipo}
                       </td>
                     </tr>
-                  </tbody>
-                </table>
-              </div>
-            ))
-          ) : (
-            <div>
-              <p className="fw-bold text-danger">Sin datos aún</p>
+                  ))
+                ) : (
+                  <td colSpan={5}>
+                    <span className="fw-bold text-danger">Sin datos aún</span>
+                  </td>
+                )}
+              </table>
             </div>
-          )}
-        </nav>
-      </div>
-      <div className="w-75">
-        {dataBar && (
-          <Bar
-            datos={dataBar}
-            text={`${data.response[0].nombre} ${data.response[0].apellido_paterno} ${data.response[0].apellido_materno}`}
-            legend={false}
-          />
-        )}
+          </nav>
+          <div className="col-8">
+            {dataBar && (
+              <Bar
+                datos={dataBar}
+                text={`${data.response[0].nombre} ${data.response[0].apellido_paterno} ${data.response[0].apellido_materno}`}
+                legend={false}
+              />
+            )}
+          </div>
+        </div>
       </div>
     </div>
   );
