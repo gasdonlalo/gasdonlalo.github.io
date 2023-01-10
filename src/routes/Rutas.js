@@ -27,7 +27,8 @@ import RecursosHumanos from "../components/pages/RecursosHumanos";
 import SolicitudesEmpleo from "../components/pages/RecursosHumanos/SolicitudesEmpleo";
 import AltaBaja from "../components/pages/RecursosHumanos/AltaBaja";
 import FaltasRetardos from "../components/pages/RecursosHumanos/FaltasRetardos";
-import CM from "../components/pages/RecursosHumanos/ConcursoMadrugador";
+import ConcursoMadrugador from "../components/pages/RecursosHumanos/ConcursoMadrugador";
+
 // Importación gráficos recursos
 import FRG from "../components/pages/RecursosHumanos/Reportes/FaltaRetardoGrafica";
 
@@ -50,6 +51,10 @@ import Administrativo from "../components/pages/Administrativo";
 import EmpleadosRechazados from "../components/pages/RecursosHumanos/EmpleadosRechazados";
 import Documentos from "../components/pages/RecursosHumanos/Documentos";
 import Ordtrabajomante from "../components/pages/mantenimiento/Ordtrabajomante";
+import FaltaRetardoGrafica from "../components/pages/RecursosHumanos/Reportes/FaltaRetardoGrafica";
+import ControlDocumentos from "../components/pages/RecursosHumanos/ControlDocumentos";
+import Octanoso from "../components/pages/RecursosHumanos/Octanoso";
+import Aceitoso from "../components/pages/RecursosHumanos/Aceitoso";
 
 function Rutas() {
   return (
@@ -96,15 +101,20 @@ function Rutas() {
             <Route path="reportes" element={<FRG />} />
           </Route>
           <Route path="documentos-trabajadores" element={<Documentos />} />
-          <Route path="consursos" element={<CM />}>
-            <Route path="madrugador" element={<CM />} />
-          </Route>
+          <Route path="concurso-madrugador" element={<ConcursoMadrugador />} />
           <Route path="faltas-retardo" element={<FaltasRetardos />} />
           <Route
             path="empleados-dados-baja"
             element={<EmpleadosRechazados />}
           />
           <Route path="documentos-trabajadores" element={<Documentos />} />
+          <Route
+            path="grafica-mensual-faltas-retardos"
+            element={<FaltaRetardoGrafica />}
+          />
+          <Route path="control-documentos" element={<ControlDocumentos />} />
+          <Route path="concurso-octanoso" element={<Octanoso />} />
+          <Route path="concurso-aceitoso" element={<Aceitoso />} />
         </Route>
 
         {/* Calidad */}

@@ -8,6 +8,8 @@ function FormOrdtrabajomante({ datos, handle, enviar }) {
       <form onSubmit={enviar}>
         <div className="row">
           <div className="mb-3">
+            <div className="border mb-3">
+              <div className="mb-3 col-6">
             <label for="exampleInputEmail1" className="form-label">
               fecha de Inicio
             </label>
@@ -18,8 +20,9 @@ function FormOrdtrabajomante({ datos, handle, enviar }) {
               name="fechaInicio"
               onChange={handle}
               onDoubleClickCapture={handle}
-            />
-            <div className="mb-3">
+              />
+              </div>
+            <div className="mb-3 col-6">
               <label for="exampleInputEmail1" className="form-label">
                 fecha de Termino
               </label>
@@ -30,8 +33,9 @@ function FormOrdtrabajomante({ datos, handle, enviar }) {
                 name="fechaTermino"
                 onChange={handle}
                 onDoubleClickCapture={handle}
-              ></input>
+                ></input>
             </div>
+                </div>
 
             {/* PRIMER CUADRO */}
             <div className="row border mb-3">
@@ -84,6 +88,7 @@ function FormOrdtrabajomante({ datos, handle, enviar }) {
                   onChange={handle}
                   defaultValue={1}
                 >
+                  <option value="0"> Selecciona una estacion </option>
                   {!estacion.error &&
                     !estacion.isPending &&
                     estacion.data.response.map((el) => (

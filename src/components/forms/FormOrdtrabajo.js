@@ -84,6 +84,7 @@ function FormOrdtrabajo({ datos, handle, enviar }) {
                   onChange={handle}
                   defaultValue={1}
                 >
+                  <option value="0"> Selecciona una estacion </option>
                   {!estacion.error &&
                     !estacion.isPending &&
                     estacion.data.response.map((el) => (

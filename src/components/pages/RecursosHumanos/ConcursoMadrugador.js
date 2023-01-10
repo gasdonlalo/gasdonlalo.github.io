@@ -1,12 +1,7 @@
 import React from "react";
-import HeaderComponents from "../../../GUI/HeaderComponents";
 
-const ConcursoMadrugador = () => {
-  return (
-    <div>
-      <HeaderComponents />
-    </div>
-  );
-};
+function ConcursoMadrugador() {
+  return <div>ConcursoMadrugador</div>;
+}
 
 export default ConcursoMadrugador;
