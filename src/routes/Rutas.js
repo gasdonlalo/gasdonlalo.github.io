@@ -56,6 +56,7 @@ import ControlDocumentos from "../components/pages/RecursosHumanos/ControlDocume
 import Octanoso from "../components/pages/RecursosHumanos/Octanoso";
 import Aceitoso from "../components/pages/RecursosHumanos/Aceitoso";
 import RepOctanoso from "../components/pages/RecursosHumanos/Reportes/RepOctanoso";
+import RepAceitoso from "../components/pages/RecursosHumanos/Reportes/RepAceitoso";
 
 function Rutas() {
   return (
@@ -121,7 +122,7 @@ function Rutas() {
           </Route>
           <Route path="concurso-aceitoso">
             <Route index element={<Aceitoso />} />
-            <Route path="reporte" />
+            <Route path="reporte" element={<RepAceitoso />} />
           </Route>
         </Route>
 

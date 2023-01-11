@@ -29,8 +29,7 @@ function SolicitudesEmpleo() {
 
   const enviarDatos = async () => {
     try {
-      let req = await Axios.post("/solicitudes/nuevo", datos);
-      console.log(req);
+      await Axios.post("/solicitudes/nuevo", datos);
       setModalSuccess(true);
       setPendiente(false);
       setTimeout(() => {

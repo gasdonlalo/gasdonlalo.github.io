@@ -11,6 +11,7 @@ import ChartDataLabels from "chartjs-plugin-datalabels";
 import { Bar } from "react-chartjs-2";
 
 function Grafica({ datos, text, y, legend }) {
+  console.log(datos);
   //configuraciones de grafica de barra
   ChartJS.register(
     CategoryScale,

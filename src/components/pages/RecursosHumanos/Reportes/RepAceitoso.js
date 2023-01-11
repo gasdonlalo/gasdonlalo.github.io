@@ -6,8 +6,7 @@ import HeaderComponents from "../../../../GUI/HeaderComponents";
 import format from "../../../assets/format";
 import Bar from "../../../charts/Bar";
 
-function RepOctanoso() {
-  //variable para colores
+function RepAceitoso() {
   let colores = [
     "rgba(219,42,62,1)",
     "rgba(255,255,10,1)",
@@ -20,6 +19,9 @@ function RepOctanoso() {
   const [mes, setMes] = useState(date.getMonth() + 1);
   const [year, setYear] = useState(date.getFullYear());
   const [estacion, setEstacion] = useState(null);
+  const datosTabla = useGetData(
+    estacion === " " ? null : `/aceitoso/reporte/${year}/${mes}/${estacion}`
+  );
 
   const changeMes = (e) => {
     setMes(e.target.value);
@@ -33,17 +35,12 @@ function RepOctanoso() {
     setEstacion(e.target.value);
   };
 
-  const datosTabla = useGetData(
-    estacion === " " ? null : `/octanoso/reporte/${year}/${mes}/${estacion}`
-  ); //año/mes/estacion de servicio
-  console.log(datosTabla);
-
   return (
     <div className="Main">
       <HeaderComponents
         urlBack="/recursos-humanos"
         textUrlback="Volver a recursos humanos"
-        title="Reporte de concurso el octanoso"
+        title="Reporte de concurso el aceitoso"
       />
       <div className="container">
         <form>
@@ -77,23 +74,19 @@ function RepOctanoso() {
           </div>
         </form>
       </div>
-      {/* Termina select */}
-      {/* Contenedor tabla */}
-
-      {!datosTabla.error && !datosTabla.isPending ? (
-        <Correcto datosTabla={datosTabla} colores={colores} />
-      ) : estacion === " " || estacion === null ? (
-        <h4 className="text-center"> Por favor, selecciona una estación.</h4>
-      ) : (
-        <h4 className="text-center">
-          {!datosTabla.dataError ? false : datosTabla.dataError.msg}
-        </h4>
-      )}
+      <div>
+        {!datosTabla.error && !datosTabla.isPending ? (
+          <Correcto datosTabla={datosTabla} colores={colores} />
+        ) : estacion === " " || estacion === null ? (
+          <h4>Por favor, selecciona una estación </h4>
+        ) : (
+          <h4>{!datosTabla.dataError ? false : datosTabla.dataError.msg}</h4>
+        )}
+      </div>
     </div>
   );
 }
 const Correcto = ({ datosTabla, colores }) => {
-  //devuelve los datos para la tabla y grafica
   const totalTabla = datosTabla.data.response
     .map((e) => {
       let nombres = !e.empleado
@@ -138,7 +131,6 @@ const Correcto = ({ datosTabla, colores }) => {
   return (
     <div>
       <h4>Vista detallada</h4>
-
       <div className="container-fluid table-responsive">
         <table className="table table-bordered">
           <thead>
@@ -161,8 +153,8 @@ const Correcto = ({ datosTabla, colores }) => {
                 ? false
                 : datosTabla.data.response[0].datos.map((e, i) => (
                     <Fragment>
-                      <th key={e}>Litros vendidos</th>
-                      <th key={i}>Salidas no conformes</th>
+                      <th key={e}>Pesos de aceites vendidos</th>
+                      <th key={i}>Salidas no conformes generadas</th>
                     </Fragment>
                   ))}
             </tr>
@@ -187,7 +179,7 @@ const Correcto = ({ datosTabla, colores }) => {
                         : e.datos.map((e, i, j) => {
                             return (
                               <Fragment>
-                                <td key={i}>{e.cantidad} L</td>
+                                <td key={i}>$ {e.cantidad}</td>
                                 <td key={j}>{e.salidaNC}</td>
                               </Fragment>
                             );
@@ -198,15 +190,13 @@ const Correcto = ({ datosTabla, colores }) => {
           </tbody>
         </table>
       </div>
-      {/* Termina tabla detalles */}
-      <h4 className="mt-3">Vista general</h4>
       <div className="container-fluid border-top mt-3">
         <div className="container mt-3">
           <table className="table table-bordered border-dark align-middle text-center">
             <thead>
               <tr>
                 <th scope="col">Nombre de los despachadores</th>
-                <th scope="col">Total de litros vendidos</th>
+                <th scope="col">Total de aceites vendidos en pesos</th>
                 <th scope="col">Total de salidas no conformes</th>
               </tr>
             </thead>
@@ -228,7 +218,8 @@ const Correcto = ({ datosTabla, colores }) => {
           </table>
         </div>
         {/* Tabla principal */}
-        <div className="d-flex align-items-center mt-3">
+        <h4>Vista general</h4>
+        <div className="d-flex align-items-center mt-3 border-top">
           <div className="w-25">
             <table className="table table-bordered  border-dark align-middle text-center">
               <thead>
@@ -259,8 +250,8 @@ const Correcto = ({ datosTabla, colores }) => {
           </div>
         </div>
       </div>
-      {/* Termina tabla */}
     </div>
   );
 };
-export default RepOctanoso;
+
+export default RepAceitoso;
