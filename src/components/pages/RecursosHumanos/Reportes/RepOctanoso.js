@@ -1,10 +1,9 @@
-import InputChangeYear from "../../../forms/InputChangeYear";
-import InputChangeMes from "../../../forms/InputChangeMes";
 import useGetData from "../../../../hooks/useGetData";
 import { Fragment, useState } from "react";
 import HeaderComponents from "../../../../GUI/HeaderComponents";
 import format from "../../../assets/format";
 import Bar from "../../../charts/Bar";
+import Axios from "../../../../Caxios/Axios";
 
 function RepOctanoso() {
   //variable para colores
@@ -15,28 +14,45 @@ function RepOctanoso() {
     "rgba(149,202,255,1)",
     "rgba(149,202,10,1)",
   ];
-  const date = new Date();
-  const estaciones = useGetData("/estaciones-servicio");
-  const [mes, setMes] = useState(date.getMonth() + 1);
-  const [year, setYear] = useState(date.getFullYear());
-  const [estacion, setEstacion] = useState(null);
 
-  const changeMes = (e) => {
-    setMes(e.target.value);
+  const [datosTabla, setDatosTabla] = useState(null);
+  const [error, setError] = useState(null);
+  const estaciones = useGetData("/estaciones-servicio");
+
+  const [fechaInicio, setFechaInicio] = useState(null);
+  const [fechaFin, setFechaFin] = useState(null);
+  const [estacion, setEstacion] = useState(null);
+  const [datos, setDatos] = useState([]);
+
+  const changeFechaInicio = (e) => {
+    setFechaInicio(e.target.value);
+    setDatos({ ...datos, [e.target.name]: e.target.value });
   };
 
-  const changeYear = (e) => {
-    setYear(e.target.value);
+  const changeFechaFin = (e) => {
+    setFechaFin(e.target.value);
+    setDatos({ ...datos, [e.target.name]: e.target.value });
   };
 
   const changeEstacion = (e) => {
     setEstacion(e.target.value);
+    setDatos({ ...datos, [e.target.name]: e.target.value });
   };
 
-  const datosTabla = useGetData(
-    estacion === " " ? null : `/octanoso/reporte/${year}/${mes}/${estacion}`
-  ); //año/mes/estacion de servicio
-  console.log(datosTabla);
+  const enviar = (e) => {
+    e.preventDefault();
+    enviarDatos();
+  };
+
+  const enviarDatos = async () => {
+    try {
+      const req = await Axios.post("/octanoso/obtener", datos);
+      setDatosTabla(req);
+      setError(null);
+    } catch (error) {
+      setError(error.response.data.msg);
+    }
+  };
 
   return (
     <div className="Main">
@@ -46,19 +62,36 @@ function RepOctanoso() {
         title="Reporte de concurso el octanoso"
       />
       <div className="container">
-        <form>
+        <form onSubmit={enviar}>
           <div className="row">
-            <div className="mb-3 col-4">
-              <label>Selecciona un mes</label>
-              <InputChangeMes handle={changeMes} defaultMes={mes} />
+            <div className="mb-3 col-3">
+              <label>Selecciona una fecha de inicio</label>
+              <input
+                className="form-control"
+                type="date"
+                name="fechaInicio"
+                onChange={changeFechaInicio}
+                required
+              />
             </div>
-            <div className="mb-3 col-4">
-              <label>Selecciona un año</label>
-              <InputChangeYear handle={changeYear} defaultYear={year} />
+            <div className="mb-3 col-3">
+              <label>Selecciona una fecha de fin</label>
+              <input
+                className="form-control"
+                type="date"
+                name="fechaFinal"
+                onChange={changeFechaFin}
+                required
+              />
             </div>
-            <div className="mb-3 col-4">
+            <div className="mb-3 col-3">
               <label>Selecciona una estacion</label>
-              <select className="form-control" onChange={changeEstacion}>
+              <select
+                className="form-control"
+                onChange={changeEstacion}
+                name="idEstacionServicio"
+                required
+              >
                 <option value=" ">--Selecciona una estación--</option>
                 {!estaciones.data
                   ? false
@@ -74,20 +107,25 @@ function RepOctanoso() {
                     })}
               </select>
             </div>
+            <button
+              type="submit"
+              className="btn btn-primary col-3 mb-3 m-auto"
+              style={{ width: "100px" }}
+            >
+              Consultar
+            </button>
           </div>
         </form>
       </div>
       {/* Termina select */}
       {/* Contenedor tabla */}
 
-      {!datosTabla.error && !datosTabla.isPending ? (
-        <Correcto datosTabla={datosTabla} colores={colores} />
-      ) : estacion === " " || estacion === null ? (
-        <h4 className="text-center"> Por favor, selecciona una estación.</h4>
+      {!datosTabla ? (
+        false
+      ) : error !== null ? (
+        <h4>{error}</h4>
       ) : (
-        <h4 className="text-center">
-          {!datosTabla.dataError ? false : datosTabla.dataError.msg}
-        </h4>
+        <Correcto datosTabla={datosTabla} colores={colores} />
       )}
     </div>
   );
