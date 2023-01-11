@@ -185,7 +185,7 @@ const PDFSalidaNoConforme = ({
                   fontFamily: "calibri",
                 }}
               >
-                {concesiones}
+                {concesiones[0] === null ? "No aplica." : concesiones[0]}
               </Text>
               <View
                 style={{
@@ -225,7 +225,7 @@ const PDFSalidaNoConforme = ({
   );
 };
 
-PDFSalidaNoConforme.defaultProps = {
+/* PDFSalidaNoConforme.defaultProps = {
   title: "Salidas no conformes",
   fecha: "14/12/2022",
   inconformidad:
@@ -233,6 +233,6 @@ PDFSalidaNoConforme.defaultProps = {
   corregir: "",
   concesiones: "No aplica.",
   incumple: "",
-};
+}; */
 
 export default PDFSalidaNoConforme;
