@@ -1,8 +1,18 @@
 import useGetData from "../../hooks/useGetData";
 import InputFecha from "./InputFecha";
 import Loader from "../assets/Loader";
+import { useLocation } from "react-router-dom";
 
-function FormOctanoso({ enviar, handle, data, setData, pendiente }) {
+function FormOctanoso({
+  enviar,
+  handle,
+  data,
+  setData,
+  pendiente,
+  handleSwitch,
+}) {
+  const ruta = useLocation().pathname;
+  console.log(ruta);
   const empleado = useGetData("/empleado?departamento=1");
   const estaciones = useGetData("/estaciones-servicio");
   console.log(pendiente);
@@ -77,6 +87,21 @@ function FormOctanoso({ enviar, handle, data, setData, pendiente }) {
             required
           />
         </div>
+        {!ruta.match("aceitoso") && (
+          <div className="form-check form-switch">
+            <label className="form-check-label fst-italic">
+              ¿El despachador hizo trampa? ***Marcar en caso de trampa
+            </label>
+            <input
+              className="form-check-input"
+              type="checkbox"
+              role="switch"
+              name="trampa"
+              onChange={handleSwitch}
+            />
+          </div>
+        )}
+
         <button type=" submit" className="btn btn-primary mb-3">
           {pendiente ? <Loader size="1.5" /> : "Añadir"}
         </button>
