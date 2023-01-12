@@ -132,13 +132,6 @@ function Rutas() {
             <Route index element={<Ordtrabajo />} />
             <Route path="reportes" element={<GOT />} />
           </Route>
-          {/* <Route path="orden-trabajo" element={<Ordtrabajo />} />
-          <Route path="orden-trabajo-reporte/" element={<OrdenTrabajo />} />
-          <Route
-            exact
-            path="/calidad/orden-trabajo-reporte/:year/:month/:idEstacion/:mantenimiento/:idMantenimiento"
-            element={<DetalleMantenimiento />}
-          /> */}
         </Route>
 
         {/* Seguridad */}

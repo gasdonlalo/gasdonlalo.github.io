@@ -29,15 +29,6 @@ const OrdenTrabajoGrafica = () => {
     setEstacion(Number(e.target.value));
   };
 
-  let dataPastel = {};
-
-  if (!error && !isPending) {
-    dataPastel = {
-      labels: data.response.map((el) => el.mantenimiento),
-      data: data.response.map((el) => el.cantidad),
-    };
-  }
-
   return (
     <div className="Main">
       <HeaderComponents
@@ -243,7 +234,7 @@ const Success = ({ data }) => {
                   </tbody>
                 </table>
               </div>
-              <div className="w-50 m-auto">
+              <div className="w-75 m-auto">
                 <Pastel data={el} />
               </div>
             </div>
