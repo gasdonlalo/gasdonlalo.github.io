@@ -4,6 +4,7 @@ import { Fragment, useState } from "react";
 import HeaderComponents from "../../../../GUI/HeaderComponents";
 import format from "../../../assets/format";
 import Bar from "../../../charts/Bar";
+import PdfGraficas from "../../../pdf_generador/PdfGraficas";
 
 function RepAceitoso() {
   let colores = [
@@ -258,39 +259,9 @@ const Correcto = ({ datosTabla, colores }) => {
         </table>
       </div>
       <div className="container-fluid border-top mt-3">
-        <div className="container mt-3">
-          <table className="table table-bordered border-dark align-middle text-center">
-            <thead>
-              <tr>
-                <th scope="col">Nombre de los despachadores</th>
-                <th scope="col">Total de aceites vendidos en pesos</th>
-                <th scope="col">Total de salidas no conformes</th>
-              </tr>
-            </thead>
-            <tbody>
-              {totalTabla.map((e, index) => {
-                return (
-                  <tr
-                    style={
-                      index < 4
-                        ? { backgroundColor: colores[index] }
-                        : e.descalificado || e.cantidadNC > 4
-                        ? { backgroundColor: "#cacaca" }
-                        : null
-                    }
-                  >
-                    <td>{e.nombre}</td>
-                    <td>$ {e.cantidadLitros}</td>
-                    <td>{e.cantidadNC}</td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
-        </div>
         {/* Tabla principal */}
         <h4>Vista general</h4>
-        <div className="container-fluid border-top mt-3">
+        <div className="container-fluid border-top mt-3" id="render">
           <div className="container mt-3">
             <table className="table table-bordered border-dark align-middle text-center">
               <thead>
@@ -359,6 +330,7 @@ const Correcto = ({ datosTabla, colores }) => {
             </div>
           </div>
         </div>
+        <PdfGraficas />
       </div>
     </div>
   );

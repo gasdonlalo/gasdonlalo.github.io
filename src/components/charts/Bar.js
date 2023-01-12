@@ -31,7 +31,6 @@ function Grafica({ datos, text, y, legend }) {
           return context.dataset.backgroundColor;
         },
         align: "top",
-        anchor: "end",
         borderRadius: 25,
         color: "white",
         display: function (context) {

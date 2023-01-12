@@ -5,6 +5,8 @@ import format from "../../../assets/format";
 import Bar from "../../../charts/Bar";
 import Axios from "../../../../Caxios/Axios";
 
+import PdfGraficas from "../../../pdf_generador/PdfGraficas";
+
 function RepOctanoso() {
   //variable para colores
   let colores = [
@@ -260,7 +262,7 @@ const Correcto = ({ datosTabla, colores }) => {
       </div>
       {/* Termina tabla detalles */}
       <h4 className="mt-3">Vista general</h4>
-      <div className="container-fluid border-top mt-3">
+      <div className="container-fluid    mt-3" id="render">
         <div className="container mt-3">
           <table className="table table-bordered border-dark align-middle text-center">
             <thead>
@@ -282,9 +284,9 @@ const Correcto = ({ datosTabla, colores }) => {
                         : null
                     }
                   >
-                    <td>{e.nombre}</td>
-                    <td>{e.cantidadLitros} L</td>
-                    <td>
+                    <td key={e.nombres}>{e.nombre}</td>
+                    <td key={e.cantidadLitros}>{e.cantidadLitros} L</td>
+                    <td key={e.cantidadNC}>
                       {e.descalificado
                         ? "Descalificado"
                         : e.cantidadNC > 4
@@ -330,6 +332,7 @@ const Correcto = ({ datosTabla, colores }) => {
         </div>
       </div>
       {/* Termina tabla */}
+      <PdfGraficas />
     </div>
   );
 };

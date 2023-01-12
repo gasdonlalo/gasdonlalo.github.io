@@ -32,7 +32,7 @@ function NombreGrafica() {
     nombre = nombre + " DE UNIFORME DESPACHO";
   } else if (location.match("recoleccion")) {
     nombre = nombre + " MENSUAL INCUMPLIMIENTOS DE RECOLECCION DE EFECTIVO";
-  } else if (location.match("recurso")) {
+  } else if (location.match("recurso-despachador")) {
     nombre = nombre + " MENSUAL DE REGISTRO DE RECURSOS DE DESPACHADOR";
   } else if (location.match("pasos")) {
     nombre = nombre + " ANALISIS DE EVALUACION PASOS PARA DESPACHARGIT";
@@ -40,6 +40,10 @@ function NombreGrafica() {
     nombre = nombre + " TOTAL MENSUAL DE SALIDAS NO CONFORMES POR DESPACHADOR";
   } else if (location.match("conformexinconformidad")) {
     nombre = nombre + " MENSUAL SALIDAS NO CONFORMES POR INCORFORMIDAD";
+  } else if (location.match("concurso-octanoso")) {
+    nombre = nombre + " CONTROL CONVOCATORIA INCENTIVO  EL OCTANOSO";
+  } else if (location.match("concurso-aceitoso")) {
+    nombre = nombre + " CONTROL CONVOCATORIA INCENTIVO EL ACEITOSO";
   }
   return nombre;
 }
@@ -105,6 +109,7 @@ function PdfGraficas({ year, mes, tabla, idempleado, quincena, anchografica }) {
       maxHeigth: "60%",
       display: "flex",
       alignItems: "center",
+      justifyContent: "center",
     },
     tabla: { position: "absolute", bottom: "25px", left: "655px" },
     paginacion: {
