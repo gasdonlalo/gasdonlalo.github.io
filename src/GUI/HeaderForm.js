@@ -1,7 +1,7 @@
 import gdl from "../components/assets/img/GDL.png";
 import pemex from "../components/assets/img/pemex.png";
 
-const HeaderForm = () => {
+const HeaderForm = ({ title }) => {
   return (
     <div className="row w-100 mb-2">
       <div className="col-md-4">
@@ -11,7 +11,7 @@ const HeaderForm = () => {
       </div>
       <div className="col-md-4 fw-bold text-center">
         <div className="w-100 h-100 justify-content-center align-items-center">
-          GASOLINERÍA DON LALO
+          {title}
         </div>
       </div>
       <div className="col-md-4">
@@ -21,6 +21,10 @@ const HeaderForm = () => {
       </div>
     </div>
   );
+};
+
+HeaderForm.defaultProps = {
+  title: "GASOLINERÍA DON LALO",
 };
 
 export default HeaderForm;

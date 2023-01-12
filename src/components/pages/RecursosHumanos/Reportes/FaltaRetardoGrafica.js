@@ -206,9 +206,13 @@ const Success = ({ weeks, data }) => {
             </select>
           </div>
         </div>
-        <div className="row">
-          <nav className="col-4">
-            <div className="mb-3" style={{ width: "max-content" }}>
+        <div className="d-flex">
+          <nav className="">
+            <div className="mb-2 m-auto" style={{ width: "max-content" }}>
+              <p className="mb-1 fw-bold">
+                {data.response[0].nombre} {data.response[0].apellido_paterno}{" "}
+                {data.response[0].apellido_materno}
+              </p>
               <table>
                 <thead>
                   <tr>
@@ -253,7 +257,7 @@ const Success = ({ weeks, data }) => {
               </table>
             </div>
           </nav>
-          <div className="col-8">
+          <div className="">
             {dataBar && (
               <Bar
                 datos={dataBar}

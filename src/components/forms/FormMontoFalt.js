@@ -1,4 +1,4 @@
-function FormMontoFalt({ handle, enviar, empleados }) {
+function FormMontoFalt({ handle, enviar }) {
   return (
     <div className="container">
       <form onSubmit={enviar}>

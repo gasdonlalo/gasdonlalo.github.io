@@ -78,7 +78,10 @@ function FormRetardos({
                   required
                 >
                   {!turnos.error && !turnos.isPending && (
-                    <option value=""> -- Selecciona el turno -- </option>
+                    <option value=""> -- Seleccionar turno -- </option>
+                  )}
+                  {turnos.isPending && (
+                    <option value=""> -- Cargando turnos -- </option>
                   )}
                   {!turnos.error &&
                     !turnos.isPending &&
