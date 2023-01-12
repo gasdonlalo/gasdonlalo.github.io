@@ -146,10 +146,30 @@ const Correcto = ({ datosTabla, colores }) => {
       let sumaNC = !e.datos
         ? false
         : e.datos.map((e) => e.salidaNC).reduce((a, b) => a + b, 0);
-      return { nombre: nombres, cantidadLitros: suma, cantidadNC: sumaNC };
+
+      let descalificado = !e.descalificado ? false : e.descalificado;
+      return {
+        nombre: nombres,
+        cantidadLitros: suma,
+        cantidadNC: sumaNC,
+        descalificado: descalificado,
+      };
     })
-    .sort((a, b) => b.cantidadLitros - a.cantidadLitros);
-  console.log(totalTabla);
+    .sort((a, b) => {
+      if (
+        (!a.descalificado && b.descalificado) ||
+        (a.cantidadNC <= 4 && b.cantidadNC > 4)
+      ) {
+        return -1;
+      } else if (
+        (a.descalificado && !b.descalificado) ||
+        (a.cantidadNC > 4 && b.cantidadNC <= 4)
+      ) {
+        return 1;
+      } else {
+        return b.cantidadLitros - a.cantidadLitros;
+      }
+    });
 
   let datosBar = {
     labels: totalTabla.map((e) => e.nombre),
@@ -157,8 +177,10 @@ const Correcto = ({ datosTabla, colores }) => {
       {
         data: totalTabla.map((e) => e.cantidadLitros),
         backgroundColor: totalTabla.map((e, index) => {
-          if (index < 5) {
+          if (index < 4) {
             return colores[index];
+          } else if (e.descalificado || e.cantidadNC > 4) {
+            return "rgba(202,202,202,1)";
           } else {
             return colores[4];
           }
@@ -253,12 +275,22 @@ const Correcto = ({ datosTabla, colores }) => {
                 return (
                   <tr
                     style={
-                      index < 4 ? { backgroundColor: colores[index] } : null
+                      index < 4
+                        ? { backgroundColor: colores[index] }
+                        : e.descalificado || e.cantidadNC > 4
+                        ? { backgroundColor: "#cacaca" }
+                        : null
                     }
                   >
                     <td>{e.nombre}</td>
                     <td>{e.cantidadLitros} L</td>
-                    <td>{e.cantidadNC}</td>
+                    <td>
+                      {e.descalificado
+                        ? "Descalificado"
+                        : e.cantidadNC > 4
+                        ? "Descalificado"
+                        : e.cantidadNC}
+                    </td>
                   </tr>
                 );
               })}

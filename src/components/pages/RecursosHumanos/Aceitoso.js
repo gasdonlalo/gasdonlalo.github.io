@@ -5,7 +5,7 @@ import ModalSuccess from "../../assets/ModalSuccess";
 import ModalError from "../../assets/ModalError";
 import { useState } from "react";
 function Aceitoso() {
-  const [datos, setDatos] = useState([]);
+  const [datos, setDatos] = useState({ descalificado: 0 });
   const [modalSuccess, setModalSuccess] = useState(false);
   const [modalError, setModalError] = useState({ status: false, msg: "" });
   const [pendiente, setPendiente] = useState(false);
@@ -17,6 +17,15 @@ function Aceitoso() {
 
   const handle = (e) => {
     setDatos({ ...datos, [e.target.name]: e.target.value });
+    console.log(datos);
+  };
+
+  const handleSwitch = (e) => {
+    if (e.target.checked) {
+      setDatos({ ...datos, descalificado: 1 });
+    } else {
+      setDatos({ ...datos, descalificado: 0 });
+    }
   };
 
   const enviar = (e) => {
@@ -25,6 +34,7 @@ function Aceitoso() {
     console.log(datos);
     enviarDatos();
     e.target.reset();
+    setDatos({ descalificado: 0 });
   };
 
   const enviarDatos = async () => {
@@ -46,6 +56,7 @@ function Aceitoso() {
       setPendiente(false);
     }
   };
+
   return (
     <div className="Main">
       <ModalSuccess show={modalSuccess} close={cerrarModal} />
@@ -62,6 +73,7 @@ function Aceitoso() {
       <FormOctanoso
         enviar={enviar}
         handle={handle}
+        handleSwitch={handleSwitch}
         data={datos}
         setData={setDatos}
         pendiente={pendiente}
