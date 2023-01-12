@@ -33,10 +33,10 @@ import ConcursoMadrugador from "../components/pages/RecursosHumanos/ConcursoMadr
 import FRG from "../components/pages/RecursosHumanos/Reportes/FaltaRetardoGrafica";
 
 //importaciones de calidad
-import Ordtrabajo from "../components/pages/calidad/Ordtrabajo";
-import OrdenTrabajo from "../components/pages/calidad/OrdenTrabajo";
+import Ordtrabajo from "../components/pages/calidad/OrdenTrabajo";
+import GOT from "../components/pages/calidad/reporteria/OrdenTrabajoGrafica";
 import Calidad from "../components/pages/Calidad";
-import DetalleMantenimiento from "../components/pages/calidad/reporteria/DetalleMantenimiento";
+// import DetalleMantenimiento from "../components/pages/calidad/reporteria/DetalleMantenimiento";
 
 //importaciones de seguridad
 import Seguridad from "../components/pages/Seguridad";
@@ -128,13 +128,17 @@ function Rutas() {
         {/* Calidad */}
         <Route path="/calidad" element={<Layout />}>
           <Route index element={<Calidad />} />
-          <Route path="orden-trabajo" element={<Ordtrabajo />} />
+          <Route path="orden-trabajo">
+            <Route index element={<Ordtrabajo />} />
+            <Route path="reportes" element={<GOT />} />
+          </Route>
+          {/* <Route path="orden-trabajo" element={<Ordtrabajo />} />
           <Route path="orden-trabajo-reporte/" element={<OrdenTrabajo />} />
           <Route
             exact
             path="/calidad/orden-trabajo-reporte/:year/:month/:idEstacion/:mantenimiento/:idMantenimiento"
             element={<DetalleMantenimiento />}
-          />
+          /> */}
         </Route>
 
         {/* Seguridad */}

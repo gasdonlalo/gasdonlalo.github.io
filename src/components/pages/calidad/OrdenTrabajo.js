@@ -1,110 +1,85 @@
 import { useState } from "react";
-import { useNavigate, Link /* useParams */ } from "react-router-dom";
-import useGetData from "../../../hooks/useGetData";
-import Pastel from "../../charts/Pastel";
-import InputChangeMes from "../../forms/InputChangeMes";
-import InputChangeYear from "../../forms/InputChangeYear";
+import { useNavigate } from "react-router-dom";
+import Axios from "../../../Caxios/Axios";
+import FormOrdtrabajo from "../../forms/FormOrdtrabajo";
+import ModalSuccess from "../../assets/ModalSuccess";
+import ModalError from "../../assets/ModalError";
+import HeaderComponents from "../../../GUI/HeaderComponents";
 
-const OrdenTrabajo = () => {
-  //const { year, month, idEstacion } = useParams();
-  const date = new Date();
-  const [year, setYear] = useState(date.getFullYear());
-  const [month, setMonth] = useState(date.getMonth() + 1);
-  const [idEstacion, setIdEstacion] = useState();
+function OrdenTrabajo() {
+  const [data, setData] = useState([]);
+  const [pendingForm, setPendingForm] = useState(false);
+  const [modalSuccess, setModalSuccess] = useState(false);
+  const [modalError, setModalError] = useState({ status: false, msg: "" });
 
-  const changeMes = (e) => {
-    setMonth(e.target.value);
-  };
-  const changeYear = (e) => {
-    setYear(e.target.value);
-  };
-
-  const changeidEstacion = (e) => {
-    setIdEstacion(e.target.value);
+  //recibe los datos del formulario
+  const handle = (e) => {
+    setData({ ...data, [e.target.name]: e.target.value });
+    console.log(data);
   };
 
-  const { data, error, isPending } = useGetData(
-    `orden-trabajo-calidad/buscar-cantidad-tipo/${year}/${month}/${idEstacion}`
-  );
-  let dataPastel = {};
+  const enviar = async (e) => {
+    e.preventDefault();
+    setPendingForm(true);
+    try {
+      let res = await Axios.post(`/orden-trabajo-calidad`, data);
+      console.log(res);
+      setModalSuccess(true);
+      setPendingForm(false);
+      e.target.reset();
+    } catch (err) {
+      console.log(err);
+      if (err.hasOwnProperty("response")) {
+        setModalError({
+          status: true,
+          msg: err.response.data.msg,
+        });
+      } else {
+        setModalError({ status: true, msg: err.code });
+      }
+      setPendingForm(false);
+    }
+  };
 
-  console.log({ data });
+  const closeModal = () => {
+    setModalSuccess(false);
+    setModalError({ success: false, msg: "" });
+  };
 
   const navigate = useNavigate();
 
-  if (!error && !isPending) {
-    dataPastel = {
-      labels: data.response.map((el) => el.mantenimiento),
-      data: data.response.map((el) => el.cantidad),
-    };
-  }
-
   return (
     <div className="Main">
-      <Link className="link-primary" to="/calidad">
-        Volver a calidad
-      </Link>
-      <h3 className="border-bottom">Vista general de ordenes de trabajo</h3>
-      <div className="container">
-        <form>
-          <div className="row">
-            <div className="mb-3 col-4">
-              <label>Año</label>
-              <InputChangeYear defaultYear={year} handle={changeYear} />
-            </div>
-            <div className="mb-3 col-4">
-              <label>Mes</label>
-              <InputChangeMes defaultMes={month} handle={changeMes} />
-            </div>
-            <div className="mb-3 col-4">
-              <label>Area</label>
-              <select
-                className="form-select"
-                name="idArea"
-                onChange={changeidEstacion}
-              >
-                <option value={null}>--Selecciona un área--</option>
-                <option value="1">Area despacho</option>
-                <option value="2">Area descarga</option>
-                <option value="3">Cuarto electrico/maquina</option>
-                <option value="4">Baños publicos</option>
-                <option value="5">Estacionamiento</option>
-                <option value="6">Oficinas</option>
-                <option value="7">Otros</option>
-              </select>
-            </div>
-          </div>
-        </form>
+      <HeaderComponents
+        urlBack="../"
+        textUrlback="volver a calidad"
+        title="Captura orden de trabajo"
+      >
+        <div
+          className="rounded p-2 btn-select m-1 d-flex flex-column align-items-center mt-0 pt-0"
+          onClick={() => navigate("reportes")}
+        >
+          <i
+            className="fa-regular fa-chart-pie text-success"
+            style={{ fontSize: "50px" }}
+          ></i>
+          <p className="p-0 m-0 text-nowrap">Reportes</p>
+        </div>
+      </HeaderComponents>
+      <div>
+        <FormOrdtrabajo
+          handle={handle}
+          enviar={enviar}
+          pendingForm={pendingForm}
+        />
       </div>
-      {!error && !isPending && (
-        <div className="d-flex flex-wrap gap-5 justify-content-center mt-3">
-          {data.response.map((el) => (
-            <div
-              className="bg-secondary p-3 rounded"
-              key={el.idmantenimiento}
-              onClick={(e) =>
-                navigate(
-                  `${year}/${month}/${idEstacion}/${el.mantenimiento}/${el.idmantenimiento}`
-                )
-              }
-            >
-              <p className="text-center fw-bold">{el.mantenimiento}</p>
-              <p>
-                Cantidad de ordenes:
-                <span className="fw-bold"> {el.cantidad}</span>
-              </p>
-            </div>
-          ))}
-        </div>
-      )}
-      {!error && !isPending && (
-        <div className="container" style={{ width: "500px", height: "500px" }}>
-          <Pastel data={dataPastel}></Pastel>
-        </div>
-      )}
-      {isPending && <h2>Esperando el servidor</h2>}
-      {error && <h2>No hay datos por ahora</h2>}
+      <ModalError
+        show={modalError.status}
+        text={modalError.msg}
+        close={closeModal}
+      />
+      <ModalSuccess show={modalSuccess} close={closeModal} />
     </div>
   );
-};
+}
 export default OrdenTrabajo;

@@ -37,14 +37,29 @@ const format = {
       .slice(1);
     return primeraLetra + textoEntero;
   },
-  formatFechaComplete: (date) =>
+
+  formatFechaComplete: (date, convert = true) =>
     new Intl.DateTimeFormat("es-MX", {
       dateStyle: "short",
     }).format(
       new Date(
-        new Date(date).getTime() + new Date().getTimezoneOffset() * 60000
+        convert
+          ? new Date(date).getTime() + new Date().getTimezoneOffset() * 60000
+          : date
       )
     ),
+  formatHourMinute: (date, convert = true) =>
+    new Intl.DateTimeFormat("es-MX", {
+      hour: "2-digit",
+      minute: "2-digit",
+    }).format(
+      new Date(
+        convert
+          ? new Date(date).getTime() + new Date().getTimezoneOffset() * 60000
+          : date
+      )
+    ),
+
   formatFechaDB: (date) => new Date(date).toISOString().split("T")[0],
 };
 

@@ -15,6 +15,15 @@ function FaltasRetardos() {
 
   //recibe los datos del formulario
   const handle = (e) => {
+    //Esta condicion evita el craseho del formulario
+    if (e.target.name === "idTurno" || e.target.name === "horaEntrada") {
+      if (e.target.value === "") {
+        let delTurno = body;
+        delete delTurno[e.target.name];
+        setBody(delTurno);
+        return;
+      }
+    }
     setBody({ ...body, [e.target.name]: e.target.value });
   };
 

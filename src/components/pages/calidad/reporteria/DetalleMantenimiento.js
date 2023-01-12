@@ -1,11 +1,14 @@
-import React from "react";
-import { useParams } from "react-router-dom";
-import useGetData from "../../../../hooks/useGetData";
-import Pastel from "../../../charts/Pastel";
+/* import useGetData from "../../../../hooks/useGetData";
+import Pastel from "../../../charts/Pastel"; */
 
 const DetalleMantenimiento = () => {
-  const { year, month, idEstacion, idMantenimiento, mantenimiento } =
+  /*  const { year, month, idEstacion, idMantenimiento, mantenimiento } =
     useParams();
+    */
+  const date = new Date();
+  const [year, setYear] = useState(date.getFullYear());
+  const [month, setMonth] = useState(date.getMonth() + 1);
+  const [idEstacion, setIdEstacion] = useState(null);
   const { data, error, isPending } = useGetData(
     `orden-trabajo-calidad/buscar-area/${year}/${month}/${idEstacion}/${idMantenimiento}`
   );
@@ -14,13 +17,14 @@ const DetalleMantenimiento = () => {
 
   console.log(data);
 
-  if (!error && !isPending) {
+  /* if (!error && !isPending) {
     dataPastel = {
       labels: data.response.map((el) => el.area),
       data: data.response.map((el) => el.cantidad),
     };
-  }
-  return (
+  } */
+  return <h1>hola</h1>;
+  /* return (
     <>
       <div className="d-flex justify-content-center mt-3">
         <div className="bg-secondary p-3 rounded">
@@ -46,7 +50,7 @@ const DetalleMantenimiento = () => {
         </div>
       )}
     </>
-  );
+  ); */
 };
 
 export default DetalleMantenimiento;
