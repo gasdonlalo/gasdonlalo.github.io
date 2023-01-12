@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 
 function Calidad() {
   return (
-      // Encabezado de la pagina
+    // Encabezado de la pagina
     <div className="Main">
       <h1 className="text-center border-bottom w-100">Calidad</h1>
 
@@ -22,9 +22,9 @@ function Calidad() {
           <h3>Reportes</h3>
           <div className="d-flex justify-content-evenly flex-wrap mt-5">
             <Card
-              url="orden-trabajo-reporte"
-              icon="chart-simple"
-              text="Grafica mensual de mantenimiento"
+              url="orden-trabajo/reportes"
+              icon="chart-pie"
+              text="Ordenes de trabajo"
             />
           </div>
         </div>

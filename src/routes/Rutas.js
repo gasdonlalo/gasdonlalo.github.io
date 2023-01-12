@@ -55,8 +55,8 @@ import FaltaRetardoGrafica from "../components/pages/RecursosHumanos/Reportes/Fa
 import ControlDocumentos from "../components/pages/RecursosHumanos/ControlDocumentos";
 import Octanoso from "../components/pages/RecursosHumanos/Octanoso";
 import Aceitoso from "../components/pages/RecursosHumanos/Aceitoso";
-import RepOctanoso from "../components/pages/RecursosHumanos/Reportes/RepOctanoso";
-import RepAceitoso from "../components/pages/RecursosHumanos/Reportes/RepAceitoso";
+import GICO from "../components/pages/RecursosHumanos/Reportes/RepAceitoso";
+import GICA from "../components/pages/RecursosHumanos/Reportes/RepAceitoso";
 
 function Rutas() {
   return (
@@ -118,11 +118,11 @@ function Rutas() {
           {/* Rutas concursos */}
           <Route path="concurso-octanoso">
             <Route index element={<Octanoso />} />
-            <Route path="reporte" element={<RepOctanoso />} />
+            <Route path="reporte" element={<GICO />} />
           </Route>
           <Route path="concurso-aceitoso">
             <Route index element={<Aceitoso />} />
-            <Route path="reporte" element={<RepAceitoso />} />
+            <Route path="reporte" element={<GICA />} />
           </Route>
         </Route>
 
@@ -166,4 +166,5 @@ function Rutas() {
     </Router>
   );
 }
+
 export default Rutas;
