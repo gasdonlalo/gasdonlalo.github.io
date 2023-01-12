@@ -6,7 +6,7 @@ import ModalSuccess from "../../assets/ModalSuccess";
 import ModalError from "../../assets/ModalError";
 
 function Octanoso() {
-  const [datos, setDatos] = useState([]);
+  const [datos, setDatos] = useState({ descalificado: 0 });
   const [modalSuccess, setModalSuccess] = useState(false);
   const [modalError, setModalError] = useState({ status: false, msg: "" });
   const [pendiente, setPendiente] = useState(false);
@@ -20,11 +20,18 @@ function Octanoso() {
     setDatos({ ...datos, [e.target.name]: e.target.value });
   };
 
+  const handleSwitch = (e) => {
+    const valor = e.target.value === "on" ? 1 : 0;
+    setDatos({ ...datos, descalificado: valor });
+  };
+
   const enviar = (e) => {
     setPendiente(true);
     e.preventDefault();
+    console.log(datos);
     enviarDatos();
     e.target.reset();
+    setDatos({ descalificado: 0 });
   };
 
   const enviarDatos = async () => {
@@ -67,6 +74,7 @@ function Octanoso() {
         data={datos}
         setData={setDatos}
         pendiente={pendiente}
+        handleSwitch={handleSwitch}
       />
     </div>
   );

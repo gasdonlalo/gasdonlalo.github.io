@@ -23,6 +23,7 @@ const PDFSalidaNoConforme = ({
   corregir,
   concesiones,
 }) => {
+  console.log(concesiones, "ola");
   //Fonts
   Font.register({ family: "calibri", src: calibri });
   Font.register({ family: "calibriN", src: calibriN });
@@ -185,7 +186,11 @@ const PDFSalidaNoConforme = ({
                   fontFamily: "calibri",
                 }}
               >
-                {concesiones}
+                {concesiones[0] === null ||
+                concesiones[0] === "" ||
+                concesiones[0] === " "
+                  ? "No aplica."
+                  : concesiones[0]}
               </Text>
               <View
                 style={{
@@ -225,7 +230,7 @@ const PDFSalidaNoConforme = ({
   );
 };
 
-PDFSalidaNoConforme.defaultProps = {
+/* PDFSalidaNoConforme.defaultProps = {
   title: "Salidas no conformes",
   fecha: "14/12/2022",
   inconformidad:
@@ -233,6 +238,6 @@ PDFSalidaNoConforme.defaultProps = {
   corregir: "",
   concesiones: "No aplica.",
   incumple: "",
-};
+}; */
 
 export default PDFSalidaNoConforme;

@@ -84,7 +84,6 @@ const OrdenTrabajoGrafica = () => {
 };
 
 const Success = ({ data }) => {
-  console.log(data);
   const pastelTipos = {
     labels: [],
     data: [],
@@ -120,8 +119,6 @@ const Success = ({ data }) => {
 
     datasPastel.push(pastelAreas);
   });
-
-  console.log(datasPastel);
 
   return (
     <div className="mt-4">

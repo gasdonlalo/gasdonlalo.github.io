@@ -1,12 +1,12 @@
+import InputChangeYear from "../../../forms/InputChangeYear";
+import InputChangeMes from "../../../forms/InputChangeMes";
 import useGetData from "../../../../hooks/useGetData";
 import { Fragment, useState } from "react";
 import HeaderComponents from "../../../../GUI/HeaderComponents";
 import format from "../../../assets/format";
 import Bar from "../../../charts/Bar";
-import Axios from "../../../../Caxios/Axios";
 
-function RepOctanoso() {
-  //variable para colores
+function RepAceitoso() {
   let colores = [
     "rgba(219,42,62,1)",
     "rgba(255,255,10,1)",
@@ -14,44 +14,25 @@ function RepOctanoso() {
     "rgba(149,202,255,1)",
     "rgba(149,202,10,1)",
   ];
-
-  const [datosTabla, setDatosTabla] = useState(null);
-  const [error, setError] = useState(null);
+  const date = new Date();
   const estaciones = useGetData("/estaciones-servicio");
-
-  const [fechaInicio, setFechaInicio] = useState(null);
-  const [fechaFin, setFechaFin] = useState(null);
+  const [mes, setMes] = useState(date.getMonth() + 1);
+  const [year, setYear] = useState(date.getFullYear());
   const [estacion, setEstacion] = useState(null);
-  const [datos, setDatos] = useState([]);
+  const datosTabla = useGetData(
+    estacion === " " ? null : `/aceitoso/reporte/${year}/${mes}/${estacion}`
+  );
 
-  const changeFechaInicio = (e) => {
-    setFechaInicio(e.target.value);
-    setDatos({ ...datos, [e.target.name]: e.target.value });
+  const changeMes = (e) => {
+    setMes(e.target.value);
   };
 
-  const changeFechaFin = (e) => {
-    setFechaFin(e.target.value);
-    setDatos({ ...datos, [e.target.name]: e.target.value });
+  const changeYear = (e) => {
+    setYear(e.target.value);
   };
 
   const changeEstacion = (e) => {
     setEstacion(e.target.value);
-    setDatos({ ...datos, [e.target.name]: e.target.value });
-  };
-
-  const enviar = (e) => {
-    e.preventDefault();
-    enviarDatos();
-  };
-
-  const enviarDatos = async () => {
-    try {
-      const req = await Axios.post("/octanoso/obtener", datos);
-      setDatosTabla(req);
-      setError(null);
-    } catch (error) {
-      setError(error.response.data.msg);
-    }
   };
 
   return (
@@ -59,39 +40,22 @@ function RepOctanoso() {
       <HeaderComponents
         urlBack="/recursos-humanos"
         textUrlback="Volver a recursos humanos"
-        title="Reporte de concurso el octanoso"
+        title="Reporte de concurso el aceitoso"
       />
       <div className="container">
-        <form onSubmit={enviar}>
+        <form>
           <div className="row">
-            <div className="mb-3 col-3">
-              <label>Selecciona una fecha de inicio</label>
-              <input
-                className="form-control"
-                type="date"
-                name="fechaInicio"
-                onChange={changeFechaInicio}
-                required
-              />
+            <div className="mb-3 col-4">
+              <label>Selecciona un mes</label>
+              <InputChangeMes handle={changeMes} defaultMes={mes} />
             </div>
-            <div className="mb-3 col-3">
-              <label>Selecciona una fecha de fin</label>
-              <input
-                className="form-control"
-                type="date"
-                name="fechaFinal"
-                onChange={changeFechaFin}
-                required
-              />
+            <div className="mb-3 col-4">
+              <label>Selecciona un año</label>
+              <InputChangeYear handle={changeYear} defaultYear={year} />
             </div>
-            <div className="mb-3 col-3">
+            <div className="mb-3 col-4">
               <label>Selecciona una estacion</label>
-              <select
-                className="form-control"
-                onChange={changeEstacion}
-                name="idEstacionServicio"
-                required
-              >
+              <select className="form-control" onChange={changeEstacion}>
                 <option value=" ">--Selecciona una estación--</option>
                 {!estaciones.data
                   ? false
@@ -107,31 +71,22 @@ function RepOctanoso() {
                     })}
               </select>
             </div>
-            <button
-              type="submit"
-              className="btn btn-primary col-3 mb-3 m-auto"
-              style={{ width: "100px" }}
-            >
-              Consultar
-            </button>
           </div>
         </form>
       </div>
-      {/* Termina select */}
-      {/* Contenedor tabla */}
-
-      {!datosTabla ? (
-        false
-      ) : error !== null ? (
-        <h4>{error}</h4>
-      ) : (
-        <Correcto datosTabla={datosTabla} colores={colores} />
-      )}
+      <div>
+        {!datosTabla.error && !datosTabla.isPending ? (
+          <Correcto datosTabla={datosTabla} colores={colores} />
+        ) : estacion === " " || estacion === null ? (
+          <h4>Por favor, selecciona una estación </h4>
+        ) : (
+          <h4>{!datosTabla.dataError ? false : datosTabla.dataError.msg}</h4>
+        )}
+      </div>
     </div>
   );
 }
 const Correcto = ({ datosTabla, colores }) => {
-  //devuelve los datos para la tabla y grafica
   const totalTabla = datosTabla.data.response
     .map((e) => {
       let nombres = !e.empleado
@@ -176,7 +131,6 @@ const Correcto = ({ datosTabla, colores }) => {
   return (
     <div>
       <h4>Vista detallada</h4>
-
       <div className="container-fluid table-responsive">
         <table className="table table-bordered">
           <thead>
@@ -199,8 +153,8 @@ const Correcto = ({ datosTabla, colores }) => {
                 ? false
                 : datosTabla.data.response[0].datos.map((e, i) => (
                     <Fragment>
-                      <th key={e}>Litros vendidos</th>
-                      <th key={i}>Salidas no conformes</th>
+                      <th key={e}>Pesos de aceites vendidos</th>
+                      <th key={i}>Salidas no conformes generadas</th>
                     </Fragment>
                   ))}
             </tr>
@@ -225,7 +179,7 @@ const Correcto = ({ datosTabla, colores }) => {
                         : e.datos.map((e, i, j) => {
                             return (
                               <Fragment>
-                                <td key={i}>{e.cantidad} L</td>
+                                <td key={i}>$ {e.cantidad}</td>
                                 <td key={j}>{e.salidaNC}</td>
                               </Fragment>
                             );
@@ -236,15 +190,13 @@ const Correcto = ({ datosTabla, colores }) => {
           </tbody>
         </table>
       </div>
-      {/* Termina tabla detalles */}
-      <h4 className="mt-3">Vista general</h4>
       <div className="container-fluid border-top mt-3">
         <div className="container mt-3">
           <table className="table table-bordered border-dark align-middle text-center">
             <thead>
               <tr>
                 <th scope="col">Nombre de los despachadores</th>
-                <th scope="col">Total de litros vendidos</th>
+                <th scope="col">Total de aceites vendidos en pesos</th>
                 <th scope="col">Total de salidas no conformes</th>
               </tr>
             </thead>
@@ -266,7 +218,8 @@ const Correcto = ({ datosTabla, colores }) => {
           </table>
         </div>
         {/* Tabla principal */}
-        <div className="d-flex align-items-center mt-3">
+        <h4>Vista general</h4>
+        <div className="d-flex align-items-center mt-3 border-top">
           <div className="w-25">
             <table className="table table-bordered  border-dark align-middle text-center">
               <thead>
@@ -297,8 +250,8 @@ const Correcto = ({ datosTabla, colores }) => {
           </div>
         </div>
       </div>
-      {/* Termina tabla */}
     </div>
   );
 };
-export default RepOctanoso;
+
+export default RepAceitoso;
