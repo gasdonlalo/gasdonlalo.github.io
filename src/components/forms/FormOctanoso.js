@@ -76,7 +76,11 @@ function FormOctanoso({
           </div>
         </div>
         <div className="mb-3">
-          <label>Litros vendidos</label>
+          <label>
+            {ruta.match("aceitoso")
+              ? "Pesos vendidos en aceite"
+              : "Litros vendidos"}
+          </label>
           <input
             className="form-control "
             type="number"
@@ -87,20 +91,18 @@ function FormOctanoso({
             required
           />
         </div>
-        {!ruta.match("aceitoso") && (
-          <div className="form-check form-switch">
-            <label className="form-check-label fst-italic">
-              ¿El despachador hizo trampa? ***Marcar en caso de trampa
-            </label>
-            <input
-              className="form-check-input"
-              type="checkbox"
-              role="switch"
-              name="trampa"
-              onChange={handleSwitch}
-            />
-          </div>
-        )}
+
+        <div className="form-check form-switch mb-3">
+          <label className="form-check-label fst-italic bg-secondary bg-opacity-50 rounded-pill">
+            ***Marcar en SOLO en caso de incumplimiento.
+          </label>
+          <input
+            className="form-check-input"
+            type="checkbox"
+            role="switch"
+            onClick={handleSwitch}
+          />
+        </div>
 
         <button type=" submit" className="btn btn-primary mb-3">
           {pendiente ? <Loader size="1.5" /> : "Añadir"}

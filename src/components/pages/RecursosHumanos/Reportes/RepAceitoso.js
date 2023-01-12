@@ -1,5 +1,4 @@
-import InputChangeYear from "../../../forms/InputChangeYear";
-import InputChangeMes from "../../../forms/InputChangeMes";
+import Axios from "../../../../Caxios/Axios";
 import useGetData from "../../../../hooks/useGetData";
 import { Fragment, useState } from "react";
 import HeaderComponents from "../../../../GUI/HeaderComponents";
@@ -14,25 +13,45 @@ function RepAceitoso() {
     "rgba(149,202,255,1)",
     "rgba(149,202,10,1)",
   ];
-  const date = new Date();
-  const estaciones = useGetData("/estaciones-servicio");
-  const [mes, setMes] = useState(date.getMonth() + 1);
-  const [year, setYear] = useState(date.getFullYear());
-  const [estacion, setEstacion] = useState(null);
-  const datosTabla = useGetData(
-    estacion === " " ? null : `/aceitoso/reporte/${year}/${mes}/${estacion}`
-  );
 
-  const changeMes = (e) => {
-    setMes(e.target.value);
+  const estaciones = useGetData("/estaciones-servicio");
+  const [fechaInicio, setFechaInicio] = useState(null);
+  const [fechaFin, setFechaFin] = useState(null);
+  const [estacion, setEstacion] = useState(null);
+  const [datos, setDatos] = useState([]);
+
+  const [datosTabla, setDatosTabla] = useState(null);
+
+  const [error, setError] = useState(null);
+
+  const changeFechaInicio = (e) => {
+    setFechaInicio(e.target.value);
+    setDatos({ ...datos, [e.target.name]: e.target.value });
   };
 
-  const changeYear = (e) => {
-    setYear(e.target.value);
+  const changeFechaFin = (e) => {
+    setFechaFin(e.target.value);
+    setDatos({ ...datos, [e.target.name]: e.target.value });
   };
 
   const changeEstacion = (e) => {
     setEstacion(e.target.value);
+    setDatos({ ...datos, [e.target.name]: e.target.value });
+  };
+
+  const enviar = (e) => {
+    e.preventDefault();
+    enviarDatos();
+  };
+
+  const enviarDatos = async () => {
+    try {
+      const req = await Axios.post("/aceitoso/obtener", datos);
+      setDatosTabla(req);
+      setError(null);
+    } catch (error) {
+      setError(error.response.data.msg);
+    }
   };
 
   return (
@@ -43,19 +62,36 @@ function RepAceitoso() {
         title="Reporte de concurso el aceitoso"
       />
       <div className="container">
-        <form>
+        <form onSubmit={enviar}>
           <div className="row">
-            <div className="mb-3 col-4">
-              <label>Selecciona un mes</label>
-              <InputChangeMes handle={changeMes} defaultMes={mes} />
+            <div className="mb-3 col-3">
+              <label>Selecciona una fecha de inicio</label>
+              <input
+                className="form-control"
+                type="date"
+                name="fechaInicio"
+                onChange={changeFechaInicio}
+                required
+              />
             </div>
-            <div className="mb-3 col-4">
-              <label>Selecciona un año</label>
-              <InputChangeYear handle={changeYear} defaultYear={year} />
+            <div className="mb-3 col-3">
+              <label>Selecciona una fecha de fin</label>
+              <input
+                className="form-control"
+                type="date"
+                name="fechaFinal"
+                onChange={changeFechaFin}
+                required
+              />
             </div>
-            <div className="mb-3 col-4">
+            <div className="mb-3 col-3">
               <label>Selecciona una estacion</label>
-              <select className="form-control" onChange={changeEstacion}>
+              <select
+                className="form-control"
+                onChange={changeEstacion}
+                name="idEstacionServicio"
+                required
+              >
                 <option value=" ">--Selecciona una estación--</option>
                 {!estaciones.data
                   ? false
@@ -71,16 +107,23 @@ function RepAceitoso() {
                     })}
               </select>
             </div>
+            <button
+              type="submit"
+              className="btn btn-primary col-3 mb-3 m-auto"
+              style={{ width: "100px" }}
+            >
+              Consultar
+            </button>
           </div>
         </form>
       </div>
       <div>
-        {!datosTabla.error && !datosTabla.isPending ? (
-          <Correcto datosTabla={datosTabla} colores={colores} />
-        ) : estacion === " " || estacion === null ? (
-          <h4>Por favor, selecciona una estación </h4>
+        {!datosTabla ? (
+          false
+        ) : error !== null ? (
+          <h4>{error}</h4>
         ) : (
-          <h4>{!datosTabla.dataError ? false : datosTabla.dataError.msg}</h4>
+          <Correcto datosTabla={datosTabla} colores={colores} />
         )}
       </div>
     </div>
@@ -101,9 +144,31 @@ const Correcto = ({ datosTabla, colores }) => {
       let sumaNC = !e.datos
         ? false
         : e.datos.map((e) => e.salidaNC).reduce((a, b) => a + b, 0);
-      return { nombre: nombres, cantidadLitros: suma, cantidadNC: sumaNC };
+
+      let descalificado = !e.descalificado ? false : e.descalificado;
+      return {
+        nombre: nombres,
+        cantidadLitros: suma,
+        cantidadNC: sumaNC,
+        descalificado: descalificado,
+      };
     })
-    .sort((a, b) => b.cantidadLitros - a.cantidadLitros);
+    .sort((a, b) => {
+      if (
+        (!a.descalificado && b.descalificado) ||
+        (a.cantidadNC <= 4 && b.cantidadNC > 4)
+      ) {
+        return -1;
+      } else if (
+        (a.descalificado && !b.descalificado) ||
+        (a.cantidadNC > 4 && b.cantidadNC <= 4)
+      ) {
+        return 1;
+      } else {
+        return b.cantidadLitros - a.cantidadLitros;
+      }
+    });
+
   console.log(totalTabla);
 
   let datosBar = {
@@ -112,8 +177,10 @@ const Correcto = ({ datosTabla, colores }) => {
       {
         data: totalTabla.map((e) => e.cantidadLitros),
         backgroundColor: totalTabla.map((e, index) => {
-          if (index < 5) {
+          if (index < 4 && !e.descalificado) {
             return colores[index];
+          } else if (e.descalificado || e.cantidadNC > 4) {
+            return "rgba(202,202,202,1)";
           } else {
             return colores[4];
           }
@@ -205,11 +272,15 @@ const Correcto = ({ datosTabla, colores }) => {
                 return (
                   <tr
                     style={
-                      index < 4 ? { backgroundColor: colores[index] } : null
+                      index < 4
+                        ? { backgroundColor: colores[index] }
+                        : e.descalificado || e.cantidadNC > 4
+                        ? { backgroundColor: "#cacaca" }
+                        : null
                     }
                   >
                     <td>{e.nombre}</td>
-                    <td>{e.cantidadLitros} L</td>
+                    <td>$ {e.cantidadLitros}</td>
                     <td>{e.cantidadNC}</td>
                   </tr>
                 );
@@ -219,34 +290,73 @@ const Correcto = ({ datosTabla, colores }) => {
         </div>
         {/* Tabla principal */}
         <h4>Vista general</h4>
-        <div className="d-flex align-items-center mt-3 border-top">
-          <div className="w-25">
-            <table className="table table-bordered  border-dark align-middle text-center">
+        <div className="container-fluid border-top mt-3">
+          <div className="container mt-3">
+            <table className="table table-bordered border-dark align-middle text-center">
               <thead>
                 <tr>
-                  <th>Lugar</th>
-                  <th>Nombre</th>
+                  <th scope="col">Nombre de los despachadores</th>
+                  <th scope="col">Total de litros vendidos</th>
+                  <th scope="col">Total de salidas no conformes</th>
                 </tr>
               </thead>
               <tbody>
                 {totalTabla.map((e, index) => {
-                  while (index < 4) {
-                    return (
-                      <tr>
-                        <td style={{ backgroundColor: colores[index] }}>
-                          {index + 1}° lugar
-                        </td>
-                        <td> {e.nombre}</td>
-                      </tr>
-                    );
-                  }
+                  return (
+                    <tr
+                      style={
+                        index < 4
+                          ? { backgroundColor: colores[index] }
+                          : e.descalificado || e.cantidadNC > 4
+                          ? { backgroundColor: "#cacaca" }
+                          : null
+                      }
+                    >
+                      <td>{e.nombre}</td>
+                      <td>{e.cantidadLitros} L</td>
+                      <td>
+                        {e.descalificado
+                          ? "Descalificado"
+                          : e.cantidadNC > 4
+                          ? "Descalificado"
+                          : e.cantidadNC}
+                      </td>
+                    </tr>
+                  );
                 })}
               </tbody>
             </table>
           </div>
+          {/* Tabla principal */}
+          <div className="d-flex align-items-center mt-3">
+            <div className="w-25">
+              <table className="table table-bordered  border-dark align-middle text-center">
+                <thead>
+                  <tr>
+                    <th>Lugar</th>
+                    <th>Nombre</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {totalTabla.map((e, index) => {
+                    while (index < 4) {
+                      return (
+                        <tr>
+                          <td style={{ backgroundColor: colores[index] }}>
+                            {index + 1}° lugar
+                          </td>
+                          <td> {e.nombre}</td>
+                        </tr>
+                      );
+                    }
+                  })}
+                </tbody>
+              </table>
+            </div>
 
-          <div className="w-75 m-auto">
-            <Bar datos={datosBar} text="" />
+            <div className="w-75 m-auto">
+              <Bar datos={datosBar} text="" />
+            </div>
           </div>
         </div>
       </div>

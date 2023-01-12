@@ -21,8 +21,11 @@ function Octanoso() {
   };
 
   const handleSwitch = (e) => {
-    const valor = e.target.value === "on" ? 1 : 0;
-    setDatos({ ...datos, descalificado: valor });
+    if (e.target.checked) {
+      setDatos({ ...datos, descalificado: 1 });
+    } else {
+      setDatos({ ...datos, descalificado: 0 });
+    }
   };
 
   const enviar = (e) => {
