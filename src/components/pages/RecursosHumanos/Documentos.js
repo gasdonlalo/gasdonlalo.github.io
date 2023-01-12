@@ -9,8 +9,16 @@ function Documentos() {
 
   const documentos = useGetData(!id ? false : `/control-documento/${id}`);
 
-  console.log(documentos);
+  const totalDocs = !documentos.data
+    ? false
+    : documentos.data.response
+        .map((e) => {
+          let valor = e.cumple;
+          return { total: valor };
+        })
+        .filter((e) => e.total === true);
 
+  console.log(totalDocs, "owo");
   return (
     <div>
       <HeaderComponents
@@ -64,6 +72,7 @@ function Documentos() {
                 <th scope="col">R.F.C</th>
                 <th scope="col">C.U.R.P</th>
                 <th scope="col">Tarjeta bancaria</th>
+                <th scope="col">Cumple/No cumple</th>
               </tr>
             </thead>
             <tbody>
@@ -96,6 +105,12 @@ function Documentos() {
                         </Fragment>
                       );
                     })}
+
+                {Object.values(totalDocs).length < 11 ? (
+                  <td className="text-danger">No cumple</td>
+                ) : (
+                  <td className="text-success">Cumple</td>
+                )}
               </tr>
             </tbody>
           </table>

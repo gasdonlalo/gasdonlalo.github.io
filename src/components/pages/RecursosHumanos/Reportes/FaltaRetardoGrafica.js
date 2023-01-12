@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import HeaderComponents from "../../../../GUI/HeaderComponents";
 import useGetData from "../../../../hooks/useGetData";
 import InputSelectDep from "../../../forms/InputSelectDep";
@@ -9,6 +9,7 @@ import format from "../../../assets/format";
 import Axios from "../../../../Caxios/Axios";
 import Bar from "../../../charts/Bar";
 import ErrorHttp from "../../../assets/ErrorHttp";
+import PdfGraficas from "../../../pdf_generador/PdfGraficas";
 
 const FaltaRetardoGrafica = () => {
   const date = new Date();
@@ -82,7 +83,7 @@ const FaltaRetardoGrafica = () => {
   }, [emp, start, end]);
 
   return (
-    <div>
+    <div className="Main">
       <HeaderComponents
         urlBack="../"
         textUrlback="Regresar"
@@ -190,25 +191,25 @@ const Success = ({ weeks, data }) => {
   };
 
   return (
-    <div className="d-flex w-100">
-      <div className="w-100">
-        <div className="row mb-3">
-          <div className="col-3">
-            <label className="form-label fw-semibold mb-1">Semanas</label>
-            <select className="form-select" onChange={chooseWeek}>
-              <option value="">Todas las semanas del mes</option>
-              {weeks.map((w, i) => (
-                <option value={i} key={i}>
-                  Del {format.formatFecha(w.saturday)} al{" "}
-                  {format.formatFecha(w.friday)}
-                </option>
-              ))}
-            </select>
+    <Fragment>
+      <div className="d-flex w-100">
+        <div className="w-100">
+          <div className="row">
+            <div className="col-3">
+              <label className="form-label fw-semibold mb-1">Semanas</label>
+              <select className="form-select" onChange={chooseWeek}>
+                <option value="">Todas las semanas del mes</option>
+                {weeks.map((w, i) => (
+                  <option value={i} key={i}>
+                    Del {format.formatFecha(w.saturday)} al{" "}
+                    {format.formatFecha(w.friday)}
+                  </option>
+                ))}
+              </select>
+            </div>
           </div>
-        </div>
-        <div className="d-flex">
-          <nav className="">
-            <div className="mb-2 m-auto" style={{ width: "max-content" }}>
+          <div className="d-flex container-fluid align-items-center">
+            <div className="w-25">
               <p className="mb-1 fw-bold">
                 {data.response[0].nombre} {data.response[0].apellido_paterno}{" "}
                 {data.response[0].apellido_materno}
@@ -256,19 +257,21 @@ const Success = ({ weeks, data }) => {
                 )}
               </table>
             </div>
-          </nav>
-          <div className="">
-            {dataBar && (
-              <Bar
-                datos={dataBar}
-                text={`${data.response[0].nombre} ${data.response[0].apellido_paterno} ${data.response[0].apellido_materno}`}
-                legend={false}
-              />
-            )}
+
+            <div className="w-75 m-5">
+              {dataBar && (
+                <Bar
+                  datos={dataBar}
+                  text={`${data.response[0].nombre} ${data.response[0].apellido_paterno} ${data.response[0].apellido_materno}`}
+                  legend={false}
+                />
+              )}
+            </div>
           </div>
         </div>
       </div>
-    </div>
+      <PdfGraficas />
+    </Fragment>
   );
 };
 

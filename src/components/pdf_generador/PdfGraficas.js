@@ -44,6 +44,10 @@ function NombreGrafica() {
     nombre = nombre + " CONTROL CONVOCATORIA INCENTIVO  EL OCTANOSO";
   } else if (location.match("concurso-aceitoso")) {
     nombre = nombre + " CONTROL CONVOCATORIA INCENTIVO EL ACEITOSO";
+  } else if (location.match("concurso-madrugador")) {
+    nombre = nombre + " CONTROL CONVOCATORIA INCENTIVO EL MADRUGADOR";
+  } else if (location.match("orden-trabajo")) {
+    nombre = nombre + "  MENSUAL MANTENIMIENTO";
   }
   return nombre;
 }

@@ -6,6 +6,7 @@ import Loader from "../../assets/Loader";
 import InputChangeMes from "../../forms/InputChangeMes";
 import InputChangeYear from "../../forms/InputChangeYear";
 import format from "../../assets/format";
+import PdfGraficas from "../../pdf_generador/PdfGraficas";
 
 function ConcursoMadrugador() {
   const date = new Date();
@@ -19,7 +20,7 @@ function ConcursoMadrugador() {
   const changeYear = (e) => setYear(e.target.value);
 
   return (
-    <div>
+    <div className="Main">
       <HeaderComponents
         urlBack="/recursos-humanos"
         textUrlback="Regresar a recursos humanos"
@@ -37,7 +38,9 @@ function ConcursoMadrugador() {
           </div>
         </nav>
       </div>
-      {!error && !isPending && <Success data={data.response} />}
+      {!error && !isPending && (
+        <Success data={data.response} year={year} month={month} />
+      )}
       {isPending && (
         <div className="mt-4">
           <Loader />
@@ -47,7 +50,7 @@ function ConcursoMadrugador() {
   );
 }
 
-const Success = ({ data }) => {
+const Success = ({ data, month, year }) => {
   const irregularidades = [];
   const dataBar = {
     labels: data.map((el) => el.empleado.nombre),
@@ -74,38 +77,40 @@ const Success = ({ data }) => {
 
   return (
     <div>
-      <div className="mt-3 d-flex justify-content-evenly">
-        <div style={{ flexGrow: 1 }}>
-          <table className="m-auto w-100">
-            <thead>
-              <tr>
-                <th className="border px-2 text-center">
-                  Nombre Completo Despachador
-                </th>
-                <th className="border px-2 text-center">Puntaje Final</th>
-              </tr>
-            </thead>
-            <tbody>
-              {data.map((el) => (
-                <tr key={el.empleado.idempleado}>
-                  <td className="fw-semibold border px-2 text-nowrap">
-                    {el.empleado.nombre_completo}
-                  </td>
-                  <td className="fw-semibold text-center border">
-                    {el.puntosRestantes}
-                  </td>
+      <div id="render">
+        <div className="mt-3 d-flex justify-content-evenly">
+          <div style={{ flexGrow: 1 }}>
+            <table className="m-auto w-100">
+              <thead>
+                <tr>
+                  <th className="border px-2 text-center">
+                    Nombre Completo Despachador
+                  </th>
+                  <th className="border px-2 text-center">Puntaje Final</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-        <div style={{ flexGrow: 3 }}>
-          <Bar
-            datos={dataBar}
-            legend={false}
-            y={[0, 250]}
-            text="Puntaje final despachadores"
-          />
+              </thead>
+              <tbody>
+                {data.map((el) => (
+                  <tr key={el.empleado.idempleado}>
+                    <td className="fw-semibold border px-2 text-nowrap">
+                      {el.empleado.nombre_completo}
+                    </td>
+                    <td className="fw-semibold text-center border">
+                      {el.puntosRestantes}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          <div style={{ flexGrow: 3 }}>
+            <Bar
+              datos={dataBar}
+              legend={false}
+              y={[0, 250]}
+              text="Puntaje final despachadores"
+            />
+          </div>
         </div>
       </div>
       <div className="my-4">
@@ -157,6 +162,7 @@ const Success = ({ data }) => {
           </tbody>
         </table>
       </div>
+      <PdfGraficas mes={month} year={year} anchografica="80%" />
     </div>
   );
 };

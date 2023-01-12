@@ -26,6 +26,7 @@ function Aceitoso() {
     } else {
       setDatos({ ...datos, descalificado: 0 });
     }
+    console.log(datos);
   };
 
   const enviar = (e) => {

@@ -101,6 +101,7 @@ function FormOctanoso({
             type="checkbox"
             role="switch"
             onClick={handleSwitch}
+            tabIndex="on"
           />
         </div>
 

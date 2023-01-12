@@ -48,6 +48,7 @@ function FaltasRetardos() {
       idTurno: Number(form.idTurno.value),
       idTipoFalta: form.idTipoFalta.value || 1,
     };
+    e.target.reset();
     try {
       await Axios.post("/entrada/captura", cuerpo);
       setModalSuccess(true);
@@ -66,7 +67,7 @@ function FaltasRetardos() {
   };
 
   return (
-    <div>
+    <div className="Main">
       <HeaderComponents
         title="Faltas y Retardos"
         urlBack="/recursos-humanos"

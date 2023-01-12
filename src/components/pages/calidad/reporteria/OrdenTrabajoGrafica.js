@@ -2,12 +2,13 @@ import { useState } from "react";
 import useGetData from "../../../../hooks/useGetData";
 import Pastel from "../../../charts/Pastel";
 import HeaderComponents from "../../../../GUI/HeaderComponents";
-import HeaderForm from "../../../../GUI/HeaderForm";
 import InputChangeMes from "../../../forms/InputChangeMes";
 import InputChangeYear from "../../../forms/InputChangeYear";
 import ErrorHttp from "../../../assets/ErrorHttp";
 import Loader from "../../../assets/Loader";
 import format from "../../../assets/format";
+import PdfGraficas from "../../../pdf_generador/PdfGraficas";
+
 const OrdenTrabajoGrafica = () => {
   const date = new Date();
   const [year, setYear] = useState(date.getFullYear());
@@ -78,12 +79,14 @@ const OrdenTrabajoGrafica = () => {
           <Loader />
         </div>
       )}
-      {!error && !isPending && <Success data={data.response} />}
+      {!error && !isPending && (
+        <Success data={data.response} year={year} month={month} />
+      )}
     </div>
   );
 };
 
-const Success = ({ data }) => {
+const Success = ({ data, year, month }) => {
   const pastelTipos = {
     labels: [],
     data: [],
@@ -170,74 +173,77 @@ const Success = ({ data }) => {
           </p>
         </div>
       </div>
-      <div className="w-75 shadow m-auto p-2">
-        <HeaderForm title="Ordenes de trabajo por tipos" />
-        <div className="d-flex justify-content-evenly align-items-center">
-          <div>
-            <table>
-              <thead>
-                <tr>
-                  <th className="border px-2 text-center">Cantidad de OT</th>
-                  <th className="border px-2 text-center">Tipo</th>
-                </tr>
-              </thead>
-              <tbody>
-                {pastelTipos.labels.map((el, i) => (
-                  <tr>
-                    <td className="border text-center fw-semibold px-2">
-                      {pastelTipos.data[i]}
-                    </td>
-                    <td className="border text-center fw-semibold px-2">
-                      {el}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-          <div>
-            <Pastel data={pastelTipos} />
-          </div>
-        </div>
-      </div>
-      <div className="d-flex align-items-stretch justify-content-evenly mt-3">
-        {datasPastel.map((el, j) => (
-          <div
-            className="w-75 border shadow p-2"
-            key={j}
-            style={{ maxWidth: "400px" }}
-          >
-            <HeaderForm title={`En ${el.tipo}`} />
+      <div id="render">
+        <div className="w-75 shadow m-auto p-2">
+          <h5 className="text-center fw-bold">Ordenes de trabajo por tipos</h5>
+          <div className="d-flex justify-content-evenly align-items-center">
             <div>
-              <div>
-                <table className="m-auto">
-                  <thead>
+              <table>
+                <thead>
+                  <tr>
+                    <th className="border px-2 text-center">Cantidad de OT</th>
+                    <th className="border px-2 text-center">Tipo</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {pastelTipos.labels.map((el, i) => (
                     <tr>
-                      <th className="border px-2 text-center">Cantidad</th>
-                      <th className="border px-2 text-center">Área</th>
+                      <td className="border text-center fw-semibold px-2">
+                        {pastelTipos.data[i]}
+                      </td>
+                      <td className="border text-center fw-semibold px-2">
+                        {el}
+                      </td>
                     </tr>
-                  </thead>
-                  <tbody>
-                    {el.labels.map((area, i) => (
-                      <tr>
-                        <td className="border text-center fw-semibold px-2">
-                          {el.data[i]}
-                        </td>
-                        <td className="border text-center fw-semibold px-2 text-nowrap">
-                          {area}
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-              <div className="w-75 m-auto">
-                <Pastel data={el} />
-              </div>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+            <div>
+              <Pastel data={pastelTipos} />
             </div>
           </div>
-        ))}
+        </div>
+        <div className="d-flex align-items-stretch justify-content-evenly mt-3">
+          {datasPastel.map((el, j) => (
+            <div
+              className="w-75 border shadow p-2"
+              key={j}
+              style={{ maxWidth: "400px" }}
+            >
+              <h5 className="text-center fw-bold">{`En ${el.tipo}`}</h5>
+              <div>
+                <div>
+                  <table className="m-auto">
+                    <thead>
+                      <tr>
+                        <th className="border px-2 text-center">Cantidad</th>
+                        <th className="border px-2 text-center">Área</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {el.labels.map((area, i) => (
+                        <tr>
+                          <td className="border text-center fw-semibold px-2">
+                            {el.data[i]}
+                          </td>
+                          <td className="border text-center fw-semibold px-2 text-nowrap">
+                            {area}
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+                <div className="w-75 m-auto">
+                  <Pastel data={el} />
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
+      <PdfGraficas mes={month} year={year} anchografica="85%" quincena="1" />
     </div>
   );
 };

@@ -23,7 +23,6 @@ const PDFSalidaNoConforme = ({
   corregir,
   concesiones,
 }) => {
-  console.log(concesiones, "ola");
   //Fonts
   Font.register({ family: "calibri", src: calibri });
   Font.register({ family: "calibriN", src: calibriN });
@@ -186,9 +185,11 @@ const PDFSalidaNoConforme = ({
                   fontFamily: "calibri",
                 }}
               >
-                {concesiones[0] === null ||
-                concesiones[0] === "" ||
-                concesiones[0] === " "
+                {!concesiones
+                  ? false
+                  : concesiones[0] === null ||
+                    concesiones[0] === "" ||
+                    concesiones[0] === " "
                   ? "No aplica."
                   : concesiones[0]}
               </Text>
