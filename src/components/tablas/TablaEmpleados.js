@@ -25,25 +25,6 @@ function TablaEmpleados({ id }) {
           </button>
         </td>
       );
-    } else if (id === "2") {
-      return (
-        <td>
-          <button
-            type="button"
-            className="btn btn-danger me-2"
-            onClick={() => despedir(e.idempleado, e.idsolicitud_empleo)}
-          >
-            Dar de baja
-          </button>
-          <button
-            type="button"
-            className="btn btn-success"
-            onClick={() => contratar(e.idempleado, e.idsolicitud_empleo)}
-          >
-            Contratar
-          </button>
-        </td>
-      );
     } else {
       return (
         <td>
@@ -73,6 +54,11 @@ function TablaEmpleados({ id }) {
     !id ? false : `/solicitudes/estatus/${id}`,
     actualizar
   ); //consulta el tipo de empleados
+
+  const datosPracticantes = useGetData(
+    id !== "1" ? false : `/solicitudes/estatus/2`,
+    actualizar
+  );
 
   console.log(datos);
   //variables para modales
@@ -199,6 +185,7 @@ function TablaEmpleados({ id }) {
               {/* Muestra el motivo para una solicitud pendiente */}
               {navigate.match("baja-empleados") ? (
                 <Fragment>
+                  <th scope="col">Estatus</th>
                   <th scope="col">Motivo de la solicitud</th>
                   <th scope="col">Fecha de registro de la solicitud</th>
                 </Fragment>
@@ -227,6 +214,37 @@ function TablaEmpleados({ id }) {
                       <td>{e.apellido_materno}</td>
                       {navigate.match("baja-empleados") ? (
                         <Fragment>
+                          <td>{e.estatus}</td>
+                          <td>{e.motivo}</td>
+                          <td>
+                            {format.formatFechaComplete(e.fecha_registro)}
+                          </td>
+                        </Fragment>
+                      ) : null}
+                      {navigate.match("dados-baja") ? (
+                        <Fragment>
+                          <td>{e.motivo}</td>
+                          <td className="text-danger">
+                            {format.formatFechaComplete(e.update_time)}
+                          </td>
+                        </Fragment>
+                      ) : (
+                        <SetBotones id={id} e={e} />
+                      )}
+                    </tr>
+                  );
+                })}
+            {!datosPracticantes.data
+              ? false
+              : datosPracticantes.data.response.map((e) => {
+                  return (
+                    <tr>
+                      <td>{e.nombre}</td>
+                      <td>{e.apellido_paterno}</td>
+                      <td>{e.apellido_materno}</td>
+                      {navigate.match("baja-empleados") ? (
+                        <Fragment>
+                          <td>{e.estatus}</td>
                           <td>{e.motivo}</td>
                           <td>
                             {format.formatFechaComplete(e.fecha_registro)}

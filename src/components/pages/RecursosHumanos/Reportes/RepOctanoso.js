@@ -199,14 +199,14 @@ const Correcto = ({ datosTabla, colores }) => {
   };
   return (
     <div>
-      <h4>Vista detallada</h4>
+      <h4>Vista detallado</h4>
 
       <div className="container-fluid table-responsive">
         <table className="table table-bordered">
           <thead>
             <tr>
               <th scope="col" rowSpan={2}>
-                Nombre de los despachadores
+                Nombre de los despachadores grr
               </th>
               {!datosTabla.data.response[0].datos
                 ? false
@@ -311,7 +311,7 @@ const Correcto = ({ datosTabla, colores }) => {
               </thead>
               <tbody>
                 {totalTabla.map((e, index) => {
-                  while (index < 4) {
+                  if (index < 4) {
                     return (
                       <tr>
                         <td style={{ backgroundColor: colores[index] }}>
@@ -320,6 +320,8 @@ const Correcto = ({ datosTabla, colores }) => {
                         <td> {e.nombre}</td>
                       </tr>
                     );
+                  } else {
+                    return null;
                   }
                 })}
               </tbody>
