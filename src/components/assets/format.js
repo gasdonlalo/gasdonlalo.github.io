@@ -61,6 +61,9 @@ const format = {
     ),
 
   formatFechaDB: (date) => new Date(date).toISOString().split("T")[0],
+
+  formatFechaPractica: (date) =>
+    new Date(date).getTime() + new Date().getTimezoneOffset() * 60000,
 };
 
 export default format;

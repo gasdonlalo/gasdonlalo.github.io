@@ -8,9 +8,9 @@ import ModalSuccess from "../assets/ModalSuccess";
 import ModalError from "../assets/ModalError";
 import format from "../assets/format";
 import Loader from "../assets/Loader";
+import { OverlayTrigger, Tooltip } from "react-bootstrap";
 
 function TablaEmpleados({ id }) {
-  console.log(id);
   //setea los botones de acuerdo al tipo de empleados mostrados
   function SetBotones({ id, e }) {
     if (id === "1") {
@@ -22,6 +22,25 @@ function TablaEmpleados({ id }) {
             onClick={() => despedir(e.idempleado, e.idsolicitud_empleo)}
           >
             Dar de baja
+          </button>
+        </td>
+      );
+    } else if (id === "Practica") {
+      return (
+        <td>
+          <button
+            type="button"
+            className="btn btn-danger me-3"
+            onClick={() => despedir(e.idempleado, e.idsolicitud_empleo)}
+          >
+            Dar de baja
+          </button>
+          <button
+            type="button"
+            className="btn btn-success"
+            onClick={() => contratar(e.idempleado, e.idsolicitud_empleo)}
+          >
+            Validar
           </button>
         </td>
       );
@@ -46,7 +65,6 @@ function TablaEmpleados({ id }) {
       );
     }
   }
-
   const navigate = useLocation().pathname; //obtiene la ruta actual para cambiar los encabezados de la tabla
   const [actualizar, setActualizar] = useState(false); //actualiza la informacion XD
 
@@ -55,12 +73,6 @@ function TablaEmpleados({ id }) {
     actualizar
   ); //consulta el tipo de empleados
 
-  const datosPracticantes = useGetData(
-    id !== "1" ? false : `/solicitudes/estatus/2`,
-    actualizar
-  );
-
-  console.log(datos);
   //variables para modales
   const [show, setShow] = useState(false);
   const handleClose = () => {
@@ -165,111 +177,164 @@ function TablaEmpleados({ id }) {
         encabezado={encabezado}
         mostrarId={mostrarIdForm}
       />
-      {datos.error ? (
-        id === " " || id === null ? (
-          <h4 className="text-center mt-2 fst-italic">
-            Por favor, selecciona una opción.
-          </h4>
-        ) : (
-          <h4 className="text-center mt-2 fst-italic">
-            {datos.dataError.msg + "..."}
-          </h4>
-        ) //Mensaje de datos vacios o error
-      ) : (
-        <table className="table align-middle table-bordered mt-2 shadow-sm">
-          <thead className="table-light">
-            <tr>
-              <th scope="col">Nombre</th>
-              <th scope="col">Apellido paterno</th>
-              <th scope="col">Apellido Materno</th>
-              {/* Muestra el motivo para una solicitud pendiente */}
-              {navigate.match("baja-empleados") ? (
-                <Fragment>
-                  <th scope="col">Estatus</th>
-                  <th scope="col">Motivo de la solicitud</th>
-                  <th scope="col">Fecha de registro de la solicitud</th>
-                </Fragment>
-              ) : null}
-
-              {navigate.match("dados-baja") ? (
-                <Fragment>
-                  <th scope="col">
-                    Motivo de {id !== "4" ? "baja" : "rechazo"}
-                  </th>
-                  <th scope="col">Fecha de baja</th>
-                </Fragment>
-              ) : (
-                <th scope="col">Accion(es)</th>
-              )}
-            </tr>
-          </thead>
-          <tbody>
-            {!datos.data
-              ? false
-              : datos.data.response.map((e) => {
-                  return (
-                    <tr>
-                      <td>{e.nombre}</td>
-                      <td>{e.apellido_paterno}</td>
-                      <td>{e.apellido_materno}</td>
-                      {navigate.match("baja-empleados") ? (
-                        <Fragment>
-                          <td>{e.estatus}</td>
-                          <td>{e.motivo}</td>
-                          <td>
-                            {format.formatFechaComplete(e.fecha_registro)}
-                          </td>
-                        </Fragment>
-                      ) : null}
-                      {navigate.match("dados-baja") ? (
-                        <Fragment>
-                          <td>{e.motivo}</td>
-                          <td className="text-danger">
-                            {format.formatFechaComplete(e.update_time)}
-                          </td>
-                        </Fragment>
-                      ) : (
-                        <SetBotones id={id} e={e} />
-                      )}
-                    </tr>
-                  );
-                })}
-            {!datosPracticantes.data
-              ? false
-              : datosPracticantes.data.response.map((e) => {
-                  return (
-                    <tr>
-                      <td>{e.nombre}</td>
-                      <td>{e.apellido_paterno}</td>
-                      <td>{e.apellido_materno}</td>
-                      {navigate.match("baja-empleados") ? (
-                        <Fragment>
-                          <td>{e.estatus}</td>
-                          <td>{e.motivo}</td>
-                          <td>
-                            {format.formatFechaComplete(e.fecha_registro)}
-                          </td>
-                        </Fragment>
-                      ) : null}
-                      {navigate.match("dados-baja") ? (
-                        <Fragment>
-                          <td>{e.motivo}</td>
-                          <td className="text-danger">
-                            {format.formatFechaComplete(e.update_time)}
-                          </td>
-                        </Fragment>
-                      ) : (
-                        <SetBotones id={id} e={e} />
-                      )}
-                    </tr>
-                  );
-                })}
-          </tbody>
-        </table>
+      {!datos.error && !datos.isPending && (
+        <Sucess
+          id={id}
+          datos={datos}
+          navigate={navigate}
+          SetBotones={SetBotones}
+          actualizar={actualizar}
+          setModalError={setModalError}
+        />
       )}
       {datos.isPending && <Loader />}
     </div>
   );
 }
+
+const Sucess = ({ id, datos, navigate, SetBotones, setModalError }) => {
+  const [updPract, setupdPract] = useState(false);
+
+  const datosPracticantes = useGetData(
+    id === "1" ? "/solicitudes/estatus/2" : null,
+    updPract
+  );
+
+  const CalcularTiempo = ({ fecha, idempleado, idsolicitud }) => {
+    const hoy = new Date();
+    let date = new Date(fecha);
+    const msperDay = 24 * 60 * 60 * 1000;
+    var diasTrans = (hoy.getTime() - date.getTime()) / msperDay;
+    diasTrans = Math.round(diasTrans);
+
+    const validarAuto = async (solicitud, empleado) => {
+      try {
+        await Axios.put(`/solicitudes/control/${solicitud}`, {
+          estatus: 1,
+          motivo: null,
+          idEmpleado: empleado,
+        });
+        setupdPract(!updPract);
+      } catch (err) {
+        if (err.hasOwnProperty("response")) {
+          setModalError({ status: true, msg: err.response.data.msg });
+        } else {
+          setModalError({ status: true, msg: "Error en la conexión" });
+        }
+        setupdPract(!updPract);
+      }
+    };
+
+    if (diasTrans >= 30) {
+      validarAuto(idsolicitud, idempleado);
+    }
+    setupdPract(!updPract);
+  };
+
+  const sinValidar = !datosPracticantes.data
+    ? []
+    : datosPracticantes.data.response.map((e) => e.estatus);
+
+  //const sinValidar datosPracticantes.data.response.map((e) => e.estatus);
+  return (
+    <div>
+      {/* Boton empleados sin validar */}
+      {id === "1" ? (
+        <div>
+          <OverlayTrigger
+            key="right"
+            placement="right"
+            overlay={<Tooltip id="tooltip-right">Haz clic para verlos</Tooltip>}
+          >
+            <a href="#sinvalidar0" className="btn btn-primary ">
+              Empleados sin validar{" "}
+              <span className="badge text-bg-secondary">
+                {sinValidar.length}
+              </span>
+            </a>
+          </OverlayTrigger>
+        </div>
+      ) : null}
+      <table className="table align-middle table-bordered mt-2 shadow-sm">
+        <thead className="table-light">
+          <tr>
+            <th scope="col">Nombre</th>
+            <th scope="col">Apellido paterno</th>
+            <th scope="col">Apellido Materno</th>
+            {/* Muestra el motivo para una solicitud pendiente */}
+            {navigate.match("baja-empleados") ? (
+              <Fragment>
+                <th scope="col">Estatus</th>
+                {id === "5" ? (
+                  <th scope="col">Motivo de la solicitud</th>
+                ) : null}
+                <th scope="col">Fecha alta</th>
+              </Fragment>
+            ) : null}
+
+            {navigate.match("dados-baja") ? (
+              <Fragment>
+                <th scope="col">Motivo de {id !== "4" ? "baja" : "rechazo"}</th>
+                <th scope="col">Fecha de baja</th>
+              </Fragment>
+            ) : (
+              <th scope="col">Accion(es)</th>
+            )}
+          </tr>
+        </thead>
+        <tbody>
+          {datos.data.response.map((e) => {
+            return (
+              <tr>
+                <td>{e.nombre}</td>
+                <td>{e.apellido_paterno}</td>
+                <td>{e.apellido_materno}</td>
+                {navigate.match("baja-empleados") ? (
+                  <Fragment>
+                    <td>{e.estatus}</td>
+                    {id === "5" ? <td>{e.motivo}</td> : null}
+                    <td>{format.formatFechaComplete(e.update_time)}</td>
+                  </Fragment>
+                ) : null}
+                {navigate.match("dados-baja") ? (
+                  <Fragment>
+                    <td>{e.motivo}</td>
+                    <td className="text-danger">
+                      {format.formatFechaComplete(e.update_time)}
+                    </td>
+                  </Fragment>
+                ) : (
+                  <SetBotones id={id} e={e} />
+                )}
+              </tr>
+            );
+          })}
+          {/* Mapeo practicantes */}
+
+          {!datosPracticantes.error && !datosPracticantes.isPending
+            ? datosPracticantes.data.response.map((e, index) => {
+                return (
+                  <tr id={`sinvalidar${index}`}>
+                    <td>{e.nombre}</td>
+                    <td>{e.apellido_paterno}</td>
+                    <td>{e.apellido_materno}</td>
+                    <td>{e.idsolicitud_empleo}</td>
+                    <td>{format.formatFechaComplete(e.update_time)}</td>
+
+                    <SetBotones id={e.estatus} e={e} />
+                    <CalcularTiempo
+                      fecha={format.formatFechaPractica(e.update_time)}
+                      idsolicitud={e.idsolicitud_empleo}
+                      idempleado={e.idempleado}
+                    />
+                  </tr>
+                );
+              })
+            : null}
+        </tbody>
+      </table>
+    </div>
+  );
+};
 
 export default TablaEmpleados;
