@@ -21,7 +21,6 @@ function AltaBaja() {
           >
             <option value=" ">--Selecciona un opcion--</option>
             <option value="1">Contratado</option>
-            <option value="2">Practicante</option>
             <option value="5">Pendiente</option>
           </select>
         </form>

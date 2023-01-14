@@ -56,7 +56,7 @@ import FaltaRetardoGrafica from "../components/pages/RecursosHumanos/Reportes/Fa
 import ControlDocumentos from "../components/pages/RecursosHumanos/ControlDocumentos";
 import Octanoso from "../components/pages/RecursosHumanos/Octanoso";
 import Aceitoso from "../components/pages/RecursosHumanos/Aceitoso";
-import GICO from "../components/pages/RecursosHumanos/Reportes/RepAceitoso";
+import GICO from "../components/pages/RecursosHumanos/Reportes/RepOctanoso";
 import GICA from "../components/pages/RecursosHumanos/Reportes/RepAceitoso";
 
 function Rutas() {
