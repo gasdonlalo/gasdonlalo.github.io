@@ -1,4 +1,3 @@
-import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import Axios from "../../../Caxios/Axios";
 import FormRetardos from "../../forms/FormRetardos";
@@ -6,6 +5,7 @@ import useGetData from "../../../hooks/useGetData";
 import ModalError from "../../assets/ModalError";
 import ModalSuccess from "../../assets/ModalSuccess";
 import HeaderComponents from "../../../GUI/HeaderComponents";
+import IconComponents from "../../assets/IconComponents";
 
 function FaltasRetardos() {
   const [body, setBody] = useState();
@@ -32,8 +32,6 @@ function FaltasRetardos() {
     setModalError({ status: false, msg: "" });
   };
 
-  const navigate = useNavigate();
-
   const empleado = useGetData("/empleado");
   const turnos = useGetData("/estaciones-servicio/turnos");
 
@@ -43,17 +41,18 @@ function FaltasRetardos() {
     let form = e.target;
     const cuerpo = {
       idEmpleado: Number(form.idEmpleado.value),
-      horaEntrada: form.horaEntrada.value,
+      horaEntrada: form.horaEntrada.value || null,
       fecha: form.fecha.value,
-      idTurno: Number(form.idTurno.value),
+      idTurno: Number(form.idTurno.value) || null,
       idTipoFalta: form.idTipoFalta.value || 1,
     };
-    e.target.reset();
     try {
       await Axios.post("/entrada/captura", cuerpo);
       setModalSuccess(true);
       setFormPending(false);
+      e.target.reset();
     } catch (err) {
+      console.log(err.response.data);
       if (err.hasOwnProperty("response")) {
         setModalError({
           status: true,
@@ -73,16 +72,11 @@ function FaltasRetardos() {
         urlBack="/recursos-humanos"
         textUrlback="Volver a recursos humanos"
       >
-        <div
-          className="rounded p-2 btn-select m-1 d-flex flex-column align-items-center mt-0 pt-0"
-          onClick={() => navigate("reportes")}
-        >
-          <i
-            className="fa-regular fa-chart-line text-success"
-            style={{ fontSize: "50px" }}
-          ></i>
-          <p className="p-0 m-0 text-nowrap">Reportes</p>
-        </div>
+        <IconComponents
+          url="reportes"
+          text="Reportes"
+          icon="chart-simple text-success"
+        />
       </HeaderComponents>
       <FormRetardos
         emp={empleado}

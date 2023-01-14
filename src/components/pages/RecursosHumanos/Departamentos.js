@@ -68,7 +68,7 @@ const Departamentos = () => {
     setBody({ ...body, [e.target.name]: e.target.value });
   };
   return (
-    <div>
+    <div className="Main">
       <HeaderComponents
         urlBack="../"
         textUrlback="Regresar a recursos humanos"

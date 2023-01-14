@@ -123,7 +123,7 @@ const Success = ({ data, year, month, idEmpleado, quincena }) => {
         {
           data: [promedio.quin1.toFixed(2), promedio.quin2.toFixed(2)],
           label: "Diciembre",
-          backgroundColor: "rgba(237,50,5,1)",
+          backgroundColor: ["rgba(237,50,5,1)", "rgba(209,19,19,1)"],
         },
       ],
     };
@@ -260,7 +260,7 @@ const Success = ({ data, year, month, idEmpleado, quincena }) => {
             <div className="w-50">
               <Bar
                 datos={dataBarPromedio}
-                text="Promedio por pasos"
+                text={`Promedio por pasos quincena ${quincena}`}
                 legend={false}
               />
             </div>
