@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import useGetData from "../../hooks/useGetData";
 import Loader from "../assets/Loader";
 import InputFecha from "./InputFecha";
 import InputSelectDep from "./InputSelectDep";
+import HeaderForm from "../../GUI/HeaderForm";
 
 function FormRetardos({
   emp,
@@ -21,124 +22,126 @@ function FormRetardos({
     setEmpleados(filEmp);
   };
 
+  const InputHora = useRef();
+
+  if (body) {
+    if (body.hasOwnProperty("idTipoFalta")) {
+      if (
+        body.idTipoFalta === "2" ||
+        body.idTipoFalta === "3" ||
+        body.idTipoFalta === "4"
+      ) {
+        InputHora.current.disabled = true;
+        InputHora.current.value = null;
+      } else {
+        InputHora.current.disabled = false;
+      }
+    }
+  }
+
   return (
-    <div className="container">
-      <form onSubmit={enviar}>
-        <div className="row">
-          <div className="mb-3">
-            <div className="mb-3 col-6">
-              <label className="form-label">fecha</label>
-              <InputFecha
-                data={body}
-                setData={setBody}
-                handle={handle}
-                name="fecha"
-                required
-              />
-            </div>
-
-            {/* PRIMER CUADRO */}
-            <div className="row border mb-3">
-              <div className="mb-3 col-6">
-                <label>Departamentos</label>
-                <InputSelectDep handle={changeDep} />
-              </div>
-              <div className="mb-3 col-6">
-                <label>Empleados</label>
-                <select
-                  className="form-control"
-                  name="idEmpleado"
-                  onChange={handle}
-                  required
-                >
-                  <option value=""> --Selecciona un empleado--</option>
-                  {!empleados
-                    ? false
-                    : empleados.map((e) => {
-                        return (
-                          <option
-                            value={e.idempleado}
-                            key={e.idempleado}
-                          >{`${e.nombre} ${e.apellido_paterno} ${e.apellido_materno}`}</option>
-                        );
-                      })}
-                </select>
-              </div>
-            </div>
-
-            {/* SEGUNDO CUADRO */}
-            <div className=" row border mb-3">
-              <div className="mb-3 col-6">
-                <label className="form-label">Turno</label>
-                <select
-                  name="idTurno"
-                  className="form-select"
-                  defaultValue={1}
-                  onChange={handle}
-                  required
-                >
-                  {!turnos.error && !turnos.isPending && (
-                    <option value=""> -- Seleccionar turno -- </option>
-                  )}
-                  {turnos.isPending && (
-                    <option value=""> -- Cargando turnos -- </option>
-                  )}
-                  {!turnos.error &&
-                    !turnos.isPending &&
-                    turnos.data.response.map((el) => (
-                      <option key={el.idturno} value={el.idturno}>
-                        {el.turno}
-                      </option>
-                    ))}
-                  {turnos.isPending && (
-                    <option value="">Cargando turnos</option>
-                  )}
-                  {turnos.error && !turnos.isPending && (
-                    <option value=""></option>
-                  )}
-                </select>
-              </div>
-
-              <div className="mb-3 col-6">
-                <label className="form-label">Hora</label>
-                <input
-                  type="time"
-                  className="form-control"
-                  data={body}
-                  onChange={handle}
-                  name="horaEntrada"
-                  required
-                />
-              </div>
-              <div className="mb-3 col-6">
-                <label className="form-label">Tipo falta</label>
-                {!turnos.error && !turnos.isPending && (
-                  <SelectTipoFalta
-                    handle={handle}
-                    body={body}
-                    turnos={turnos.data.response}
-                  />
-                )}
-              </div>
-            </div>
+    <div>
+      <form onSubmit={enviar} className="shadow p-2 w-50 m-auto mt-2">
+        <HeaderForm />
+        <div className="row mb-3">
+          <div className="col-4">
+            <label className="form-label mb-0">fecha</label>
+            <InputFecha
+              data={body}
+              setData={setBody}
+              handle={handle}
+              name="fecha"
+              required
+            />
           </div>
         </div>
-
-        <button
-          type="submit"
-          className="btn btn-primary"
-          disabled={formPending}
-        >
-          {formPending ? <Loader size="1.5" /> : "Enviar"}
-        </button>
+        <div className="row">
+          <div className="col-6 mb-3">
+            <label>Departamentos</label>
+            <InputSelectDep handle={changeDep} />
+          </div>
+          <div className="col-6 mb-3">
+            <label>Empleados</label>
+            <select
+              className="form-control"
+              name="idEmpleado"
+              onChange={handle}
+              required
+            >
+              <option value=""> --Selecciona un empleado--</option>
+              {!empleados
+                ? false
+                : empleados.map((e) => {
+                    return (
+                      <option
+                        value={e.idempleado}
+                        key={e.idempleado}
+                      >{`${e.nombre} ${e.apellido_paterno} ${e.apellido_materno}`}</option>
+                    );
+                  })}
+            </select>
+          </div>
+          <div className="col-6 mb-3">
+            <label className="form-label mb-0">Turno</label>
+            <select
+              name="idTurno"
+              className="form-select"
+              defaultValue={1}
+              onChange={handle}
+            >
+              {!turnos.error && !turnos.isPending && (
+                <option value=""> -- Seleccionar turno -- </option>
+              )}
+              {turnos.isPending && (
+                <option value=""> -- Cargando turnos -- </option>
+              )}
+              {!turnos.error &&
+                !turnos.isPending &&
+                turnos.data.response.map((el) => (
+                  <option key={el.idturno} value={el.idturno}>
+                    {el.turno}
+                  </option>
+                ))}
+              {turnos.isPending && <option value="">Cargando turnos</option>}
+              {turnos.error && !turnos.isPending && <option value=""></option>}
+            </select>
+          </div>
+          <div className="col-6 mb-3">
+            <label className="form-label mb-0">Hora</label>
+            <input
+              type="time"
+              className="form-control"
+              data={body}
+              onChange={handle}
+              name="horaEntrada"
+              ref={InputHora}
+              required
+            />
+          </div>
+          <div className="col-4">
+            <label className="form-label">Tipo falta</label>
+            {!turnos.error && !turnos.isPending && (
+              <SelectTipoFalta handle={handle} j />
+            )}
+          </div>
+        </div>
+        <div className="mt-4">
+          <button
+            type="submit"
+            className="btn btn-primary mx-auto d-block"
+            disabled={formPending}
+          >
+            {formPending ? <Loader size="1.5" /> : "Enviar"}
+          </button>
+        </div>
       </form>
     </div>
   );
 }
 
-const SelectTipoFalta = ({ handle, turnos, body }) => {
+const SelectTipoFalta = ({ handle }) => {
   const { data, error, isPending } = useGetData("/entrada/faltas");
-  let validar = true;
+  /* let validar = true;
   if (body) {
     if (body.hasOwnProperty("idTurno") && body.hasOwnProperty("horaEntrada")) {
       let validarRetraso =
@@ -149,7 +152,7 @@ const SelectTipoFalta = ({ handle, turnos, body }) => {
         ) - new Date(`2000-01-01 ${body.horaEntrada}`);
       validarRetraso > 0 ? (validar = true) : (validar = false);
     }
-  }
+  } */
 
   return (
     <select
@@ -157,7 +160,7 @@ const SelectTipoFalta = ({ handle, turnos, body }) => {
       onChange={handle}
       className="form-select"
       defaultValue={0}
-      disabled={validar}
+      // disabled={validar}
     >
       <option value=""></option>
       {!error &&

@@ -106,7 +106,6 @@ function Rutas() {
           </Route>
           <Route path="documentos-trabajadores" element={<Documentos />} />
           <Route path="concurso-madrugador" element={<ConcursoMadrugador />} />
-          <Route path="faltas-retardo" element={<FaltasRetardos />} />
           <Route
             path="empleados-dados-baja"
             element={<EmpleadosRechazados />}

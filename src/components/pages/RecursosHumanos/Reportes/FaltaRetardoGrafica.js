@@ -259,12 +259,21 @@ const Success = ({ weeks, data }) => {
             </div>
 
             <div className="w-75 m-5">
-              {dataBar && (
+              {dataBar ? (
                 <Bar
                   datos={dataBar}
                   text={`${data.response[0].nombre} ${data.response[0].apellido_paterno} ${data.response[0].apellido_materno}`}
                   legend={false}
                 />
+              ) : (
+                <div>
+                  <span
+                    className="fw-bold text-success m-auto d-block p-2 shadow-sm"
+                    style={{ width: "max-content" }}
+                  >
+                    Empleado sin inconformidades
+                  </span>
+                </div>
               )}
             </div>
           </div>
