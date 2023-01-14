@@ -1,7 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
-const IconComponents = ({ url, text, icon, rotacion }) => {
+const IconComponents = ({ url, text, icon }) => {
   const navigate = useNavigate();
   return (
     <div

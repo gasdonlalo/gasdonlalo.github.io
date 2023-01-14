@@ -11,7 +11,7 @@ import format from "../../assets/format";
 
 const SalidaNoConforme = () => {
   const empleadoS = useGetData("/empleado?departamento=1");
-  const empleadoA = useGetData("/empleado?departamento=2");
+  //const empleadoA = useGetData("/empleado?departamento=2");
   const incumplimiento = useGetData("/incumplimiento/1");
   //recupera la id del formulario enviado para generar el pdf
   const [idsalida, setIdsalida] = useState(null);
@@ -109,7 +109,7 @@ const SalidaNoConforme = () => {
                   />
                 </div>
               )}
-              {!empleadoA.error && !empleadoA.isPending && (
+              {/* {!empleadoA.error && !empleadoA.isPending && (
                 <div className="m-b">
                   <label className="label-form">
                     Seleccionar empleado que autoriza
@@ -120,7 +120,7 @@ const SalidaNoConforme = () => {
                     handle={handle}
                   />
                 </div>
-              )}
+              )} */}
               {!incumplimiento.error && !incumplimiento.isPending && (
                 <div className="m-b">
                   <label className="label-form">

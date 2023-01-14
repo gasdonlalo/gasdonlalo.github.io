@@ -60,13 +60,16 @@ const Departamentos = () => {
       setFormPending(false);
     }
   };
+
   const closeModal = () => {
     setModalError({ status: false, msg: "" });
     setModalSuccess(false);
   };
+
   const handle = (e) => {
     setBody({ ...body, [e.target.name]: e.target.value });
   };
+
   return (
     <div className="Main">
       <HeaderComponents
@@ -91,7 +94,7 @@ const Departamentos = () => {
       )}
       <ModalError
         show={modalError.status}
-        msg={modalError.msg}
+        text={modalError.msg}
         close={closeModal}
       />
       <ModalSuccess show={modalSuccess} close={closeModal} />

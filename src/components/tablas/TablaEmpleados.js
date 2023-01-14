@@ -198,7 +198,7 @@ const Sucess = ({ id, datos, navigate, SetBotones, setModalError }) => {
   const datosPracticantes = useGetData(
     id === "1" ? "/solicitudes/estatus/2" : null
   );
-  const validarAuto = async (solicitud, empleado) => {
+  /* const validarAuto = async (solicitud, empleado) => {
     try {
       await Axios.put(`/solicitudes/control/${solicitud}`, {
         estatus: 1,
@@ -214,7 +214,7 @@ const Sucess = ({ id, datos, navigate, SetBotones, setModalError }) => {
       setupdPract(!updPract);
     }
   };
-
+ */
   const CalcularTiempo = ({ fecha, idempleado, idsolicitud }) => {
     const hoy = new Date();
     let date = new Date(fecha);
@@ -224,7 +224,7 @@ const Sucess = ({ id, datos, navigate, SetBotones, setModalError }) => {
 
     if (diasTrans >= 30) {
       //validarAuto(idsolicitud, idempleado);
-      setupdPract(!updPract);
+      /* setupdPract(!updPract) */
     }
   };
 

@@ -29,6 +29,8 @@ import AltaBaja from "../components/pages/RecursosHumanos/AltaBaja";
 import FaltasRetardos from "../components/pages/RecursosHumanos/FaltasRetardos";
 import ConcursoMadrugador from "../components/pages/RecursosHumanos/ConcursoMadrugador";
 import Departamentos from "../components/pages/RecursosHumanos/Departamentos";
+import EntregaRecurso from "../components/pages/RecursosHumanos/EntregaRecurso";
+import ERR from "../components/pages/RecursosHumanos/Reportes/EntregaRecursoRegistro";
 
 // Importación gráficos recursos
 import FRG from "../components/pages/RecursosHumanos/Reportes/FaltaRetardoGrafica";
@@ -100,6 +102,8 @@ function Rutas() {
           <Route path="captura-solicitud" element={<SolicitudesEmpleo />} />
           <Route path="alta-baja-empleados" element={<AltaBaja />} />
           <Route path="departamentos" element={<Departamentos />} />
+          <Route path="entrega-recursos" element={<EntregaRecurso />} />
+          <Route path="entrega-recursos/registros" element={<ERR />} />
           <Route path="faltas-retardo">
             <Route index element={<FaltasRetardos />} />
             <Route path="reportes" element={<FRG />} />
