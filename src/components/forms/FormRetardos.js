@@ -14,6 +14,7 @@ function FormRetardos({
   handle,
   formPending,
 }) {
+  const [showHoraEntradaOpcional, setHoraEntradaOpcional] = useState(false);
   const [empleados, setEmpleados] = useState(null);
   const changeDep = (e) => {
     const filEmp = emp.data.response.filter(
@@ -21,7 +22,7 @@ function FormRetardos({
     );
     setEmpleados(filEmp);
   };
-
+  const handleCheckSwitch = (e) => setHoraEntradaOpcional(e.target.checked);
   const InputHora = useRef();
 
   if (body) {
@@ -55,7 +56,7 @@ function FormRetardos({
             />
           </div>
         </div>
-        <div className="row">
+        <div className="row mb-3">
           <div className="col-6 mb-3">
             <label>Departamentos</label>
             <InputSelectDep handle={changeDep} />
@@ -107,11 +108,10 @@ function FormRetardos({
             </select>
           </div>
           <div className="col-6 mb-3">
-            <label className="form-label mb-0">Hora</label>
+            <label className="form-label mb-0">Hora entrada</label>
             <input
               type="time"
               className="form-control"
-              data={body}
               onChange={handle}
               name="horaEntrada"
               ref={InputHora}
@@ -125,6 +125,33 @@ function FormRetardos({
             )}
           </div>
         </div>
+        <div>
+          <div className="form-check form-switch">
+            <label className="form-label">
+              Modificar hora entrada
+              <input
+                type="checkbox"
+                className="form-check-input"
+                onChange={handleCheckSwitch}
+              />
+            </label>
+          </div>
+        </div>
+        {showHoraEntradaOpcional && (
+          <div className="row">
+            <div className="col-4">
+              <label className="form-label">Hora de entrada asignada</label>
+              <input
+                title="Solo en caso de que la hora de entrada del empleado cambien momentaneamente"
+                type="time"
+                className="form-control"
+                name="horaEntradaPermitida"
+                required
+              />
+            </div>
+          </div>
+        )}
+
         <div className="mt-4">
           <button
             type="submit"
@@ -162,7 +189,7 @@ const SelectTipoFalta = ({ handle }) => {
       defaultValue={0}
       // disabled={validar}
     >
-      <option value=""></option>
+      <option value="">Ninguna</option>
       {!error &&
         !isPending &&
         data.response.map((el) => (

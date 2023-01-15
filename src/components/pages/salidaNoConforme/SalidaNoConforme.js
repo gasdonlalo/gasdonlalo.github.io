@@ -12,7 +12,7 @@ import format from "../../assets/format";
 const SalidaNoConforme = () => {
   const empleadoS = useGetData("/empleado?departamento=1");
   const empleadoA = useGetData("/empleado?departamento=2");
-  const incumplimiento = useGetData("/incumplimiento/1");
+  const incumplimiento = useGetData("/incumplimiento");
   //recupera la id del formulario enviado para generar el pdf
   const [idsalida, setIdsalida] = useState(null);
 

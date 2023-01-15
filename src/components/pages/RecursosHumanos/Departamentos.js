@@ -15,7 +15,8 @@ const Departamentos = () => {
   const [modalError, setModalError] = useState({ status: false, msg: "" });
   const [body, setBody] = useState({});
   const { data, error, isPending } = useGetData("/departamento", formPending);
-  const enviar = async () => {
+  const enviar = async (e) => {
+    e.preventDefault();
     setFormPending(true);
     try {
       if (dataDefault) {

@@ -7,10 +7,13 @@ import InputChangeMes from "../../forms/InputChangeMes";
 import InputChangeYear from "../../forms/InputChangeYear";
 import format from "../../assets/format";
 import PdfGraficas from "../../pdf_generador/PdfGraficas";
+import IconComponents from "../../assets/IconComponents";
+import OffCanvasConfigIncumplimientos from "../../assets/OffCanvasConfigIncumplientos";
 
 function ConcursoMadrugador() {
   const date = new Date();
   const [year, setYear] = useState(date.getFullYear());
+  const [showCanva, setShowCanva] = useState();
   const [month, setMonth] = useState(date.getMonth() + 1);
   const { data, error, isPending } = useGetData(
     `/madrugador/control-mensual/todos/${year}/${month}`
@@ -18,6 +21,8 @@ function ConcursoMadrugador() {
 
   const changeMonth = (e) => setMonth(e.target.value);
   const changeYear = (e) => setYear(e.target.value);
+  const setShowCanvaOpen = () => setShowCanva(true);
+  const setShowCanvaClose = () => setShowCanva(false);
 
   return (
     <div className="Main">
@@ -25,6 +30,16 @@ function ConcursoMadrugador() {
         urlBack="/recursos-humanos"
         textUrlback="Regresar a recursos humanos"
         title="Incentivo concurso el madrugador"
+      >
+        <span onClick={setShowCanvaOpen}>
+          <IconComponents icon="gear" text="Configurar SNC" />
+        </span>
+      </HeaderComponents>
+      {/* En categorizacion poner el id para identificar que concurso es en la base de datos, 1 = madrugadro, 2 = octanoso, 3=aceitoso */}
+      <OffCanvasConfigIncumplimientos
+        show={showCanva}
+        close={setShowCanvaClose}
+        categorizacion={1}
       />
       <div>
         <nav className="m-auto w-75 row">
