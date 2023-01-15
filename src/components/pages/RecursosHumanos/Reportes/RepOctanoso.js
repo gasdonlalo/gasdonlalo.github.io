@@ -143,7 +143,7 @@ const Correcto = ({ datosTabla, colores }) => {
           );
       let suma = !e.datos
         ? false
-        : e.datos.map((e) => e.cantidad).reduce((a, b) => a + b, 0);
+        : e.datos.map((e) => e.cantidad).reduce((a, b) => a + b);
 
       let sumaNC = !e.datos
         ? false
@@ -206,7 +206,7 @@ const Correcto = ({ datosTabla, colores }) => {
           <thead>
             <tr>
               <th scope="col" rowSpan={2}>
-                Nombre de los despachadores grr
+                Nombre de los despachadores
               </th>
               {!datosTabla.data.response[0].datos
                 ? false

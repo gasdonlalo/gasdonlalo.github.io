@@ -5,6 +5,7 @@ import HeaderComponents from "../../../../GUI/HeaderComponents";
 import format from "../../../assets/format";
 import Bar from "../../../charts/Bar";
 import PdfGraficas from "../../../pdf_generador/PdfGraficas";
+import Decimal from "decimal.js-light";
 
 function RepAceitoso() {
   let colores = [
@@ -140,7 +141,11 @@ const Correcto = ({ datosTabla, colores }) => {
           );
       let suma = !e.datos
         ? false
-        : e.datos.map((e) => e.cantidad).reduce((a, b) => a + b, 0);
+        : e.datos
+            .map((e) => e.cantidad)
+            .reduce((a, b) =>
+              new Decimal(Number(a)).plus(Number(b)).toNumber()
+            );
 
       let sumaNC = !e.datos
         ? false
@@ -157,12 +162,12 @@ const Correcto = ({ datosTabla, colores }) => {
     .sort((a, b) => {
       if (
         (!a.descalificado && b.descalificado) ||
-        (a.cantidadNC <= 4 && b.cantidadNC > 4)
+        (a.cantidadNC <= 3 && b.cantidadNC > 3)
       ) {
         return -1;
       } else if (
         (a.descalificado && !b.descalificado) ||
-        (a.cantidadNC > 4 && b.cantidadNC <= 4)
+        (a.cantidadNC >= 3 && b.cantidadNC < 3)
       ) {
         return 1;
       } else {
@@ -180,7 +185,7 @@ const Correcto = ({ datosTabla, colores }) => {
         backgroundColor: totalTabla.map((e, index) => {
           if (index < 4 && !e.descalificado) {
             return colores[index];
-          } else if (e.descalificado || e.cantidadNC > 4) {
+          } else if (e.descalificado || e.cantidadNC >= 3) {
             return "rgba(202,202,202,1)";
           } else {
             return colores[4];
@@ -267,7 +272,7 @@ const Correcto = ({ datosTabla, colores }) => {
               <thead>
                 <tr>
                   <th scope="col">Nombre de los despachadores</th>
-                  <th scope="col">Total de litros vendidos</th>
+                  <th scope="col">Total de aceites vendidos en pesos</th>
                   <th scope="col">Total de salidas no conformes</th>
                 </tr>
               </thead>
@@ -278,17 +283,17 @@ const Correcto = ({ datosTabla, colores }) => {
                       style={
                         index < 4
                           ? { backgroundColor: colores[index] }
-                          : e.descalificado || e.cantidadNC > 4
+                          : e.descalificado || e.cantidadNC >= 3
                           ? { backgroundColor: "#cacaca" }
                           : null
                       }
                     >
                       <td>{e.nombre}</td>
-                      <td>{e.cantidadLitros} L</td>
+                      <td>$ {e.cantidadLitros}</td>
                       <td>
                         {e.descalificado
                           ? "Descalificado"
-                          : e.cantidadNC > 4
+                          : e.cantidadNC >= 3
                           ? "Descalificado"
                           : e.cantidadNC}
                       </td>

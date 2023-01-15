@@ -196,10 +196,25 @@ const Sucess = ({ id, datos, navigate, SetBotones, setModalError }) => {
   const [updPract, setupdPract] = useState(false);
 
   const datosPracticantes = useGetData(
-    id === "1" ? "/solicitudes/estatus/2" : null,
-    updPract
+    id === "1" ? "/solicitudes/estatus/2" : null
   );
-
+  /* const validarAuto = async (solicitud, empleado) => {
+    try {
+      await Axios.put(`/solicitudes/control/${solicitud}`, {
+        estatus: 1,
+        motivo: null,
+        idEmpleado: empleado,
+      });
+      setupdPract(!updPract);
+    } catch {
+      setModalError({
+        status: true,
+        msg: "No se pudo actualizar automaticamente...",
+      });
+      setupdPract(!updPract);
+    }
+  };
+ */
   const CalcularTiempo = ({ fecha, idempleado, idsolicitud }) => {
     const hoy = new Date();
     let date = new Date(fecha);
@@ -207,28 +222,10 @@ const Sucess = ({ id, datos, navigate, SetBotones, setModalError }) => {
     var diasTrans = (hoy.getTime() - date.getTime()) / msperDay;
     diasTrans = Math.round(diasTrans);
 
-    const validarAuto = async (solicitud, empleado) => {
-      try {
-        await Axios.put(`/solicitudes/control/${solicitud}`, {
-          estatus: 1,
-          motivo: null,
-          idEmpleado: empleado,
-        });
-        setupdPract(!updPract);
-      } catch (err) {
-        if (err.hasOwnProperty("response")) {
-          setModalError({ status: true, msg: err.response.data.msg });
-        } else {
-          setModalError({ status: true, msg: "Error en la conexión" });
-        }
-        setupdPract(!updPract);
-      }
-    };
-
     if (diasTrans >= 30) {
-      validarAuto(idsolicitud, idempleado);
+      //validarAuto(idsolicitud, idempleado);
+      /* setupdPract(!updPract) */
     }
-    setupdPract(!updPract);
   };
 
   const sinValidar = !datosPracticantes.data
