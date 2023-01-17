@@ -4,8 +4,10 @@ import HeaderComponents from "../../../../GUI/HeaderComponents";
 import format from "../../../assets/format";
 import Bar from "../../../charts/Bar";
 import Axios from "../../../../Caxios/Axios";
-
 import PdfGraficas from "../../../pdf_generador/PdfGraficas";
+import IconComponents from "../../../assets/IconComponents";
+import OffCanvasConfigIncumplimientos from "../../../assets/OffCanvasConfigIncumplientos";
+import Decimal from "decimal.js-light";
 
 function RepOctanoso() {
   //variable para colores
@@ -20,11 +22,15 @@ function RepOctanoso() {
   const [datosTabla, setDatosTabla] = useState(null);
   const [error, setError] = useState(null);
   const estaciones = useGetData("/estaciones-servicio");
+  const [showCanva, setShowCanva] = useState();
 
   const [fechaInicio, setFechaInicio] = useState(null);
   const [fechaFin, setFechaFin] = useState(null);
   const [estacion, setEstacion] = useState(null);
   const [datos, setDatos] = useState([]);
+
+  const setShowCanvaOpen = () => setShowCanva(true);
+  const setShowCanvaClose = () => setShowCanva(false);
 
   const changeFechaInicio = (e) => {
     setFechaInicio(e.target.value);
@@ -62,7 +68,17 @@ function RepOctanoso() {
         urlBack="/recursos-humanos"
         textUrlback="Volver a recursos humanos"
         title="Reporte de concurso el octanoso"
+      >
+        <span onClick={setShowCanvaOpen}>
+          <IconComponents icon="gear" text="Configurar SNC" />
+        </span>
+      </HeaderComponents>
+      <OffCanvasConfigIncumplimientos
+        show={showCanva}
+        close={setShowCanvaClose}
+        categorizacion={2}
       />
+
       <div className="container">
         <form onSubmit={enviar}>
           <div className="row">
@@ -123,7 +139,7 @@ function RepOctanoso() {
       {/* Contenedor tabla */}
 
       {!datosTabla ? (
-        false
+        <h4>Selecciona un rango de fechas y una estacion...</h4>
       ) : error !== null ? (
         <h4>{error}</h4>
       ) : (
@@ -143,7 +159,11 @@ const Correcto = ({ datosTabla, colores }) => {
           );
       let suma = !e.datos
         ? false
-        : e.datos.map((e) => e.cantidad).reduce((a, b) => a + b);
+        : e.datos
+            .map((e) => e.cantidad)
+            .reduce((a, b) =>
+              new Decimal(Number(a)).plus(Number(b)).toNumber()
+            );
 
       let sumaNC = !e.datos
         ? false
@@ -172,6 +192,10 @@ const Correcto = ({ datosTabla, colores }) => {
         return b.cantidadLitros - a.cantidadLitros;
       }
     });
+
+  let totalLitrosVendidoMes = totalTabla
+    .map((e) => e.cantidadLitros)
+    .reduce((a, b) => new Decimal(Number(a)).plus(Number(b)).toFixed(2)); //error con muneros solucionado con string o fixed metodos
 
   let datosBar = {
     labels: totalTabla.map((e) => e.nombre),
@@ -262,6 +286,19 @@ const Correcto = ({ datosTabla, colores }) => {
       </div>
       {/* Termina tabla detalles */}
       <h4 className="mt-3">Vista general</h4>
+      {/* Tabla con total vendido al mes */}
+      <div className="d-flex justify-content-evenly container-fluid border-top border-bottom mt-3 mb-3 align-items-center ">
+        <div className="mt-3">
+          <table className="table table-bordered border-dark align-middle text-center">
+            <tbody>
+              <tr>
+                <th scope="col">Total vendido en el mes</th>
+                <td>$ {totalLitrosVendidoMes}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
       <div className="container-fluid    mt-3" id="render">
         <div className="container mt-3">
           <table className="table table-bordered border-dark align-middle text-center">

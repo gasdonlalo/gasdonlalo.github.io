@@ -109,7 +109,7 @@ const SalidaNoConforme = () => {
                   />
                 </div>
               )}
-              {/* {!empleadoA.error && !empleadoA.isPending && (
+              {!empleadoA.error && !empleadoA.isPending && (
                 <div className="m-b">
                   <label className="label-form">
                     Seleccionar empleado que autoriza
@@ -120,7 +120,7 @@ const SalidaNoConforme = () => {
                     handle={handle}
                   />
                 </div>
-              )} */}
+              )}
               {!incumplimiento.error && !incumplimiento.isPending && (
                 <div className="m-b">
                   <label className="label-form">

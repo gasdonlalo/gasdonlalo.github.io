@@ -193,12 +193,9 @@ const Correcto = ({ datosTabla, colores }) => {
       }
     });
 
-  console.log(totalTabla);
   let totalVendidoMes = totalTabla
     .map((e) => e.cantidadLitros)
     .reduce((a, b) => new Decimal(Number(a)).plus(Number(b)).toFixed(2)); //error con muneros solucionado con string o fixed metodos
-
-  console.log(totalVendidoMes);
 
   let datosBar = {
     labels: totalTabla.map((e) => e.nombre),
@@ -289,18 +286,14 @@ const Correcto = ({ datosTabla, colores }) => {
       <div className="container-fluid border-top mt-3">
         {/* Tabla principal */}
         <h4>Vista general</h4>
+        {/* Tabla total mes y comision aproximada */}
         <div className="d-flex justify-content-evenly container-fluid border-top border-bottom mt-3 mb-3 align-items-center ">
           <div className="mt-3">
             <table className="table table-bordered border-dark align-middle text-center">
               <tbody>
                 <tr>
-                  <th scope="col" rowSpan={2}>
-                    Total vendido en el mes
-                  </th>
-                  <th scope="col">$</th>
-                </tr>
-                <tr>
-                  <td>{totalVendidoMes}</td>
+                  <th scope="col">Total vendido en el mes</th>
+                  <td>$ {totalVendidoMes}</td>
                 </tr>
               </tbody>
             </table>
