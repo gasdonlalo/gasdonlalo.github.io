@@ -4,8 +4,8 @@ import InputSelectEmpleados from "./InputSelectEmpleado";
 import Loader from "../assets/Loader";
 import useGetData from "../../hooks/useGetData";
 import Axios from "../../Caxios/Axios";
-import ModalSuccess from "../assets/ModalSuccess";
-import ModalError from "../assets/ModalError";
+import ModalSuccess from "../modals/ModalSuccess";
+import ModalError from "../modals/ModalError";
 import HeaderForm from "../../GUI/HeaderForm";
 function FormDespachar() {
   const [modalSuccess, setModalSuccess] = useState(false);

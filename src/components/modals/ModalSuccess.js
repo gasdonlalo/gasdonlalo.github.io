@@ -1,12 +1,12 @@
 import { Modal, Button } from "react-bootstrap";
 
-const ModalSuccess = ({ show, close, msg }) => {
+const ModalSuccess = ({ show, close, text }) => {
   return (
     <Modal show={show} onHide={close} centered>
       <Modal.Header closeButton>
         <Modal.Title>Correcto</Modal.Title>
       </Modal.Header>
-      <Modal.Body>{msg}</Modal.Body>
+      <Modal.Body>{text}</Modal.Body>
       <Modal.Footer>
         <Button variant="success" onClick={close}>
           Cerrar
@@ -17,7 +17,7 @@ const ModalSuccess = ({ show, close, msg }) => {
 };
 
 ModalSuccess.defaultProps = {
-  msg: "Se guardaron los datos correctamente",
+  text: "Se guardaron los datos correctamente",
 };
 
 export default ModalSuccess;

@@ -1,6 +1,6 @@
 import { Modal, Button } from "react-bootstrap";
 import React, { useState } from "react";
-import Loader from "./Loader";
+import Loader from "../assets/Loader";
 import Axios from "../../Caxios/Axios";
 import useGetData from "../../hooks/useGetData";
 

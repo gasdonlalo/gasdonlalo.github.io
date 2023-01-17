@@ -2,8 +2,8 @@ import { useState } from "react";
 import { Offcanvas } from "react-bootstrap";
 import useGetData from "../../hooks/useGetData";
 import Axios from "../../Caxios/Axios";
-import ModalError from "./ModalError";
-import ModalSuccess from "./ModalSuccess";
+import ModalError from "../modals/ModalError";
+import ModalSuccess from "../modals/ModalSuccess";
 const OffCanvasConfigIncumplimientos = ({ show, close, categorizacion }) => {
   //Se puede usar este mismo componente solo cambiar la categorizacion por el id de cada concurso comentado en los siguientes comentarios, lo demas es exacamente igual
   const [modalSuccess, setModalSuccess] = useState(false);

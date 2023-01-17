@@ -1,6 +1,13 @@
 import { useRef } from "react";
 
-const InputFecha = ({ handle, name, data, setData }) => {
+const InputFecha = ({
+  handle,
+  name,
+  data,
+  setData,
+  defaultValue,
+  disabled,
+}) => {
   const inputFecha = useRef();
   const establecerFecha = () => {
     let hoy = new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
@@ -17,11 +24,13 @@ const InputFecha = ({ handle, name, data, setData }) => {
         name={name}
         ref={inputFecha}
         onChange={handle}
+        defaultValue={defaultValue || null}
+        disabled={disabled}
         required
       />
       <span
         className="input-group-text"
-        onClick={establecerFecha}
+        onClick={disabled ? null : establecerFecha}
         role="button"
       >
         HOY

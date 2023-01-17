@@ -4,10 +4,10 @@ import InputSelectEmpleado from "./InputSelectEmpleado";
 import Loader from "../assets/Loader";
 import { useRef, useState } from "react";
 import Axios from "../../Caxios/Axios";
-import ModalSuccess from "../assets/ModalSuccess";
-import ModalError from "../assets/ModalError";
+import ModalSuccess from "../modals/ModalSuccess";
+import ModalError from "../modals/ModalError";
 import HeaderForm from "../../GUI/HeaderForm";
-import ModalEmpleados from "../assets/ModalEmpleados";
+import ModalEmpleados from "../modals/ModalEmpleados";
 
 function FormChecklist() {
   const [bomba, setBomba] = useState(null);

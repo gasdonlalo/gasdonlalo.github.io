@@ -2,8 +2,8 @@ import { useState } from "react";
 import Axios from "../../../Caxios/Axios";
 import HeaderComponents from "../../../GUI/HeaderComponents";
 import FormControlDoc from "../../forms/FormControlDoc";
-import ModalSuccess from "../../assets/ModalSuccess";
-import ModalError from "../../assets/ModalError";
+import ModalSuccess from "../../modals/ModalSuccess";
+import ModalError from "../../modals/ModalError";
 
 function ControlDocumentos() {
   const [modalSuccess, setModalSuccess] = useState(false);
