@@ -6,6 +6,9 @@ import format from "../../../assets/format";
 import Bar from "../../../charts/Bar";
 import PdfGraficas from "../../../pdf_generador/PdfGraficas";
 import Decimal from "decimal.js-light";
+import IconComponents from "../../../assets/IconComponents";
+import OffCanvasConfigIncumplimientos from "../../../assets/OffCanvasConfigIncumplientos";
+import Loader from "../../../assets/Loader";
 
 function RepAceitoso() {
   let colores = [
@@ -23,8 +26,12 @@ function RepAceitoso() {
   const [datos, setDatos] = useState([]);
 
   const [datosTabla, setDatosTabla] = useState(null);
-
   const [error, setError] = useState(null);
+  const [pendiente, setPendiente] = useState();
+
+  const [showCanva, setShowCanva] = useState();
+  const setShowCanvaOpen = () => setShowCanva(true);
+  const setShowCanvaClose = () => setShowCanva(false);
 
   const changeFechaInicio = (e) => {
     setFechaInicio(e.target.value);
@@ -40,6 +47,7 @@ function RepAceitoso() {
     setEstacion(e.target.value);
     setDatos({ ...datos, [e.target.name]: e.target.value });
   };
+  console.log(estacion);
 
   const enviar = (e) => {
     e.preventDefault();
@@ -55,6 +63,7 @@ function RepAceitoso() {
       setError(error.response.data.msg);
     }
   };
+  console.log(error);
 
   return (
     <div className="Main">
@@ -62,6 +71,15 @@ function RepAceitoso() {
         urlBack="/recursos-humanos"
         textUrlback="Volver a recursos humanos"
         title="Reporte de concurso el aceitoso"
+      >
+        <span onClick={setShowCanvaOpen}>
+          <IconComponents icon="gear" text="Configurar SNC" />
+        </span>
+      </HeaderComponents>
+      <OffCanvasConfigIncumplimientos
+        show={showCanva}
+        close={setShowCanvaClose}
+        categorizacion={3}
       />
       <div className="container">
         <form onSubmit={enviar}>
@@ -121,7 +139,7 @@ function RepAceitoso() {
       </div>
       <div>
         {!datosTabla ? (
-          false
+          <h4>Selecciona un rango de fechas y una estacion...</h4>
         ) : error !== null ? (
           <h4>{error}</h4>
         ) : (
@@ -176,6 +194,11 @@ const Correcto = ({ datosTabla, colores }) => {
     });
 
   console.log(totalTabla);
+  let totalVendidoMes = totalTabla
+    .map((e) => e.cantidadLitros)
+    .reduce((a, b) => new Decimal(Number(a)).plus(Number(b)).toFixed(2)); //error con muneros solucionado con string o fixed metodos
+
+  console.log(totalVendidoMes);
 
   let datosBar = {
     labels: totalTabla.map((e) => e.nombre),
@@ -266,7 +289,65 @@ const Correcto = ({ datosTabla, colores }) => {
       <div className="container-fluid border-top mt-3">
         {/* Tabla principal */}
         <h4>Vista general</h4>
-        <div className="container-fluid border-top mt-3" id="render">
+        <div className="d-flex justify-content-evenly container-fluid border-top border-bottom mt-3 mb-3 align-items-center ">
+          <div className="mt-3">
+            <table className="table table-bordered border-dark align-middle text-center">
+              <tbody>
+                <tr>
+                  <th scope="col" rowSpan={2}>
+                    Total vendido en el mes
+                  </th>
+                  <th scope="col">$</th>
+                </tr>
+                <tr>
+                  <td>{totalVendidoMes}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div className="mt-3">
+            <table className="table table-bordered  border-dark align-middle text-center">
+              <thead>
+                <tr>
+                  <th scope="col" colSpan={2}>
+                    Comision correspondiente aproximada
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {totalTabla.map((e, index) => {
+                  if (index < 4) {
+                    return (
+                      <tr>
+                        <td style={{ backgroundColor: colores[index] }}>
+                          {index + 1}° lugar
+                        </td>
+                        <td>
+                          $
+                          {new Decimal(Number(e.cantidadLitros))
+                            .times(
+                              index === 0
+                                ? 0.05
+                                : index === 1
+                                ? 0.04
+                                : index === 2
+                                ? 0.03
+                                : 0.02
+                            )
+                            .toFixed(2)}
+                        </td>
+                      </tr>
+                    );
+                  } else {
+                    return null;
+                  }
+                })}
+              </tbody>
+            </table>
+          </div>
+        </div>
+        {/* Tremina tabla datos adicionales */}
+        <div className="container-fluid mt-3" id="render">
           <div className="container mt-3">
             <table className="table table-bordered border-dark align-middle text-center">
               <thead>
@@ -315,7 +396,7 @@ const Correcto = ({ datosTabla, colores }) => {
                 </thead>
                 <tbody>
                   {totalTabla.map((e, index) => {
-                    while (index < 4) {
+                    if (index < 4) {
                       return (
                         <tr>
                           <td style={{ backgroundColor: colores[index] }}>
@@ -324,6 +405,8 @@ const Correcto = ({ datosTabla, colores }) => {
                           <td> {e.nombre}</td>
                         </tr>
                       );
+                    } else {
+                      return null;
                     }
                   })}
                 </tbody>
