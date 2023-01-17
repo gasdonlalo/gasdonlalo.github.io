@@ -1,12 +1,13 @@
 import { Fragment, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
 import Loader from "../../assets/Loader";
 import InputSelectEmpleado from "../../forms/InputSelectEmpleado";
+import HeaderComponents from "../../../GUI/HeaderComponents";
+import IconComponents from "../../assets/IconComponents";
 import InputFecha from "../../forms/InputFecha";
 import useGetData from "../../../hooks/useGetData";
 import Axios from "../../../Caxios/Axios";
 import Grafica from "../../charts/Bar";
-import ModalError from "../../assets/ModalError";
+import ModalError from "../../modals/ModalError";
 import ErrorHttp from "../../assets/ErrorHttp";
 import InputChangeMes from "../../forms/InputChangeMes";
 import InputChangeYear from "../../forms/InputChangeYear";
@@ -17,12 +18,24 @@ function MontoFaltante() {
   return (
     <Fragment>
       <div className="Main">
-        <div>
-          <Link className="link-primary" to="/despacho">
-            Volver al despacho
-          </Link>
-          <h4 className="border-bottom">Insertar Montos faltantes</h4>
-        </div>
+        <HeaderComponents
+          urlBack="/despacho"
+          textUrlback="Volver a despacho"
+          title="Captura montos faltantes"
+        >
+          <div className="d-flex">
+            <IconComponents
+              icon="file-lines text-success"
+              text="MF empleado"
+              url="reportes-empleados"
+            />
+            <IconComponents
+              icon="calendar-days text-warning"
+              text="MF tiempo"
+              url="reportes-tiempo"
+            />
+          </div>
+        </HeaderComponents>
       </div>
       {!empleados.error && !empleados.isPending && (
         <Success empleados={empleados.data.response} />
@@ -44,7 +57,7 @@ const Success = ({ empleados }) => {
   const [month, setMonth] = useState(date.getMonth() + 1);
   const [body, setBody] = useState(null);
   const [pendingForm, setPendingForm] = useState(false);
-  const [show, setShow] = useState(false);
+  const [modalError, setModalError] = useState({ status: false, msg: "" });
   const [actualizador, setActualizador] = useState(false);
 
   const montoFaltante = useGetData(
@@ -53,8 +66,6 @@ const Success = ({ empleados }) => {
   );
 
   let dataBar = {};
-
-  let navigate = useNavigate();
 
   const seleccionarMes = (e) => {
     setMonth(e.target.value);
@@ -65,7 +76,7 @@ const Success = ({ empleados }) => {
   };
 
   const closeModal = () => {
-    setShow(false);
+    setModalError({ status: false, msg: "" });
     setPendingForm(false);
   };
 
@@ -78,14 +89,19 @@ const Success = ({ empleados }) => {
     setPendingForm(true);
     try {
       setActualizador(!actualizador);
-      const establecer = await Axios.post("/monto-faltante-despachador", body);
-      console.log(establecer);
+      await Axios.post("/monto-faltante-despachador", body);
       setPendingForm(false);
       setBody({});
       event.target.reset();
-    } catch (error) {
-      setShow(true);
-      console.log(error.response.data.msg);
+    } catch (err) {
+      if (err.hasOwnProperty("response")) {
+        setModalError({
+          status: true,
+          msg: err.response.data.msg,
+        });
+      } else {
+        setModalError({ status: true, msg: err.code });
+      }
     }
   };
 
@@ -166,7 +182,11 @@ const Success = ({ empleados }) => {
               datos={dataBar}
               text="Gráfica semanal de monto faltante de despachador"
             />
-            <ModalError show={show} close={closeModal} />
+            <ModalError
+              show={modalError.status}
+              close={closeModal}
+              text={modalError.msg}
+            />
           </div>
         )}
         {montoFaltante.error && !montoFaltante.isPending && (
@@ -177,15 +197,6 @@ const Success = ({ empleados }) => {
             />
           </div>
         )}
-      </div>
-      <div className="d-flex justify-content-center">
-        <span
-          className="border rounded p-1 m-1"
-          role="button"
-          onClick={() => navigate("detalles")}
-        >
-          Mostrar detalles {">"}
-        </span>
       </div>
     </div>
   );

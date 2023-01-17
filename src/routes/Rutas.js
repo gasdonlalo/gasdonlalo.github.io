@@ -5,6 +5,7 @@ import Home from "../components/pages/home/Home";
 // Importacion de despacho
 import Despacho from "../components/pages/Despacho";
 import MontoFaltante from "../components/pages/despacho/MontoFaltante";
+import MFE from "../components/pages/despacho/MontoFaltanteEmpleado";
 import ChecklistBomba from "../components/pages/despacho/ChecklistBomba";
 import CheckBombaInfo from "../components/pages/despacho/ChecklistBombaDetalle";
 import EvalUniforme from "../components/pages/despacho/EvalUniforme";
@@ -79,6 +80,8 @@ function Rutas() {
         <Route path="/despacho" element={<Layout />}>
           <Route index element={<Despacho />} />;
           <Route path="montos-faltantes" element={<MontoFaltante />} />;
+          <Route path="montos-faltantes/reportes-empleados" element={<MFE />} />
+          ;
           <Route path="montos-faltantes-reporte" element={<GMF />} />;
           <Route path="checklist" element={<ChecklistBomba />} />;
           <Route path="checklist/:idE/:fecha" element={<CheckBombaInfo />} />;

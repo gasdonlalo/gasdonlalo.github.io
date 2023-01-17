@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import useGetData from "../../../hooks/useGetData";
 import InputSelectEmpleado from "../../forms/InputSelectEmpleado";
-import ModalAddIncumplimiento from "../../assets/ModalAddIncumplimiento";
+import ModalAddIncumplimiento from "../../modals/ModalAddIncumplimiento";
 import Axios from "../../../Caxios/Axios";
 import InputFecha from "../../forms/InputFecha";
 import PDFSalidaNoConforme from "../despacho/PDFSalidaNoConforme";

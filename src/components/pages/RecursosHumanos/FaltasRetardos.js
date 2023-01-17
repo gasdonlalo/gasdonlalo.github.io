@@ -2,8 +2,8 @@ import { useState } from "react";
 import Axios from "../../../Caxios/Axios";
 import FormRetardos from "../../forms/FormRetardos";
 import useGetData from "../../../hooks/useGetData";
-import ModalError from "../../assets/ModalError";
-import ModalSuccess from "../../assets/ModalSuccess";
+import ModalError from "../../modals/ModalError";
+import ModalSuccess from "../../modals/ModalSuccess";
 import HeaderComponents from "../../../GUI/HeaderComponents";
 import IconComponents from "../../assets/IconComponents";
 
@@ -52,7 +52,6 @@ function FaltasRetardos() {
       setFormPending(false);
       e.target.reset();
     } catch (err) {
-      console.log(err.response.data);
       if (err.hasOwnProperty("response")) {
         setModalError({
           status: true,

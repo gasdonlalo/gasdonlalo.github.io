@@ -2,8 +2,8 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Axios from "../../../Caxios/Axios";
 import FormOrdtrabajo from "../../forms/FormOrdtrabajo";
-import ModalSuccess from "../../assets/ModalSuccess";
-import ModalError from "../../assets/ModalError";
+import ModalSuccess from "../../modals/ModalSuccess";
+import ModalError from "../../modals/ModalError";
 import HeaderComponents from "../../../GUI/HeaderComponents";
 
 function OrdenTrabajo() {

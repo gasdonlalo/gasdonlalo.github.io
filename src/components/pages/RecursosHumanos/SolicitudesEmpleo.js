@@ -2,8 +2,8 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import Axios from "../../../Caxios/Axios";
 import FormSolEmpleo from "../../forms/FormSolEmpleo";
-import ModalSuccess from "../../assets/ModalSuccess";
-import ModalError from "../../assets/ModalError";
+import ModalSuccess from "../../modals/ModalSuccess";
+import ModalError from "../../modals/ModalError";
 
 function SolicitudesEmpleo() {
   const [datos, setDatos] = useState([]);

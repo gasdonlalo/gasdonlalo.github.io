@@ -1,14 +1,15 @@
 import InputFecha from "./InputFecha";
 import InputSelectEmpleado from "./InputSelectEmpleado";
 import useGetData from "../../hooks/useGetData";
-import ModalError from "../assets/ModalError";
-import ModalSuccess from "../assets/ModalSuccess";
+import ModalError from "../modals/ModalError";
+import ModalSuccess from "../modals/ModalSuccess";
 import Axios from "../../Caxios/Axios";
 import HeaderForm from "../../GUI/HeaderForm";
 import { useState } from "react";
 import Loader from "../assets/Loader";
 
 function FormUniforme() {
+  const [actualizador, setActualizador] = useState(false);
   const [body, setBody] = useState({
     evaluaciones: [
       { idCumplimiento: 1, cumple: 1 },
@@ -22,10 +23,10 @@ function FormUniforme() {
   });
 
   const [modalSuccess, setModalSuccess] = useState(false);
-  const [modalError, setModalError] = useState(false);
+  const [modalError, setModalError] = useState({ status: false, msg: "" });
   const [formPending, setFormPending] = useState(false);
   const pasosDespacho = useGetData("/evaluacion-uniforme/get-pasos");
-  const despachadores = useGetData("/empleado?departamento=1");
+  const despachadores = useGetData("/empleado?departamento=1", actualizador);
 
   const enviar = async (e) => {
     e.preventDefault();
@@ -44,10 +45,17 @@ function FormUniforme() {
         })),
       });
       e.target.reset();
+      setActualizador(!actualizador);
     } catch (err) {
-      console.log(err);
+      if (err.hasOwnProperty("response")) {
+        setModalError({
+          status: true,
+          msg: err.response.data.msg,
+        });
+      } else {
+        setModalError({ status: true, msg: err.code });
+      }
       setFormPending(false);
-      setModalError(true);
     }
   };
 
@@ -56,7 +64,7 @@ function FormUniforme() {
   };
 
   const modalClose = () => {
-    setModalError(false);
+    setModalError({ status: false, msg: "" });
     setModalSuccess(false);
   };
 
@@ -77,7 +85,11 @@ function FormUniforme() {
       className="row m-auto shadow p-2 mb-3"
       style={{ width: "900px" }}
     >
-      <ModalError show={modalError} close={modalClose} />
+      <ModalError
+        show={modalError.status}
+        close={modalClose}
+        text={modalError.msg}
+      />
       <ModalSuccess show={modalSuccess} close={modalClose} />
       <HeaderForm />
       <div className="col-md-6">

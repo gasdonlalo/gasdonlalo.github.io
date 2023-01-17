@@ -5,8 +5,8 @@ import ErrorHttp from "../../assets/ErrorHttp";
 import Loader from "../../assets/Loader";
 import Axios from "../../../Caxios/Axios";
 import FormDepartamento from "../../forms/FormDepartamento";
-import ModalSuccess from "../../assets/ModalSuccess";
-import ModalError from "../../assets/ModalError";
+import ModalSuccess from "../../modals/ModalSuccess";
+import ModalError from "../../modals/ModalError";
 
 const Departamentos = () => {
   const [formPending, setFormPending] = useState(false);

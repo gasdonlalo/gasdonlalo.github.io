@@ -1,8 +1,8 @@
 import { useState } from "react";
 import InputFecha from "./InputFecha";
 import InputSelectEmpleado from "./InputSelectEmpleado";
-import ModalSuccess from "../assets/ModalSuccess";
-import ModalError from "../assets/ModalError";
+import ModalSuccess from "../modals/ModalSuccess";
+import ModalError from "../modals/ModalError";
 import useGetData from "../../hooks/useGetData";
 import Loader from "../assets/Loader";
 import Axios from "../../Caxios/Axios";
