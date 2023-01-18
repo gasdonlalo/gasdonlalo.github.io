@@ -63,6 +63,9 @@ import Aceitoso from "../components/pages/RecursosHumanos/Aceitoso";
 import GICO from "../components/pages/RecursosHumanos/Reportes/RepOctanoso";
 import GICA from "../components/pages/RecursosHumanos/Reportes/RepAceitoso";
 
+//pdf prueba
+import PdfV2 from "../components/pdf_generador/PdfV2";
+
 function Rutas() {
   return (
     <Router>
@@ -170,6 +173,7 @@ function Rutas() {
         <Route path="/documentos-sgc" element={<Layout />}>
           <Route index element={<DocumentosSGC />} />
         </Route>
+        <Route path="/pdf" element={<PdfV2 />} />
 
         {/* Siempre debe ir abajo */}
       </Routes>

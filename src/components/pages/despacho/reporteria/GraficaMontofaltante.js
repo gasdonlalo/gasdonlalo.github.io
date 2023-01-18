@@ -6,9 +6,9 @@ import InputChangeMes from "../../../forms/InputChangeMes";
 import InputChangeYear from "../../../forms/InputChangeYear";
 import useGetData from "../../../../hooks/useGetData";
 import ErrorHttp from "../../../assets/ErrorHttp";
-import PdfGraficas from "../../../pdf_generador/PdfGraficas";
 import format from "../../../assets/format";
 import IconComponents from "../../../assets/IconComponents";
+import PdfV2 from "../../../pdf_generador/PdfV2";
 
 function GraficaMontofaltante() {
   const date = new Date();
@@ -64,11 +64,11 @@ function GraficaMontofaltante() {
         </form>
         {!montoF.error && !montoF.isPending && (
           <>
-            <div id="render">
+            <div>
               <div>
                 <Tabla datos={montoF.data} />
               </div>
-              <div>
+              <div id="render">
                 <Bar
                   datos={dataBar}
                   text="GRÁFICA SEMANAL DE MONTO FALTANTE DESPACHADOR"
@@ -86,7 +86,7 @@ function GraficaMontofaltante() {
             </div>
 
             <div>
-              <PdfGraficas mes={month} year={year} />
+              <PdfV2 tabla="tabla" month={month} year={year} />
             </div>
           </>
         )}
