@@ -10,7 +10,7 @@ import {
 import ChartDataLabels from "chartjs-plugin-datalabels";
 import { Bar } from "react-chartjs-2";
 
-function Grafica({ datos, text, y, legend }) {
+function Grafica({ datos, text, legend, customObj }) {
   //configuraciones de grafica de barra
   ChartJS.register(
     CategoryScale,
@@ -59,14 +59,7 @@ function Grafica({ datos, text, y, legend }) {
     },
   };
 
-  if (y) {
-    options.scales = {
-      y: {
-        min: y[0],
-        max: y[1],
-      },
-    };
-  }
+  const customOption = { ...options, ...customObj };
 
   const background = [
     "rgba(5,64,237,1)",
@@ -88,12 +81,13 @@ function Grafica({ datos, text, y, legend }) {
     }));
   }
 
-  return <Bar options={options} data={data} className=" m-4" />;
+  return <Bar options={customOption} data={data} className=" m-4" />;
 }
 
 Grafica.defaultProps = {
   text: "Gráfica",
   legend: true,
+  customObj: {},
 };
 
 export default Grafica;

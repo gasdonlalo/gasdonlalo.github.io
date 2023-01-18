@@ -31,12 +31,6 @@ const Scale = ({ data, y, legend }) => {
 
   const options = {
     resposive: true,
-    scales: {
-      y: {
-        min: y[0],
-        max: y[1],
-      },
-    },
     plugins: {
       /* Empieza formato datalabel */
       datalabels: {
@@ -56,6 +50,9 @@ const Scale = ({ data, y, legend }) => {
           weight: "bold",
         },
       } /* Termina formato de datalabel */,
+      legend: {
+        display: legend,
+      },
     },
   };
 

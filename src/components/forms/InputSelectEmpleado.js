@@ -35,7 +35,7 @@ const CustomMenu = React.forwardRef(
   }
 );
 
-const InputSelectEmpleado = ({ handle, empleados, name, defaultValue }) => {
+const InputSelectEmpleado = ({ handle, empleados, name, reset }) => {
   const [text, setText] = useState("Selecciona empleado");
   const [id, setId] = useState(null);
   const valueInput = useState("");
@@ -50,6 +50,13 @@ const InputSelectEmpleado = ({ handle, empleados, name, defaultValue }) => {
     });
     valueInput[1]("");
   };
+
+  useEffect(() => {
+    if (reset === null || reset === false) {
+      setText("Selecciona empleado");
+      setId(null);
+    }
+  }, [reset]);
 
   return (
     <Dropdown onSelect={selected}>
