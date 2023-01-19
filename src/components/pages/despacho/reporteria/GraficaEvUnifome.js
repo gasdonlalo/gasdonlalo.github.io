@@ -6,7 +6,7 @@ import InputChangeYear from "../../../forms/InputChangeYear";
 import InputSelectEmpleado from "../../../forms/InputSelectEmpleado";
 import format from "../../../assets/format";
 import Bar from "../../../charts/Bar";
-import PdfGraficas from "../../../pdf_generador/PdfGraficas";
+import PdfV2 from "../../../pdf_generador/PdfV2";
 
 const GraficaEvUnifome = () => {
   const date = new Date();
@@ -97,8 +97,8 @@ const Success = ({ pasos, year, month, idempleado, iddespachador }) => {
   console.log(evUni);
   return (
     <Fragment>
-      <div id="render" className="mt-5 m-auto">
-        <table className="table container">
+      <div className="mt-5 m-auto">
+        <table id="tabla" className="table container">
           <thead className="border">
             <tr>
               <th className="border text-center">Fecha</th>
@@ -148,10 +148,19 @@ const Success = ({ pasos, year, month, idempleado, iddespachador }) => {
               ))}
           </tbody>
         </table>
-        {!evUni.error && !evUni.isPending && <Bar datos={dataBar} />}
+        {!evUni.error && !evUni.isPending && (
+          <div id="render">
+            <Bar datos={dataBar} />
+          </div>
+        )}
       </div>
       <div>
-        <PdfGraficas mes={month} year={year} idempleado={iddespachador} />
+        <PdfV2
+          month={month}
+          year={year}
+          tabla="tabla"
+          idempleado={iddespachador}
+        />
       </div>
     </Fragment>
   );

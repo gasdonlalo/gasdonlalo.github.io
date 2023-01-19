@@ -40,7 +40,7 @@ function GraficaMontofaltante() {
         Volver al despacho
       </Link>
       <h3 className="border-bottom">Monto faltante por despachadores</h3>
-      <div className="container">
+      <div>
         <form>
           <div className="row">
             <div className="mb-3 col 6">

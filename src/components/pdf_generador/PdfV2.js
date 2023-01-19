@@ -16,13 +16,23 @@ import gdl from "../assets/img/GDL.png";
 import pemex from "../assets/img/pemex.png";
 import tabladis from "../assets/img/TablaDis.png";
 import html2canvas from "html2canvas";
+import useGetData from "../../hooks/useGetData";
+import format from "../assets/format";
+import Loader from "../assets/Loader";
 
-function PdfV2({ tabla, month, year }) {
+function PdfV2({ tabla, month, year, idempleado, quincena }) {
   const ruta = useLocation().pathname;
   Font.register({ family: "calibri", src: calibri });
   Font.register({ family: "calibrib", src: calibriN });
   const [img, setImg] = useState();
   const [img2, setImg2] = useState();
+  const [altoTabla, setAltoTabla] = useState(null);
+  const [pendiente, setPendiente] = useState(false);
+
+  const nombreEmpleado = useGetData(
+    !idempleado ? null : `/empleado/${idempleado}`
+  );
+  console.log(nombreEmpleado);
 
   const meses = [
     "ENERO",
@@ -72,10 +82,12 @@ function PdfV2({ tabla, month, year }) {
   }
 
   const capturar = () => {
+    setPendiente(true);
     //elemento donde se encuentra la tabla y la grafica
     const element = document.getElementById("render");
     html2canvas(element, { scale: 4, allowTaint: true }).then((canvas) => {
       setImg(canvas.toDataURL("image/JPEG"));
+      setPendiente(false);
     });
     if (tabla !== undefined) {
       capturarTabla();
@@ -87,8 +99,12 @@ function PdfV2({ tabla, month, year }) {
     const elementTabla = document.getElementById(tabla);
     html2canvas(elementTabla, { scale: 4, allowTaint: true }).then((canvas) => {
       setImg2(canvas.toDataURL("image/JPEG"));
+      const datos = canvas.getContext("2d");
+      console.log(datos.canvas.width);
+      setAltoTabla(Number(datos.canvas.style.height.replace(/px/, "")));
     });
   };
+
   const estilo = StyleSheet.create({
     viewer: { width: "100%", height: "100vh" },
     page: {
@@ -105,11 +121,8 @@ function PdfV2({ tabla, month, year }) {
       justifyContent: "space-around",
     },
     cuerpo: {
-      height: "75%",
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "center",
       border: "1px solid black",
+      marginTop: "3px",
     },
     titulos: {
       display: "flex",
@@ -119,18 +132,20 @@ function PdfV2({ tabla, month, year }) {
     paginacion: {
       fontFamily: "calibri",
       fontSize: "10pt",
-      position: "absolute",
-      left: "655px",
-      bottom: "70px",
     },
-    tabla: { position: "absolute", bottom: "25px", left: "655px" },
+    /* tabla: { position: "absolute", bottom: "25px", left: "655px" }, */
+    infoAdicional: {
+      flexDirection: "row",
+      justifyContent: "flex-end",
+    },
     bordesInfo: {
       border: "0.5px solid black",
-      minWidth: "70px",
+      minWidth: "100px",
       paddingLeft: "10px",
     },
   });
 
+  console.log(altoTabla, "alto");
   const doc = (
     <Document wrap>
       <Page size="LETTER" orientation="landscape" style={estilo.page}>
@@ -153,13 +168,8 @@ function PdfV2({ tabla, month, year }) {
         {!year && !month ? (
           false
         ) : (
-          <View
-            style={{
-              flexDirection: "row",
-              justifyContent: "flex-end",
-            }}
-          >
-            <View style={{ flexDirection: "row", right: "30%" }}>
+          <View style={estilo.infoAdicional}>
+            <View style={{ flexDirection: "row", right: "20%" }}>
               <View>
                 <Text>MES </Text>
               </View>
@@ -167,7 +177,7 @@ function PdfV2({ tabla, month, year }) {
                 <Text style={estilo.bordesInfo}>{meses[month - 1]}</Text>
               </View>
             </View>
-            <View style={{ flexDirection: "row", right: "5%" }}>
+            <View style={{ flexDirection: "row" }}>
               <View>
                 <Text>AÑO </Text>
               </View>
@@ -177,35 +187,84 @@ function PdfV2({ tabla, month, year }) {
             </View>
           </View>
         )}
+        {!idempleado ? (
+          false
+        ) : (
+          <View style={[estilo.infoAdicional, { marginTop: "10px" }]}>
+            <View>
+              <Text>NOMBRE DEL EVALUADO </Text>
+            </View>
+            <View style={[estilo.bordesInfo, { minWidth: "250px" }]}>
+              <Text>
+                {!nombreEmpleado.data
+                  ? false
+                  : format.formatTextoMayusPrimeraLetra(
+                      `${nombreEmpleado.data.response[0].nombre} ${nombreEmpleado.data.response[0].apellido_paterno} ${nombreEmpleado.data.response[0].apellido_materno}`
+                    )}
+              </Text>
+            </View>
+          </View>
+        )}
+        {!quincena ? (
+          false
+        ) : (
+          <View style={[estilo.infoAdicional, { marginTop: "10px" }]}>
+            <View>
+              <Text>QUINCENA </Text>
+            </View>
+            <View>
+              <Text style={estilo.bordesInfo}>{quincena}</Text>
+            </View>
+          </View>
+        )}
 
         {/* Info adicional */}
 
         {/* Cuerpo */}
-        <View>
+        <View style={estilo.cuerpo}>
           {!tabla ? (
             false
           ) : (
             /* Tabla de datos */
-            <View>
+            <View
+              style={{
+                minHeight: 200,
+                maxHeight: 500,
+                justifyContent: "center",
+                border: "1px solid blue",
+              }}
+            >
               <Image src={img2} />
             </View>
           )}
           {/* Grafica */}
-          <View>
+          <View
+            style={{
+              minHeight: "85%",
+              border: "1px solid red",
+            }}
+            break
+          >
             <Image src={img} />
           </View>
         </View>
         {/* Cuerpo */}
         {/* Tabla disposicion y paginacion */}
-        <View style={estilo.tabla}>
+        <View
+          style={{
+            flexDirection: "column",
+            alignItems: "flex-end",
+          }}
+        >
+          <Text
+            style={estilo.paginacion}
+            render={({ pageNumber, totalPages }) =>
+              `Página ${pageNumber} de ${totalPages}.`
+            }
+          />
+
           <Image src={tabladis} style={{ width: "90px" }} />
         </View>
-        <Text
-          style={estilo.paginacion}
-          render={({ pageNumber, totalPages }) =>
-            `Página ${pageNumber} de ${totalPages}.`
-          }
-        />
         {/* Tabla disposicion y paginacion */}
       </Page>
     </Document>
@@ -213,13 +272,27 @@ function PdfV2({ tabla, month, year }) {
 
   return (
     <Fragment>
-      <button onClick={capturar} type="button" className="btn btn-primary mb-3">
-        <strong>
-          <i class="bi bi-file-earmark-pdf" />
-        </strong>{" "}
-        Generar PDF
-      </button>
-      {!img ? false : <PDFViewer style={estilo.viewer}>{doc}</PDFViewer>}
+      <div className="d-flex ">
+        <button
+          onClick={capturar}
+          type="button"
+          className="btn btn-primary mb-3 me-3"
+        >
+          <strong>
+            <i className="bi bi-file-earmark-pdf" />
+          </strong>{" "}
+          Generar PDF
+        </button>
+        {pendiente ? <Loader size="38px" /> : null}
+      </div>
+
+      {!img || pendiente ? (
+        false
+      ) : (
+        <div id="#pdf">
+          <PDFViewer style={estilo.viewer}>{doc}</PDFViewer>
+        </div>
+      )}
     </Fragment>
   );
 }
