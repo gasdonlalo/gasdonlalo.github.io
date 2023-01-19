@@ -20,7 +20,16 @@ import useGetData from "../../hooks/useGetData";
 import format from "../assets/format";
 import Loader from "../assets/Loader";
 
-function PdfV2({ tabla, month, year, idempleado, quincena }) {
+function PdfV2({
+  tabla,
+  month,
+  year,
+  idempleado,
+  quincena,
+  fechaInicio,
+  fechaFin,
+  estacion,
+}) {
   const ruta = useLocation().pathname;
   Font.register({ family: "calibri", src: calibri });
   Font.register({ family: "calibrib", src: calibriN });
@@ -32,7 +41,6 @@ function PdfV2({ tabla, month, year, idempleado, quincena }) {
   const nombreEmpleado = useGetData(
     !idempleado ? null : `/empleado/${idempleado}`
   );
-  console.log(nombreEmpleado);
 
   const meses = [
     "ENERO",
@@ -80,7 +88,16 @@ function PdfV2({ tabla, month, year, idempleado, quincena }) {
     }
     return nombre;
   }
-
+  //muestra la fecha para los concursos
+  function FechaLarga(fecha) {
+    return new Intl.DateTimeFormat("es-MX", {
+      dateStyle: "long",
+    }).format(
+      new Date(
+        new Date(fecha).getTime() + new Date().getTimezoneOffset() * 60000
+      )
+    );
+  }
   const capturar = () => {
     setPendiente(true);
     //elemento donde se encuentra la tabla y la grafica
@@ -214,6 +231,29 @@ function PdfV2({ tabla, month, year, idempleado, quincena }) {
             </View>
             <View>
               <Text style={estilo.bordesInfo}>{quincena}</Text>
+            </View>
+          </View>
+        )}
+        {!fechaFin && !fechaFin ? (
+          false
+        ) : (
+          <View>
+            <Text style={{ textAlign: "center" }}>{` Del ${FechaLarga(
+              fechaInicio
+            )} al ${FechaLarga(fechaFin)}`}</Text>
+          </View>
+        )}
+        {!estacion ? (
+          false
+        ) : (
+          <View style={[estilo.infoAdicional, { marginTop: "10px" }]}>
+            <View>
+              <Text>ESTACION </Text>
+            </View>
+            <View>
+              <Text style={estilo.bordesInfo}>
+                {estacion === "1" ? "GDL 1" : "GDL 2"}
+              </Text>
             </View>
           </View>
         )}
