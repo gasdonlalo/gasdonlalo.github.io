@@ -35,8 +35,14 @@ const CustomMenu = React.forwardRef(
   }
 );
 
-const InputSelectEmpleado = ({ handle, empleados, name, reset }) => {
-  const [text, setText] = useState("Selecciona empleado");
+const InputSelectEmpleado = ({
+  handle,
+  empleados,
+  name,
+  reset,
+  defaultData,
+}) => {
+  const [text, setText] = useState(defaultData.nombre || "Selecciona empleado");
   const [id, setId] = useState(null);
   const valueInput = useState("");
   const selected = (id, el) => {
@@ -72,7 +78,7 @@ const InputSelectEmpleado = ({ handle, empleados, name, reset }) => {
           <Dropdown.Item
             key={el.idempleado}
             eventKey={el.idempleado}
-            active={Number(el.idempleado) === Number(id)}
+            active={Number(el.idempleado) === Number(id || defaultData.id)}
           >
             <option value={el.idempleado}>
               {el.nombre} {el.apellido_paterno} {el.apellido_materno}
@@ -87,4 +93,10 @@ const InputSelectEmpleado = ({ handle, empleados, name, reset }) => {
   );
 };
 
+InputSelectEmpleado.defaultProps = {
+  defaultData: {
+    nombre: null,
+    id: null,
+  },
+};
 export default InputSelectEmpleado;
