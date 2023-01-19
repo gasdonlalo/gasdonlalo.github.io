@@ -1,11 +1,13 @@
 import { useState } from "react";
+import HeaderComponents from "../../../../GUI/HeaderComponents";
 import Bar from "../../../charts/Bar";
 import Tabla from "../../../TablaMonto";
-import { Link } from "react-router-dom";
 import InputChangeMes from "../../../forms/InputChangeMes";
 import InputChangeYear from "../../../forms/InputChangeYear";
 import useGetData from "../../../../hooks/useGetData";
 import ErrorHttp from "../../../assets/ErrorHttp";
+import format from "../../../assets/format";
+import IconComponents from "../../../assets/IconComponents";
 import PdfV2 from "../../../pdf_generador/PdfV2";
 
 function GraficaMontofaltante() {
@@ -36,11 +38,18 @@ function GraficaMontofaltante() {
 
   return (
     <div className="Main">
-      <Link className="link-primary" to="/despacho">
-        Volver al despacho
-      </Link>
-      <h3 className="border-bottom">Monto faltante por despachadores</h3>
-      <div>
+      <HeaderComponents
+        urlBack="/despacho"
+        textUrlback="Regresar a despacho"
+        title="Montos Faltantes Mensuales"
+      >
+        <IconComponents
+          icon="calendar-days text-warning"
+          text="MF tiempo"
+          url="/despacho/montos-faltantes/reportes-tiempo"
+        />
+      </HeaderComponents>
+      <div className="container">
         <form>
           <div className="row">
             <div className="mb-3 col 6">
@@ -63,6 +72,15 @@ function GraficaMontofaltante() {
                 <Bar
                   datos={dataBar}
                   text="GRÁFICA SEMANAL DE MONTO FALTANTE DESPACHADOR"
+                  customObj={{
+                    scales: {
+                      y: {
+                        ticks: {
+                          callback: (value) => format.formatDinero(value),
+                        },
+                      },
+                    },
+                  }}
                 />
               </div>
             </div>

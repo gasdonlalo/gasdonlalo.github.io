@@ -16,6 +16,7 @@ import SalidaNoConforme from "../components/pages/salidaNoConforme/SalidaNoConfo
 import SNR from "../components/pages/salidaNoConforme/SalidasNoConformesReportes";
 //importacion de graficos despacho
 import GMF from "../components/pages/despacho/reporteria/GraficaMontofaltante";
+import MFT from "../components/pages/despacho/MontoFaltanteTiempo";
 import CCB from "../components/pages/despacho/reporteria/GraficaChecklist";
 import GEU from "../components/pages/despacho/reporteria/GraficaEvUnifome";
 import DRE from "../components/pages/despacho/reporteria/GraficaRecolEfectivo";
@@ -84,6 +85,7 @@ function Rutas() {
           <Route index element={<Despacho />} />;
           <Route path="montos-faltantes" element={<MontoFaltante />} />;
           <Route path="montos-faltantes/reportes-empleados" element={<MFE />} />
+          <Route path="montos-faltantes/reportes-tiempo" element={<MFT />} />
           ;
           <Route path="montos-faltantes-reporte" element={<GMF />} />;
           <Route path="checklist" element={<ChecklistBomba />} />;

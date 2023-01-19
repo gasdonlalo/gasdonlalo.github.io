@@ -11,6 +11,7 @@ import Bar from "../../charts/Bar";
 import ModalSuccess from "../../modals/ModalSuccess";
 import ModalError from "../../modals/ModalError";
 import { EditMF, DeleteMF } from "../../modals/EditMF";
+import IconComponents from "../../assets/IconComponents";
 
 const MontoFaltanteEmpleado = () => {
   const date = new Date();
@@ -35,7 +36,13 @@ const MontoFaltanteEmpleado = () => {
           urlBack="/despacho/montos-faltantes"
           textUrlback="regresar a capturas de montos faltantes"
           title="Montos faltantes Mensuales por despachador"
-        />
+        >
+          <IconComponents
+            icon="calendar-week text-danger"
+            url="/despacho/montos-faltantes-reporte"
+            text="General"
+          />
+        </HeaderComponents>
       </div>
       {empleados.isPending && <Loader />}
       <div className="ms-2 my-4 w-25">

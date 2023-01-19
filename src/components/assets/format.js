@@ -1,4 +1,6 @@
 const format = {
+  formatFechaLocale: (date) =>
+    new Date(new Date(date).getTime() + new Date().getTimezoneOffset() * 60000),
   formatFecha: (date) =>
     new Intl.DateTimeFormat("es-MX", {
       day: "numeric",
@@ -18,7 +20,11 @@ const format = {
   formatMes: (date) =>
     new Intl.DateTimeFormat("es-MX", {
       month: "long",
-    }).format(new Date(date)),
+    }).format(
+      new Date(
+        new Date(date).getTime() + new Date().getTimezoneOffset() * 60000
+      )
+    ),
   formatYear: (date) =>
     new Intl.DateTimeFormat("es-MX", {
       year: "numeric",

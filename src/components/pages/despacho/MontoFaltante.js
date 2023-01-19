@@ -25,6 +25,11 @@ function MontoFaltante() {
         >
           <div className="d-flex">
             <IconComponents
+              icon="chart-simple text-danger"
+              text="MF reporte"
+              url="/despacho/montos-faltantes-reporte"
+            />
+            <IconComponents
               icon="file-lines text-success"
               text="MF empleado"
               url="reportes-empleados"
@@ -91,7 +96,7 @@ const Success = ({ empleados }) => {
       setActualizador(!actualizador);
       await Axios.post("/monto-faltante-despachador", body);
       setPendingForm(false);
-      setBody({});
+      setBody(null);
       event.target.reset();
     } catch (err) {
       if (err.hasOwnProperty("response")) {
@@ -135,6 +140,7 @@ const Success = ({ empleados }) => {
             <div className="p-2">
               <label>Selecciona el despachador</label>
               <InputSelectEmpleado
+                reset={body} //Le paso el body para validar si esta null limpiar el input
                 empleados={empleados}
                 handle={handle}
                 name="empleado"
@@ -181,6 +187,15 @@ const Success = ({ empleados }) => {
             <Grafica
               datos={dataBar}
               text="Gráfica semanal de monto faltante de despachador"
+              customObj={{
+                scales: {
+                  y: {
+                    ticks: {
+                      callback: (value) => `$${value}`,
+                    },
+                  },
+                },
+              }}
             />
             <ModalError
               show={modalError.status}
