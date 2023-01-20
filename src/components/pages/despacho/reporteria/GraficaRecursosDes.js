@@ -6,7 +6,6 @@ import InputChangeMes from "../../../forms/InputChangeMes";
 import Loader from "../../../assets/Loader";
 import ErrorHttp from "../../../assets/ErrorHttp";
 import Scale from "../../../charts/Scale";
-import PdfGraficas from "../../../pdf_generador/PdfGraficas";
 import PdfV2 from "../../../pdf_generador/PdfV2";
 
 const GraficaRecursosDes = () => {
