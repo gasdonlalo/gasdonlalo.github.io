@@ -1,9 +1,6 @@
 import { useState } from "react";
+import FormBuscarDetallesTiempo from "../../../forms/FormBuscarDetallesTiempo";
 import HeaderComponents from "../../../../GUI/HeaderComponents";
-import useGetData from "../../../../hooks/useGetData";
-import InputSelectEmpleado from "../../../forms/InputSelectEmpleado";
-import HeaderForm from "../../../../GUI/HeaderForm";
-import Axios from "../../../../Caxios/Axios";
 import Decimal from "decimal.js-light";
 import format from "../../../assets/format";
 import Bar from "../../../charts/Bar";
@@ -19,7 +16,12 @@ const MontoFaltanteTiempo = () => {
         textUrlback="Regresar"
         title="Monto faltante por tiempo"
       />
-      {!data && <FormFind setData={setData} />}
+      {!data && (
+        <FormBuscarDetallesTiempo
+          setData={setData}
+          url="/monto-faltante-despachador/buscar"
+        />
+      )}
       {data && <Success data={data} setData={setData} />}
     </div>
   );
@@ -88,7 +90,7 @@ const Success = ({ data, setData }) => {
       ],
     };
   }
-  console.log(group);
+
   return (
     <div className="despachador">
       <div className="mt-2">
@@ -161,66 +163,6 @@ const Success = ({ data, setData }) => {
           {grafica === 1 && <Bar datos={dataGrafica} legend={false} />}
         </div>
       </div>
-    </div>
-  );
-};
-
-const FormFind = ({ setData }) => {
-  const [body, setBody] = useState(null);
-  const { data, error, isPending } = useGetData(`/empleado?departamento=1`);
-  const handle = (e) => setBody({ ...body, [e.target.name]: e.target.value });
-  const buscar = async (e) => {
-    e.preventDefault();
-    try {
-      const res = await Axios.post(`/monto-faltante-despachador/buscar`, body);
-      setData(res.data.response);
-    } catch (err) {
-      console.log(err);
-    }
-  };
-  return (
-    <div className="mt-2">
-      <form className="shadow p-2 w-50 mx-auto rounded" onSubmit={buscar}>
-        <HeaderForm title="Buscar datos" />
-        <div className="row">
-          <div className="col-10 mx-auto mb-3">
-            <label className="form-label mb-0">Despachador</label>
-            {!error && !isPending && (
-              <InputSelectEmpleado
-                empleados={data.response}
-                handle={handle}
-                name="idEmpleado"
-              />
-            )}
-          </div>
-          <div className="col-10 mx-auto d-flex justify-content-between">
-            <div className="col-5">
-              <label className="form-label mb-0">Inicio</label>
-              <input
-                type="date"
-                className="form-control"
-                name="fechaInicio"
-                onChange={handle}
-                min="2020-12-12"
-                required
-              />
-            </div>
-            <div className="col-5">
-              <label className="form-label mb-0">Fin</label>
-              <input
-                type="date"
-                className="form-control"
-                name="fechaFinal"
-                onChange={handle}
-                required
-              />
-            </div>
-          </div>
-        </div>
-        <div className="mt-4">
-          <button className="btn btn-success mx-auto d-block">Buscar</button>
-        </div>
-      </form>
     </div>
   );
 };
