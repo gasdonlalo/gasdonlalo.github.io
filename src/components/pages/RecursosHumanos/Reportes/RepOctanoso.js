@@ -4,11 +4,11 @@ import HeaderComponents from "../../../../GUI/HeaderComponents";
 import format from "../../../assets/format";
 import Bar from "../../../charts/Bar";
 import Axios from "../../../../Caxios/Axios";
-import PdfGraficas from "../../../pdf_generador/PdfGraficas";
 import IconComponents from "../../../assets/IconComponents";
 import OffCanvasConfigIncumplimientos from "../../../assets/OffCanvasConfigIncumplientos";
 import Decimal from "decimal.js-light";
 import PdfV2 from "../../../pdf_generador/PdfV2";
+import Loader from "../../../assets/Loader";
 
 function RepOctanoso() {
   //variable para colores
@@ -29,6 +29,7 @@ function RepOctanoso() {
   const [fechaFin, setFechaFin] = useState(null);
   const [estacion, setEstacion] = useState(null);
   const [datos, setDatos] = useState([]);
+  const [pendiente, setPendiente] = useState(false);
 
   const setShowCanvaOpen = () => setShowCanva(true);
   const setShowCanvaClose = () => setShowCanva(false);
@@ -51,6 +52,7 @@ function RepOctanoso() {
   const enviar = (e) => {
     e.preventDefault();
     enviarDatos();
+    setPendiente(true);
   };
 
   const enviarDatos = async () => {
@@ -58,10 +60,16 @@ function RepOctanoso() {
       const req = await Axios.post("/octanoso/obtener", datos);
       setDatosTabla(req);
       setError(null);
+      setPendiente(false);
     } catch (error) {
+      setDatosTabla(null);
       setError(error.response.data.msg);
+      setPendiente(false);
     }
   };
+
+  console.log(error);
+  console.log(datosTabla);
 
   return (
     <div className="Main">
@@ -111,7 +119,7 @@ function RepOctanoso() {
                 name="idEstacionServicio"
                 required
               >
-                <option value=" ">--Selecciona una estación--</option>
+                <option value="">--Selecciona una estación--</option>
                 {!estaciones.data
                   ? false
                   : estaciones.data.response.map((e) => {
@@ -131,7 +139,7 @@ function RepOctanoso() {
               className="btn btn-primary col-3 mb-3 m-auto"
               style={{ width: "100px" }}
             >
-              Consultar
+              {pendiente ? <Loader size="1.5rem" /> : "Consultar"}
             </button>
           </div>
         </form>
@@ -140,16 +148,22 @@ function RepOctanoso() {
       {/* Contenedor tabla */}
 
       {!datosTabla ? (
-        <h4>Selecciona un rango de fechas y una estacion...</h4>
-      ) : error !== null ? (
-        <h4>{error}</h4>
+        false
       ) : (
-        <Correcto datosTabla={datosTabla} colores={colores} />
+        <Correcto
+          datosTabla={datosTabla}
+          colores={colores}
+          fechaInicio={fechaInicio}
+          fechaFin={fechaFin}
+          estacion={estacion}
+        />
       )}
+      {error !== null ? <h4>{error}</h4> : null}
+      {pendiente && <Loader />}
     </div>
   );
 }
-const Correcto = ({ datosTabla, colores }) => {
+const Correcto = ({ datosTabla, colores, fechaFin, fechaInicio, estacion }) => {
   //devuelve los datos para la tabla y grafica
   const totalTabla = datosTabla.data.response
     .map((e) => {
@@ -372,8 +386,13 @@ const Correcto = ({ datosTabla, colores }) => {
         </div>
       </div>
       {/* Termina tabla */}
-      <PdfGraficas />
-      {/* <PdfV2 /> */}
+
+      <PdfV2
+        fechaInicio={fechaInicio}
+        fechaFin={fechaFin}
+        estacion={estacion}
+        tabla="tabla"
+      />
     </div>
   );
 };

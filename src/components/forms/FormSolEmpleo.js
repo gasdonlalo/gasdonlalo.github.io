@@ -1,10 +1,19 @@
+import { useState } from "react";
 import useGetData from "../../hooks/useGetData";
 import Loader from "../assets/Loader";
 function FormSolEmpleo({ handle, enviar, pendiente }) {
   const dept = useGetData("/departamento");
+  const [estatus, setestatus] = useState(" ");
+
+  const getEstatus = (e) => {
+    handle(e);
+    setestatus(Number(e.target.value));
+  };
+
+  console.log(estatus);
 
   return (
-    <div className="container">
+    <div className="container w-50 shadow">
       <form onSubmit={enviar}>
         <div className="row">
           <div className="mb-3 col-4">
@@ -38,16 +47,14 @@ function FormSolEmpleo({ handle, enviar, pendiente }) {
             />
           </div>
           <div className="mb-3 col-6">
-            <label className="form-label">
-              Fecha de nacimiento del solicitante
-            </label>
+            <label className="form-label">Edad del solicitante</label>
             <input
-              type="date"
+              type="number"
+              min="0"
               className="form-control"
-              name="fechaNacimiento"
+              name="edad"
               onChange={handle}
               onDoubleClickCapture={handle}
-              required
             />
           </div>
           <div className="mb-3 col-6">
@@ -56,8 +63,9 @@ function FormSolEmpleo({ handle, enviar, pendiente }) {
               className="form-control"
               name="idDepartamento"
               onChange={handle}
+              required
             >
-              <option value=" ">
+              <option value="">
                 {dept.isPending
                   ? "Cargando departamentos..."
                   : "--Selecciona una opción--"}
@@ -76,11 +84,19 @@ function FormSolEmpleo({ handle, enviar, pendiente }) {
         <div className="row">
           <div className="mb-3 col-6">
             <label className="form-label">Estatus</label>
-            <select className="form-select" name="estatus" onChange={handle}>
-              <option value={null}>--Selecciona un estatus--</option>
+            <select
+              className="form-select"
+              name="estatus"
+              onChange={(e) => getEstatus(e)}
+              required
+            >
+              <option value="">--Selecciona un estatus--</option>
               <option value={1}>Aceptado</option>
-              <option value={2}>Pasante</option>
+              <option value={2}>Practicante</option>
               <option value={5}>Pendiente</option>
+              <option value={4} className="text-danger">
+                Rechazado
+              </option>
             </select>
           </div>
 
@@ -97,7 +113,18 @@ function FormSolEmpleo({ handle, enviar, pendiente }) {
         </div>
 
         <div className="mb-3">
-          <label className="form-label">Motivo de solicitud</label>
+          <label className="form-label">
+            Motivo{" "}
+            {estatus === " " || !estatus
+              ? null
+              : estatus === 1
+              ? "de aceptacion"
+              : estatus === 2
+              ? "de aceptacion en practica"
+              : estatus === 5
+              ? "de pendiente"
+              : "de rechazo"}
+          </label>
           <textarea
             type="text"
             step="0.01"
@@ -108,7 +135,7 @@ function FormSolEmpleo({ handle, enviar, pendiente }) {
           />
         </div>
 
-        <button type="submit" className="btn btn-primary start-50">
+        <button type="submit" className="btn btn-primary start-50 mb-3">
           {pendiente ? <Loader size="1.5" /> : "Añadir"}
         </button>
       </form>

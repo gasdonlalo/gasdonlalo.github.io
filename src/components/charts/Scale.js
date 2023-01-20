@@ -23,7 +23,7 @@ ChartJS.register(
   ChartDataLabels
 );
 
-const Scale = ({ data, legend, optionsCustom, text }) => {
+const Scale = ({ data, legend }) => {
   const datos = {
     labels: data.labels,
     datasets: data.datasets,
@@ -53,17 +53,10 @@ const Scale = ({ data, legend, optionsCustom, text }) => {
       legend: {
         display: legend,
       },
-      title: {
-        display: true,
-        text,
-        font: {
-          size: "25",
-        },
-      },
     },
   };
 
-  return <Line data={datos} options={{ ...options, ...optionsCustom }} />;
+  return <Line data={datos} options={options} />;
 };
 
 Scale.defaultProps = {
