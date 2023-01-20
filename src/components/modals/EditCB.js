@@ -13,6 +13,7 @@ export const EditCB = ({
   setModalError, //Modal de error
   toogle, //Estado actualizador de la peticion useState
 }) => {
+  new Date();
   const [show, setShow] = stateEdit;
   const [actualizador, setActualizador] = toogle;
   const [body, setBody] = useState();
