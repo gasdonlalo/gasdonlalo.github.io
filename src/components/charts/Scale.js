@@ -67,8 +67,8 @@ const Scale = ({ data, legend, optionsCustom, text }) => {
 };
 
 Scale.defaultProps = {
+  text: "Gráfica",
   legend: true,
-  text: " Gráfica",
 };
 
 export default Scale;
