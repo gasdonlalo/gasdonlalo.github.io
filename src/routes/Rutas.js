@@ -21,6 +21,7 @@ import MFT from "../components/pages/despacho/reporteria/MontoFaltanteTiempo";
 import CCB from "../components/pages/despacho/reporteria/GraficaChecklist";
 import GEU from "../components/pages/despacho/reporteria/GraficaEvUnifome";
 import DRE from "../components/pages/despacho/reporteria/GraficaRecolEfectivo";
+import DGREE from "../components/pages/despacho/reporteria/GraficaRelEfectivoEmpleado";
 import GPD from "../components/pages/despacho/reporteria/GraficaPasoDes";
 import GRD from "../components/pages/despacho/reporteria/GraficaRecursosDes";
 import GMSN from "../components/pages/salidaNoConforme/SalidaNoConformeGraficaMensual";
@@ -101,6 +102,7 @@ function Rutas() {
           <Route path="evaluacion-uniforme-reporte" element={<GEU />} />;
           <Route path="recoleccion-efectivo" element={<RecolEfect />} />;
           <Route path="recoleccion-efectivo-reporte" element={<DRE />} />;
+          <Route path="recoleccion-efectivo/reporte" element={<DGREE />} />;
           <Route path="pasos-despachar" element={<Pasosdespachar />} />;
           <Route path="pasos-despachar-reporte" element={<GPD />} />;
           <Route path="recurso-despachador" element={<RecursosDesp />} />;
