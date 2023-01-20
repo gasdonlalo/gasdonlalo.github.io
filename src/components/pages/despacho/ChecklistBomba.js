@@ -1,14 +1,22 @@
-import { Link } from "react-router-dom";
+import HeaderComponents from "../../../GUI/HeaderComponents";
 import FormChecklist from "../../forms/FormChecklist";
+import IconComponents from "../../assets/IconComponents";
 
 function ChecklistBomba() {
   return (
     <div className="Main">
+      <HeaderComponents
+        urlBack="/despacho"
+        textUrlback="Regresar a despacho"
+        title="Checklist de bomba"
+      >
+        <IconComponents
+          icon="chart-line text-danger"
+          text="Reportes"
+          url="/despacho/checklist-reporte"
+        />
+      </HeaderComponents>
       <div>
-        <Link className="link-primary" to="/despacho">
-          Volver al despacho
-        </Link>
-        <h4 className="border-bottom">Checklist de bombas</h4>
         <FormChecklist />
       </div>
     </div>

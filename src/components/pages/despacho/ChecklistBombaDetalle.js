@@ -1,22 +1,40 @@
+import { useState } from "react";
 import { useParams } from "react-router-dom";
-import { Link } from "react-router-dom";
+import HeaderComponents from "../../../GUI/HeaderComponents";
+import IconComponents from "../../assets/IconComponents";
 import useGetData from "../../../hooks/useGetData";
 import format from "../../assets/format";
 import Loader from "../../assets/Loader";
 import gdl from "../../assets/img/GDL.png";
+import ModalSuccess from "../../modals/ModalSuccess";
+import ModalError from "../../modals/ModalSuccess";
+import { DeleteCB, EditCB } from "../../modals/EditCB";
 
 const ChecklistBombaDetalle = () => {
+  const [mEdit, setMEdit] = useState({ status: false, id: null });
+  const [mDel, setMDel] = useState({ status: true, id: null });
+  const [modalSucces, setModalSucces] = useState(false);
+  const [modalError, setModalError] = useState({ status: false, msg: "" });
+  const [actualizador, setActualizador] = useState(false);
   const { idE, fecha } = useParams();
   const { data, error, isPending } = useGetData(
-    `/bomba-check/findCheck/${idE}/${fecha}`
+    `/bomba-check/findCheck/${idE}/${fecha}`,
+    actualizador
   );
+  const close = () => {
+    setModalSucces(false);
+    setModalError({ status: false, msg: "" });
+  };
 
   return (
     <div className="Main">
-      <Link className="link-primary" to="/despacho/checklist-reporte">
-        Volver a reportes checklist de bombas
-      </Link>
-      <h3 className="border-bottom">Detalle del check</h3>
+      <HeaderComponents
+        title="Reporte Checklist de Bomba"
+        urlBack="/despacho/checklist-reporte"
+        textUrlback="Volver a reportes"
+      >
+        <IconComponents icon="chart-simple" />
+      </HeaderComponents>
       {isPending && (
         <div className="mt-5">
           <Loader />
@@ -48,6 +66,7 @@ const ChecklistBombaDetalle = () => {
               </tr>
             </thead>
             <tbody>
+              {console.log(data)}
               {data.response.map((el) => (
                 <tr key={el.idchecklist_bomba}>
                   <td className="border text-center px-2">
@@ -77,6 +96,30 @@ const ChecklistBombaDetalle = () => {
                       el.nombre_completo_saliente
                     )}
                   </td>
+                  <td
+                    className="btn"
+                    onClick={() =>
+                      setMDel({ status: true, id: el.idchecklist_bomba })
+                    }
+                  >
+                    <li
+                      role="button"
+                      className="fa-solid fa-trash text-danger"
+                      title="Eliminar"
+                    ></li>
+                  </td>
+                  <td
+                    className="btn"
+                    onClick={() => {
+                      setMEdit({ status: true, id: el.idchecklist_bomba });
+                    }}
+                  >
+                    <li
+                      role="button"
+                      className="fa-solid fa-pen text-warning"
+                      title="Actualizar"
+                    ></li>
+                  </td>
                 </tr>
               ))}
             </tbody>
@@ -96,6 +139,32 @@ const ChecklistBombaDetalle = () => {
           </div>
         </div>
       )}
+      {mEdit.id && (
+        <EditCB
+          stateEdit={[mEdit, setMEdit]}
+          toogle={[actualizador, setActualizador]}
+          setModalError={setModalError}
+          setModalSuccess={setModalSucces}
+        />
+      )}
+      {mDel.id && (
+        <DeleteCB
+          stateDel={[mDel, setMDel]}
+          toogle={[actualizador, setActualizador]}
+          setModalError={setModalError}
+          setModalSuccess={setModalSucces}
+        />
+      )}
+      <ModalSuccess
+        text="Se actualizaron los datos correctamente"
+        show={modalSucces}
+        close={close}
+      />
+      <ModalError
+        show={modalError.status}
+        text={modalError.msg}
+        close={close}
+      />
     </div>
   );
 };

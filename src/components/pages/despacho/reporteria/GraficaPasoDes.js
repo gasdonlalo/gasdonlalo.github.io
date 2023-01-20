@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { Fragment, useState } from "react";
 import { Link } from "react-router-dom";
 import useGetData from "../../../../hooks/useGetData";
 import InputSelectEmpleado from "../../../forms/InputSelectEmpleado";
@@ -7,7 +7,7 @@ import InputChangeMes from "../../../forms/InputChangeMes";
 import Loader from "../../../assets/Loader";
 import ErrorHttp from "../../../assets/ErrorHttp";
 import Bar from "../../../charts/Bar";
-import PdfGraficas from "../../../pdf_generador/PdfGraficas";
+import PdfV2 from "../../../pdf_generador/PdfV2";
 
 const GraficaPasoDes = () => {
   const date = new Date();
@@ -155,122 +155,126 @@ const Success = ({ data, year, month, idEmpleado, quincena }) => {
   }
 
   return (
-    <div id="render">
-      <div>
-        <table className="mt-4 mx-auto">
-          <thead>
-            <tr>
-              <th className="border text-center">Evaluación</th>
-              {!pasosDes.error &&
-                !pasosDes.isPending &&
-                pasosDes.data.response.map((el) => (
-                  <td
-                    className="border text-center p-2 fw-semibold"
-                    style={{ width: "100px" }}
-                    key={el.idpaso_despachar}
-                  >
-                    {el.paso}
+    <Fragment>
+      <div id="render">
+        <div>
+          <table className="mt-4 mx-auto">
+            <thead>
+              <tr>
+                <th className="border text-center">Evaluación</th>
+                {!pasosDes.error &&
+                  !pasosDes.isPending &&
+                  pasosDes.data.response.map((el) => (
+                    <td
+                      className="border text-center p-2 fw-semibold"
+                      style={{ width: "100px" }}
+                      key={el.idpaso_despachar}
+                    >
+                      {el.paso}
+                    </td>
+                  ))}
+                <th className="border px-2">Total</th>
+              </tr>
+            </thead>
+            <tbody>
+              {data.evaluaciones.map((el, i) => (
+                <tr key={i}>
+                  <td className="text-center px-4 border">
+                    Evaluación {i + 1}
                   </td>
-                ))}
-              <th className="border px-2">Total</th>
-            </tr>
-          </thead>
-          <tbody>
-            {data.evaluaciones.map((el, i) => (
-              <tr key={i}>
-                <td className="text-center px-4 border">Evaluación {i + 1}</td>
-                {data.evaluaciones[i].map((ev) => (
-                  <td
-                    key={ev.idevaluacion_despachar}
-                    className="text-center border"
-                  >
-                    {ev.evaluacion ? "1" : "0"}
+                  {data.evaluaciones[i].map((ev) => (
+                    <td
+                      key={ev.idevaluacion_despachar}
+                      className="text-center border"
+                    >
+                      {ev.evaluacion ? "1" : "0"}
+                    </td>
+                  ))}
+                  <td className="border text-center fw-semibold">
+                    {data.evaluaciones[i]
+                      .map((el) => (el.evaluacion ? 1 : 0))
+                      .reduce((a, b) => a + b, 0)}
                   </td>
-                ))}
-                <td className="border text-center fw-semibold">
-                  {data.evaluaciones[i]
-                    .map((el) => (el.evaluacion ? 1 : 0))
-                    .reduce((a, b) => a + b, 0)}
+                </tr>
+              ))}
+              <tr className="bg-secondary">
+                <td className=" text-center">Total</td>
+                {!pasosDes.isPending &&
+                  !pasosDes.error &&
+                  pasosDes.data.response.map((el, i) => (
+                    <td key={i} className=" text-center">
+                      {data.evaluaciones
+                        .map((ev) => (ev[i].evaluacion ? 1 : 0))
+                        .reduce((a, b) => a + b)}
+                    </td>
+                  ))}
+                <td className="fw-semibold text-center">
+                  {promedio[`quin${quincena}Suma`]}
                 </td>
               </tr>
-            ))}
-            <tr className="bg-secondary">
-              <td className=" text-center">Total</td>
-              {!pasosDes.isPending &&
-                !pasosDes.error &&
-                pasosDes.data.response.map((el, i) => (
-                  <td key={i} className=" text-center">
-                    {data.evaluaciones
-                      .map((ev) => (ev[i].evaluacion ? 1 : 0))
-                      .reduce((a, b) => a + b)}
-                  </td>
-                ))}
-              <td className="fw-semibold text-center">
-                {promedio[`quin${quincena}Suma`]}
-              </td>
-            </tr>
-            <tr className="bg-info">
-              <td className=" text-center">Promedio</td>
-              {!pasosDes.isPending &&
-                !pasosDes.error &&
-                pasosDes.data.response.map((el, i) => (
-                  <td key={i} className=" text-center">
-                    {(
-                      (data.evaluaciones
-                        .map((ev) => (ev[i].evaluacion ? 1 : 0))
-                        .reduce((a, b) => a + b) /
-                        data.evaluaciones.length) *
-                      10
-                    ).toFixed(2)}
-                  </td>
-                ))}
-              <td className="fw-bold text-white bg-danger text-center">
-                {Number(promedio[`quin${quincena}`]).toFixed(2)}
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      {!promedios.error && !promedios.isPending && (
-        <div className="">
-          <div className="mt-5 d-flex" style={{ flexGrow: "2" }}>
-            <table className="table table-bordered w-25 text-center m-auto">
-              <thead>
-                <tr>
-                  <th className="text-nowrap">Promedio quincena 1</th>
-                  <th className="text-nowrap">Promedio quincena 2</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>{promedio.quin1.toFixed(2)}</td>
-                  <td>{promedio.quin2.toFixed(2)}</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-          <div className="d-flex justify-content-evenly">
-            <div className="w-50">
-              <Bar
-                datos={dataBarPromedioQuincena}
-                text="Promedio"
-                legend={false}
-              />
-            </div>
-            <div className="w-50">
-              <Bar
-                datos={dataBarPromedio}
-                text={`Promedio por pasos quincena ${quincena}`}
-                legend={false}
-              />
-            </div>
-          </div>
+              <tr className="bg-info">
+                <td className=" text-center">Promedio</td>
+                {!pasosDes.isPending &&
+                  !pasosDes.error &&
+                  pasosDes.data.response.map((el, i) => (
+                    <td key={i} className=" text-center">
+                      {(
+                        (data.evaluaciones
+                          .map((ev) => (ev[i].evaluacion ? 1 : 0))
+                          .reduce((a, b) => a + b) /
+                          data.evaluaciones.length) *
+                        10
+                      ).toFixed(2)}
+                    </td>
+                  ))}
+                <td className="fw-bold text-white bg-danger text-center">
+                  {Number(promedio[`quin${quincena}`]).toFixed(2)}
+                </td>
+              </tr>
+            </tbody>
+          </table>
         </div>
-      )}
-      <div>
-        <PdfGraficas year={year} mes={month} idempleado={idEmpleado} />
+        {!promedios.error && !promedios.isPending && (
+          <div>
+            <div className="mt-5 d-flex" style={{ flexGrow: "2" }}>
+              <table className="table table-bordered w-25 text-center m-auto">
+                <thead>
+                  <tr>
+                    <th className="text-nowrap">Promedio quincena 1</th>
+                    <th className="text-nowrap">Promedio quincena 2</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>{promedio.quin1.toFixed(2)}</td>
+                    <td>{promedio.quin2.toFixed(2)}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div className="d-flex justify-content-evenly">
+              <div className="w-50">
+                <Bar
+                  datos={dataBarPromedioQuincena}
+                  text="Promedio"
+                  legend={false}
+                />
+              </div>
+              <div className="w-50">
+                <Bar
+                  datos={dataBarPromedio}
+                  text={`Promedio por pasos quincena ${quincena}`}
+                  legend={false}
+                />
+              </div>
+            </div>
+          </div>
+        )}
       </div>
-    </div>
+      <div>
+        <PdfV2 year={year} month={month} idempleado={idEmpleado} />
+      </div>
+    </Fragment>
   );
 };
 

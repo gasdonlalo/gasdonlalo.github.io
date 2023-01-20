@@ -7,6 +7,7 @@ import Loader from "../../../assets/Loader";
 import ErrorHttp from "../../../assets/ErrorHttp";
 import Scale from "../../../charts/Scale";
 import PdfGraficas from "../../../pdf_generador/PdfGraficas";
+import PdfV2 from "../../../pdf_generador/PdfV2";
 
 const GraficaRecursosDes = () => {
   const date = new Date();
@@ -192,13 +193,8 @@ const Success = ({ recursos, year, month, quincena }) => {
         )}
       </div>
       {table.length > 0 && (
-        <div>
-          <PdfGraficas
-            tabla={"tabla"}
-            year={year}
-            mes={month}
-            quincena={quincena}
-          />
+        <div className="mt-3">
+          <PdfV2 tabla="tabla" year={year} month={month} quincena={quincena} />
         </div>
       )}
     </Fragment>

@@ -23,7 +23,7 @@ ChartJS.register(
   ChartDataLabels
 );
 
-const Scale = ({ data, y, legend }) => {
+const Scale = ({ data, legend, optionsCustom, text }) => {
   const datos = {
     labels: data.labels,
     datasets: data.datasets,
@@ -31,12 +31,6 @@ const Scale = ({ data, y, legend }) => {
 
   const options = {
     resposive: true,
-    scales: {
-      y: {
-        min: y[0],
-        max: y[1],
-      },
-    },
     plugins: {
       /* Empieza formato datalabel */
       datalabels: {
@@ -56,15 +50,25 @@ const Scale = ({ data, y, legend }) => {
           weight: "bold",
         },
       } /* Termina formato de datalabel */,
+      legend: {
+        display: legend,
+      },
+      title: {
+        display: true,
+        text,
+        font: {
+          size: "25",
+        },
+      },
     },
   };
 
-  return <Line data={datos} options={options} />;
+  return <Line data={datos} options={{ ...options, ...optionsCustom }} />;
 };
 
 Scale.defaultProps = {
-  y: [0, 30],
   legend: true,
+  text: " Gráfica",
 };
 
 export default Scale;

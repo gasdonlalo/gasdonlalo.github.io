@@ -5,10 +5,11 @@ import Home from "../components/pages/home/Home";
 // Importacion de despacho
 import Despacho from "../components/pages/Despacho";
 import MontoFaltante from "../components/pages/despacho/MontoFaltante";
-import MFE from "../components/pages/despacho/MontoFaltanteEmpleado";
+import MFE from "../components/pages/despacho/reporteria/MontoFaltanteEmpleado";
 import ChecklistBomba from "../components/pages/despacho/ChecklistBomba";
 import CheckBombaInfo from "../components/pages/despacho/ChecklistBombaDetalle";
 import EvalUniforme from "../components/pages/despacho/EvalUniforme";
+import GUE from "../components/pages/despacho/reporteria/GraficaEvUnifomeEmpleado";
 import RecolEfect from "../components/pages/despacho/RecolEfect";
 import Pasosdespachar from "../components/pages/despacho/Pasosdespachar";
 import RecursosDesp from "../components/pages/despacho/RecursosDesp";
@@ -16,6 +17,7 @@ import SalidaNoConforme from "../components/pages/salidaNoConforme/SalidaNoConfo
 import SNR from "../components/pages/salidaNoConforme/SalidasNoConformesReportes";
 //importacion de graficos despacho
 import GMF from "../components/pages/despacho/reporteria/GraficaMontofaltante";
+import MFT from "../components/pages/despacho/reporteria/MontoFaltanteTiempo";
 import CCB from "../components/pages/despacho/reporteria/GraficaChecklist";
 import GEU from "../components/pages/despacho/reporteria/GraficaEvUnifome";
 import DRE from "../components/pages/despacho/reporteria/GraficaRecolEfectivo";
@@ -62,6 +64,9 @@ import Aceitoso from "../components/pages/RecursosHumanos/Aceitoso";
 import GICO from "../components/pages/RecursosHumanos/Reportes/RepOctanoso";
 import GICA from "../components/pages/RecursosHumanos/Reportes/RepAceitoso";
 
+//pdf prueba
+import PdfV2 from "../components/pdf_generador/PdfV2";
+
 function Rutas() {
   return (
     <Router>
@@ -81,12 +86,18 @@ function Rutas() {
           <Route index element={<Despacho />} />;
           <Route path="montos-faltantes" element={<MontoFaltante />} />;
           <Route path="montos-faltantes/reportes-empleados" element={<MFE />} />
+          <Route path="montos-faltantes/reportes-tiempo" element={<MFT />} />
           ;
           <Route path="montos-faltantes-reporte" element={<GMF />} />;
           <Route path="checklist" element={<ChecklistBomba />} />;
           <Route path="checklist/:idE/:fecha" element={<CheckBombaInfo />} />;
           <Route path="checklist-reporte" element={<CCB />} />;
           <Route path="evaluacion-uniforme" element={<EvalUniforme />} />;
+          <Route
+            path="evaluacion-uniforme/reporte-empleados"
+            element={<GUE />}
+          />
+          ;
           <Route path="evaluacion-uniforme-reporte" element={<GEU />} />;
           <Route path="recoleccion-efectivo" element={<RecolEfect />} />;
           <Route path="recoleccion-efectivo-reporte" element={<DRE />} />;
@@ -168,6 +179,7 @@ function Rutas() {
         <Route path="/documentos-sgc" element={<Layout />}>
           <Route index element={<DocumentosSGC />} />
         </Route>
+        <Route path="/pdf" element={<PdfV2 />} />
 
         {/* Siempre debe ir abajo */}
       </Routes>

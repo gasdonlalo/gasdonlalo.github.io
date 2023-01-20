@@ -4,7 +4,7 @@ function TablaMonto({ datos }) {
 
   return (
     <div>
-      <table className="table table-bordered">
+      <table className="table table-bordered" id="tabla">
         <thead>
           <tr>
             <th className="text-center align-middle">

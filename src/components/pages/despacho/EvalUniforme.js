@@ -1,14 +1,22 @@
-import { Link } from "react-router-dom";
+import HeaderComponents from "../../../GUI/HeaderComponents";
 import FormUniforme from "../../forms/FormUniforme";
+import IconComponents from "../../assets/IconComponents";
 
 function EvalUniforme() {
   return (
     <div className="Main">
       <div>
-        <Link className="link-primary" to="/despacho">
-          Volver al despacho
-        </Link>
-        <h4 className="border-bottom">Evaluación de uniforme</h4>
+        <HeaderComponents
+          urlBack="/despacho"
+          textUrlback="Regresar a despacho"
+          title="Evaluación uniforme a despachador"
+        >
+          <IconComponents
+            icon="chart-simple text-danger"
+            url="/despacho/evaluacion-uniforme-reporte"
+            text="Reportes"
+          />
+        </HeaderComponents>
         <p style={{ background: "#dadada" }} className="rounded">
           <em>
             Solo ser permiten dos evaluaciones por despachador, entre la primera

@@ -6,8 +6,8 @@ import InputChangeYear from "../../../forms/InputChangeYear";
 import format from "../../../assets/format";
 import Bar from "../../../charts/Bar";
 import Loader from "../../../assets/Loader";
-import PdfGraficas from "../../../pdf_generador/PdfGraficas";
 import ErrorHttp from "../../../assets/ErrorHttp";
+import PdfV2 from "../../../pdf_generador/PdfV2";
 
 const GraficaRecolEfectivo = () => {
   const date = new Date();
@@ -88,12 +88,12 @@ const Success = ({ data }) => {
             </tbody>
           </table>
         </div>
-        <div className="mt-4" id="render">
+        <div className="mt-4">
           <TableTotal data={data} />
         </div>
-      </div>
-      <div>
-        <PdfGraficas tabla="tabla" />
+        <div>
+          <PdfV2 tabla="tabla" />
+        </div>
       </div>
     </Fragment>
   );
@@ -143,7 +143,7 @@ const TableTotal = ({ data }) => {
           </tbody>
         </table>
       </div>
-      <div className="w-75 m-auto">
+      <div className="w-75 m-auto" id="render">
         <Bar
           datos={dataBar}
           text="Recolecciones de efectivo al mes"

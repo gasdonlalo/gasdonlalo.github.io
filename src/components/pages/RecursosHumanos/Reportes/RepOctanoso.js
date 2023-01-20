@@ -8,6 +8,7 @@ import PdfGraficas from "../../../pdf_generador/PdfGraficas";
 import IconComponents from "../../../assets/IconComponents";
 import OffCanvasConfigIncumplimientos from "../../../assets/OffCanvasConfigIncumplientos";
 import Decimal from "decimal.js-light";
+import PdfV2 from "../../../pdf_generador/PdfV2";
 
 function RepOctanoso() {
   //variable para colores
@@ -372,6 +373,7 @@ const Correcto = ({ datosTabla, colores }) => {
       </div>
       {/* Termina tabla */}
       <PdfGraficas />
+      {/* <PdfV2 /> */}
     </div>
   );
 };

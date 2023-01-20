@@ -4,11 +4,11 @@ import { Fragment, useState } from "react";
 import HeaderComponents from "../../../../GUI/HeaderComponents";
 import format from "../../../assets/format";
 import Bar from "../../../charts/Bar";
-import PdfGraficas from "../../../pdf_generador/PdfGraficas";
 import Decimal from "decimal.js-light";
 import IconComponents from "../../../assets/IconComponents";
 import OffCanvasConfigIncumplimientos from "../../../assets/OffCanvasConfigIncumplientos";
 import Loader from "../../../assets/Loader";
+import PdfV2 from "../../../pdf_generador/PdfV2";
 
 function RepAceitoso() {
   let colores = [
@@ -27,7 +27,7 @@ function RepAceitoso() {
 
   const [datosTabla, setDatosTabla] = useState(null);
   const [error, setError] = useState(null);
-  const [pendiente, setPendiente] = useState();
+  const [pendiente, setPendiente] = useState(false);
 
   const [showCanva, setShowCanva] = useState();
   const setShowCanvaOpen = () => setShowCanva(true);
@@ -52,6 +52,7 @@ function RepAceitoso() {
   const enviar = (e) => {
     e.preventDefault();
     enviarDatos();
+    setPendiente(true);
   };
 
   const enviarDatos = async () => {
@@ -59,8 +60,10 @@ function RepAceitoso() {
       const req = await Axios.post("/aceitoso/obtener", datos);
       setDatosTabla(req);
       setError(null);
+      setPendiente(false);
     } catch (error) {
       setError(error.response.data.msg);
+      setPendiente(false);
     }
   };
   console.log(error);
@@ -143,13 +146,20 @@ function RepAceitoso() {
         ) : error !== null ? (
           <h4>{error}</h4>
         ) : (
-          <Correcto datosTabla={datosTabla} colores={colores} />
+          <Correcto
+            datosTabla={datosTabla}
+            colores={colores}
+            fechaInicio={fechaInicio}
+            fechaFin={fechaFin}
+            estacion={estacion}
+          />
         )}
+        {pendiente && <Loader />}
       </div>
     </div>
   );
 }
-const Correcto = ({ datosTabla, colores }) => {
+const Correcto = ({ datosTabla, colores, fechaFin, fechaInicio, estacion }) => {
   const totalTabla = datosTabla.data.response
     .map((e) => {
       let nombres = !e.empleado
@@ -340,9 +350,12 @@ const Correcto = ({ datosTabla, colores }) => {
           </div>
         </div>
         {/* Tremina tabla datos adicionales */}
-        <div className="container-fluid mt-3" id="render">
+        <div className="container-fluid mt-3">
           <div className="container mt-3">
-            <table className="table table-bordered border-dark align-middle text-center">
+            <table
+              className="table table-bordered border-dark align-middle text-center"
+              id="tabla"
+            >
               <thead>
                 <tr>
                   <th scope="col">Nombre de los despachadores</th>
@@ -378,7 +391,7 @@ const Correcto = ({ datosTabla, colores }) => {
             </table>
           </div>
           {/* Tabla principal */}
-          <div className="d-flex align-items-center mt-3">
+          <div className="d-flex align-items-center mt-3" id="render">
             <div className="w-25">
               <table className="table table-bordered  border-dark align-middle text-center">
                 <thead>
@@ -411,7 +424,12 @@ const Correcto = ({ datosTabla, colores }) => {
             </div>
           </div>
         </div>
-        <PdfGraficas />
+        <PdfV2
+          fechaInicio={fechaInicio}
+          fechaFin={fechaFin}
+          estacion={estacion}
+          tabla="tabla"
+        />
       </div>
     </div>
   );
