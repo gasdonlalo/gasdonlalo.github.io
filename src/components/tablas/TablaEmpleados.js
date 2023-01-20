@@ -187,14 +187,15 @@ function TablaEmpleados({ id }) {
           setModalError={setModalError}
         />
       )}
+      {datos.error && (
+        <h4 className="mt-2 fst-italic">{datos.dataError.msg}...</h4>
+      )}
       {datos.isPending && <Loader />}
     </div>
   );
 }
 
 const Sucess = ({ id, datos, navigate, SetBotones, setModalError }) => {
-  const [updPract, setupdPract] = useState(false);
-
   const datosPracticantes = useGetData(
     id === "1" ? "/solicitudes/estatus/2" : null
   );
@@ -215,17 +216,13 @@ const Sucess = ({ id, datos, navigate, SetBotones, setModalError }) => {
     }
   };
  */
-  const CalcularTiempo = ({ fecha, idempleado, idsolicitud }) => {
+  const CalcularTiempo = ({ fecha }) => {
     const hoy = new Date();
     let date = new Date(fecha);
     const msperDay = 24 * 60 * 60 * 1000;
     var diasTrans = (hoy.getTime() - date.getTime()) / msperDay;
     diasTrans = Math.round(diasTrans);
-
-    if (diasTrans >= 30) {
-      //validarAuto(idsolicitud, idempleado);
-      /* setupdPract(!updPract) */
-    }
+    console.log(diasTrans);
   };
 
   const sinValidar = !datosPracticantes.data

@@ -32,6 +32,7 @@ function SolicitudesEmpleo() {
       await Axios.post("/solicitudes/nuevo", datos);
       setModalSuccess(true);
       setPendiente(false);
+      setDatos([]);
       setTimeout(() => {
         cerrarModal();
       }, "1500"); //cierra el modal automaticamente

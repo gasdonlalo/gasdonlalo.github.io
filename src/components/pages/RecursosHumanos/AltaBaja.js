@@ -36,7 +36,9 @@ function AltaBaja() {
           <h4 className="border-bottom mt-2 fst-italic">
             Mostrando solicitudes pendientes.
           </h4>
-        ) : null}
+        ) : (
+          <h4 className="mt-2 fst-italic">Selecciona un tipo de empleado...</h4>
+        )}
         <div>
           <TablaEmpleados id={id} />
         </div>

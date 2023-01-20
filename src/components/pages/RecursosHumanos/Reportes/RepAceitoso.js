@@ -47,7 +47,6 @@ function RepAceitoso() {
     setEstacion(e.target.value);
     setDatos({ ...datos, [e.target.name]: e.target.value });
   };
-  console.log(estacion);
 
   const enviar = (e) => {
     e.preventDefault();
@@ -58,16 +57,18 @@ function RepAceitoso() {
   const enviarDatos = async () => {
     try {
       const req = await Axios.post("/aceitoso/obtener", datos);
+      console.log(req, "datos crudos");
       setDatosTabla(req);
       setError(null);
       setPendiente(false);
     } catch (error) {
+      setDatosTabla(null);
       setError(error.response.data.msg);
       setPendiente(false);
     }
   };
-  console.log(error);
-
+  console.log(error, "error");
+  console.log(datosTabla, "tabla");
   return (
     <div className="Main">
       <HeaderComponents
@@ -115,7 +116,7 @@ function RepAceitoso() {
                 name="idEstacionServicio"
                 required
               >
-                <option value=" ">--Selecciona una estación--</option>
+                <option value="">--Selecciona una estación--</option>
                 {!estaciones.data
                   ? false
                   : estaciones.data.response.map((e) => {
@@ -135,16 +136,14 @@ function RepAceitoso() {
               className="btn btn-primary col-3 mb-3 m-auto"
               style={{ width: "100px" }}
             >
-              Consultar
+              {pendiente ? <Loader size="1.5rem" /> : "Consultar"}
             </button>
           </div>
         </form>
       </div>
       <div>
         {!datosTabla ? (
-          <h4>Selecciona un rango de fechas y una estacion...</h4>
-        ) : error !== null ? (
-          <h4>{error}</h4>
+          false
         ) : (
           <Correcto
             datosTabla={datosTabla}
@@ -154,6 +153,7 @@ function RepAceitoso() {
             estacion={estacion}
           />
         )}
+        {error !== null ? <h4>{error}</h4> : null}
         {pendiente && <Loader />}
       </div>
     </div>
