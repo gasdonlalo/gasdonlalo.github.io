@@ -5,7 +5,7 @@ function RecursosHumanos() {
     <div className="Main">
       <h1 className="text-center border-bottom w-100">Recursos Humanos</h1>
       <div className="d-flex gap-3 justify-content-evenly">
-        <div className="m-auto text-center mt-3 border-end w-50">
+        <div className="m-auto text-center mt-3 border-end">
           <h3>Captura de documentos</h3>
           <div className="d-flex justify-content-evenly flex-wrap mt-5">
             <Card
@@ -19,10 +19,15 @@ function RecursosHumanos() {
               text="Altas y baja de empleados"
               rotacion={90}
             />
-            <Card
+            {/* <Card
               url={"control-documentos"}
               icon="fa-solid fa-file-contract"
               text="Control de documentos"
+            /> */}
+            <Card
+              url="documentos-trabajadores"
+              icon="fa-solid fa-book"
+              text="Documentos de personal"
             />
             <Card
               url="faltas-retardo"
@@ -61,18 +66,13 @@ function RecursosHumanos() {
             />
           </div>
         </div>
-        <div className="mt-3 text-center m-auto w-50">
+        <div className="mt-3 text-center m-auto">
           <h3>Reportes</h3>
-          <div className="d-flex justify-content-evenly wrap mt-5">
+          <div className="d-flex justify-content-evenly flex-wrap mt-5">
             <Card
               url="grafica-mensual-faltas-retardos"
               icon="chart-simple"
               text="Faltas y retardos por empleado"
-            />
-            <Card
-              url="documentos-trabajadores"
-              icon="fa-solid fa-book"
-              text="Documentos de personal"
             />
             <Card
               url="concurso-madrugador"

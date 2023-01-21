@@ -1,123 +1,150 @@
-import React, { Fragment, useState } from "react";
+import React, { useState } from "react";
 import useGetData from "../../../hooks/useGetData";
 import HeaderComponents from "../../../GUI/HeaderComponents";
+import format from "../../assets/format";
+import AddDocs from "../../modals/AddDocs";
+import Axios from "../../../Caxios/Axios";
 
 function Documentos() {
-  const empleado = useGetData("/empleado");
-
+  const [actualizar, setActualizar] = useState(false);
+  const documentos = useGetData(`/control-documento/`, actualizar);
+  const [show, setShow] = useState(false);
+  const [showAlert, setShowAlert] = useState(false);
+  const [showAlertError, setShowAlertError] = useState(false);
   const [id, setId] = useState(null);
 
-  const documentos = useGetData(!id ? false : `/control-documento/${id}`);
+  const handleClose = () => {
+    setShow(false);
+  };
+  const mostrarModal = (valor) => {
+    setShow(true);
+    setId(valor);
+  };
+  const mostrarAlert = () => {
+    setShowAlert(true);
+  };
 
-  const totalDocs = !documentos.data
-    ? false
-    : documentos.data.response
-        .map((e) => {
-          let valor = e.cumple;
-          return { total: valor };
-        })
-        .filter((e) => e.total === true);
+  const mostrarAlertError = () => {
+    setShowAlertError(true);
+  };
+  const handleSwitch = (e) => {
+    if (e.target.checked) {
+      entregar({ [e.target.name]: e.target.value, idempleado: e.target.id });
+    } else {
+      quitar({ [e.target.name]: e.target.value, idempleado: e.target.id });
+    }
+  };
 
-  console.log(totalDocs, "owo");
+  const entregar = async (datos) => {
+    try {
+      await Axios.post("/control-documento/", datos);
+      setActualizar(!actualizar);
+      mostrarAlert();
+      setTimeout(() => {
+        setShowAlert(false);
+      }, 500);
+    } catch {
+      mostrarAlertError();
+    }
+  };
+  const quitar = async (datos) => {
+    try {
+      await Axios.put("/control-documento/", datos);
+      setActualizar(!actualizar);
+      mostrarAlert();
+      setTimeout(() => {
+        setShowAlert(false);
+      }, 500);
+    } catch (error) {
+      mostrarAlertError();
+    }
+  };
+
   return (
-    <div>
+    <div className="Main">
       <HeaderComponents
         title="Documentos empleados"
         urlBack="/recursos-humanos"
         textUrlback="Volver a recursos humanos"
       ></HeaderComponents>
-      <form className="container mb-3 col-6">
-        <label className="mb-1">Consulta un empleado</label>
-        <select
-          className="form-control"
-          onChange={(e) => setId(e.target.value)}
-        >
-          <option> --selecciona un empleado-- </option>
-          {!empleado.data
-            ? false
-            : empleado.data.response.map((e) => {
-                return (
-                  <option
-                    value={e.idempleado}
-                  >{`${e.nombre} ${e.apellido_paterno} ${e.apellido_materno}`}</option>
-                );
-              })}
-        </select>
-      </form>
-
-      <div>
-        {documentos.error ? (
-          id === "" || id === null ? (
-            <h4 className="text-center mt-2 fst-italic">
-              Por favor, selecciona un empleado para visualizar su documentación
-            </h4>
-          ) : (
-            <h4 className="text-center mt-2 fst-italic">
-              {documentos.dataError.msg + "..."}
-            </h4>
-          ) // para avisar que no hay datos
-        ) : (
-          <table className="container table table-bordered mt-2 shadow-sm">
-            <thead className="table-light">
-              <tr>
-                <th scope="col">Nombre del empleado</th>
-                <th scope="col">Solicitud de Empleo</th>
-                <th scope="col">Acta de Nacimiento</th>
-                <th scope="col">Identifiacion</th>
-                <th scope="col">Comprobante de Domicilio</th>
-                <th scope="col">2 Fotos tamaño infantil</th>
-                <th scope="col">Comprobante de ultimo grado de estudio</th>
-                <th scope="col">Carta de recomendación</th>
-                <th scope="col">Seguro Social</th>
-                <th scope="col">R.F.C</th>
-                <th scope="col">C.U.R.P</th>
-                <th scope="col">Tarjeta bancaria</th>
-                <th scope="col">Cumple/No cumple</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>
-                  {!documentos.data
-                    ? false
-                    : `${documentos.data.response[0].nombre}`}
-                </td>
-                {!documentos.data
-                  ? false
-                  : documentos.data.response.map((e) => {
-                      return (
-                        <Fragment>
-                          {e.cumple ? (
-                            <td>
-                              <i
-                                className="text-success fa-solid fa-check"
-                                style={{ fontSize: "72 pt" }}
-                              ></i>
-                            </td>
-                          ) : (
-                            <td>
-                              <i
-                                className="text-danger fa-solid fa-xmark"
-                                style={{ fontSize: "72 pt" }}
-                              ></i>
-                            </td>
-                          )}
-                        </Fragment>
-                      );
-                    })}
-
-                {Object.values(totalDocs).length < 11 ? (
-                  <td className="text-danger">No cumple</td>
-                ) : (
-                  <td className="text-success">Cumple</td>
-                )}
-              </tr>
-            </tbody>
-          </table>
-        )}
-      </div>
+      {!documentos.error && !documentos.isPending && (
+        <Sucess
+          data={documentos}
+          mostrarModal={mostrarModal}
+          show={show}
+          handleClose={handleClose}
+          id={id}
+          handleSwitch={handleSwitch}
+          showAlert={showAlert}
+          showError={showAlertError}
+          setShowAlertError={setShowAlertError}
+        />
+      )}
+      {documentos.error && <h4>{documentos.dataError.msg}</h4>}
     </div>
   );
 }
+
+const Sucess = ({
+  data,
+  mostrarModal,
+  show,
+  handleClose,
+  id,
+  handleSwitch,
+  showAlert,
+  showError,
+  setShowAlertError,
+}) => {
+  return (
+    <div className="container mt-3 w-50">
+      <AddDocs
+        show={show}
+        handleClose={handleClose}
+        idEmpleado={id}
+        handle={handleSwitch}
+        showAlert={showAlert}
+        showError={showError}
+        setShowAlertError={setShowAlertError}
+      />
+      <table className="table table-bordered">
+        <thead>
+          <tr>
+            <th>Nombre del empleado</th>
+            <th>Número de documentos entregados</th>
+            <th>Estatus</th>
+            <th>Actualizar/ver documentos</th>
+          </tr>
+        </thead>
+        <tbody>
+          {data.data.response.map((e, i) => {
+            return (
+              <tr key={i}>
+                <td key={e.nombre_completo}>
+                  {format.formatTextoMayusPrimeraLetra(e.nombre_completo)}
+                </td>
+                <td key={e.num_documentos} className="text-center">
+                  {e.num_documentos}
+                </td>
+                {e.num_documentos > 10 ? (
+                  <td className="text-center text-success">Cumple</td>
+                ) : (
+                  <td className="text-center text-danger">No cumple</td>
+                )}
+                <td style={{ width: " 5px" }} className="text-center">
+                  <i
+                    className="fa-solid fa-pen text-warning"
+                    role="button"
+                    onClick={() => mostrarModal(e.idempleado)}
+                  />
+                </td>
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
+    </div>
+  );
+};
 
 export default Documentos;
