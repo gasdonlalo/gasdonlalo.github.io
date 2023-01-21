@@ -34,7 +34,7 @@ const GraficaRecolEfectivo = () => {
           />
           <IconComponents
             icon="file-lines text-warning"
-            url="/despacho/recoleccion-efectivo/reporte"
+            url="/despacho/recoleccion-efectivo/historial"
             text="Ver Recolecciones"
           />
         </div>

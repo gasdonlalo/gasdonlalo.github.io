@@ -39,6 +39,11 @@ const GraficaEvUnifome = () => {
       >
         <div className="d-flex">
           <IconComponents
+            icon="shirt text-info"
+            url="../evaluacion-uniforme"
+            text="Evaluar"
+          />
+          <IconComponents
             icon="file-lines text-warning"
             url="../evaluacion-uniforme/historial"
             text="Registros"

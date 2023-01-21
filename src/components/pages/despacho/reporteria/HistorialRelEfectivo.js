@@ -6,13 +6,13 @@ import format from "../../../assets/format";
 import Decimal from "decimal.js-light";
 import FormBuscarDetallesTiempo from "../../../forms/FormBuscarDetallesTiempo";
 
-const GraficaRelEfectivoEmpleado = () => {
+const HistorialRelEfectivo = () => {
   const [data, setData] = useState(null);
 
   return (
     <div className="Main">
       <HeaderComponents
-        urlBack="/despacho/recoleccion-efectivo-reporte"
+        urlBack="/despacho/recoleccion-efectivo/reporte"
         textUrlback="Regresar a Recolección de efectivos mensuales"
         title="Recolección de efectivo por tiempo"
       ></HeaderComponents>
@@ -158,4 +158,4 @@ const Success = ({ data, setData }) => {
   );
 };
 
-export default GraficaRelEfectivoEmpleado;
+export default HistorialRelEfectivo;

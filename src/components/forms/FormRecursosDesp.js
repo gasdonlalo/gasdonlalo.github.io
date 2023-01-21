@@ -31,6 +31,24 @@ const FormRecursosDesp = () => {
     });
   };
 
+  const handleSwitch = (e) => {
+    let id = e.target.name;
+    let evaluacion = e.target.checked ? 1 : 0;
+    if (e.target.checked) {
+      let filtrarPasos = body.recursos.filter((el) => el.idRecurso !== id);
+      setBody({
+        ...body,
+        recursos: [...filtrarPasos, { idRecurso: id, evaluacion: evaluacion }],
+      });
+    } else {
+      let filtrarPasos = body.recursos.filter((el) => el.idRecurso !== id);
+      setBody({
+        ...body,
+        recursos: [...filtrarPasos, { idRecurso: id, evaluacion: evaluacion }],
+      });
+    }
+  };
+
   const closeModal = () => {
     setModalSuccess(false);
     setModalError({ status: false, msg: null });
@@ -38,6 +56,7 @@ const FormRecursosDesp = () => {
   const enviar = async (e) => {
     e.preventDefault();
     setFormPending(true);
+
     try {
       const res = await Axios.post("/lista-recurso-despachador", body);
       console.log(res);
@@ -57,6 +76,13 @@ const FormRecursosDesp = () => {
       setFormPending(false);
     }
   };
+
+  document.addEventListener("keydown", (e) => {
+    let key = e.key;
+    if (key === "Alt") {
+      console.log("ola");
+    }
+  });
   return (
     <div>
       <ModalSuccess show={modalSuccess} close={closeModal} />
@@ -92,8 +118,8 @@ const FormRecursosDesp = () => {
               </label>
             )}
           </div>
-          <div className="row w-100">
-            <label className="recursos a evaluar"></label>
+          {/* <div className="row w-100">
+            <label> Recursos a evaluar</label>
             {!recursos.error &&
               !recursos.isPending &&
               recursos.data.response.map((el) => (
@@ -111,6 +137,24 @@ const FormRecursosDesp = () => {
                   </select>
                 </div>
               ))}
+          </div> */}
+          <div className="row mt-3">
+            {!recursos.data
+              ? false
+              : recursos.data.response.map((e, i) => {
+                  return (
+                    <div className="col-6 form-check form-switch" key={i}>
+                      <input
+                        className="form-check-input"
+                        type="checkbox"
+                        role="switch"
+                        onChange={handleSwitch}
+                        name={e.idrecurso}
+                      />
+                      <label className="form-check-label">{e.recurso}</label>
+                    </div>
+                  );
+                })}
           </div>
           <div className="mt-2">
             <button

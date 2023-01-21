@@ -35,7 +35,6 @@ function PdfV2({
   Font.register({ family: "calibrib", src: calibriN });
   const [img, setImg] = useState();
   const [img2, setImg2] = useState();
-  const [altoTabla, setAltoTabla] = useState(null);
   const [pendiente, setPendiente] = useState(false);
 
   const nombreEmpleado = useGetData(
@@ -116,9 +115,6 @@ function PdfV2({
     const elementTabla = document.getElementById(tabla);
     html2canvas(elementTabla, { scale: 4, allowTaint: true }).then((canvas) => {
       setImg2(canvas.toDataURL("image/JPEG"));
-      const datos = canvas.getContext("2d");
-      console.log(datos.canvas.width);
-      setAltoTabla(Number(datos.canvas.style.height.replace(/px/, "")));
     });
   };
 
@@ -162,7 +158,6 @@ function PdfV2({
     },
   });
 
-  console.log(altoTabla, "alto");
   const doc = (
     <Document wrap>
       <Page size="LETTER" orientation="landscape" style={estilo.page}>

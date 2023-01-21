@@ -27,12 +27,12 @@ function Grafica({ datos, text, legend, optionsCustom }) {
     plugins: {
       /* Empieza formato datalabel */
       datalabels: {
-        backgroundColor: function (context) {
+        /*         backgroundColor: function (context) {
           return context.dataset.backgroundColor;
-        },
+        }, */
+        anchor: "end",
         align: "top",
-        borderRadius: 25,
-        color: "white",
+        color: "dark",
         display: function (context) {
           var dataset = context.dataset;
           var value = dataset.data[context.dataIndex];

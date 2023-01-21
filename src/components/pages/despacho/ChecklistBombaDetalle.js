@@ -30,7 +30,7 @@ const ChecklistBombaDetalle = () => {
     <div className="Main">
       <HeaderComponents
         title="Reporte Checklist de Bomba"
-        urlBack="/despacho/checklist-reporte"
+        urlBack="/despacho/checklist/reporte"
         textUrlback="Volver a reportes"
       >
         <IconComponents icon="chart-simple" />

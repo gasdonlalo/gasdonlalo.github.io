@@ -19,11 +19,11 @@ function RecursosHumanos() {
               text="Altas y baja de empleados"
               rotacion={90}
             />
-            {/* <Card
+            <Card
               url={"control-documentos"}
               icon="fa-solid fa-file-contract"
               text="Control de documentos"
-            /> */}
+            />
             <Card
               url="documentos-trabajadores"
               icon="fa-solid fa-book"

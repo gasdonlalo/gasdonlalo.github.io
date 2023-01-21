@@ -72,7 +72,7 @@ function TablaEmpleados({ id }) {
     !id ? false : `/solicitudes/estatus/${id}`,
     actualizar
   ); //consulta el tipo de empleados
-
+  const datosPract = useGetData("/solicitudes/estatus/2");
   //variables para modales
   const [show, setShow] = useState(false);
   const handleClose = () => {
@@ -185,6 +185,7 @@ function TablaEmpleados({ id }) {
           SetBotones={SetBotones}
           actualizar={actualizar}
           setModalError={setModalError}
+          datosPract={datosPract}
         />
       )}
       {datos.error && (
@@ -195,10 +196,23 @@ function TablaEmpleados({ id }) {
   );
 }
 
-const Sucess = ({ id, datos, navigate, SetBotones }) => {
+const Sucess = ({ id, datos, navigate, SetBotones, datosPract }) => {
+  const [emp, setEmp] = useState(
+    [datos.data.response],
+    [datosPract.data.response]
+  );
+  console.log(emp);
   const datosPracticantes = useGetData(
     id === "1" ? "/solicitudes/estatus/2" : null
   );
+  const filterEmp = (e) => {
+    const exp = new RegExp(`${e.target.value}`, "gi");
+    const search = datos.data.response.filter((el) => {
+      const { nombre, apellido_paterno, apellido_materno } = el;
+      return exp.test(`${nombre} ${apellido_paterno} ${apellido_materno}`);
+    });
+    setEmp(search);
+  };
 
   const sinValidar = !datosPracticantes.data
     ? []
@@ -223,7 +237,27 @@ const Sucess = ({ id, datos, navigate, SetBotones }) => {
           </OverlayTrigger>
         </div>
       ) : null}
-      <table className="table align-middle table-bordered mt-2 shadow-sm">
+
+      {/* Buscador */}
+      <div className="pt-0">
+        <div className="row">
+          <div className="offset-md-6 col-md-6">
+            <input
+              type="text"
+              className="form-control"
+              name="buscador"
+              id="buscador"
+              onChange={filterEmp}
+              placeholder="Buscar un empleado..."
+            ></input>
+          </div>
+        </div>
+      </div>
+
+      <table
+        className="table align-middle table-bordered mt-2 shadow-sm"
+        id="tabla1"
+      >
         <thead className="table-light">
           <tr>
             <th scope="col">Nombre</th>
@@ -251,7 +285,7 @@ const Sucess = ({ id, datos, navigate, SetBotones }) => {
           </tr>
         </thead>
         <tbody>
-          {datos.data.response.map((e) => {
+          {emp.map((e) => {
             return (
               <tr>
                 <td>{e.nombre}</td>

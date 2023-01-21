@@ -9,7 +9,7 @@ import IconComponents from "../../../assets/IconComponents";
 import FormHistorialEmpleado from "../../../forms/FormHistorialEmpleado";
 import format from "../../../assets/format";
 
-const HistorialEvUnifomeEmpleado = () => {
+const HistorialEvUnifome = () => {
   const [data, setData] = useState(null);
   const [body, setBody] = useState(null);
   const [edit, setEdit] = useState({ status: false, id: null });
@@ -219,4 +219,4 @@ const GraficaSuccess = ({ data, setEdit, setDel }) => {
   );
 };
 
-export default HistorialEvUnifomeEmpleado;
+export default HistorialEvUnifome;
