@@ -1,4 +1,5 @@
 import { useState } from "react";
+import HeaderForm from "../../GUI/HeaderForm";
 import useGetData from "../../hooks/useGetData";
 import Loader from "../assets/Loader";
 function FormSolEmpleo({ handle, enviar, pendiente }) {
@@ -14,6 +15,7 @@ function FormSolEmpleo({ handle, enviar, pendiente }) {
 
   return (
     <div className="container w-50 shadow">
+      <HeaderForm />
       <form onSubmit={enviar}>
         <div className="row">
           <div className="mb-3 col-4">

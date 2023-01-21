@@ -195,41 +195,15 @@ function TablaEmpleados({ id }) {
   );
 }
 
-const Sucess = ({ id, datos, navigate, SetBotones, setModalError }) => {
+const Sucess = ({ id, datos, navigate, SetBotones }) => {
   const datosPracticantes = useGetData(
     id === "1" ? "/solicitudes/estatus/2" : null
   );
-  /* const validarAuto = async (solicitud, empleado) => {
-    try {
-      await Axios.put(`/solicitudes/control/${solicitud}`, {
-        estatus: 1,
-        motivo: null,
-        idEmpleado: empleado,
-      });
-      setupdPract(!updPract);
-    } catch {
-      setModalError({
-        status: true,
-        msg: "No se pudo actualizar automaticamente...",
-      });
-      setupdPract(!updPract);
-    }
-  };
- */
-  const CalcularTiempo = ({ fecha }) => {
-    const hoy = new Date();
-    let date = new Date(fecha);
-    const msperDay = 24 * 60 * 60 * 1000;
-    var diasTrans = (hoy.getTime() - date.getTime()) / msperDay;
-    diasTrans = Math.round(diasTrans);
-    console.log(diasTrans);
-  };
 
   const sinValidar = !datosPracticantes.data
     ? []
     : datosPracticantes.data.response.map((e) => e.estatus);
 
-  //const sinValidar datosPracticantes.data.response.map((e) => e.estatus);
   return (
     <div>
       {/* Boton empleados sin validar */}
@@ -269,7 +243,7 @@ const Sucess = ({ id, datos, navigate, SetBotones, setModalError }) => {
             {navigate.match("dados-baja") ? (
               <Fragment>
                 <th scope="col">Motivo de {id !== "4" ? "baja" : "rechazo"}</th>
-                <th scope="col">Fecha de baja</th>
+                <th scope="col">Fecha de {id !== "4" ? "baja" : "rechazo"}</th>
               </Fragment>
             ) : (
               <th scope="col">Accion(es)</th>
@@ -312,15 +286,10 @@ const Sucess = ({ id, datos, navigate, SetBotones, setModalError }) => {
                     <td>{e.nombre}</td>
                     <td>{e.apellido_paterno}</td>
                     <td>{e.apellido_materno}</td>
-                    <td>{e.idsolicitud_empleo}</td>
+                    <td>{e.estatus}</td>
                     <td>{format.formatFechaComplete(e.update_time)}</td>
 
                     <SetBotones id={e.estatus} e={e} />
-                    <CalcularTiempo
-                      fecha={format.formatFechaPractica(e.update_time)}
-                      idsolicitud={e.idsolicitud_empleo}
-                      idempleado={e.idempleado}
-                    />
                   </tr>
                 );
               })

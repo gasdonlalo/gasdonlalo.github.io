@@ -1,17 +1,23 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import HeaderComponents from "../../../GUI/HeaderComponents";
 import TablaEmpleados from "../../tablas/TablaEmpleados";
+import IconComponents from "../../assets/IconComponents";
 
 function AltaBaja() {
   const [id, setId] = useState(null);
   return (
     <div className="Main">
-      <div>
-        <Link className="Link-primary" to="/recursos-humanos">
-          Volver a recursos humanos
-        </Link>
-        <h4 className="border-bottom">Altas y bajas de Empleados</h4>
-      </div>
+      <HeaderComponents
+        urlBack="/recursos-humanos"
+        textUrlback="Volver a recursos humanos"
+        title="Altas y bajas de empleados"
+      >
+        <IconComponents
+          url="/recursos-humanos/empleados-dados-baja"
+          text="Ver bajas/rechazos"
+          icon="fa-thin  fa-arrows-down-to-people"
+        />
+      </HeaderComponents>
       <div className="container">
         <form>
           <label className="form-label">Seleccionar tipo de empleado</label>

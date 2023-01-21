@@ -107,8 +107,8 @@ const Sucess = ({
         showError={showError}
         setShowAlertError={setShowAlertError}
       />
-      <table className="table table-bordered">
-        <thead>
+      <table className="table table-bordered shadow ">
+        <thead className="table-light">
           <tr>
             <th>Nombre del empleado</th>
             <th>Número de documentos entregados</th>
@@ -123,17 +123,17 @@ const Sucess = ({
                 <td key={e.nombre_completo}>
                   {format.formatTextoMayusPrimeraLetra(e.nombre_completo)}
                 </td>
-                <td key={e.num_documentos} className="text-center">
+                <td key={e.num_documentos} style={{ width: "10px" }}>
                   {e.num_documentos}
                 </td>
                 {e.num_documentos > 10 ? (
-                  <td className="text-center text-success">Cumple</td>
+                  <td className="text-success">Cumple</td>
                 ) : (
-                  <td className="text-center text-danger">No cumple</td>
+                  <td className="text-danger">No cumple</td>
                 )}
                 <td style={{ width: " 5px" }} className="text-center">
                   <i
-                    className="fa-solid fa-pen text-warning"
+                    className="fa-solid fa-pen text-warning btn btn-outline-warning "
                     role="button"
                     onClick={() => mostrarModal(e.idempleado)}
                   />
