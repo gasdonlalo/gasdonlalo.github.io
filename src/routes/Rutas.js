@@ -86,7 +86,7 @@ function Rutas() {
         <Route path="/despacho" element={<Layout />}>
           <Route index element={<Despacho />} />;
           <Route path="montos-faltantes" element={<MontoFaltante />} />;
-          <Route path="montos-faltantes/reportes-empleados" element={<MFE />} />
+          <Route path="montos-faltantes/reportes/empleados" element={<MFE />} />
           <Route path="montos-faltantes/reportes-tiempo" element={<MFT />} />
           ;
           <Route path="montos-faltantes/reporte" element={<GMF />} />;

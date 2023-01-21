@@ -213,6 +213,7 @@ const Sucess = ({ id, datos, navigate, SetBotones }) => {
   const datosPracticantes = useGetData(
     id === "1" ? "/solicitudes/estatus/2" : null
   );
+  // PARA HACER EL BUSCADOR "SEARCH"
   const filterEmp = (e) => {
     const exp = new RegExp(`${e.target.value}`, "gi");
     const search = datos.data.response.filter((el) => {

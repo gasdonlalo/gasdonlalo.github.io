@@ -7,6 +7,8 @@ import Loader from "../../../assets/Loader";
 import ErrorHttp from "../../../assets/ErrorHttp";
 import Scale from "../../../charts/Scale";
 import PdfV2 from "../../../pdf_generador/PdfV2";
+import HeaderComponents from "../../../../GUI/HeaderComponents";
+import IconComponents from "../../../assets/IconComponents";
 
 const GraficaRecursosDes = () => {
   const date = new Date();
@@ -23,12 +25,17 @@ const GraficaRecursosDes = () => {
   const handleQuincena = (e) => setQuincena(e.target.value);
   return (
     <div className="Main">
-      <Link className="link-primary" to="/despacho">
-        Volver al despacho
-      </Link>
-      <div>
-        <h3 className="border-bottom">Reporte de recursos de despachador</h3>
-      </div>
+      <HeaderComponents
+        urlBack="/despacho"
+        textUrlback="Volver al despacho"
+        title="Reporte de recursos de despachador"
+      >
+        <IconComponents
+          icon="stapler text-primary"
+          text="Recursos Despachador"
+          url="/despacho/recurso-despachador"
+        />
+      </HeaderComponents>
       <div className="w-50 m-auto row">
         <div className="col-md-4">
           <label className="form-label">Selecciona la quincena</label>

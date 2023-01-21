@@ -7,6 +7,8 @@ import Loader from "../../../assets/Loader";
 import format from "../../../assets/format";
 import Scale from "../../../charts/Scale";
 import PdfV2 from "../../../pdf_generador/PdfV2";
+import HeaderComponents from "../../../../GUI/HeaderComponents";
+import IconComponents from "../../../assets/IconComponents";
 
 function GraficaChecklist() {
   const date = new Date();
@@ -27,10 +29,18 @@ function GraficaChecklist() {
 
   return (
     <div className="Main">
-      <Link className="link-primary" to="/despacho">
-        Volver al despacho
-      </Link>
-      <h3 className="border-bottom">Registro mensual de checklist</h3>
+      <HeaderComponents
+        urlBack="/despacho"
+        textUrlback="Volver al Despacho"
+        title="Registro Mensual de Checklist"
+      >
+        <IconComponents
+          icon="check text-primary"
+          text="Checklist"
+          url="/despacho/checklist"
+        />
+      </HeaderComponents>
+
       <div className="row w-75 mx-auto">
         <div className="col-md-6">
           <InputChangeMes defaultMes={month} handle={handleMonth} />

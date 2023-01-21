@@ -32,7 +32,7 @@ function MontoFaltante() {
             <IconComponents
               icon="file-lines text-success"
               text="MF empleado"
-              url="reportes-empleados"
+              url="reportes/empleados"
             />
             <IconComponents
               icon="calendar-days text-warning"
