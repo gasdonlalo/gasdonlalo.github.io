@@ -4,6 +4,8 @@ import Axios from "../../../Caxios/Axios";
 import ModalSuccess from "../../modals/ModalSuccess";
 import ModalError from "../../modals/ModalError";
 import { useState } from "react";
+import IconComponents from "../../assets/IconComponents";
+
 function Aceitoso() {
   const [datos, setDatos] = useState({ descalificado: 0 });
   const [modalSuccess, setModalSuccess] = useState(false);
@@ -70,7 +72,13 @@ function Aceitoso() {
         urlBack="/recursos-humanos"
         textUrlback="Volver a recursos humanos"
         title="Registro de litros de aceites vendidos"
-      />
+      >
+        <IconComponents
+          text="Reporte"
+          icon="chart-simple text-success"
+          url="reporte"
+        />
+      </HeaderComponents>
       <FormOctanoso
         enviar={enviar}
         handle={handle}
