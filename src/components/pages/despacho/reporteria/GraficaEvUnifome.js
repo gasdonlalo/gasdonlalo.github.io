@@ -1,5 +1,4 @@
 import { Fragment, useState } from "react";
-import { Link } from "react-router-dom";
 import useGetData from "../../../../hooks/useGetData";
 import InputChangeMes from "../../../forms/InputChangeMes";
 import InputChangeYear from "../../../forms/InputChangeYear";
@@ -7,6 +6,8 @@ import InputSelectEmpleado from "../../../forms/InputSelectEmpleado";
 import format from "../../../assets/format";
 import Bar from "../../../charts/Bar";
 import PdfV2 from "../../../pdf_generador/PdfV2";
+import HeaderComponents from "../../../../GUI/HeaderComponents";
+import IconComponents from "../../../assets/IconComponents";
 
 const GraficaEvUnifome = () => {
   const date = new Date();
@@ -31,10 +32,19 @@ const GraficaEvUnifome = () => {
 
   return (
     <div className="Main">
-      <Link className="link-primary" to="/despacho">
-        Volver al despacho
-      </Link>
-      <h3 className="border-bottom">Evaluacion de uniformes a despachadores</h3>
+      <HeaderComponents
+        title="Evaluación de uniformes"
+        urlBack="/despacho"
+        textUrlback="Volver a despacho"
+      >
+        <div className="d-flex">
+          <IconComponents
+            icon="file-lines text-warning"
+            url="../evaluacion-uniforme/historial"
+            text="Registros"
+          />
+        </div>
+      </HeaderComponents>
       <div className="row w-75 mx-auto">
         <div className="col-md-6 mb-3">
           <label className="form-label">Selecciona el mes</label>

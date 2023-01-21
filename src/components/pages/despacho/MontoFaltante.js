@@ -27,7 +27,7 @@ function MontoFaltante() {
             <IconComponents
               icon="chart-simple text-danger"
               text="MF reporte"
-              url="/despacho/montos-faltantes-reporte"
+              url="/despacho/montos-faltantes/reporte"
             />
             <IconComponents
               icon="file-lines text-success"

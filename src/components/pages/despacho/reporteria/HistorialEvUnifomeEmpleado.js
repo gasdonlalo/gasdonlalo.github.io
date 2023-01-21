@@ -1,18 +1,15 @@
 import { useState } from "react";
 import Axios from "../../../../Caxios/Axios";
 import HeaderComponents from "../../../../GUI/HeaderComponents";
-import HeaderForm from "../../../../GUI/HeaderForm";
-import useGetData from "../../../../hooks/useGetData";
-import format from "../../../assets/format";
-import InputSelectEmpleado from "../../../forms/InputSelectEmpleado";
 import Scale from "../../../charts/Scale";
 import ModalSuccess from "../../../modals/ModalSuccess";
 import ModalError from "../../../modals/ModalError";
 import { DeleteEU, EditEU } from "../../../modals/EditEU";
 import IconComponents from "../../../assets/IconComponents";
-import Loader from "../../../assets/Loader";
+import FormHistorialEmpleado from "../../../forms/FormHistorialEmpleado";
+import format from "../../../assets/format";
 
-const GraficaEvUnifomeEmpleado = () => {
+const HistorialEvUnifomeEmpleado = () => {
   const [data, setData] = useState(null);
   const [body, setBody] = useState(null);
   const [edit, setEdit] = useState({ status: false, id: null });
@@ -41,7 +38,7 @@ const GraficaEvUnifomeEmpleado = () => {
     <div className="Main">
       <HeaderComponents
         title="Evaluaciones de uniforme por Despachador"
-        urlBack="/despacho/evaluacion-uniforme-reporte"
+        urlBack="/despacho/evaluacion-uniforme/reporte"
         textUrlback="Regresar a reportes"
       >
         <IconComponents
@@ -58,7 +55,7 @@ const GraficaEvUnifomeEmpleado = () => {
         </div>
       )}
       {!data && (
-        <FormFind
+        <FormHistorialEmpleado
           buscarDatos={buscarDatos}
           state={[body, setBody]}
           msgError={msgError}
@@ -222,49 +219,4 @@ const GraficaSuccess = ({ data, setEdit, setDel }) => {
   );
 };
 
-const FormFind = ({ state, msgError, buscarDatos }) => {
-  const [body, setBody] = state;
-  const [formPending, setFormPending] = useState(false);
-  const { data, error, isPending } = useGetData(`/empleado?departamento=1`);
-
-  const handle = (e) => setBody({ ...body, [e.target.name]: e.target.value });
-
-  const buscar = async (e) => {
-    setFormPending(true);
-    e.preventDefault();
-    await buscarDatos();
-    setFormPending(false);
-  };
-
-  return (
-    <div className="mt-2">
-      <form className="shadow p-2 w-50 mx-auto rounded" onSubmit={buscar}>
-        <HeaderForm title="Evaluaciones por despachador" />
-        <div className="row">
-          <div className="col-10 mx-auto mb-3">
-            <label className="form-label mb-0">Despachador</label>
-            {!error && !isPending && (
-              <InputSelectEmpleado
-                empleados={data.response}
-                handle={handle}
-                name="idEmpleado"
-              />
-            )}
-          </div>
-        </div>
-        <div className="mt-4">
-          <button className="btn btn-success mx-auto d-block">
-            {formPending ? <Loader size="1.5" /> : "Buscar"}
-          </button>
-          {msgError && !formPending && (
-            <p className="text-center">
-              <em className="text-danger text-center">{msgError}</em>
-            </p>
-          )}
-        </div>
-      </form>
-    </div>
-  );
-};
-
-export default GraficaEvUnifomeEmpleado;
+export default HistorialEvUnifomeEmpleado;
