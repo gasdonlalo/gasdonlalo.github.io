@@ -8,12 +8,12 @@ function RecolEfect() {
       <div>
         <HeaderComponents
           title="Recolección de efectivo"
-          urlBack="/despacho/recoleccion-efectivo-reporte"
+          urlBack="/despacho"
           textUrlback="Regresar a despacho"
         >
           <IconComponents
             icon="chart-simple text-danger"
-            url="/despacho/recoleccion-efectivo-reporte"
+            url="/despacho/recoleccion-efectivo/reporte"
             text="Reportes"
           />
         </HeaderComponents>
