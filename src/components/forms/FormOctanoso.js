@@ -2,6 +2,7 @@ import useGetData from "../../hooks/useGetData";
 import InputFecha from "./InputFecha";
 import Loader from "../assets/Loader";
 import { useLocation } from "react-router-dom";
+import HeaderForm from "../../GUI/HeaderForm";
 
 function FormOctanoso({
   enviar,
@@ -19,6 +20,7 @@ function FormOctanoso({
 
   return (
     <div className="container w-50 shadow mt-3">
+      <HeaderForm />
       <form onSubmit={enviar}>
         <div className="row pt-3">
           <div className="mb-3 col-4">

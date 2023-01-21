@@ -13,7 +13,7 @@ function ChecklistBomba() {
         <IconComponents
           icon="chart-line text-danger"
           text="Reportes"
-          url="/despacho/checklist-reporte"
+          url="/despacho/checklist/reporte"
         />
       </HeaderComponents>
       <div>

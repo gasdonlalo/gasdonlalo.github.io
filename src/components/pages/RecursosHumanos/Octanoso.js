@@ -4,6 +4,7 @@ import { useState } from "react";
 import Axios from "../../../Caxios/Axios";
 import ModalSuccess from "../../modals/ModalSuccess";
 import ModalError from "../../modals/ModalError";
+import IconComponents from "../../assets/IconComponents";
 
 function Octanoso() {
   const [datos, setDatos] = useState({ descalificado: 0 });
@@ -69,7 +70,13 @@ function Octanoso() {
           urlBack="/recursos-humanos"
           textUrlback="Volver a recursos humanos"
           title="Registro de litros combustible vendidos"
-        />
+        >
+          <IconComponents
+            text="Reporte"
+            icon="chart-simple text-success"
+            url="reporte"
+          />
+        </HeaderComponents>
       </div>
       <FormOctanoso
         enviar={enviar}

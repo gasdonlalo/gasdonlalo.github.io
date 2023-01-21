@@ -1,5 +1,5 @@
 import { Fragment, useState } from "react";
-import { Link } from "react-router-dom";
+import HeaderComponents from "../../../../GUI/HeaderComponents";
 import useGetData from "../../../../hooks/useGetData";
 import InputSelectEmpleado from "../../../forms/InputSelectEmpleado";
 import InputChangeYear from "../../../forms/InputChangeYear";
@@ -8,37 +8,48 @@ import Loader from "../../../assets/Loader";
 import ErrorHttp from "../../../assets/ErrorHttp";
 import Bar from "../../../charts/Bar";
 import PdfV2 from "../../../pdf_generador/PdfV2";
+import IconComponents from "../../../assets/IconComponents";
 
 const GraficaPasoDes = () => {
   const date = new Date();
   const [year, setYear] = useState(date.getFullYear());
   const [month, setMonth] = useState(date.getMonth() + 1);
-  const [quincena, setQuincena] = useState(1);
   const [idEmpleado, setIdEmpleado] = useState(null);
+  const [qna, setQna] = useState("");
   const evaluacion = useGetData(
-    `/pasos-despachar/${year}/${month}/${quincena}/${idEmpleado}`
+    `/pasos-despachar/${year}/${month}/${idEmpleado}/${qna}`
   );
   const despachador = useGetData("/empleado?departamento=1");
   const changeDespachador = (e) => setIdEmpleado(e.target.value);
   const changeYear = (e) => setYear(e.target.value);
   const changeMonth = (e) => setMonth(e.target.value);
-  const handleQuincena = (e) => setQuincena(e.target.value);
+  const handleQna = (e) => setQna(Number(e.target.value) || "");
+
   return (
     <div className="Main">
-      <Link className="link-primary" to="/despacho">
-        Volver al despacho
-      </Link>
-      <div>
-        <h3 className="border-bottom">Evaluacion de despacho</h3>
-      </div>
+      <HeaderComponents
+        urlBack="/despacho"
+        textUrlback="Regresar a despacho"
+        title="Evaluaciones de despacho"
+      >
+        <div className="d-flex">
+          <IconComponents
+            icon="list-check text-info"
+            url="/despacho/pasos-despachar"
+            text="Evaluar"
+          />
+          <IconComponents
+            icon="file-lines text-warning"
+            url="../pasos-despachar/historial"
+            text="Registros"
+          />
+        </div>
+      </HeaderComponents>
       <div className="w-75 m-auto row">
         <div className="col-md-3">
           <label className="form-label">Selecciona la quincena</label>
-          <select
-            className="form-select"
-            onChange={handleQuincena}
-            defaultValue={1}
-          >
+          <select className="form-select" onChange={handleQna}>
+            <option value="">Todo el mes</option>
             <option value="1">Primer Quincena</option>
             <option value="2">Segunda Quincena</option>
           </select>
@@ -73,7 +84,7 @@ const GraficaPasoDes = () => {
           year={year}
           month={month}
           idEmpleado={idEmpleado}
-          quincena={quincena}
+          qna={qna}
         />
       )}
       {evaluacion.error && !evaluacion.isPending && (
@@ -87,72 +98,71 @@ const GraficaPasoDes = () => {
   );
 };
 
-const Success = ({ data, year, month, idEmpleado, quincena }) => {
-  const pasosDes = useGetData("/pasos-despachar/get-pasos");
-  const promedios = useGetData(
-    `/pasos-despachar/quincenas/${year}/${month}/${idEmpleado}`
-  );
-
-  const sacarPromedio = (pro) => {
-    let promedio;
-    let total;
-    if (pro.length > 0) {
-      total = pro.map((el) => (el.evaluacion ? 1 : 0)).reduce((a, b) => a + b);
-      promedio = (total / pro.length) * 10;
-    } else {
-      promedio = 0;
-    }
-    return { promedio, total };
+const Success = ({ data, year, month, idEmpleado, qna }) => {
+  const pasos = useGetData(`/pasos-despachar/get-pasos`);
+  const sum = (arr) => {
+    return arr
+      .map((el) =>
+        el.map((sa) => (sa.evaluacion ? 1 : 0)).reduce((a, b) => a + b, 0)
+      )
+      .reduce((a, b) => a + b, 0);
   };
 
-  let promedio = {};
-  let dataBarPromedioQuincena = {};
-  let dataBarPromedio = {};
+  let dataBar;
+  let dataBarPasos;
+  if (!pasos.error && !pasos.isPending) {
+    if (!qna) {
+      const qna1 = data.filter((el) => el[0].quincena === 1);
+      const qna2 = data.filter((el) => el[0].quincena === 2);
+      dataBar = {
+        labels: ["Qna 1", "Qna 2"],
+        dataset: [
+          {
+            data: [
+              (sum(qna1) / qna1.length).toFixed(2) || 0,
+              (sum(qna2) / qna2.length).toFixed(2) || 0,
+            ],
+            backgroundColor: ["orange", "red"],
+          },
+        ],
+        text: "Promedio mensual",
+      };
+    } else {
+      dataBar = {
+        labels: ["Promedio"],
+        dataset: [
+          {
+            data: [(sum(data) / data.length).toFixed(2)],
+            backgroundColor: "orange",
+          },
+        ],
+        text: `Promedio quincena ${qna}`,
+      };
 
-  if (!promedios.isPending && !promedios.error) {
-    promedio.quin1 = sacarPromedio(promedios.data.response.quincena1).promedio;
-    promedio.quin1Suma = sacarPromedio(promedios.data.response.quincena1).total;
-    promedio.quin2 = sacarPromedio(promedios.data.response.quincena2).promedio;
-    promedio.quin2Suma = sacarPromedio(promedios.data.response.quincena2).total;
-    dataBarPromedioQuincena = {
-      labels: [
-        ["Promedio", "Quincena 1"],
-        ["Promedio", "Quincena 2"],
-      ],
-      dataset: [
-        {
-          data: [promedio.quin1.toFixed(2), promedio.quin2.toFixed(2)],
-          label: "Diciembre",
-          backgroundColor: ["rgba(237,50,5,1)", "rgba(209,19,19,1)"],
-        },
-      ],
-    };
+      dataBarPasos = {
+        labels: data[0].map((el, i) => `P${i}`),
+        dataset: [
+          {
+            data: pasos.data.response.map((el, i) =>
+              (
+                (data
+                  .map((ev) => (ev[i].evaluacion ? 1 : 0))
+                  .reduce((a, b) => a + b, 0) /
+                  data.length) *
+                10
+              ).toFixed(2)
+            ),
+            backgroundColor: "red",
+          },
+        ],
+      };
+    }
   }
 
-  if (!pasosDes.isPending && !pasosDes.error) {
-    pasosDes.data.response.forEach((el, i) => {
-      data.evaluaciones.map((es) => ({
-        idpaso: es[i].idpaso_despachar,
-      }));
-    });
-    dataBarPromedio = {
-      labels: pasosDes.data.response.map((el) => el.paso),
-      dataset: [
-        {
-          data: pasosDes.data.response.map((el, i) => {
-            let total = data.evaluaciones
-              .map((es) => (es[i].evaluacion ? 1 : 0))
-              .reduce((a, b) => a + b);
-            let promedio = (total / data.evaluaciones.length) * 10;
-            console.log(total / data.evaluaciones.length);
-            return promedio.toFixed(2);
-          }),
-          label: "recurso",
-        },
-      ],
-    };
-    console.log(dataBarPromedio.dataset, pasosDes.data.response.length);
-  }
+  console.log(dataBarPasos);
+
+  const sumaTotal = sum(data);
+  const PromedioTotal = sumaTotal / data.length;
 
   return (
     <Fragment>
@@ -162,27 +172,27 @@ const Success = ({ data, year, month, idEmpleado, quincena }) => {
             <thead>
               <tr>
                 <th className="border text-center">Evaluación</th>
-                {!pasosDes.error &&
-                  !pasosDes.isPending &&
-                  pasosDes.data.response.map((el) => (
+                {!pasos.error &&
+                  !pasos.isPending &&
+                  pasos.data.response.map((el, i) => (
                     <td
                       className="border text-center p-2 fw-semibold"
                       style={{ width: "100px" }}
                       key={el.idpaso_despachar}
                     >
-                      {el.paso}
+                      {el.paso} (P{i})
                     </td>
                   ))}
                 <th className="border px-2">Total</th>
               </tr>
             </thead>
             <tbody>
-              {data.evaluaciones.map((el, i) => (
+              {data.map((el, i, arr) => (
                 <tr key={i}>
                   <td className="text-center px-4 border">
                     Evaluación {i + 1}
                   </td>
-                  {data.evaluaciones[i].map((ev) => (
+                  {arr[i].map((ev) => (
                     <td
                       key={ev.idevaluacion_despachar}
                       className="text-center border"
@@ -191,7 +201,7 @@ const Success = ({ data, year, month, idEmpleado, quincena }) => {
                     </td>
                   ))}
                   <td className="border text-center fw-semibold">
-                    {data.evaluaciones[i]
+                    {data[i]
                       .map((el) => (el.evaluacion ? 1 : 0))
                       .reduce((a, b) => a + b, 0)}
                   </td>
@@ -199,75 +209,58 @@ const Success = ({ data, year, month, idEmpleado, quincena }) => {
               ))}
               <tr className="bg-secondary">
                 <td className=" text-center">Total</td>
-                {!pasosDes.isPending &&
-                  !pasosDes.error &&
-                  pasosDes.data.response.map((el, i) => (
+                {!pasos.error &&
+                  !pasos.isPending &&
+                  pasos.data.response.map((el, i) => (
                     <td key={i} className=" text-center">
-                      {data.evaluaciones
+                      {data
                         .map((ev) => (ev[i].evaluacion ? 1 : 0))
                         .reduce((a, b) => a + b)}
                     </td>
                   ))}
-                <td className="fw-semibold text-center">
-                  {promedio[`quin${quincena}Suma`]}
-                </td>
+                <td className="fw-semibold text-center">{sumaTotal}</td>
               </tr>
               <tr className="bg-info">
                 <td className=" text-center">Promedio</td>
-                {!pasosDes.isPending &&
-                  !pasosDes.error &&
-                  pasosDes.data.response.map((el, i) => (
+                {!pasos.error &&
+                  !pasos.isPending &&
+                  pasos.data.response.map((el, i) => (
                     <td key={i} className=" text-center">
                       {(
-                        (data.evaluaciones
+                        (data
                           .map((ev) => (ev[i].evaluacion ? 1 : 0))
                           .reduce((a, b) => a + b) /
-                          data.evaluaciones.length) *
+                          data.length) *
                         10
                       ).toFixed(2)}
                     </td>
                   ))}
                 <td className="fw-bold text-white bg-danger text-center">
-                  {Number(promedio[`quin${quincena}`]).toFixed(2)}
+                  {PromedioTotal.toFixed(2)}
                 </td>
               </tr>
             </tbody>
           </table>
         </div>
-        {!promedios.error && !promedios.isPending && (
-          <div>
-            <div className="mt-5 d-flex" style={{ flexGrow: "2" }}>
-              <table className="table table-bordered w-25 text-center m-auto">
-                <thead>
-                  <tr>
-                    <th className="text-nowrap">Promedio quincena 1</th>
-                    <th className="text-nowrap">Promedio quincena 2</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>{promedio.quin1.toFixed(2)}</td>
-                    <td>{promedio.quin2.toFixed(2)}</td>
-                  </tr>
-                </tbody>
-              </table>
+        {!pasos.error && !pasos.isPending && (
+          <div
+            className={`d-flex ${
+              qna ? "justify-content-evenly" : "w-50 mx-auto"
+            }`}
+          >
+            <div className={qna ? "w-50" : "w-100"}>
+              <Bar datos={dataBar} text={dataBar.text} legend={false} />
             </div>
-            <div className="d-flex justify-content-evenly">
+
+            {qna && (
               <div className="w-50">
                 <Bar
-                  datos={dataBarPromedioQuincena}
-                  text="Promedio"
+                  datos={dataBarPasos}
+                  text={"Promedio por pasos"}
                   legend={false}
                 />
               </div>
-              <div className="w-50">
-                <Bar
-                  datos={dataBarPromedio}
-                  text={`Promedio por pasos quincena ${quincena}`}
-                  legend={false}
-                />
-              </div>
-            </div>
+            )}
           </div>
         )}
       </div>

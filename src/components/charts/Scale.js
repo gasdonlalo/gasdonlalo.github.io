@@ -23,7 +23,7 @@ ChartJS.register(
   ChartDataLabels
 );
 
-const Scale = ({ data, y, legend }) => {
+const Scale = ({ data, legend }) => {
   const datos = {
     labels: data.labels,
     datasets: data.datasets,
@@ -60,7 +60,7 @@ const Scale = ({ data, y, legend }) => {
 };
 
 Scale.defaultProps = {
-  y: [0, 30],
+  text: "Gráfica",
   legend: true,
 };
 

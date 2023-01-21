@@ -1,14 +1,22 @@
-import { Link } from "react-router-dom";
+import HeaderComponents from "../../../GUI/HeaderComponents";
+import IconComponents from "../../assets/IconComponents";
 import FormRecoleccion from "../../forms/FormRecoleccion";
 
 function RecolEfect() {
   return (
     <div className="Main">
       <div>
-        <Link className="link-primary" to="/despacho">
-          Volver al despacho
-        </Link>
-        <h4 className="border-bottom">Recoleccion de efectivo</h4>
+        <HeaderComponents
+          title="Recolección de efectivo"
+          urlBack="/despacho"
+          textUrlback="Regresar a despacho"
+        >
+          <IconComponents
+            icon="chart-simple text-danger"
+            url="/despacho/recoleccion-efectivo/reporte"
+            text="Reportes"
+          />
+        </HeaderComponents>
         <FormRecoleccion />
       </div>
     </div>

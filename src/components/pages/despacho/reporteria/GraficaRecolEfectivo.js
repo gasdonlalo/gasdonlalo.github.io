@@ -1,5 +1,6 @@
 import { Fragment, useState } from "react";
-import { Link } from "react-router-dom";
+import HeaderComponents from "../../../../GUI/HeaderComponents";
+import IconComponents from "../../../assets/IconComponents";
 import useGetData from "../../../../hooks/useGetData";
 import InputChangeMes from "../../../forms/InputChangeMes";
 import InputChangeYear from "../../../forms/InputChangeYear";
@@ -20,12 +21,24 @@ const GraficaRecolEfectivo = () => {
   const changeMonth = (e) => setMonth(e.target.value);
   return (
     <div className="Main">
-      <Link className="link-primary" to="/despacho">
-        Volver al despacho
-      </Link>
-      <div>
-        <h3 className="border-bottom">Recoleccion de efectivo</h3>
-      </div>
+      <HeaderComponents
+        title="Recolección de efectivo"
+        urlBack="/despacho"
+        textUrlback="Regresar a despacho"
+      >
+        <div className="d-flex">
+          <IconComponents
+            icon="sack-dollar text-info"
+            url="/despacho/recoleccion-efectivo"
+            text="Registros"
+          />
+          <IconComponents
+            icon="file-lines text-warning"
+            url="/despacho/recoleccion-efectivo/historial"
+            text="Ver Recolecciones"
+          />
+        </div>
+      </HeaderComponents>
 
       <div className="d-flex justify-content-around m-auto w-50">
         <div className="">
