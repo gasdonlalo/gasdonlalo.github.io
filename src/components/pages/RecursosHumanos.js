@@ -19,6 +19,7 @@ function RecursosHumanos() {
               text="Altas y baja de empleados"
               rotacion={90}
             />
+            <Card url={"prueba"} text="prueba xd" />
             <Card
               url={"control-documentos"}
               icon="fa-solid fa-file-contract"

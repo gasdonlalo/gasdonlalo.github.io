@@ -33,7 +33,7 @@ import ConcursoMadrugador from "../components/pages/RecursosHumanos/ConcursoMadr
 import Departamentos from "../components/pages/RecursosHumanos/Departamentos";
 import EntregaRecurso from "../components/pages/RecursosHumanos/EntregaRecurso";
 import ERR from "../components/pages/RecursosHumanos/Reportes/EntregaRecursoRegistro";
-
+import Prueba from "../components/tablas/prueba";
 // Importación gráficos recursos
 import FRG from "../components/pages/RecursosHumanos/Reportes/FaltaRetardoGrafica";
 
@@ -127,6 +127,7 @@ function Rutas() {
             path="grafica-mensual-faltas-retardos"
             element={<FaltaRetardoGrafica />}
           />
+          <Route path="prueba" element={<Prueba />} />
           <Route path="control-documentos" element={<ControlDocumentos />} />
           {/* Rutas concursos */}
           <Route path="concurso-octanoso">

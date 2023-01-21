@@ -11,6 +11,19 @@ import Loader from "../assets/Loader";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
 
 function TablaEmpleados({ id }) {
+  // let dataTable;
+  // let dataTableIsInitialized = false;
+
+  // const initDataTable = async () => {
+  //   if (dataTableIsInitialized) {
+  //     dataTable.destroy();
+  //   }
+  //   await datos();
+
+  //   dataTable = "#tabla1".DataTable({});
+
+  //   dataTableIsInitialized = true;
+  // };
   //setea los botones de acuerdo al tipo de empleados mostrados
   function SetBotones({ id, e }) {
     if (id === "1") {
@@ -249,7 +262,26 @@ const Sucess = ({ id, datos, navigate, SetBotones, setModalError }) => {
           </OverlayTrigger>
         </div>
       ) : null}
-      <table className="table align-middle table-bordered mt-2 shadow-sm">
+
+      {/* Buscador */}
+      <div className="pt-0">
+        <div className="row">
+          <div className="offset-md-6 col-md-6">
+            <input
+              type="text"
+              className="form-control"
+              name="buscador"
+              id="buscador"
+              placeholder="Buscar un empleado..."
+            ></input>
+          </div>
+        </div>
+      </div>
+
+      <table
+        className="table align-middle table-bordered mt-2 shadow-sm"
+        id="tabla1"
+      >
         <thead className="table-light">
           <tr>
             <th scope="col">Nombre</th>
