@@ -31,7 +31,7 @@ function FormOctanoso({
               onChange={handle}
               required
             >
-              <option>--Selecciona un empleado--</option>
+              <option value="">--Selecciona un empleado--</option>
               {!empleado.data
                 ? false
                 : empleado.data.response.map((e) => {
@@ -61,7 +61,7 @@ function FormOctanoso({
               onChange={handle}
               required
             >
-              <option value=" "> --Selecciona una estación--</option>
+              <option value=""> --Selecciona una estación--</option>
               {!estaciones.data
                 ? false
                 : estaciones.data.response.map((e) => {
