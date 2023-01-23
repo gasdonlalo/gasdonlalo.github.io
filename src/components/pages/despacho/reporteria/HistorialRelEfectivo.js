@@ -5,9 +5,20 @@ import Scale from "../../../charts/Scale";
 import format from "../../../assets/format";
 import Decimal from "decimal.js-light";
 import FormBuscarDetallesTiempo from "../../../forms/FormBuscarDetallesTiempo";
+import Axios from "../../../../Caxios/Axios";
 
 const HistorialRelEfectivo = () => {
+  const [body, setBody] = useState(null);
   const [data, setData] = useState(null);
+
+  const buscarDatos = async () => {
+    try {
+      const res = await Axios.post(`/recoleccion-efectivo/buscar`, body);
+      setData(res.data.response);
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   return (
     <div className="Main">
@@ -19,8 +30,8 @@ const HistorialRelEfectivo = () => {
       <div>
         {!data && (
           <FormBuscarDetallesTiempo
-            setData={setData}
-            url="/recoleccion-efectivo/buscar"
+            bodyState={[body, setBody]}
+            buscarDatos={buscarDatos}
           />
         )}
         {data && <Success data={data} setData={setData} />}

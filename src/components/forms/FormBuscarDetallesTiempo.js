@@ -1,25 +1,17 @@
-import { useState } from "react";
 import useGetData from "../../hooks/useGetData";
-import Axios from "../../Caxios/Axios";
 import HeaderForm from "../../GUI/HeaderForm";
 import InputSelectEmpleado from "./InputSelectEmpleado";
 
-const FormBuscarDetallesTiempo = ({
-  setData, //Guarda los datos en el componente que lo llama
-  url, //Url hacia donde consultara los datos
-}) => {
-  const [body, setBody] = useState(null);
+const FormBuscarDetallesTiempo = ({ bodyState, buscarDatos }) => {
+  const [body, setBody] = bodyState;
   const { data, error, isPending } = useGetData(`/empleado?departamento=1`);
   const handle = (e) => setBody({ ...body, [e.target.name]: e.target.value });
+
   const buscar = async (e) => {
     e.preventDefault();
-    try {
-      const res = await Axios.post(url, body);
-      setData(res.data.response);
-    } catch (err) {
-      console.log(err);
-    }
+    await buscarDatos();
   };
+
   return (
     <div className="mt-2">
       <form className="shadow p-2 w-50 mx-auto rounded" onSubmit={buscar}>

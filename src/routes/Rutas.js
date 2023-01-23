@@ -15,6 +15,7 @@ import DHREE from "../components/pages/despacho/reporteria/HistorialRelEfectivo"
 import Pasosdespachar from "../components/pages/despacho/Pasosdespachar";
 import DHPD from "../components/pages/despacho/reporteria/HistorialPasoDes";
 import RecursosDesp from "../components/pages/despacho/RecursosDesp";
+import DHRD from "../components/pages/despacho/reporteria/HistorialRecursoDes";
 import SalidaNoConforme from "../components/pages/salidaNoConforme/SalidaNoConforme";
 import SNR from "../components/pages/salidaNoConforme/SalidasNoConformesReportes";
 //importacion de graficos despacho
@@ -104,6 +105,7 @@ function Rutas() {
           <Route path="pasos-despachar/reporte" element={<GPD />} />;
           <Route path="recurso-despachador" element={<RecursosDesp />} />;
           <Route path="recurso-despachador/reporte" element={<GRD />} />
+          <Route path="recurso-despachador/historial" element={<DHRD />} />
           <Route path="salida-no-conforme" element={<SalidaNoConforme />} />
           <Route path="salida-no-conforme-files" element={<SNR />} />; ;
           <Route path="*" element={<Notfound />} />

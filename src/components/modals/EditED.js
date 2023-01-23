@@ -11,13 +11,12 @@ export const EditED = ({
   stateEdit, //Estado para mostras el modald
   setModalSuccess, //Modal De exito
   setModalError, //Modal de error
-  toggle, //Estado actualizador de la peticion useState
+  buscarDatos, //Estado actualizador de la peticion useState
 }) => {
   new Date();
   const [show, setShow] = stateEdit;
   const [body, setBody] = useState();
   const [formPending, setFormPending] = useState(false);
-  const [actualizador, setActualizador] = toggle;
   const close = () => setShow({ status: false, id: null });
   const { data, error, isPending } = useGetData(`/pasos-despachar/${show.id}`);
   const evaluaciones = useMemo(() => {
@@ -51,7 +50,7 @@ export const EditED = ({
       e.target.reset();
       setModalSuccess(true);
       await Axios.put(`/pasos-despachar`, datos);
-      setActualizador(!actualizador);
+      buscarDatos();
       setShow({ status: false, id: null });
     } catch (err) {
       if (err.hasOwnProperty("response")) {

@@ -8,16 +8,25 @@ import format from "../../../assets/format";
 import { EditED } from "../../../modals/EditED";
 
 const HistorialPasoDes = () => {
+  const [body, setBody] = useState(null);
   const [data, setData] = useState(null);
   const [edit, setEdit] = useState({ status: false, id: null });
   const [del, setDel] = useState({ status: false, id: null });
   const [modalSuccess, setModalSuccess] = useState(false);
   const [modalError, setModalError] = useState({ status: false, msg: "" });
-  const [actualizador, setActualizador] = useState(false);
 
   const closeModal = () => {
     setModalSuccess(false);
     setModalError({ status: false, msg: "" });
+  };
+
+  const buscarDatos = async () => {
+    try {
+      const res = await Axios.post("/pasos-despachar/buscar", body);
+      setData(res.data.response);
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (
@@ -30,9 +39,8 @@ const HistorialPasoDes = () => {
       <div>
         {!data && (
           <FormBuscarDetallesTiempo
-            setData={setData}
-            url="/pasos-despachar/buscar"
-            toggle={[actualizador, setActualizador]}
+            buscarDatos={buscarDatos}
+            bodyState={[body, setBody]}
           />
         )}
         {data && (
@@ -49,7 +57,7 @@ const HistorialPasoDes = () => {
           stateEdit={[edit, setEdit]}
           setModalError={setModalError}
           setModalSuccess={setModalSuccess}
-          toggle={[actualizador, setActualizador]}
+          buscarDatos={buscarDatos}
         />
       )}
       {/*{del.id && (
