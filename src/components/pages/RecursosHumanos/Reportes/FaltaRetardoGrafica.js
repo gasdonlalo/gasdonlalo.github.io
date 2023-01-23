@@ -10,6 +10,7 @@ import Axios from "../../../../Caxios/Axios";
 import Bar from "../../../charts/Bar";
 import ErrorHttp from "../../../assets/ErrorHttp";
 import PdfGraficas from "../../../pdf_generador/PdfGraficas";
+import IconComponents from "../../../assets/IconComponents";
 
 const FaltaRetardoGrafica = () => {
   const date = new Date();
@@ -88,7 +89,13 @@ const FaltaRetardoGrafica = () => {
         urlBack="../"
         textUrlback="Regresar"
         title="Faltas y retardos por empleado"
-      />
+      >
+        <IconComponents
+          icon="fa solid fa-business-time text-primary"
+          text="Faltas & Retardos"
+          url="/recursos-humanos/faltas-retardo"
+        />
+      </HeaderComponents>
 
       <nav className="m-auto w-75 row">
         <div className="col-3">

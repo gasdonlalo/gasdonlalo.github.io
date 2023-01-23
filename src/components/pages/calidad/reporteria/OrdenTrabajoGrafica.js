@@ -8,6 +8,7 @@ import ErrorHttp from "../../../assets/ErrorHttp";
 import Loader from "../../../assets/Loader";
 import format from "../../../assets/format";
 import PdfGraficas from "../../../pdf_generador/PdfGraficas";
+import IconComponents from "../../../assets/IconComponents";
 
 const OrdenTrabajoGrafica = () => {
   const date = new Date();
@@ -36,7 +37,13 @@ const OrdenTrabajoGrafica = () => {
         urlBack="../"
         textUrlback="Regresar"
         title="Reporte ordenes de trabajo"
-      />
+      >
+        <IconComponents
+          url="/calidad/orden-trabajo/"
+          text="Orden de Trabajo"
+          icon="fa-thin fa-clipboard-list text-primary"
+        />
+      </HeaderComponents>
       <div className="container">
         <form>
           <div className="d-flex m-auto justify-content-center">

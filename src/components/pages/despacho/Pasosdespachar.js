@@ -3,6 +3,8 @@ import Axios from "../../../Caxios/Axios";
 import { useState } from "react";
 import useGetData from "../../../hooks/useGetData";
 import FormDespachar from "../../forms/FormDespachar";
+import HeaderComponents from "../../../GUI/HeaderComponents";
+import IconComponents from "../../assets/IconComponents";
 function Pasosdespachar() {
   //consulta de empleados
   const empleados = useGetData("/empleado?departamento=1");
@@ -38,11 +40,18 @@ function Pasosdespachar() {
 
   return (
     <div className="Main">
+      <HeaderComponents
+        urlBack="/despacho"
+        textUrlback="Volver al despacho"
+        title="Pasos para despachar"
+      >
+        <IconComponents
+          url="/despacho/pasos-despachar/reporte"
+          text="Reporte PPD"
+          icon="chart-line text-danger"
+        />
+      </HeaderComponents>
       <div>
-        <Link className="link-primary" to="/despacho">
-          Volver al despacho
-        </Link>
-        <h4 className="border-bottom">Evaluacion de pasos para despachar</h4>
         <FormDespachar
           datos={empleados}
           enviar={enviar}

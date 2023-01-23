@@ -4,6 +4,7 @@ import HeaderComponents from "../../../GUI/HeaderComponents";
 import format from "../../assets/format";
 import AddDocs from "../../modals/AddDocs";
 import Axios from "../../../Caxios/Axios";
+import Loader from "../../assets/Loader";
 
 function Documentos() {
   const [actualizar, setActualizar] = useState(false);
@@ -55,7 +56,7 @@ function Documentos() {
       setTimeout(() => {
         setShowAlert(false);
       }, 500);
-    } catch (error) {
+    } catch {
       mostrarAlertError();
     }
   };
@@ -81,6 +82,7 @@ function Documentos() {
         />
       )}
       {documentos.error && <h4>{documentos.dataError.msg}</h4>}
+      {documentos.isPending && <Loader />}
     </div>
   );
 }

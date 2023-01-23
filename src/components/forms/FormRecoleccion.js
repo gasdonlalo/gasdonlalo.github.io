@@ -80,7 +80,13 @@ function FormRecoleccion() {
           )}
         </div>
         <div>
-          <label className="form-label">Cantidad</label>
+          <label className="form-label">
+            Cantidad{" "}
+            <li
+              className="fa fa-circle-info"
+              title="Solo se captura la diferencia de los $3000 que debe depositar el despachador, es decir si el despachador recolecta $3,100 solo se capturan los $100"
+            ></li>
+          </label>
           <div className="input-group">
             <span className="input-group-text">$</span>
             <input

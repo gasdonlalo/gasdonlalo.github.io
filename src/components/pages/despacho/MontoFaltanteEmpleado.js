@@ -39,7 +39,7 @@ const MontoFaltanteEmpleado = () => {
         >
           <IconComponents
             icon="calendar-week text-danger"
-            url="/despacho/montos-faltantes-reporte"
+            url="/despacho/montos-faltantes/reporte"
             text="General"
           />
         </HeaderComponents>
