@@ -81,8 +81,8 @@ const Success = ({ data }) => {
   console.log(salidaNoConforme);
 
   return (
-    <div className="row m-2">
-      <div className="col-md-6 overflow-scroll" style={{ maxHeight: "80vh" }}>
+    <div className="d-flex ">
+      <div className="d-flex flex-column overflow-scroll ">
         {data.map((el) => (
           <div
             className="mt-2 rounded p-2 position-relative"
@@ -110,15 +110,15 @@ const Success = ({ data }) => {
           </div>
         ))}
       </div>
-      <div className="col-md-6">
-        <div className="auto">
+      <div className="w-50">
+        <div>
           {salidaNoConforme.error && !salidaNoConforme.isPending && (
             <div className="mt-5">
               <ErrorHttp />
             </div>
           )}
           {!salidaNoConforme.error && !salidaNoConforme.isPending && (
-            <div style={{ height: "80vh" }}>
+            <div style={{ height: "100vh" }}>
               {
                 <PDFSalidaNoConforme
                   inconformidad={
@@ -133,6 +133,7 @@ const Success = ({ data }) => {
               }
             </div>
           )}
+          {salidaNoConforme.isPending && <Loader />}
         </div>
       </div>
     </div>

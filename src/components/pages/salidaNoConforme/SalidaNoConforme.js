@@ -36,15 +36,11 @@ const SalidaNoConforme = () => {
       setShowAlertSuccess(true);
       setTimeout(() => {
         setShowAlertSuccess(false);
-      }, 500);
+      }, 800);
     } catch {
       setShowAlert(true);
     }
   };
-  const consultarPdf = useGetData(
-    `/salida-no-conforme/${!idsalida ? false : idsalida.insertId}`
-  );
-  console.log(consultarPdf);
 
   const handle = (e) => {
     setDatos({ ...datos, [e.target.name]: e.target.value });
@@ -100,7 +96,7 @@ const SalidaNoConforme = () => {
                   className="form-control"
                   placeholder="..."
                   onChange={handle}
-                ></textarea>
+                />
               </div>
               <div className="mb">
                 <label>Concesiones</label>
@@ -109,21 +105,46 @@ const SalidaNoConforme = () => {
                   className="form-control"
                   placeholder="..."
                   onChange={handle}
-                ></textarea>
+                />
               </div>
-              {!empleadoS.error && !empleadoS.isPending && (
-                <div className="m-b">
-                  <label className="label-form">
-                    Seleccionar empleado que incumple
-                  </label>
-                  <InputSelectEmpleado
-                    empleados={empleadoS.data.response}
-                    name="idEmpleadoIncumple"
-                    handle={handle}
-                  />
-                </div>
-              )}
-              {!empleadoA.error && !empleadoA.isPending && (
+              <div className="row">
+                {!empleadoS.error && !empleadoS.isPending && (
+                  <div className="col-6">
+                    <label className="label-form">Empleado que incumple</label>
+                    <InputSelectEmpleado
+                      empleados={empleadoS.data.response}
+                      name="idEmpleadoIncumple"
+                      handle={handle}
+                    />
+                  </div>
+                )}
+                {!incumplimiento.error && !incumplimiento.isPending && (
+                  <div className="col-6">
+                    <label className="label-form">Incumplimiento</label>
+                    <select
+                      name="idIncumplimiento"
+                      className="form-select form-select"
+                      onChange={(changeSelectIncumplimiento, handle)}
+                      required
+                    >
+                      <option value="">-- Seleccionar incumplimiento --</option>
+                      {incumplimiento.data.response.map((el) => (
+                        <option
+                          key={el.idincumplimiento}
+                          value={el.idincumplimiento}
+                        >
+                          {el.incumplimiento}
+                        </option>
+                      ))}
+                      <option value="add" className="bg-success">
+                        Añadir otro
+                      </option>
+                    </select>
+                  </div>
+                )}
+              </div>
+
+              {/*  {!empleadoA.error && !empleadoA.isPending && (
                 <div className="m-b">
                   <label className="label-form">
                     Seleccionar empleado que autoriza
@@ -134,38 +155,14 @@ const SalidaNoConforme = () => {
                     handle={handle}
                   />
                 </div>
-              )}
-              {!incumplimiento.error && !incumplimiento.isPending && (
-                <div className="m-b">
-                  <label className="label-form">
-                    Seleccionar incumplimiento
-                  </label>
-                  <select
-                    name="idIncumplimiento"
-                    className="form-select form-select"
-                    onChange={(changeSelectIncumplimiento, handle)}
-                  >
-                    <option value="0">-- Seleccionar incumplimiento --</option>
-                    {incumplimiento.data.response.map((el) => (
-                      <option
-                        key={el.idincumplimiento}
-                        value={el.idincumplimiento}
-                      >
-                        {el.incumplimiento}
-                      </option>
-                    ))}
-                    <option value="add" className="bg-success">
-                      Añadir otro
-                    </option>
-                  </select>
-                </div>
-              )}
+              )} */}
+
               <div className="mt-2 mb-5 w-100">
                 <button
                   type="submit"
                   className="btn btn-primary d-block m-auto"
                 >
-                  Crear salida no corforme
+                  Crear salida no conforme
                 </button>
                 <div className="mt-3">
                   <AlertError show={showAlert} setAlertError={setShowAlert} />
@@ -175,8 +172,9 @@ const SalidaNoConforme = () => {
             </div>
           </form>
         </div>
+        {/* empaquetar en otra funcion */}
 
-        {!consultarPdf.data ? (
+        {/*  {!consultarPdf.data ? (
           false
         ) : (
           <div className="flex-fill">
@@ -209,8 +207,47 @@ const SalidaNoConforme = () => {
         )}
         {consultarPdf.error && consultarPdf.isPending && (
           <h4>¡Ups!, algo salio mal</h4>
-        )}
+        )} */}
+        {!idsalida ? null : <VerSNC idInsersion={idsalida} />}
       </div>
+    </div>
+  );
+};
+
+const VerSNC = ({ idInsersion }) => {
+  const consultarPdf = useGetData(
+    `/salida-no-conforme/${idInsersion.insertId}`
+  );
+  console.log(consultarPdf);
+  return (
+    <div className="d-flex flex-fill justify-content-center align-items-center">
+      {consultarPdf.isPending && <Loader />}
+      {!consultarPdf.isPending && !consultarPdf.error && (
+        <PDFSalidaNoConforme
+          title="salida no conforme"
+          fecha={
+            !consultarPdf.data
+              ? false
+              : format.formatFechaComplete(consultarPdf.data.response[0].fecha)
+          }
+          inconformidad={
+            !consultarPdf.data
+              ? false
+              : consultarPdf.data.response.map((e) => e.descripcion_falla)
+          }
+          corregir={
+            !consultarPdf.data
+              ? false
+              : consultarPdf.data.response.map((e) => e.acciones_corregir)
+          }
+          concesiones={
+            !consultarPdf.data
+              ? false
+              : consultarPdf.data.response.map((e) => e.concesiones)
+          }
+        />
+      )}
+      {consultarPdf.error && <h4>¡Ups¡, algo salió mal</h4>}
     </div>
   );
 };
