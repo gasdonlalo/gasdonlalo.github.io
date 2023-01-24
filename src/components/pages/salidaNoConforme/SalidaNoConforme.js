@@ -8,11 +8,16 @@ import InputFecha from "../../forms/InputFecha";
 import PDFSalidaNoConforme from "../despacho/PDFSalidaNoConforme";
 import HeaderForm from "../../../GUI/HeaderForm";
 import format from "../../assets/format";
+import AlertError from "../../alerts/AlertError";
+import Loader from "../../assets/Loader";
+import AlertSuccess from "../../alerts/AlertSuccess";
 
 const SalidaNoConforme = () => {
   const empleadoS = useGetData("/empleado?departamento=1");
   const empleadoA = useGetData("/empleado?departamento=2");
   const incumplimiento = useGetData("/incumplimiento");
+  const [showAlert, setShowAlert] = useState(false);
+  const [showAlertSuccess, setShowAlertSuccess] = useState(false);
   //recupera la id del formulario enviado para generar el pdf
   const [idsalida, setIdsalida] = useState(null);
 
@@ -25,13 +30,21 @@ const SalidaNoConforme = () => {
   };
 
   const enviarDatos = async (x) => {
-    const req = await Axios.post("/salida-no-conforme", x);
-    setIdsalida(req.data.response);
+    try {
+      const req = await Axios.post("/salida-no-conforme", x);
+      setIdsalida(req.data.response);
+      setShowAlertSuccess(true);
+      setTimeout(() => {
+        setShowAlertSuccess(false);
+      }, 500);
+    } catch {
+      setShowAlert(true);
+    }
   };
   const consultarPdf = useGetData(
     `/salida-no-conforme/${!idsalida ? false : idsalida.insertId}`
   );
-  const ola = !consultarPdf.data ? false : consultarPdf.data;
+  console.log(consultarPdf);
 
   const handle = (e) => {
     setDatos({ ...datos, [e.target.name]: e.target.value });
@@ -47,7 +60,7 @@ const SalidaNoConforme = () => {
   };
 
   return (
-    <div>
+    <div className="Main">
       <ModalAddIncumplimiento show={show} close={cerrarModal} />
       <div>
         <Link className="link-primary" to="/despacho">
@@ -55,6 +68,7 @@ const SalidaNoConforme = () => {
         </Link>
         <h4 className="border-bottom">Captura de salidas no conformes</h4>
       </div>
+
       <div style={{ display: "flex", flexdirection: "column" }}>
         <div className="me-3">
           <form onSubmit={enviar} className="shadow p-2 ms-2 my-3">
@@ -153,6 +167,10 @@ const SalidaNoConforme = () => {
                 >
                   Crear salida no corforme
                 </button>
+                <div className="mt-3">
+                  <AlertError show={showAlert} setAlertError={setShowAlert} />
+                  <AlertSuccess show={showAlertSuccess} />
+                </div>
               </div>
             </div>
           </form>
@@ -165,25 +183,32 @@ const SalidaNoConforme = () => {
             <PDFSalidaNoConforme
               title="salida no conforme"
               fecha={
-                !ola.response
+                !consultarPdf.data.response
                   ? false
-                  : ola.response.map((e) => format.formatFechaComplete(e.fecha))
+                  : consultarPdf.data.response.map((e) =>
+                      format.formatFechaComplete(e.fecha)
+                    )
               }
               inconformidad={
-                !ola.response
+                !consultarPdf.data.response
                   ? false
-                  : ola.response.map((e) => e.descripcion_falla)
+                  : consultarPdf.data.response.map((e) => e.descripcion_falla)
               }
               corregir={
-                !ola.response
+                !consultarPdf.data.response
                   ? false
-                  : ola.response.map((e) => e.acciones_corregir)
+                  : consultarPdf.data.response.map((e) => e.acciones_corregir)
               }
               concesiones={
-                !ola.response ? false : ola.response.map((e) => e.concesiones)
+                !consultarPdf.data.response
+                  ? false
+                  : consultarPdf.data.response.map((e) => e.concesiones)
               }
             />
           </div>
+        )}
+        {consultarPdf.error && consultarPdf.isPending && (
+          <h4>¡Ups!, algo salio mal</h4>
         )}
       </div>
     </div>

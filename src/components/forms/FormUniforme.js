@@ -44,6 +44,9 @@ function FormUniforme() {
           cumple: 1,
         })),
       });
+      setTimeout(() => {
+        setModalSuccess(false);
+      }, 800);
       e.target.reset();
       setActualizador(!actualizador);
     } catch (err) {
@@ -124,7 +127,7 @@ function FormUniforme() {
                 <label className="form-label">{el.cumplimiento}</label>
                 <div className="w-100 d-flex justify-content-evenly">
                   <label className="form-label rounded border p-2 d-flex flex-column mx-1">
-                    cumple
+                    Cumple
                     <input
                       type="radio"
                       name={el.idcumplimiento_uniforme}
@@ -135,7 +138,7 @@ function FormUniforme() {
                     />
                   </label>
                   <label className="form-label rounded border p-2 d-flex flex-column mx-1">
-                    no cumple
+                    No cumple
                     <input
                       type="radio"
                       name={el.idcumplimiento_uniforme}
