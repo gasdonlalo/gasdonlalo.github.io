@@ -14,7 +14,6 @@ import AlertSuccess from "../../alerts/AlertSuccess";
 
 const SalidaNoConforme = () => {
   const empleadoS = useGetData("/empleado?departamento=1");
-  const empleadoA = useGetData("/empleado?departamento=2");
   const incumplimiento = useGetData("/incumplimiento");
   const [showAlert, setShowAlert] = useState(false);
   const [showAlertSuccess, setShowAlertSuccess] = useState(false);
@@ -143,20 +142,6 @@ const SalidaNoConforme = () => {
                   </div>
                 )}
               </div>
-
-              {/*  {!empleadoA.error && !empleadoA.isPending && (
-                <div className="m-b">
-                  <label className="label-form">
-                    Seleccionar empleado que autoriza
-                  </label>
-                  <InputSelectEmpleado
-                    empleados={empleadoA.data.response}
-                    name="idEmpleadoAutoriza"
-                    handle={handle}
-                  />
-                </div>
-              )} */}
-
               <div className="mt-2 mb-5 w-100">
                 <button
                   type="submit"
@@ -172,42 +157,6 @@ const SalidaNoConforme = () => {
             </div>
           </form>
         </div>
-        {/* empaquetar en otra funcion */}
-
-        {/*  {!consultarPdf.data ? (
-          false
-        ) : (
-          <div className="flex-fill">
-            <PDFSalidaNoConforme
-              title="salida no conforme"
-              fecha={
-                !consultarPdf.data.response
-                  ? false
-                  : consultarPdf.data.response.map((e) =>
-                      format.formatFechaComplete(e.fecha)
-                    )
-              }
-              inconformidad={
-                !consultarPdf.data.response
-                  ? false
-                  : consultarPdf.data.response.map((e) => e.descripcion_falla)
-              }
-              corregir={
-                !consultarPdf.data.response
-                  ? false
-                  : consultarPdf.data.response.map((e) => e.acciones_corregir)
-              }
-              concesiones={
-                !consultarPdf.data.response
-                  ? false
-                  : consultarPdf.data.response.map((e) => e.concesiones)
-              }
-            />
-          </div>
-        )}
-        {consultarPdf.error && consultarPdf.isPending && (
-          <h4>¡Ups!, algo salio mal</h4>
-        )} */}
         {!idsalida ? null : <VerSNC idInsersion={idsalida} />}
       </div>
     </div>
@@ -233,17 +182,17 @@ const VerSNC = ({ idInsersion }) => {
           inconformidad={
             !consultarPdf.data
               ? false
-              : consultarPdf.data.response.map((e) => e.descripcion_falla)
+              : consultarPdf.data.response[0].descripcion_falla
           }
           corregir={
             !consultarPdf.data
               ? false
-              : consultarPdf.data.response.map((e) => e.acciones_corregir)
+              : consultarPdf.data.response[0].acciones_corregir
           }
           concesiones={
             !consultarPdf.data
               ? false
-              : consultarPdf.data.response.map((e) => e.concesiones)
+              : consultarPdf.data.response[0].concesiones
           }
         />
       )}

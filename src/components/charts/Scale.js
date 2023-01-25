@@ -37,6 +37,7 @@ const Scale = ({ data, legend }) => {
         backgroundColor: function (context) {
           return context.dataset.backgroundColor;
         },
+        clamp: true,
         align: "top",
         anchor: "end",
         borderRadius: 25,
@@ -53,6 +54,9 @@ const Scale = ({ data, legend }) => {
       legend: {
         display: legend,
       },
+    },
+    layout: {
+      padding: { top: 50 },
     },
   };
 

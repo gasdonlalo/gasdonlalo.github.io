@@ -54,6 +54,7 @@ const PDFSalidaNoConforme = ({
       fontSize: "15pt",
     },
   });
+  console.log(concesiones);
 
   return (
     <PDFViewer width="100%" height="100%">
@@ -185,13 +186,11 @@ const PDFSalidaNoConforme = ({
                   fontFamily: "calibri",
                 }}
               >
-                {!concesiones
-                  ? false
-                  : concesiones[0] === null ||
-                    concesiones[0] === "" ||
-                    concesiones[0] === " "
+                {concesiones === null ||
+                concesiones === "" ||
+                concesiones === " "
                   ? "No aplica."
-                  : concesiones[0]}
+                  : concesiones}
               </Text>
               <View
                 style={{
