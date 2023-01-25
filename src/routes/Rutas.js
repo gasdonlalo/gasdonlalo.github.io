@@ -67,6 +67,8 @@ import GICA from "../components/pages/RecursosHumanos/Reportes/RepAceitoso";
 
 //pdf prueba
 import PdfV2 from "../components/pdf_generador/PdfV2";
+import ConfiguracionEstacion from "../components/pages/administrativo/ConfiguracionEstacion";
+import RepConfiguracionEstacion from "../components/pages/administrativo/reportes/RepConfiguracionEstacion";
 
 function Rutas() {
   return (
@@ -161,6 +163,11 @@ function Rutas() {
         {/* Administrativo */}
         <Route path="/administrativo" element={<Layout />}>
           <Route index element={<Administrativo />} />
+          <Route
+            path="configuracion-estacion"
+            element={<ConfiguracionEstacion />}
+          />
+          <Route path="rep-estacion" element={<RepConfiguracionEstacion />} />
         </Route>
 
         {/* Mantenimiento */}
