@@ -1,19 +1,22 @@
 import { useState } from "react";
 import HeaderComponents from "../../../../GUI/HeaderComponents";
 import FormBuscarDetallesTiempo from "../../../forms/FormBuscarDetallesTiempo";
-import IconComponents from "../../../assets/IconComponents";
+// import IconComponents from "../../../assets/IconComponents";
 import Axios from "../../../../Caxios/Axios";
 import format from "../../../assets/format";
 import useGetData from "../../../../hooks/useGetData";
 
 const HistorialRecursoDes = () => {
   const [data, setData] = useState(null);
+  const [msgError, setMsgError] = useState(null);
   const [body, setBody] = useState(null);
+  console.log(msgError);
   const buscarDatos = async () => {
     try {
       const res = await Axios.post(`/lista-recurso-despachador/buscar`, body);
       setData(res.data.response);
     } catch (err) {
+      setMsgError("No se encontro registro");
       console.log(err);
     }
   };
@@ -33,6 +36,7 @@ const HistorialRecursoDes = () => {
           buscarDatos={buscarDatos}
         />
         {data && <GraficaSuccess data={data} />}
+        {msgError && <p className="text-center text-danger">{msgError}</p>}
       </div>
     </div>
   );

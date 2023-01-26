@@ -123,19 +123,18 @@ export const DeleteED = ({
   stateDel,
   setModalSuccess,
   setModalError,
-  toogle,
+  buscarDatos,
 }) => {
   const [show, setShow] = stateDel;
   const [formPending, setFormPending] = useState(false);
-  const [actualizador, setActualizador] = toogle;
   const close = () => setShow({ status: false, id: null });
 
   const del = async () => {
     setFormPending(true);
     try {
-      await Axios.delete(`/bomba-check/${show.id}`);
+      await Axios.delete(`/pasos-despachar/eliminar/${show.id}`);
       setModalSuccess(true);
-      setActualizador(!actualizador);
+      buscarDatos();
       close();
     } catch (err) {
       if (err.hasOwnProperty("response")) {

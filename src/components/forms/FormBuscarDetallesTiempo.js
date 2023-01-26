@@ -2,7 +2,7 @@ import useGetData from "../../hooks/useGetData";
 import HeaderForm from "../../GUI/HeaderForm";
 import InputSelectEmpleado from "./InputSelectEmpleado";
 
-const FormBuscarDetallesTiempo = ({ bodyState, buscarDatos }) => {
+const FormBuscarDetallesTiempo = ({ bodyState, buscarDatos, msgError }) => {
   const [body, setBody] = bodyState;
   const { data, error, isPending } = useGetData(`/empleado?departamento=1`);
   const handle = (e) => setBody({ ...body, [e.target.name]: e.target.value });
@@ -53,6 +53,7 @@ const FormBuscarDetallesTiempo = ({ bodyState, buscarDatos }) => {
         </div>
         <div className="mt-4">
           <button className="btn btn-success mx-auto d-block">Buscar</button>
+          {msgError && <p className="text-center text-danger">{msgError}</p>}
         </div>
       </form>
     </div>
