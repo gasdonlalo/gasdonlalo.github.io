@@ -28,10 +28,12 @@ function FormRecoleccion() {
     e.preventDefault();
 
     try {
-      const res = await Axios.post(`recoleccion-efectivo`, body);
-      console.log(res);
+      await Axios.post(`recoleccion-efectivo`, body);
       setModalSuccess(true);
       setFormPending(false);
+      setTimeout(() => {
+        setModalSuccess(false);
+      }, 800);
       e.target.reset();
     } catch (err) {
       console.log(err);

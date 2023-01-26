@@ -6,7 +6,7 @@ import InputChangeYear from "../../forms/InputChangeYear";
 import Loader from "../../assets/Loader";
 import Bar from "../../charts/Bar";
 import ErrorHttp from "../../assets/ErrorHttp";
-import PdfGraficas from "../../pdf_generador/PdfGraficas";
+import PdfV2 from "../../pdf_generador/PdfV2";
 
 const SalidaInconformidadesGrafica = () => {
   const date = new Date();
@@ -75,12 +75,9 @@ const Success = ({ data, year, month }) => {
   return (
     <Fragment>
       <div className="mt-4 mx-auto">
-        <div
-          className="d-flex justify-content-between align-items-center"
-          id="render"
-        >
+        <div className="d-flex justify-content-between align-items-center">
           <div style={{ flexGrow: "1" }}>
-            <table>
+            <table id="tabla">
               <thead>
                 <tr>
                   <th className="border p-2 text-center">
@@ -100,7 +97,7 @@ const Success = ({ data, year, month }) => {
               </tbody>
             </table>
           </div>
-          <div style={{ flexGrow: "1" }}>
+          <div style={{ flexGrow: "1" }} id="render">
             <Bar
               datos={dataBar}
               legend={false}
@@ -110,7 +107,7 @@ const Success = ({ data, year, month }) => {
         </div>
       </div>
       <div>
-        <PdfGraficas year={year} mes={month} anchografica="80%s" />
+        <PdfV2 year={year} month={month} tabla="tabla" />
       </div>
     </Fragment>
   );

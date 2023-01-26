@@ -189,7 +189,7 @@ const Success = ({ data, year, month, idEmpleado, qna }) => {
         text: `Promedio Qna ${qna}`,
         dataset: [
           {
-            data: [data[0].promedio],
+            data: [data[0].promedio.toFixed(2)],
             backgroundColor: data[0].qna > 1 ? "orange" : "red",
           },
         ],

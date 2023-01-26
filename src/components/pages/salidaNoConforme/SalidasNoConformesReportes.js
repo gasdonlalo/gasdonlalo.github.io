@@ -71,6 +71,11 @@ export const SalidasNoConformesReportes = () => {
       {!reportes.isPending && !reportes.error && (
         <Success data={reportes.data.response} />
       )}
+      {reportes.error && !reportes.isPending && (
+        <div className="mt-5">
+          <ErrorHttp msg={reportes.dataError.msg} />
+        </div>
+      )}
     </div>
   );
 };
@@ -81,28 +86,36 @@ const Success = ({ data }) => {
   console.log(salidaNoConforme);
 
   return (
-    <div className="row m-2">
-      <div className="col-md-6 overflow-scroll" style={{ maxHeight: "80vh" }}>
+    <div className="d-flex mt-2">
+      <div
+        className="d-flex flex-column w-25"
+        style={{ overflowY: "scroll", maxHeight: "100vh" }}
+      >
         {data.map((el) => (
           <div
-            className="mt-2 rounded p-2 position-relative"
-            style={{ backgroundColor: "#dadada", width: "400px" }}
+            className="m-2 rounded d-flex p-2"
             key={el.idsalida_noconforme}
+            style={{ backgroundColor: "#dadada" }}
           >
-            <p>
-              <span className="fw-bold">Empleado: </span>
-              {format.formatTextoMayusPrimeraLetra(el.nombre_completo_incumple)}
-            </p>
-            <p>
-              <span className="fw-bold">Incumplimiento: </span>
-              {format.formatTextoMayusPrimeraLetra(el.incumplimiento)}
-            </p>
-            <p>
-              <span className="fw-bold">Fecha: </span>
-              {format.formatFechaComplete(el.fecha)}
-            </p>
+            <div className="w-100">
+              <p>
+                <span className="fw-bold">Empleado: </span>
+                {format.formatTextoMayusPrimeraLetra(
+                  el.nombre_completo_incumple
+                )}
+              </p>
+              <p>
+                <span className="fw-bold">Incumplimiento: </span>
+                {format.formatTextoMayusPrimeraLetra(el.incumplimiento)}
+              </p>
+              <p>
+                <span className="fw-bold">Fecha: </span>
+                {format.formatFechaComplete(el.fecha)}
+              </p>
+            </div>
+
             <button
-              className="btn btn-danger position-absolute  top-0 end-0"
+              className="btn btn-danger w-25 h-25 "
               onClick={() => setIdSalida(el.idsalida_noconforme)}
             >
               PDF
@@ -110,15 +123,15 @@ const Success = ({ data }) => {
           </div>
         ))}
       </div>
-      <div className="col-md-6">
-        <div className="auto">
+      <div className="w-75">
+        <div>
           {salidaNoConforme.error && !salidaNoConforme.isPending && (
             <div className="mt-5">
               <ErrorHttp />
             </div>
           )}
           {!salidaNoConforme.error && !salidaNoConforme.isPending && (
-            <div style={{ height: "80vh" }}>
+            <div style={{ height: "100vh" }}>
               {
                 <PDFSalidaNoConforme
                   inconformidad={
@@ -133,6 +146,7 @@ const Success = ({ data }) => {
               }
             </div>
           )}
+          {salidaNoConforme.isPending && <Loader />}
         </div>
       </div>
     </div>
