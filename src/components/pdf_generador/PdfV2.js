@@ -70,7 +70,7 @@ function PdfV2({
     } else if (ruta.match("recurso-despachador")) {
       nombre = nombre + " MENSUAL DE REGISTRO DE RECURSOS DE DESPACHADOR";
     } else if (ruta.match("pasos")) {
-      nombre = nombre + " ANALISIS DE EVALUACION PASOS PARA DESPACHARGIT";
+      nombre = nombre + " ANALISIS DE EVALUACION PASOS PARA DESPACHAR";
     } else if (ruta.match("no-conforme-reporte-mensual")) {
       nombre =
         nombre + " TOTAL MENSUAL DE SALIDAS NO CONFORMES POR DESPACHADOR";
@@ -264,7 +264,7 @@ function PdfV2({
             <View
               style={{
                 minHeight: 200,
-                maxHeight: 500,
+                maxHeight: 450,
                 justifyContent: "center",
                 border: "1px solid blue",
               }}
@@ -275,8 +275,10 @@ function PdfV2({
           {/* Grafica */}
           <View
             style={{
-              minHeight: "85%",
+              minHeight: 200,
+              maxHeight: 400,
               border: "1px solid red",
+              justifyContent: "center",
             }}
             break
           >

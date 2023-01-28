@@ -217,9 +217,9 @@ const Success = ({ data, year, month, idEmpleado, qna }) => {
 
   return (
     <Fragment>
-      <div id="render">
+      <div>
         <div>
-          <table className="mt-4 mx-auto">
+          <table className="mt-4 mx-auto" id="tabla">
             <thead>
               <tr>
                 <th className="border text-center">
@@ -338,7 +338,7 @@ const Success = ({ data, year, month, idEmpleado, qna }) => {
           </table>
         </div>
         {!pasos.error && !pasos.isPending && (
-          <div className="d-flex justify-content-evenly">
+          <div className="d-flex justify-content-evenly" id="render">
             <div className="w-50">
               <Bar
                 datos={dataBar}
@@ -360,7 +360,12 @@ const Success = ({ data, year, month, idEmpleado, qna }) => {
         )}
       </div>
       <div>
-        <PdfV2 year={year} month={month} idempleado={idEmpleado} />
+        <PdfV2
+          year={year}
+          month={month}
+          idempleado={idEmpleado}
+          tabla="tabla"
+        />
       </div>
     </Fragment>
   );
