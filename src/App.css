@@ -73,6 +73,16 @@
   margin: 10px;
 }
 
+.FormConfiguracionEstacion {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  align-content: center;
+}
+.FormConfiguracionEstacion .card {
+  margin: 10px;
+}
+
 .btn-select {
   background-color: white;
   cursor: pointer;
