@@ -68,10 +68,14 @@ import GICA from "../components/pages/RecursosHumanos/Reportes/RepAceitoso";
 
 //pdf prueba
 import PdfV2 from "../components/pdf_generador/PdfV2";
+import Auth from "../GUI/Auth";
 
 function Rutas() {
   return (
     <Router>
+      <Routes>
+        <Route path="/auth" element={<Auth />} />
+      </Routes>
       <Routes>
         {/* Rutas de despacho */}
         <Route path="/" element={<Layout />}>

@@ -1,4 +1,4 @@
-import { Fragment, useState } from "react";
+import { Fragment, useState, useContext } from "react";
 import useGetData from "../../../hooks/useGetData";
 import InputChangeMes from "../../forms/InputChangeMes";
 import InputChangeYear from "../../forms/InputChangeYear";
@@ -7,6 +7,7 @@ import Bar from "../../charts/Bar";
 import ErrorHttp from "../../assets/ErrorHttp";
 import HeaderComponents from "../../../GUI/HeaderComponents";
 import PdfV2 from "../../pdf_generador/PdfV2";
+import Session from "../../Provider/Session";
 
 const SalidaInconformidadesGrafica = () => {
   const date = new Date();
@@ -24,7 +25,8 @@ const SalidaInconformidadesGrafica = () => {
   const handleYear = (e) => {
     setYear(e.target.value);
   };
-
+  const user = useContext(Session);
+  console.log(user);
   return (
     <div className="Main">
       <HeaderComponents

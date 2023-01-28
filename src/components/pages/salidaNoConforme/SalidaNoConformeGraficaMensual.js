@@ -17,8 +17,6 @@ const SalidaNoConformeGraficaMensual = () => {
 
   const sn = useGetData(`/salida-no-conforme/semanas/${year}/${month}`);
 
-  console.log(sn);
-
   const handleMonth = (e) => setMonth(e.target.value);
   const handleYear = (e) => setYear(e.target.value);
 
@@ -65,8 +63,6 @@ const Success = ({ data, year, month }) => {
       },
     ],
   };
-
-  console.log(dataScale);
 
   return (
     <Fragment>
