@@ -1,12 +1,12 @@
 import { Fragment, useState } from "react";
-import { Link } from "react-router-dom";
 import useGetData from "../../../hooks/useGetData";
 import InputChangeMes from "../../forms/InputChangeMes";
 import InputChangeYear from "../../forms/InputChangeYear";
 import Loader from "../../assets/Loader";
 import Bar from "../../charts/Bar";
 import ErrorHttp from "../../assets/ErrorHttp";
-import PdfGraficas from "../../pdf_generador/PdfGraficas";
+import HeaderComponents from "../../../GUI/HeaderComponents";
+import PdfV2 from "../../pdf_generador/PdfV2";
 
 const SalidaInconformidadesGrafica = () => {
   const date = new Date();
@@ -27,13 +27,12 @@ const SalidaInconformidadesGrafica = () => {
 
   return (
     <div className="Main">
-      <Link className="link-primary" to="/despacho/salida-no-conforme-files">
-        Volver al despacho
-      </Link>
-      <h3 className="border-bottom">
-        Reporte mensual salidas no conformes por inconformidad
-      </h3>
-      <div className="row w-75 mx-auto">
+      <HeaderComponents
+        title="Reporte mensual Salidas No Conformes por inconformidad"
+        textUrlback="Regresar a archivos"
+        urlBack="../files"
+      ></HeaderComponents>
+      <div className="row w-75 mx-auto mt-4">
         <div className="col-md-6">
           <InputChangeMes defaultMes={month} handle={handleMonth} />
         </div>
@@ -74,11 +73,8 @@ const Success = ({ data, year, month }) => {
   };
   return (
     <Fragment>
-      <div className="mt-4 mx-auto">
-        <div
-          className="d-flex justify-content-between align-items-center"
-          id="render"
-        >
+      <div className="mt-4 mx-auto" id="render">
+        <div className="d-flex justify-content-between align-items-center">
           <div style={{ flexGrow: "1" }}>
             <table>
               <thead>
@@ -110,7 +106,7 @@ const Success = ({ data, year, month }) => {
         </div>
       </div>
       <div>
-        <PdfGraficas year={year} mes={month} anchografica="80%s" />
+        <PdfV2 year={year} month={month} />
       </div>
     </Fragment>
   );

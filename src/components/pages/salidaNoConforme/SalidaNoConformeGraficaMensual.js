@@ -1,12 +1,12 @@
 import { Fragment, useState } from "react";
-import { Link } from "react-router-dom";
 import useGetData from "../../../hooks/useGetData";
 import InputChangeMes from "../../forms/InputChangeMes";
 import InputChangeYear from "../../forms/InputChangeYear";
 import format from "../../assets/format";
 import Scale from "../../charts/Scale";
 import Loader from "../../assets/Loader";
-import PdfGraficas from "../../pdf_generador/PdfGraficas";
+import PdfV2 from "../../pdf_generador/PdfV2";
+import HeaderComponents from "../../../GUI/HeaderComponents";
 
 const { formatMes, obtenerDiaMes } = format;
 
@@ -24,20 +24,22 @@ const SalidaNoConformeGraficaMensual = () => {
 
   return (
     <div className="Main">
-      <Link className="link-primary" to="/despacho/salida-no-conforme-files">
-        Volver al despacho
-      </Link>
-      <h3 className="border-bottom">Reporte mensual salidas no conformes</h3>
-      <div className="row w-75 mx-auto">
+      <HeaderComponents
+        title="Reportes mensuales SNC"
+        urlBack="../files"
+      ></HeaderComponents>
+      <div className="row w-75 mx-auto mt-4">
         <div className="col-md-6">
           <InputChangeMes defaultMes={month} handle={handleMonth} />
         </div>
         <div className="col-md-6">
           <InputChangeYear defaultYear={year} handle={handleYear} />
         </div>
-        {!sn.error && !sn.isPending && <Success data={sn.data.response} />}
-        {sn.isPending && <Loader />}
       </div>
+      {!sn.error && !sn.isPending && (
+        <Success data={sn.data.response} year={year} month={month} />
+      )}
+      {sn.isPending && <Loader />}
     </div>
   );
 };
@@ -68,9 +70,9 @@ const Success = ({ data, year, month }) => {
 
   return (
     <Fragment>
-      <div id="render">
+      <div className="container">
         <div className="mt-5">
-          <table>
+          <table id="tabla">
             <thead className="border">
               <tr>
                 <th rowSpan={2} className="border px-2">
@@ -125,12 +127,12 @@ const Success = ({ data, year, month }) => {
             <span className="fw-semibold text-danger">{totalSalidasNC}</span>
           </span>
         </div>
-        <div>
+        <div id="render" className="mt-5">
           <Scale data={dataScale} legend={false} />
         </div>
       </div>
       <div>
-        <PdfGraficas year={year} mes={month} anchografica="45%" />
+        <PdfV2 year={year} month={month} tabla="tabla" />
       </div>
     </Fragment>
   );

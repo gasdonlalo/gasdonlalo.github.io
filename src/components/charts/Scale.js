@@ -23,7 +23,7 @@ ChartJS.register(
   ChartDataLabels
 );
 
-const Scale = ({ data, legend }) => {
+const Scale = ({ data, legend, text, optionsCustom }) => {
   const datos = {
     labels: data.labels,
     datasets: data.datasets,
@@ -37,10 +37,11 @@ const Scale = ({ data, legend }) => {
         backgroundColor: function (context) {
           return context.dataset.backgroundColor;
         },
+        clamp: true,
         align: "top",
         anchor: "end",
         borderRadius: 25,
-        color: "white",
+        color: "black",
         display: function (context) {
           var dataset = context.dataset;
           var value = dataset.data[context.dataIndex];
@@ -52,11 +53,23 @@ const Scale = ({ data, legend }) => {
       } /* Termina formato de datalabel */,
       legend: {
         display: legend,
+        position: "bottom",
       },
+      title: {
+        display: true,
+        text,
+        font: {
+          size: "25",
+        },
+        padding: { bottom: 50 },
+      },
+    },
+    layout: {
+      padding: { top: 50 },
     },
   };
 
-  return <Line data={datos} options={options} />;
+  return <Line data={datos} options={{ ...options, ...optionsCustom }} />;
 };
 
 Scale.defaultProps = {

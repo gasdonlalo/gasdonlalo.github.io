@@ -5,7 +5,7 @@ import Home from "../components/pages/home/Home";
 // Importacion de despacho
 import Despacho from "../components/pages/Despacho";
 import MontoFaltante from "../components/pages/despacho/MontoFaltante";
-import MFE from "../components/pages/despacho/MontoFaltanteEmpleado";
+import MFE from "../components/pages/despacho/reporteria/MontoFaltanteEmpleado";
 import ChecklistBomba from "../components/pages/despacho/ChecklistBomba";
 import CheckBombaInfo from "../components/pages/despacho/ChecklistBombaDetalle";
 import EvalUniforme from "../components/pages/despacho/EvalUniforme";
@@ -15,11 +15,12 @@ import DHREE from "../components/pages/despacho/reporteria/HistorialRelEfectivo"
 import Pasosdespachar from "../components/pages/despacho/Pasosdespachar";
 import DHPD from "../components/pages/despacho/reporteria/HistorialPasoDes";
 import RecursosDesp from "../components/pages/despacho/RecursosDesp";
+import DHRD from "../components/pages/despacho/reporteria/HistorialRecursoDes";
 import SalidaNoConforme from "../components/pages/salidaNoConforme/SalidaNoConforme";
 import SNR from "../components/pages/salidaNoConforme/SalidasNoConformesReportes";
 //importacion de graficos despacho
 import GMF from "../components/pages/despacho/reporteria/GraficaMontofaltante";
-import MFT from "../components/pages/despacho/MontoFaltanteTiempo";
+import MFT from "../components/pages/despacho/reporteria/HistorialFaltanteTiempo";
 import CCB from "../components/pages/despacho/reporteria/GraficaChecklist";
 import GEU from "../components/pages/despacho/reporteria/GraficaEvUnifome";
 import DRE from "../components/pages/despacho/reporteria/GraficaRecolEfectivo";
@@ -82,16 +83,17 @@ function Rutas() {
           <Route path="home" element={<Home />} />
           <Route path="*" element={<Notfound />} />
         </Route>
-        <Route element={<Layout />}>
-          <Route path="salida-no-conforme-reportes" />
-          <Route path="salida-no-conforme-reporte-mensual" element={<GMSN />} />
-          <Route path="salida-no-conformexinconformidad" element={<GSNI />} />
+        <Route path="/:departamento/salida-no-conforme" element={<Layout />}>
+          <Route index element={<SalidaNoConforme />} />
+          <Route path="files" element={<SNR />} />;
+          <Route path="reporte-mensual" element={<GMSN />} />
+          <Route path="inconformidad" element={<GSNI />} />
         </Route>
         <Route path="/despacho" element={<Layout />}>
           <Route index element={<Despacho />} />;
           <Route path="montos-faltantes" element={<MontoFaltante />} />;
           <Route path="montos-faltantes/reportes/empleados" element={<MFE />} />
-          <Route path="montos-faltantes/reportes-tiempo" element={<MFT />} />
+          <Route path="montos-faltantes/historial" element={<MFT />} />
           ;
           <Route path="montos-faltantes/reporte" element={<GMF />} />;
           <Route path="checklist" element={<ChecklistBomba />} />;
@@ -108,8 +110,7 @@ function Rutas() {
           <Route path="pasos-despachar/reporte" element={<GPD />} />;
           <Route path="recurso-despachador" element={<RecursosDesp />} />;
           <Route path="recurso-despachador/reporte" element={<GRD />} />
-          <Route path="salida-no-conforme" element={<SalidaNoConforme />} />
-          <Route path="salida-no-conforme-files" element={<SNR />} />; ;
+          <Route path="recurso-despachador/historial" element={<DHRD />} />
           <Route path="*" element={<Notfound />} />
         </Route>
 

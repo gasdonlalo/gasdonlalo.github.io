@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
 import useGetData from "../../../hooks/useGetData";
 import InputSelectEmpleado from "../../forms/InputSelectEmpleado";
 import ModalAddIncumplimiento from "../../modals/ModalAddIncumplimiento";
@@ -8,11 +7,18 @@ import InputFecha from "../../forms/InputFecha";
 import PDFSalidaNoConforme from "../despacho/PDFSalidaNoConforme";
 import HeaderForm from "../../../GUI/HeaderForm";
 import format from "../../assets/format";
+import AlertError from "../../alerts/AlertError";
+import Loader from "../../assets/Loader";
+import AlertSuccess from "../../alerts/AlertSuccess";
+import IconComponents from "../../assets/IconComponents";
+import HeaderComponents from "../../../GUI/HeaderComponents";
+import { useParams } from "react-router-dom";
 
 const SalidaNoConforme = () => {
   const empleadoS = useGetData("/empleado?departamento=1");
-  const empleadoA = useGetData("/empleado?departamento=2");
   const incumplimiento = useGetData("/incumplimiento");
+  const [showAlert, setShowAlert] = useState(false);
+  const [showAlertSuccess, setShowAlertSuccess] = useState(false);
   //recupera la id del formulario enviado para generar el pdf
   const [idsalida, setIdsalida] = useState(null);
 
@@ -24,14 +30,20 @@ const SalidaNoConforme = () => {
     enviarDatos(datos);
   };
 
+  const { departamento } = useParams();
+
   const enviarDatos = async (x) => {
-    const req = await Axios.post("/salida-no-conforme", x);
-    setIdsalida(req.data.response);
+    try {
+      const req = await Axios.post("/salida-no-conforme", x);
+      setIdsalida(req.data.response);
+      setShowAlertSuccess(true);
+      setTimeout(() => {
+        setShowAlertSuccess(false);
+      }, 800);
+    } catch {
+      setShowAlert(true);
+    }
   };
-  const consultarPdf = useGetData(
-    `/salida-no-conforme/${!idsalida ? false : idsalida.insertId}`
-  );
-  const ola = !consultarPdf.data ? false : consultarPdf.data;
 
   const handle = (e) => {
     setDatos({ ...datos, [e.target.name]: e.target.value });
@@ -47,14 +59,19 @@ const SalidaNoConforme = () => {
   };
 
   return (
-    <div>
+    <div className="Main">
       <ModalAddIncumplimiento show={show} close={cerrarModal} />
-      <div>
-        <Link className="link-primary" to="/despacho">
-          Volver al despacho
-        </Link>
-        <h4 className="border-bottom">Captura de salidas no conformes</h4>
-      </div>
+      <HeaderComponents
+        title="Captura de salidas no conformes"
+        urlBack={`/${departamento}`}
+        textUrlback="Regresar"
+      >
+        <IconComponents
+          icon="file-pdf text-danger"
+          text="Archivos"
+          url="files"
+        />
+      </HeaderComponents>
       <div style={{ display: "flex", flexdirection: "column" }}>
         <div className="me-3">
           <form onSubmit={enviar} className="shadow p-2 ms-2 my-3">
@@ -86,7 +103,7 @@ const SalidaNoConforme = () => {
                   className="form-control"
                   placeholder="..."
                   onChange={handle}
-                ></textarea>
+                />
               </div>
               <div className="mb">
                 <label>Concesiones</label>
@@ -95,97 +112,99 @@ const SalidaNoConforme = () => {
                   className="form-control"
                   placeholder="..."
                   onChange={handle}
-                ></textarea>
+                />
               </div>
-              {!empleadoS.error && !empleadoS.isPending && (
-                <div className="m-b">
-                  <label className="label-form">
-                    Seleccionar empleado que incumple
-                  </label>
-                  <InputSelectEmpleado
-                    empleados={empleadoS.data.response}
-                    name="idEmpleadoIncumple"
-                    handle={handle}
-                  />
-                </div>
-              )}
-              {!empleadoA.error && !empleadoA.isPending && (
-                <div className="m-b">
-                  <label className="label-form">
-                    Seleccionar empleado que autoriza
-                  </label>
-                  <InputSelectEmpleado
-                    empleados={empleadoA.data.response}
-                    name="idEmpleadoAutoriza"
-                    handle={handle}
-                  />
-                </div>
-              )}
-              {!incumplimiento.error && !incumplimiento.isPending && (
-                <div className="m-b">
-                  <label className="label-form">
-                    Seleccionar incumplimiento
-                  </label>
-                  <select
-                    name="idIncumplimiento"
-                    className="form-select form-select"
-                    onChange={(changeSelectIncumplimiento, handle)}
-                  >
-                    <option value="0">-- Seleccionar incumplimiento --</option>
-                    {incumplimiento.data.response.map((el) => (
-                      <option
-                        key={el.idincumplimiento}
-                        value={el.idincumplimiento}
-                      >
-                        {el.incumplimiento}
+              <div className="row">
+                {!empleadoS.error && !empleadoS.isPending && (
+                  <div className="col-6">
+                    <label className="label-form">Empleado que incumple</label>
+                    <InputSelectEmpleado
+                      empleados={empleadoS.data.response}
+                      name="idEmpleadoIncumple"
+                      handle={handle}
+                    />
+                  </div>
+                )}
+                {!incumplimiento.error && !incumplimiento.isPending && (
+                  <div className="col-6">
+                    <label className="label-form">Incumplimiento</label>
+                    <select
+                      name="idIncumplimiento"
+                      className="form-select form-select"
+                      onChange={(changeSelectIncumplimiento, handle)}
+                      required
+                    >
+                      <option value="">-- Seleccionar incumplimiento --</option>
+                      {incumplimiento.data.response.map((el) => (
+                        <option
+                          key={el.idincumplimiento}
+                          value={el.idincumplimiento}
+                        >
+                          {el.incumplimiento}
+                        </option>
+                      ))}
+                      <option value="add" className="bg-success">
+                        Añadir otro
                       </option>
-                    ))}
-                    <option value="add" className="bg-success">
-                      Añadir otro
-                    </option>
-                  </select>
-                </div>
-              )}
+                    </select>
+                  </div>
+                )}
+              </div>
               <div className="mt-2 mb-5 w-100">
                 <button
                   type="submit"
                   className="btn btn-primary d-block m-auto"
                 >
-                  Crear salida no corforme
+                  Crear salida no conforme
                 </button>
+                <div className="mt-3">
+                  <AlertError show={showAlert} setAlertError={setShowAlert} />
+                  <AlertSuccess show={showAlertSuccess} />
+                </div>
               </div>
             </div>
           </form>
         </div>
-
-        {!consultarPdf.data ? (
-          false
-        ) : (
-          <div className="flex-fill">
-            <PDFSalidaNoConforme
-              title="salida no conforme"
-              fecha={
-                !ola.response
-                  ? false
-                  : ola.response.map((e) => format.formatFechaComplete(e.fecha))
-              }
-              inconformidad={
-                !ola.response
-                  ? false
-                  : ola.response.map((e) => e.descripcion_falla)
-              }
-              corregir={
-                !ola.response
-                  ? false
-                  : ola.response.map((e) => e.acciones_corregir)
-              }
-              concesiones={
-                !ola.response ? false : ola.response.map((e) => e.concesiones)
-              }
-            />
-          </div>
-        )}
+        {!idsalida ? null : <VerSNC idInsersion={idsalida} />}
       </div>
+    </div>
+  );
+};
+
+const VerSNC = ({ idInsersion }) => {
+  const consultarPdf = useGetData(
+    `/salida-no-conforme/${idInsersion.insertId}`
+  );
+  console.log(consultarPdf);
+  return (
+    <div className="d-flex justify-content-center align-items-center">
+      {!consultarPdf.isPending && !consultarPdf.error && (
+        <PDFSalidaNoConforme
+          title="salida no conforme"
+          fecha={
+            !consultarPdf.data
+              ? false
+              : format.formatFechaComplete(consultarPdf.data.response[0].fecha)
+          }
+          inconformidad={
+            !consultarPdf.data
+              ? false
+              : consultarPdf.data.response[0].descripcion_falla
+          }
+          corregir={
+            !consultarPdf.data
+              ? false
+              : consultarPdf.data.response[0].acciones_corregir
+          }
+          concesiones={
+            !consultarPdf.data
+              ? false
+              : consultarPdf.data.response[0].concesiones
+          }
+        />
+      )}
+      {consultarPdf.error && <h4>¡Ups¡, algo salió mal</h4>}
+      {consultarPdf.isPending && <Loader />}
     </div>
   );
 };

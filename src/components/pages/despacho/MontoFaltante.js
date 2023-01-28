@@ -37,7 +37,7 @@ function MontoFaltante() {
             <IconComponents
               icon="calendar-days text-warning"
               text="MF tiempo"
-              url="reportes-tiempo"
+              url="historial"
             />
           </div>
         </HeaderComponents>

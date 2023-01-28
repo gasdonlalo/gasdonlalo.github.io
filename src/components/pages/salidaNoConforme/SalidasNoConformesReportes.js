@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import useGetData from "../../../hooks/useGetData";
 import Loader from "../../assets/Loader";
 import format from "../../assets/format";
@@ -7,6 +7,9 @@ import InputChangeMes from "../../forms/InputChangeMes";
 import InputChangeYear from "../../forms/InputChangeYear";
 import ErrorHttp from "../../assets/ErrorHttp";
 import PDFSalidaNoConforme from "../despacho/PDFSalidaNoConforme";
+import HeaderComponents from "../../../GUI/HeaderComponents";
+import IconComponents from "../../assets/IconComponents";
+
 export const SalidasNoConformesReportes = () => {
   const date = new Date();
   const [year, setYear] = useState(date.getFullYear());
@@ -14,7 +17,7 @@ export const SalidasNoConformesReportes = () => {
 
   const reportes = useGetData(`salida-no-conforme/${year}/${month}`);
 
-  console.log(reportes);
+  const { departamento } = useParams();
 
   const handleMonth = (e) => {
     setMonth(e.target.value);
@@ -24,42 +27,28 @@ export const SalidasNoConformesReportes = () => {
     setYear(e.target.value);
   };
 
-  const navigate = useNavigate();
-
   return (
-    <div>
-      <div className="d-flex justify-content-between align-items-end border-bottom mb-2">
-        <div className="ms-3">
-          <Link className="link-primary" to="/despacho">
-            Volver al despacho
-          </Link>
-          <h3>Registro de salidas no conformes</h3>
+    <div className="Main">
+      <HeaderComponents
+        title="Registros de salidas no conformes"
+        urlBack={`/${departamento}`}
+        textUrlback={`Regresar a ${departamento}`}
+      >
+        <div className="d-flex">
+          <IconComponents
+            icon="chart-line text-success"
+            text="Reporte Mensual"
+            url="../reporte-mensual"
+          />
+          <IconComponents
+            icon="chart-simple text-info"
+            text="Reporte inconformidad"
+            url="../inconformidad"
+          />
         </div>
-        <div style={{ width: "min-content" }} className="me-3 d-flex">
-          <div
-            className="rounded p-2 btn-select m-1 d-flex flex-column align-items-center"
-            onClick={() => navigate("/salida-no-conforme-reporte-mensual")}
-          >
-            <i
-              className="fa-regular fa-chart-line text-success"
-              style={{ fontSize: "50px" }}
-            ></i>
-            <p className="p-0 m-0 text-nowrap">Reportes mensuales</p>
-          </div>
-          <div
-            className="rounded p-2 btn-select m-1 d-flex flex-column align-items-center"
-            onClick={() => navigate("/salida-no-conformexinconformidad")}
-          >
-            <i
-              className="fa-regular fa-chart-simple text-info"
-              style={{ fontSize: "50px" }}
-            ></i>
-            <p className="p-0 m-0 text-nowrap">Reportes por inconformidad</p>
-          </div>
-        </div>
-      </div>
+      </HeaderComponents>
 
-      <div className="row w-75 mx-auto">
+      <div className="row w-75 mx-auto mt-4">
         <div className="col-md-6">
           <InputChangeMes defaultMes={month} handle={handleMonth} />
         </div>
@@ -71,6 +60,11 @@ export const SalidasNoConformesReportes = () => {
       {!reportes.isPending && !reportes.error && (
         <Success data={reportes.data.response} />
       )}
+      {reportes.error && !reportes.isPending && (
+        <div className="mt-5">
+          <ErrorHttp msg={reportes.dataError.msg} />
+        </div>
+      )}
     </div>
   );
 };
@@ -81,28 +75,36 @@ const Success = ({ data }) => {
   console.log(salidaNoConforme);
 
   return (
-    <div className="row m-2">
-      <div className="col-md-6 overflow-scroll" style={{ maxHeight: "80vh" }}>
+    <div className="d-flex mt-2">
+      <div
+        className="d-flex flex-column w-25"
+        style={{ overflowY: "scroll", maxHeight: "100vh" }}
+      >
         {data.map((el) => (
           <div
-            className="mt-2 rounded p-2 position-relative"
-            style={{ backgroundColor: "#dadada", width: "400px" }}
+            className="m-2 rounded d-flex p-2"
             key={el.idsalida_noconforme}
+            style={{ backgroundColor: "#dadada" }}
           >
-            <p>
-              <span className="fw-bold">Empleado: </span>
-              {format.formatTextoMayusPrimeraLetra(el.nombre_completo_incumple)}
-            </p>
-            <p>
-              <span className="fw-bold">Incumplimiento: </span>
-              {format.formatTextoMayusPrimeraLetra(el.incumplimiento)}
-            </p>
-            <p>
-              <span className="fw-bold">Fecha: </span>
-              {format.formatFechaComplete(el.fecha)}
-            </p>
+            <div className="w-100">
+              <p>
+                <span className="fw-bold">Empleado: </span>
+                {format.formatTextoMayusPrimeraLetra(
+                  el.nombre_completo_incumple
+                )}
+              </p>
+              <p>
+                <span className="fw-bold">Incumplimiento: </span>
+                {format.formatTextoMayusPrimeraLetra(el.incumplimiento)}
+              </p>
+              <p>
+                <span className="fw-bold">Fecha: </span>
+                {format.formatFechaComplete(el.fecha)}
+              </p>
+            </div>
+
             <button
-              className="btn btn-danger position-absolute  top-0 end-0"
+              className="btn btn-danger w-25 h-25 "
               onClick={() => setIdSalida(el.idsalida_noconforme)}
             >
               PDF
@@ -110,15 +112,15 @@ const Success = ({ data }) => {
           </div>
         ))}
       </div>
-      <div className="col-md-6">
-        <div className="auto">
+      <div className="w-75">
+        <div>
           {salidaNoConforme.error && !salidaNoConforme.isPending && (
             <div className="mt-5">
               <ErrorHttp />
             </div>
           )}
           {!salidaNoConforme.error && !salidaNoConforme.isPending && (
-            <div style={{ height: "80vh" }}>
+            <div style={{ height: "100vh" }}>
               {
                 <PDFSalidaNoConforme
                   inconformidad={
@@ -133,6 +135,7 @@ const Success = ({ data }) => {
               }
             </div>
           )}
+          {salidaNoConforme.isPending && <Loader />}
         </div>
       </div>
     </div>

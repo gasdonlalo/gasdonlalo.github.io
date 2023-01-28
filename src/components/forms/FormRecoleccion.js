@@ -28,10 +28,12 @@ function FormRecoleccion() {
     e.preventDefault();
 
     try {
-      const res = await Axios.post(`recoleccion-efectivo`, body);
-      console.log(res);
+      await Axios.post(`recoleccion-efectivo`, body);
       setModalSuccess(true);
       setFormPending(false);
+      setTimeout(() => {
+        setModalSuccess(false);
+      }, 800);
       e.target.reset();
     } catch (err) {
       console.log(err);
@@ -80,7 +82,13 @@ function FormRecoleccion() {
           )}
         </div>
         <div>
-          <label className="form-label">Cantidad</label>
+          <label className="form-label">
+            Cantidad{" "}
+            <li
+              className="fa fa-circle-info"
+              title="Solo se captura la diferencia de los $3000 que debe depositar el despachador, es decir si el despachador recolecta $3,100 solo se capturan los $100"
+            ></li>
+          </label>
           <div className="input-group">
             <span className="input-group-text">$</span>
             <input

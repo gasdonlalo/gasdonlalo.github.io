@@ -1,5 +1,4 @@
 import { Fragment, useState } from "react";
-import { Link } from "react-router-dom";
 import useGetData from "../../../../hooks/useGetData";
 import InputChangeYear from "../../../forms/InputChangeYear";
 import InputChangeMes from "../../../forms/InputChangeMes";
@@ -30,11 +29,18 @@ const GraficaRecursosDes = () => {
         textUrlback="Volver al despacho"
         title="Reporte de recursos de despachador"
       >
-        <IconComponents
-          icon="stapler text-primary"
-          text="Recursos Despachador"
-          url="/despacho/recurso-despachador"
-        />
+        <div className="d-flex">
+          <IconComponents
+            icon="stapler text-info"
+            text="Evaluar"
+            url="/despacho/recurso-despachador"
+          />
+          <IconComponents
+            icon="file-lines text-warning"
+            text="Historial"
+            url="/despacho/recurso-despachador/historial"
+          />
+        </div>
       </HeaderComponents>
       <div className="w-50 m-auto row">
         <div className="col-md-4">
@@ -105,13 +111,13 @@ const Success = ({ recursos, year, month, quincena }) => {
     datasets: [
       {
         data: tableTotalPuntos.map((el) => el.cantidad),
-        backgroundColor: "rgba(6,43,223,1)",
+        backgroundColor: "rgba(6,43,223,0.5)",
         borderColor: "rgba(6,43,223,1)",
         label: "Total",
       },
       {
         data: tableTotalPuntos.map((el) => el.puntaje_minimo),
-        backgroundColor: "rgba(253,124,13,1)",
+        backgroundColor: "rgba(253,124,13,0.5)",
         borderColor: "rgba(253,124,13,1)",
         label: "Puntaje minimo",
       },
@@ -193,7 +199,20 @@ const Success = ({ recursos, year, month, quincena }) => {
               </table>
             </div>
             <div style={{ flexGrow: "1" }}>
-              <Scale data={dataScale}></Scale>
+              <Scale
+                data={dataScale}
+                optionsCustom={{
+                  scales: {
+                    y: {
+                      min: 0,
+                      max: 20,
+                      ticks: {
+                        stepSize: 1,
+                      },
+                    },
+                  },
+                }}
+              ></Scale>
             </div>
           </div>
         )}

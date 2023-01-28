@@ -1,15 +1,16 @@
 import { useState } from "react";
-import HeaderComponents from "../../../GUI/HeaderComponents";
-import useGetData from "../../../hooks/useGetData";
-import InputSelectEmpleado from "../../forms/InputSelectEmpleado";
-import HeaderForm from "../../../GUI/HeaderForm";
-import Axios from "../../../Caxios/Axios";
+import HeaderComponents from "../../../../GUI/HeaderComponents";
+import useGetData from "../../../../hooks/useGetData";
+import InputSelectEmpleado from "../../../forms/InputSelectEmpleado";
+import HeaderForm from "../../../../GUI/HeaderForm";
+import Axios from "../../../../Caxios/Axios";
 import Decimal from "decimal.js-light";
-import format from "../../assets/format";
-import Bar from "../../charts/Bar";
-import Scale from "../../charts/Scale";
+import format from "../../../assets/format";
+import Bar from "../../../charts/Bar";
+import Scale from "../../../charts/Scale";
+import IconComponents from "../../../assets/IconComponents";
 
-const MontoFaltanteTiempo = () => {
+const HistorialFaltanteTiempo = () => {
   const [data, setData] = useState(null);
 
   return (
@@ -18,7 +19,13 @@ const MontoFaltanteTiempo = () => {
         urlBack="../"
         textUrlback="Regresar"
         title="Monto faltante por tiempo"
-      />
+      >
+        <IconComponents
+          icon="money-bills text-info"
+          text="Monto faltante"
+          url="/despacho/montos-faltantes"
+        />
+      </HeaderComponents>
       {!data && <FormFind setData={setData} />}
       {data && <Success data={data} setData={setData} />}
     </div>
@@ -101,7 +108,9 @@ const Success = ({ data, setData }) => {
           <tbody>
             <tr>
               <th className="fw-bold text-end px-2">Nombre Completo:</th>
-              <td className="fw-semibold">{data[0].nombre_completo}</td>
+              <td className="fw-semibold">
+                {data.filter((el) => el.nombre)[0].nombre_completo}
+              </td>
             </tr>
             <tr>
               <th className="fw-bold text-end px-2">Cantidad acumulada:</th>
@@ -168,6 +177,7 @@ const Success = ({ data, setData }) => {
 const FormFind = ({ setData }) => {
   const [body, setBody] = useState(null);
   const { data, error, isPending } = useGetData(`/empleado?departamento=1`);
+  const [msgError, setMsgError] = useState(null);
   const handle = (e) => setBody({ ...body, [e.target.name]: e.target.value });
   const buscar = async (e) => {
     e.preventDefault();
@@ -176,6 +186,10 @@ const FormFind = ({ setData }) => {
       setData(res.data.response);
     } catch (err) {
       console.log(err);
+      setMsgError("No se encontraron resultados");
+      setTimeout(() => {
+        setMsgError(null);
+      }, 1000);
     }
   };
   return (
@@ -219,10 +233,11 @@ const FormFind = ({ setData }) => {
         </div>
         <div className="mt-4">
           <button className="btn btn-success mx-auto d-block">Buscar</button>
+          {msgError && <p className="text-danger text-center">{msgError}</p>}
         </div>
       </form>
     </div>
   );
 };
 
-export default MontoFaltanteTiempo;
+export default HistorialFaltanteTiempo;

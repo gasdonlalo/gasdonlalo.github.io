@@ -48,6 +48,9 @@ function FormChecklist() {
       setFormPending(false);
       setModalSuccess(true);
       setBody({ islaLimpia: 1, aceitesCompletos: 1, turno: "Mañana" });
+      setTimeout(() => {
+        setModalSuccess(false);
+      }, 800);
       e.target.reset();
     } catch (err) {
       console.log(err);
@@ -98,7 +101,7 @@ function FormChecklist() {
               <option value="">Cargando estaciones...</option>
             )}
             {!estacion.error && !estacion.isPending && (
-              <option value="">Estacion de servicio</option>
+              <option value="">-- Estacion de servicio --</option>
             )}
             {!estacion.error &&
               !estacion.isPending &&
@@ -161,7 +164,7 @@ function FormChecklist() {
           <label className="form-label">Isla limpia</label>
           <div className="w-100 d-flex justify-content-evenly">
             <label className="form-label rounded border p-2 d-flex flex-column">
-              cumple
+              Cumple
               <input
                 type="radio"
                 name="islaLimpia"
@@ -172,7 +175,7 @@ function FormChecklist() {
               />
             </label>
             <label className="form-label rounded border p-2 d-flex flex-column">
-              no cumple
+              No cumple
               <input
                 type="radio"
                 onChange={handle}
@@ -187,7 +190,7 @@ function FormChecklist() {
           <label className="form-label">Aceites completos</label>
           <div className="w-100 d-flex justify-content-evenly">
             <label className="form-label rounded border p-2 d-flex flex-column">
-              cumple
+              Cumple
               <input
                 type="radio"
                 name="aceitesCompletos"
@@ -198,7 +201,7 @@ function FormChecklist() {
               />
             </label>
             <label className="form-label rounded border p-2 d-flex flex-column">
-              no cumple
+              No cumple
               <input
                 type="radio"
                 name="aceitesCompletos"

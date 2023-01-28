@@ -20,7 +20,7 @@ const FormRecursosDesp = () => {
     setBody({ ...body, [e.target.name]: e.target.value });
   };
 
-  const handleRecursos = (e) => {
+  /*   const handleRecursos = (e) => {
     let idRecurso = Number(e.target.name);
     let evaluacion = Number(e.target.value);
     let filtrarPasos = body.recursos.filter((el) => el.idRecurso !== idRecurso);
@@ -30,6 +30,24 @@ const FormRecursosDesp = () => {
       recursos: [...filtrarPasos, insertarNuevo],
     });
   };
+ */
+  const handleSwitch = (e) => {
+    let id = Number(e.target.name);
+    let evaluacion = e.target.checked ? 1 : 0;
+    if (e.target.checked) {
+      let filtrarPasos = body.recursos.filter((el) => el.idRecurso !== id);
+      setBody({
+        ...body,
+        recursos: [...filtrarPasos, { idRecurso: id, evaluacion: evaluacion }],
+      });
+    } else {
+      let filtrarPasos = body.recursos.filter((el) => el.idRecurso !== id);
+      setBody({
+        ...body,
+        recursos: [...filtrarPasos, { idRecurso: id, evaluacion: evaluacion }],
+      });
+    }
+  };
 
   const closeModal = () => {
     setModalSuccess(false);
@@ -37,11 +55,16 @@ const FormRecursosDesp = () => {
   };
   const enviar = async (e) => {
     e.preventDefault();
+    console.log(body);
     setFormPending(true);
+
     try {
       const res = await Axios.post("/lista-recurso-despachador", body);
       console.log(res);
       setModalSuccess(true);
+      setTimeout(() => {
+        setModalSuccess(false);
+      }, 800);
       setFormPending(false);
       e.target.reset();
     } catch (err) {
@@ -57,6 +80,7 @@ const FormRecursosDesp = () => {
       setFormPending(false);
     }
   };
+
   return (
     <div>
       <ModalSuccess show={modalSuccess} close={closeModal} />
@@ -92,25 +116,24 @@ const FormRecursosDesp = () => {
               </label>
             )}
           </div>
-          <div className="row w-100">
-            <label className="recursos a evaluar"></label>
-            {!recursos.error &&
-              !recursos.isPending &&
-              recursos.data.response.map((el) => (
-                <div className="col-md-3 p-2" key={el.idrecurso}>
-                  <label>{el.recurso}</label>
-                  <select
-                    className="form-control"
-                    onChange={handleRecursos}
-                    name={el.idrecurso}
-                    required
-                  >
-                    <option value="">Selecciona una opcion</option>
-                    <option value="1">Cumple</option>
-                    <option value="0">No cumple</option>
-                  </select>
-                </div>
-              ))}
+
+          <div className="row mt-3">
+            {!recursos.data
+              ? false
+              : recursos.data.response.map((e, i) => {
+                  return (
+                    <div className="col-6 form-check form-switch" key={i}>
+                      <input
+                        className="form-check-input"
+                        type="checkbox"
+                        role="switch"
+                        onChange={handleSwitch}
+                        name={e.idrecurso}
+                      />
+                      <label className="form-check-label">{e.recurso}</label>
+                    </div>
+                  );
+                })}
           </div>
           <div className="mt-2">
             <button

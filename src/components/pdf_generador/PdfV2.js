@@ -35,7 +35,6 @@ function PdfV2({
   Font.register({ family: "calibrib", src: calibriN });
   const [img, setImg] = useState();
   const [img2, setImg2] = useState();
-  const [altoTabla, setAltoTabla] = useState(null);
   const [pendiente, setPendiente] = useState(false);
 
   const nombreEmpleado = useGetData(
@@ -71,7 +70,7 @@ function PdfV2({
     } else if (ruta.match("recurso-despachador")) {
       nombre = nombre + " MENSUAL DE REGISTRO DE RECURSOS DE DESPACHADOR";
     } else if (ruta.match("pasos")) {
-      nombre = nombre + " ANALISIS DE EVALUACION PASOS PARA DESPACHARGIT";
+      nombre = nombre + " ANALISIS DE EVALUACION PASOS PARA DESPACHAR";
     } else if (ruta.match("no-conforme-reporte-mensual")) {
       nombre =
         nombre + " TOTAL MENSUAL DE SALIDAS NO CONFORMES POR DESPACHADOR";
@@ -116,9 +115,6 @@ function PdfV2({
     const elementTabla = document.getElementById(tabla);
     html2canvas(elementTabla, { scale: 4, allowTaint: true }).then((canvas) => {
       setImg2(canvas.toDataURL("image/JPEG"));
-      const datos = canvas.getContext("2d");
-      console.log(datos.canvas.width);
-      setAltoTabla(Number(datos.canvas.style.height.replace(/px/, "")));
     });
   };
 
@@ -138,7 +134,6 @@ function PdfV2({
       justifyContent: "space-around",
     },
     cuerpo: {
-      border: "1px solid black",
       marginTop: "3px",
     },
     titulos: {
@@ -149,6 +144,8 @@ function PdfV2({
     paginacion: {
       fontFamily: "calibri",
       fontSize: "10pt",
+      textAlign: "right",
+      marginTop: "3px",
     },
     /* tabla: { position: "absolute", bottom: "25px", left: "655px" }, */
     infoAdicional: {
@@ -162,7 +159,6 @@ function PdfV2({
     },
   });
 
-  console.log(altoTabla, "alto");
   const doc = (
     <Document wrap>
       <Page size="LETTER" orientation="landscape" style={estilo.page}>
@@ -269,9 +265,8 @@ function PdfV2({
             <View
               style={{
                 minHeight: 200,
-                maxHeight: 500,
+                maxHeight: 450,
                 justifyContent: "center",
-                border: "1px solid blue",
               }}
             >
               <Image src={img2} />
@@ -280,8 +275,9 @@ function PdfV2({
           {/* Grafica */}
           <View
             style={{
-              minHeight: "85%",
-              border: "1px solid red",
+              minHeight: 200,
+              maxHeight: 400,
+              justifyContent: "center",
             }}
             break
           >
@@ -296,15 +292,15 @@ function PdfV2({
             alignItems: "flex-end",
           }}
         >
-          <Text
-            style={estilo.paginacion}
-            render={({ pageNumber, totalPages }) =>
-              `Página ${pageNumber} de ${totalPages}.`
-            }
-          />
-
           <Image src={tabladis} style={{ width: "90px" }} />
         </View>
+        <Text
+          style={estilo.paginacion}
+          render={({ pageNumber, totalPages }) =>
+            `Página ${pageNumber} de ${totalPages}.`
+          }
+          fixed
+        />
         {/* Tabla disposicion y paginacion */}
       </Page>
     </Document>

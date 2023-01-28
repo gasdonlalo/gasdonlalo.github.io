@@ -5,19 +5,35 @@ import Axios from "../../../../Caxios/Axios";
 import ModalSuccess from "../../../modals/ModalSuccess";
 import ModalError from "../../../modals/ModalError";
 import format from "../../../assets/format";
-import { EditED } from "../../../modals/EditED";
+import { EditED, DeleteED } from "../../../modals/EditED";
+import Decimal from "decimal.js-light";
+import Scale from "../../../charts/Scale";
+import IconComponents from "../../../assets/IconComponents";
 
 const HistorialPasoDes = () => {
+  const [body, setBody] = useState(null);
   const [data, setData] = useState(null);
   const [edit, setEdit] = useState({ status: false, id: null });
   const [del, setDel] = useState({ status: false, id: null });
   const [modalSuccess, setModalSuccess] = useState(false);
   const [modalError, setModalError] = useState({ status: false, msg: "" });
-  const [actualizador, setActualizador] = useState(false);
 
   const closeModal = () => {
     setModalSuccess(false);
     setModalError({ status: false, msg: "" });
+  };
+
+  const buscarDatos = async () => {
+    try {
+      const res = await Axios.post("/pasos-despachar/buscar", body);
+      setData(res.data.response);
+    } catch (err) {
+      setModalError({
+        status: true,
+        msg: "No se encontraron datos en el intervalo de tiempo",
+      });
+      console.log(err);
+    }
   };
 
   return (
@@ -26,13 +42,18 @@ const HistorialPasoDes = () => {
         title="Evaluaciones pasos de despacho por empleado"
         urlBack="/despacho/pasos-despachar/reporte"
         textUrlback="Regresar a reportes de evaluaciones"
-      ></HeaderComponents>
+      >
+        <IconComponents
+          icon="list-check text-info"
+          text="Evaluar"
+          url="../pasos-despachar"
+        />
+      </HeaderComponents>
       <div>
         {!data && (
           <FormBuscarDetallesTiempo
-            setData={setData}
-            url="/pasos-despachar/buscar"
-            toggle={[actualizador, setActualizador]}
+            buscarDatos={buscarDatos}
+            bodyState={[body, setBody]}
           />
         )}
         {data && (
@@ -41,6 +62,7 @@ const HistorialPasoDes = () => {
             setData={setData}
             setEdit={setEdit}
             setDel={setDel}
+            fechas={body}
           />
         )}
       </div>
@@ -49,17 +71,17 @@ const HistorialPasoDes = () => {
           stateEdit={[edit, setEdit]}
           setModalError={setModalError}
           setModalSuccess={setModalSuccess}
-          toggle={[actualizador, setActualizador]}
+          buscarDatos={buscarDatos}
         />
       )}
-      {/*{del.id && (
-        <DeleteEU
+      {del.id && (
+        <DeleteED
           stateDel={[del, setDel]}
           setModalSuccess={setModalSuccess}
           setModalError={setModalError}
-          actualizar={buscarDatos}
+          buscarDatos={buscarDatos}
         />
-      )} */}
+      )}
       <ModalSuccess
         show={modalSuccess}
         text="Se actualizaron los datos correctamente"
@@ -74,13 +96,42 @@ const HistorialPasoDes = () => {
   );
 };
 
-const GraficaSuccess = ({ data, setData, setEdit }) => {
-  const dataMerge = [];
+const GraficaSuccess = ({ data, setData, setDel, setEdit, fechas }) => {
+  const dataMerge = [],
+    total = [],
+    promedioP = [];
+
+  const filterPasos = (idPaso) =>
+    dataMerge.filter((el) => el.idpaso_despachar === idPaso);
+
   data.forEach((el) => dataMerge.push(...el));
-  const suma = dataMerge
-    .map((el) => (el.evaluacion ? 1 : 0))
-    .reduce((a, b) => a + b, 0);
-  const promedio = (suma / data.length).toFixed(2);
+
+  for (let i = 0; i < 9; i++) {
+    const suma = filterPasos(i + 1)
+      .map((el) => (el.evaluacion ? 1 : 0))
+      .reduce((a, b) => a + b, 0);
+    total.push(suma);
+    promedioP.push(((suma / data.length) * 10).toFixed(2));
+  }
+
+  const promedio = (
+    promedioP.reduce(
+      (a, b) => new Decimal(Number(a)).add(Number(b)).toNumber(),
+      0
+    ) / 9
+  ).toFixed(2);
+
+  const dataScale = {
+    labels: data[0].map((el) => el.paso.split(" ")),
+    datasets: [
+      {
+        data: promedioP.map((el) => Number(el)),
+        label: "Promedio",
+        borderColor: "orange",
+        backgroundColor: "silver",
+      },
+    ],
+  };
 
   return (
     <div>
@@ -94,9 +145,21 @@ const GraficaSuccess = ({ data, setData, setEdit }) => {
           <b>Nombre Completo: </b>
           <span className="fw-semibold">{data[0][0].nombre_completo}</span>
         </p>
-        <p>
-          <b>Promedio historico: </b>
+        <p className="mb-0">
+          <b>Promedio acumulado: </b>
           <span className="fw-semibold">{promedio}</span>
+        </p>
+        <p className="mb-0">
+          <b>Fecha Inicial: </b>
+          <span className="fw-semibold">
+            {format.formatFechaComplete(fechas.fechaInicio)}
+          </span>
+        </p>
+        <p>
+          <b>Fecha Final: </b>
+          <span className="fw-semibold">
+            {format.formatFechaComplete(fechas.fechaFinal)}
+          </span>
         </p>
       </div>
       <div>
@@ -129,7 +192,9 @@ const GraficaSuccess = ({ data, setData, setEdit }) => {
                 ))}
                 <td
                   className="px-1"
-                  // onClick={() => setDel({ status: true, id: eu.identificador })}
+                  onClick={() =>
+                    setDel({ status: true, id: el[0].identificador })
+                  }
                 >
                   <li
                     role="button"
@@ -151,8 +216,45 @@ const GraficaSuccess = ({ data, setData, setEdit }) => {
                 </td>
               </tr>
             ))}
+            <tr className="bg-secondary text-white text-center fw-semibold">
+              <th colSpan={2}>Total</th>
+              {total.map((el, i) => (
+                <td key={i}>{el}</td>
+              ))}
+            </tr>
+            <tr className="bg-info text-center fw-semibold">
+              <th colSpan={2}>Promedio</th>
+              {promedioP.map((el, i) => (
+                <td key={i}>{el}</td>
+              ))}
+            </tr>
           </tbody>
         </table>
+      </div>
+      <div className="w-50 mx-auto">
+        <Scale
+          data={dataScale}
+          legend={false}
+          text="Promedio por pasos"
+          optionsCustom={{
+            scales: {
+              y: {
+                title: {
+                  display: true,
+                  text: "Promedio",
+                },
+                min: 0,
+                max: 12,
+              },
+              x: {
+                title: {
+                  display: true,
+                  text: "Pasos",
+                },
+              },
+            },
+          }}
+        />
       </div>
     </div>
   );

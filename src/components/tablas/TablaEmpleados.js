@@ -11,19 +11,6 @@ import Loader from "../assets/Loader";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
 
 function TablaEmpleados({ id }) {
-  // let dataTable;
-  // let dataTableIsInitialized = false;
-
-  // const initDataTable = async () => {
-  //   if (dataTableIsInitialized) {
-  //     dataTable.destroy();
-  //   }
-  //   await datos();
-
-  //   dataTable = "#tabla1".DataTable({});
-
-  //   dataTableIsInitialized = true;
-  // };
   //setea los botones de acuerdo al tipo de empleados mostrados
   function SetBotones({ id, e }) {
     if (id === "1") {
@@ -85,7 +72,7 @@ function TablaEmpleados({ id }) {
     !id ? false : `/solicitudes/estatus/${id}`,
     actualizar
   ); //consulta el tipo de empleados
-
+  const datosPract = useGetData("/solicitudes/estatus/2");
   //variables para modales
   const [show, setShow] = useState(false);
   const handleClose = () => {
@@ -198,6 +185,7 @@ function TablaEmpleados({ id }) {
           SetBotones={SetBotones}
           actualizar={actualizar}
           setModalError={setModalError}
+          datosPract={datosPract}
         />
       )}
       {datos.error && (
@@ -208,8 +196,12 @@ function TablaEmpleados({ id }) {
   );
 }
 
-const Sucess = ({ id, datos, navigate, SetBotones }) => {
-  const [emp, setEmp] = useState(datos.data.response);
+const Sucess = ({ id, datos, navigate, SetBotones, datosPract }) => {
+  const [emp, setEmp] = useState(
+    [datos.data.response],
+    [datosPract.data.response]
+  );
+  console.log(emp);
   const datosPracticantes = useGetData(
     id === "1" ? "/solicitudes/estatus/2" : null
   );

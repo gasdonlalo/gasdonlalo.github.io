@@ -1,5 +1,4 @@
 import { Fragment } from "react";
-import { Link } from "react-router-dom";
 import HeaderComponents from "../../../GUI/HeaderComponents";
 import IconComponents from "../../assets/IconComponents";
 import FormRecursosDesp from "../../forms/FormRecursosDesp";
@@ -14,7 +13,7 @@ function RecursosDesp() {
         >
           <IconComponents
             icon="chart-line text-danger"
-            text="Grafica RD"
+            text="Reportes"
             url="/despacho/recurso-despachador/reporte"
           ></IconComponents>
         </HeaderComponents>

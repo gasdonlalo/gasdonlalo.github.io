@@ -9,6 +9,7 @@ import ErrorHttp from "../../../assets/ErrorHttp";
 import Bar from "../../../charts/Bar";
 import PdfV2 from "../../../pdf_generador/PdfV2";
 import IconComponents from "../../../assets/IconComponents";
+import Decimal from "decimal.js-light";
 
 const GraficaPasoDes = () => {
   const date = new Date();
@@ -100,78 +101,130 @@ const GraficaPasoDes = () => {
 
 const Success = ({ data, year, month, idEmpleado, qna }) => {
   const pasos = useGetData(`/pasos-despachar/get-pasos`);
-  const sum = (arr) => {
-    return arr
-      .map((el) =>
-        el.map((sa) => (sa.evaluacion ? 1 : 0)).reduce((a, b) => a + b, 0)
-      )
-      .reduce((a, b) => a + b, 0);
-  };
 
-  let dataBar;
-  let dataBarPasos;
+  let limitQna1,
+    limitQna2,
+    mapQna1 = [],
+    mapQna2 = [],
+    proMapM,
+    proM,
+    dataBar = {},
+    dataBarP = {},
+    customBar = {
+      scales: {
+        y: {
+          min: 0,
+          max: 10,
+        },
+      },
+    };
+
   if (!pasos.error && !pasos.isPending) {
     if (!qna) {
-      const qna1 = data.filter((el) => el[0].quincena === 1);
-      const qna2 = data.filter((el) => el[0].quincena === 2);
-      dataBar = {
-        labels: ["Qna 1", "Qna 2"],
+      limitQna1 = data.filter((el) => el.qna === 1);
+      limitQna2 = data.filter((el) => el.qna === 2);
+      let pro1 = limitQna1.length > 0 ? limitQna1[0].promedio : 0;
+      let pro2 = limitQna2.length > 0 ? limitQna2[0].promedio : 0;
+      proM = new Decimal(pro1).add(pro2).toNumber() / 2;
+
+      if (limitQna1.length > 0) {
+        mapQna1 = pasos.data.response.map((el, i) =>
+          Number(
+            (
+              (limitQna1
+                .map((ev) => (ev.data[i].evaluacion ? 1 : 0))
+                .reduce((a, b) => a + b, 0) /
+                limitQna1.length) *
+              10
+            ).toFixed(2)
+          )
+        );
+      }
+      if (limitQna2.length > 0) {
+        mapQna2 = pasos.data.response.map((el, i) =>
+          Number(
+            (
+              (limitQna2
+                .map((ev) => (ev.data[i].evaluacion ? 1 : 0))
+                .reduce((a, b) => a + b, 0) /
+                limitQna2.length) *
+              10
+            ).toFixed(2)
+          )
+        );
+      }
+
+      if (limitQna1.length > 0 || limitQna2.length > 0) {
+        proMapM = [];
+        for (let i = 0; i < 9; i++) {
+          let first = mapQna1.length > 0 ? mapQna1[i] : 0;
+          let second = mapQna2.length > 0 ? mapQna2[i] : 0;
+          let pro = new Decimal(first).add(second).toNumber() / 2;
+          proMapM.push(pro);
+        }
+      }
+      dataBarP = {
+        labels: proMapM.map((el, i) => `P${i}`),
+        text: "Promedio Pasos Mensual",
         dataset: [
           {
-            data: [
-              (sum(qna1) / qna1.length).toFixed(2) || 0,
-              (sum(qna2) / qna2.length).toFixed(2) || 0,
-            ],
-            backgroundColor: ["orange", "red"],
+            data: proMapM.map((el) => el.toFixed(2)),
           },
         ],
-        text: "Promedio mensual",
+      };
+
+      dataBar = {
+        labels: ["Qna1", "Qna2"],
+        text: "Promedio Mensual",
+        dataset: [
+          {
+            data: [pro1.toFixed(2), pro2.toFixed(2)],
+            backgroundColor: ["#ff0000", "orange"],
+          },
+        ],
       };
     } else {
       dataBar = {
-        labels: ["Promedio"],
+        labels: ["Promedio Obtenido"],
+        text: `Promedio Qna ${qna}`,
         dataset: [
           {
-            data: [(sum(data) / data.length).toFixed(2)],
-            backgroundColor: "orange",
+            data: [data[0].promedio.toFixed(2)],
+            backgroundColor: data[0].qna > 1 ? "orange" : "red",
           },
         ],
-        text: `Promedio quincena ${qna}`,
       };
 
-      dataBarPasos = {
-        labels: data[0].map((el, i) => `P${i}`),
+      dataBarP = {
+        labels: pasos.data.response.map((el, i) => `P${i}`),
+        text: `Promedio Pasos Qna ${qna}`,
         dataset: [
           {
-            data: pasos.data.response.map((el, i) =>
+            data: pasos.data.response.map((el, j) =>
               (
                 (data
-                  .map((ev) => (ev[i].evaluacion ? 1 : 0))
+                  .map((sel) => (sel.data[j].evaluacion ? 1 : 0))
                   .reduce((a, b) => a + b, 0) /
                   data.length) *
                 10
               ).toFixed(2)
             ),
-            backgroundColor: "red",
           },
         ],
       };
     }
   }
 
-  console.log(dataBarPasos);
-
-  const sumaTotal = sum(data);
-  const PromedioTotal = sumaTotal / data.length;
-
   return (
     <Fragment>
-      <div id="render">
+      <div>
         <div>
-          <table className="mt-4 mx-auto">
+          <table className="mt-4 mx-auto" id="tabla">
             <thead>
               <tr>
-                <th className="border text-center">Evaluación</th>
+                <th className="border text-center">
+                  {qna ? "Evaluación" : "Quincena"}
+                </th>
                 {!pasos.error &&
                   !pasos.isPending &&
                   pasos.data.response.map((el, i) => (
@@ -187,85 +240,132 @@ const Success = ({ data, year, month, idEmpleado, qna }) => {
               </tr>
             </thead>
             <tbody>
-              {data.map((el, i, arr) => (
-                <tr key={i}>
-                  <td className="text-center px-4 border">
-                    Evaluación {i + 1}
-                  </td>
-                  {arr[i].map((ev) => (
-                    <td
-                      key={ev.idevaluacion_despachar}
-                      className="text-center border"
-                    >
-                      {ev.evaluacion ? "1" : "0"}
+              {!qna && !pasos.error && !pasos.isPending && (
+                <>
+                  {limitQna1.length > 0 && (
+                    <tr className="bg-secondary text-white">
+                      <td className=" text-center px-2">1er quincena</td>
+                      {mapQna1.map((el, i) => (
+                        <td key={i} className="text-center">
+                          {el.toFixed(2)}
+                        </td>
+                      ))}
+                      <td className="fw-semibold text-white bg-danger text-center">
+                        {limitQna1[0].promedio.toFixed(2)}
+                      </td>
+                    </tr>
+                  )}
+                  {limitQna2.length > 0 && (
+                    <tr className="bg-secondary text-white">
+                      <td className=" text-center px-2">2da quincena</td>
+                      {mapQna2.map((el, i) => (
+                        <td key={i} className="text-center">
+                          {el.toFixed(2)}
+                        </td>
+                      ))}
+                      <td className="fw-semibold text-white bg-danger text-center">
+                        {limitQna2[0].promedio.toFixed(2)}
+                      </td>
+                    </tr>
+                  )}
+                  <tr className="bg-info">
+                    <td className="text-center fw-semibold">Promedio</td>
+                    {proMapM.map((el, i) => (
+                      <td key={i} className="text-center">
+                        {el.toFixed(2)}
+                      </td>
+                    ))}
+                    <td className="fw-bold text-white bg-danger text-center">
+                      {proM.toFixed(2)}
                     </td>
+                  </tr>
+                </>
+              )}
+              {qna && (
+                <>
+                  {data.map((el, i, arr) => (
+                    <tr key={i}>
+                      <td className="text-center px-4 border">
+                        Evaluación {i + 1}
+                      </td>
+                      {arr[i].data.map((ev, j) => (
+                        <td key={j} className="text-center border">
+                          {ev.evaluacion ? "1" : "0"}
+                        </td>
+                      ))}
+                      <td className="border text-center fw-semibold">
+                        {el.total}
+                      </td>
+                    </tr>
                   ))}
-                  <td className="border text-center fw-semibold">
-                    {data[i]
-                      .map((el) => (el.evaluacion ? 1 : 0))
-                      .reduce((a, b) => a + b, 0)}
-                  </td>
-                </tr>
-              ))}
-              <tr className="bg-secondary">
-                <td className=" text-center">Total</td>
-                {!pasos.error &&
-                  !pasos.isPending &&
-                  pasos.data.response.map((el, i) => (
-                    <td key={i} className=" text-center">
-                      {data
-                        .map((ev) => (ev[i].evaluacion ? 1 : 0))
-                        .reduce((a, b) => a + b)}
+                  <tr className="bg-secondary text-white">
+                    <td className=" text-center">Total</td>
+                    {!pasos.error &&
+                      !pasos.isPending &&
+                      pasos.data.response.map((el, i) => (
+                        <td key={i} className=" text-center">
+                          {data
+                            .map((ev) => (ev.data[i].evaluacion ? 1 : 0))
+                            .reduce((a, b) => a + b)}
+                        </td>
+                      ))}
+                    <td className="fw-semibold text-center">
+                      {data.map((el) => el.total).reduce((a, b) => a + b)}
                     </td>
-                  ))}
-                <td className="fw-semibold text-center">{sumaTotal}</td>
-              </tr>
-              <tr className="bg-info">
-                <td className=" text-center">Promedio</td>
-                {!pasos.error &&
-                  !pasos.isPending &&
-                  pasos.data.response.map((el, i) => (
-                    <td key={i} className=" text-center">
-                      {(
-                        (data
-                          .map((ev) => (ev[i].evaluacion ? 1 : 0))
-                          .reduce((a, b) => a + b) /
-                          data.length) *
-                        10
-                      ).toFixed(2)}
+                  </tr>
+                  <tr className="bg-info">
+                    <td className=" text-center">Promedio</td>
+                    {!pasos.error &&
+                      !pasos.isPending &&
+                      pasos.data.response.map((el, i) => (
+                        <td key={i} className=" text-center">
+                          {(
+                            (data
+                              .map((ev) => (ev.data[i].evaluacion ? 1 : 0))
+                              .reduce((a, b) => a + b) /
+                              data.length) *
+                            10
+                          ).toFixed(2)}
+                        </td>
+                      ))}
+                    <td className="fw-bold text-white bg-danger text-center">
+                      {data[0].promedio.toFixed(2)}
                     </td>
-                  ))}
-                <td className="fw-bold text-white bg-danger text-center">
-                  {PromedioTotal.toFixed(2)}
-                </td>
-              </tr>
+                  </tr>
+                </>
+              )}
             </tbody>
           </table>
         </div>
         {!pasos.error && !pasos.isPending && (
-          <div
-            className={`d-flex ${
-              qna ? "justify-content-evenly" : "w-50 mx-auto"
-            }`}
-          >
-            <div className={qna ? "w-50" : "w-100"}>
-              <Bar datos={dataBar} text={dataBar.text} legend={false} />
+          <div className="d-flex justify-content-evenly" id="render">
+            <div className="w-50">
+              <Bar
+                datos={dataBar}
+                text={dataBar.text}
+                legend={false}
+                optionsCustom={customBar}
+              />
             </div>
 
-            {qna && (
-              <div className="w-50">
-                <Bar
-                  datos={dataBarPasos}
-                  text={"Promedio por pasos"}
-                  legend={false}
-                />
-              </div>
-            )}
+            <div className="w-50">
+              <Bar
+                datos={dataBarP}
+                text={dataBarP.text}
+                legend={false}
+                optionsCustom={customBar}
+              />
+            </div>
           </div>
         )}
       </div>
       <div>
-        <PdfV2 year={year} month={month} idempleado={idEmpleado} />
+        <PdfV2
+          year={year}
+          month={month}
+          idempleado={idEmpleado}
+          tabla="tabla"
+        />
       </div>
     </Fragment>
   );

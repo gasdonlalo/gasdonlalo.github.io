@@ -75,7 +75,7 @@ function Despacho() {
               text="Recursos despachador"
             />
             <Card
-              url="salida-no-conforme-files"
+              url="salida-no-conforme/files"
               icon="file-pdf"
               text="Salidas no conformes"
             />

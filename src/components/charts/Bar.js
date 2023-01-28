@@ -23,16 +23,17 @@ function Grafica({ datos, text, legend, optionsCustom }) {
   );
 
   const options = {
-    animation: false,
+    animation: true,
     plugins: {
       /* Empieza formato datalabel */
       datalabels: {
-        backgroundColor: function (context) {
+        /*         backgroundColor: function (context) {
           return context.dataset.backgroundColor;
-        },
+        }, */
+        clamp: true,
+        anchor: "end",
         align: "top",
-        borderRadius: 25,
-        color: "white",
+        color: "dark",
         display: function (context) {
           var dataset = context.dataset;
           var value = dataset.data[context.dataIndex];
@@ -54,6 +55,9 @@ function Grafica({ datos, text, legend, optionsCustom }) {
         text,
         font: {
           size: "25",
+        },
+        padding: {
+          bottom: 50,
         },
       },
     },
