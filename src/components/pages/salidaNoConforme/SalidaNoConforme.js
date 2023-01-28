@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
 import useGetData from "../../../hooks/useGetData";
 import InputSelectEmpleado from "../../forms/InputSelectEmpleado";
 import ModalAddIncumplimiento from "../../modals/ModalAddIncumplimiento";
@@ -11,6 +10,9 @@ import format from "../../assets/format";
 import AlertError from "../../alerts/AlertError";
 import Loader from "../../assets/Loader";
 import AlertSuccess from "../../alerts/AlertSuccess";
+import IconComponents from "../../assets/IconComponents";
+import HeaderComponents from "../../../GUI/HeaderComponents";
+import { useParams } from "react-router-dom";
 
 const SalidaNoConforme = () => {
   const empleadoS = useGetData("/empleado?departamento=1");
@@ -27,6 +29,8 @@ const SalidaNoConforme = () => {
     e.preventDefault();
     enviarDatos(datos);
   };
+
+  const { departamento } = useParams();
 
   const enviarDatos = async (x) => {
     try {
@@ -57,13 +61,17 @@ const SalidaNoConforme = () => {
   return (
     <div className="Main">
       <ModalAddIncumplimiento show={show} close={cerrarModal} />
-      <div>
-        <Link className="link-primary" to="/despacho">
-          Volver al despacho
-        </Link>
-        <h4 className="border-bottom">Captura de salidas no conformes</h4>
-      </div>
-
+      <HeaderComponents
+        title="Captura de salidas no conformes"
+        urlBack={`/${departamento}`}
+        textUrlback="Regresar"
+      >
+        <IconComponents
+          icon="file-pdf text-danger"
+          text="Archivos"
+          url="files"
+        />
+      </HeaderComponents>
       <div style={{ display: "flex", flexdirection: "column" }}>
         <div className="me-3">
           <form onSubmit={enviar} className="shadow p-2 ms-2 my-3">

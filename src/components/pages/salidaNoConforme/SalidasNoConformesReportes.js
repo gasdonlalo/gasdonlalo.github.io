@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import useGetData from "../../../hooks/useGetData";
 import Loader from "../../assets/Loader";
 import format from "../../assets/format";
@@ -7,6 +7,9 @@ import InputChangeMes from "../../forms/InputChangeMes";
 import InputChangeYear from "../../forms/InputChangeYear";
 import ErrorHttp from "../../assets/ErrorHttp";
 import PDFSalidaNoConforme from "../despacho/PDFSalidaNoConforme";
+import HeaderComponents from "../../../GUI/HeaderComponents";
+import IconComponents from "../../assets/IconComponents";
+
 export const SalidasNoConformesReportes = () => {
   const date = new Date();
   const [year, setYear] = useState(date.getFullYear());
@@ -14,7 +17,7 @@ export const SalidasNoConformesReportes = () => {
 
   const reportes = useGetData(`salida-no-conforme/${year}/${month}`);
 
-  console.log(reportes);
+  const { departamento } = useParams();
 
   const handleMonth = (e) => {
     setMonth(e.target.value);
@@ -24,42 +27,28 @@ export const SalidasNoConformesReportes = () => {
     setYear(e.target.value);
   };
 
-  const navigate = useNavigate();
-
   return (
-    <div>
-      <div className="d-flex justify-content-between align-items-end border-bottom mb-2">
-        <div className="ms-3">
-          <Link className="link-primary" to="/despacho">
-            Volver al despacho
-          </Link>
-          <h3>Registro de salidas no conformes</h3>
+    <div className="Main">
+      <HeaderComponents
+        title="Registros de salidas no conformes"
+        urlBack={`/${departamento}`}
+        textUrlback={`Regresar a ${departamento}`}
+      >
+        <div className="d-flex">
+          <IconComponents
+            icon="chart-line text-success"
+            text="Reporte Mensual"
+            url="../reporte-mensual"
+          />
+          <IconComponents
+            icon="chart-simple text-info"
+            text="Reporte inconformidad"
+            url="../inconformidad"
+          />
         </div>
-        <div style={{ width: "min-content" }} className="me-3 d-flex">
-          <div
-            className="rounded p-2 btn-select m-1 d-flex flex-column align-items-center"
-            onClick={() => navigate("/salida-no-conforme-reporte-mensual")}
-          >
-            <i
-              className="fa-regular fa-chart-line text-success"
-              style={{ fontSize: "50px" }}
-            ></i>
-            <p className="p-0 m-0 text-nowrap">Reportes mensuales</p>
-          </div>
-          <div
-            className="rounded p-2 btn-select m-1 d-flex flex-column align-items-center"
-            onClick={() => navigate("/salida-no-conformexinconformidad")}
-          >
-            <i
-              className="fa-regular fa-chart-simple text-info"
-              style={{ fontSize: "50px" }}
-            ></i>
-            <p className="p-0 m-0 text-nowrap">Reportes por inconformidad</p>
-          </div>
-        </div>
-      </div>
+      </HeaderComponents>
 
-      <div className="row w-75 mx-auto">
+      <div className="row w-75 mx-auto mt-4">
         <div className="col-md-6">
           <InputChangeMes defaultMes={month} handle={handleMonth} />
         </div>

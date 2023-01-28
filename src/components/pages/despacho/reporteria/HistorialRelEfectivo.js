@@ -5,17 +5,26 @@ import Scale from "../../../charts/Scale";
 import format from "../../../assets/format";
 import Decimal from "decimal.js-light";
 import FormBuscarDetallesTiempo from "../../../forms/FormBuscarDetallesTiempo";
+import ModalError from "../../../modals/ModalError";
 import Axios from "../../../../Caxios/Axios";
+import IconComponents from "../../../assets/IconComponents";
 
 const HistorialRelEfectivo = () => {
   const [body, setBody] = useState(null);
   const [data, setData] = useState(null);
+  const [modalError, setModalError] = useState({ status: false, msg: "" });
+
+  const closeModal = () => setModalError({ status: false, msg: "" });
 
   const buscarDatos = async () => {
     try {
       const res = await Axios.post(`/recoleccion-efectivo/buscar`, body);
       setData(res.data.response);
     } catch (err) {
+      setModalError({
+        status: true,
+        msg: "No se encontraron resultados en este intervalo de tiempo",
+      });
       console.log(err);
     }
   };
@@ -26,7 +35,13 @@ const HistorialRelEfectivo = () => {
         urlBack="/despacho/recoleccion-efectivo/reporte"
         textUrlback="Regresar a Recolección de efectivos mensuales"
         title="Recolección de efectivo por tiempo"
-      ></HeaderComponents>
+      >
+        <IconComponents
+          icon="sack-dollar text-info"
+          url="../recoleccion-efectivo"
+          text="Recolección efectivo"
+        />
+      </HeaderComponents>
       <div>
         {!data && (
           <FormBuscarDetallesTiempo
@@ -34,13 +49,18 @@ const HistorialRelEfectivo = () => {
             buscarDatos={buscarDatos}
           />
         )}
-        {data && <Success data={data} setData={setData} />}
+        {data && <Success data={data} setData={setData} body={body} />}
       </div>
+      <ModalError
+        show={modalError.status}
+        text={modalError.msg}
+        close={closeModal}
+      />
     </div>
   );
 };
 
-const Success = ({ data, setData }) => {
+const Success = ({ data, setData, body }) => {
   const [groupTiempo, setGropTiempo] = useState(1);
   const [grafica, setGrafica] = useState(1);
   const group = [];
@@ -119,6 +139,32 @@ const Success = ({ data, setData }) => {
         <button className="btn btn-success" onClick={() => setData(null)}>
           Buscar otro despachador
         </button>
+      </div>
+      <div className="fw-bold">
+        <p className="mb-0">
+          Nombre Completo:{" "}
+          <span className="fw-semibold">
+            {data.filter((el) => el.nombre)[0].nombre_completo}
+          </span>
+        </p>
+        <p className="mb-0">
+          Cantidad acumulada:{" "}
+          <span className="fw-semibold">
+            ${data.map((el) => el.cantidad).reduce((a, b) => a + b, 0)}
+          </span>
+        </p>
+        <p className="mb-0">
+          Fecha Inicio:{" "}
+          <span className="fw-semibold">
+            {format.formatFechaComplete(body.fechaInicio)}
+          </span>
+        </p>
+        <p className="mb-0">
+          Fecha Final:{" "}
+          <span className="fw-semibold">
+            {format.formatFechaComplete(body.fechaFinal)}
+          </span>
+        </p>
       </div>
       <div className="d-flex justify-content-around w-50 mx-auto">
         <div className="col-5">

@@ -8,6 +8,7 @@ import format from "../../../assets/format";
 import { EditED, DeleteED } from "../../../modals/EditED";
 import Decimal from "decimal.js-light";
 import Scale from "../../../charts/Scale";
+import IconComponents from "../../../assets/IconComponents";
 
 const HistorialPasoDes = () => {
   const [body, setBody] = useState(null);
@@ -27,7 +28,10 @@ const HistorialPasoDes = () => {
       const res = await Axios.post("/pasos-despachar/buscar", body);
       setData(res.data.response);
     } catch (err) {
-      setModalError({ status: true, msg: "No se encontraron datos" });
+      setModalError({
+        status: true,
+        msg: "No se encontraron datos en el intervalo de tiempo",
+      });
       console.log(err);
     }
   };
@@ -38,7 +42,13 @@ const HistorialPasoDes = () => {
         title="Evaluaciones pasos de despacho por empleado"
         urlBack="/despacho/pasos-despachar/reporte"
         textUrlback="Regresar a reportes de evaluaciones"
-      ></HeaderComponents>
+      >
+        <IconComponents
+          icon="list-check text-info"
+          text="Evaluar"
+          url="../pasos-despachar"
+        />
+      </HeaderComponents>
       <div>
         {!data && (
           <FormBuscarDetallesTiempo

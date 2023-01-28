@@ -1,5 +1,4 @@
 import { Fragment, useState } from "react";
-import { Link } from "react-router-dom";
 import useGetData from "../../../hooks/useGetData";
 import InputChangeMes from "../../forms/InputChangeMes";
 import InputChangeYear from "../../forms/InputChangeYear";
@@ -7,6 +6,7 @@ import format from "../../assets/format";
 import Scale from "../../charts/Scale";
 import Loader from "../../assets/Loader";
 import PdfV2 from "../../pdf_generador/PdfV2";
+import HeaderComponents from "../../../GUI/HeaderComponents";
 
 const { formatMes, obtenerDiaMes } = format;
 
@@ -24,11 +24,11 @@ const SalidaNoConformeGraficaMensual = () => {
 
   return (
     <div className="Main">
-      <Link className="link-primary" to="/despacho/salida-no-conforme-files">
-        Volver al despacho
-      </Link>
-      <h3 className="border-bottom">Reporte mensual salidas no conformes</h3>
-      <div className="row w-75 mx-auto">
+      <HeaderComponents
+        title="Reportes mensuales SNC"
+        urlBack="../files"
+      ></HeaderComponents>
+      <div className="row w-75 mx-auto mt-4">
         <div className="col-md-6">
           <InputChangeMes defaultMes={month} handle={handleMonth} />
         </div>

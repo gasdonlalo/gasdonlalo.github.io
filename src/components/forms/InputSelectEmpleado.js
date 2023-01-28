@@ -3,6 +3,7 @@ import { Dropdown, Form } from "react-bootstrap";
 
 const CustomSelect = React.forwardRef(({ children, onClick }, ref) => (
   <div
+    tabIndex={0}
     ref={ref}
     className="form-select "
     onClick={onClick}

@@ -1,11 +1,11 @@
 import { Fragment, useState } from "react";
-import { Link } from "react-router-dom";
 import useGetData from "../../../hooks/useGetData";
 import InputChangeMes from "../../forms/InputChangeMes";
 import InputChangeYear from "../../forms/InputChangeYear";
 import Loader from "../../assets/Loader";
 import Bar from "../../charts/Bar";
 import ErrorHttp from "../../assets/ErrorHttp";
+import HeaderComponents from "../../../GUI/HeaderComponents";
 import PdfV2 from "../../pdf_generador/PdfV2";
 
 const SalidaInconformidadesGrafica = () => {
@@ -27,13 +27,12 @@ const SalidaInconformidadesGrafica = () => {
 
   return (
     <div className="Main">
-      <Link className="link-primary" to="/despacho/salida-no-conforme-files">
-        Volver al despacho
-      </Link>
-      <h3 className="border-bottom">
-        Reporte mensual salidas no conformes por inconformidad
-      </h3>
-      <div className="row w-75 mx-auto">
+      <HeaderComponents
+        title="Reporte mensual Salidas No Conformes por inconformidad"
+        textUrlback="Regresar a archivos"
+        urlBack="../files"
+      ></HeaderComponents>
+      <div className="row w-75 mx-auto mt-4">
         <div className="col-md-6">
           <InputChangeMes defaultMes={month} handle={handleMonth} />
         </div>

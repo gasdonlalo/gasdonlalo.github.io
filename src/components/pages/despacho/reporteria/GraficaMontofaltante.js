@@ -46,7 +46,7 @@ function GraficaMontofaltante() {
         <IconComponents
           icon="calendar-days text-warning"
           text="MF tiempo"
-          url="/despacho/montos-faltantes/reportes-tiempo"
+          url="/despacho/montos-faltantes/historial"
         />
       </HeaderComponents>
       <div className="container">

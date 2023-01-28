@@ -1,4 +1,5 @@
 import { useRef } from "react";
+import format from "../assets/format";
 
 const InputFecha = ({
   handle,
@@ -7,6 +8,8 @@ const InputFecha = ({
   setData,
   defaultValue,
   disabled,
+  min,
+  max,
 }) => {
   const inputFecha = useRef();
   const establecerFecha = () => {
@@ -26,6 +29,8 @@ const InputFecha = ({
         onChange={handle}
         defaultValue={defaultValue || null}
         disabled={disabled}
+        min={min}
+        max={format.formatFechaDB(new Date())}
         required
       />
       <span

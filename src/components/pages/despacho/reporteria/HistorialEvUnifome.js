@@ -25,7 +25,7 @@ const HistorialEvUnifome = () => {
       setMsgError(null);
     } catch (err) {
       setData(null);
-      setMsgError("!Error");
+      setMsgError("!No se encontraron datos");
     }
   };
 
@@ -192,6 +192,9 @@ const GraficaSuccess = ({ data, setEdit, setDel }) => {
               y: {
                 min: 0,
                 max: 8,
+                ticks: {
+                  stepSize: 1,
+                },
                 title: {
                   display: true,
                   text: "Puntos",

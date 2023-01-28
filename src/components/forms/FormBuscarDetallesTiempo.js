@@ -1,6 +1,8 @@
 import useGetData from "../../hooks/useGetData";
 import HeaderForm from "../../GUI/HeaderForm";
 import InputSelectEmpleado from "./InputSelectEmpleado";
+import InputFecha from "./InputFecha";
+import format from "../assets/format";
 
 const FormBuscarDetallesTiempo = ({ bodyState, buscarDatos, msgError }) => {
   const [body, setBody] = bodyState;
@@ -36,17 +38,30 @@ const FormBuscarDetallesTiempo = ({ bodyState, buscarDatos, msgError }) => {
                 name="fechaInicio"
                 onChange={handle}
                 min="2020-12-12"
+                max={format.formatFechaDB(
+                  new Date().setDate(new Date().getDate() - 1)
+                )}
                 required
               />
             </div>
             <div className="col-5">
               <label className="form-label mb-0">Fin</label>
-              <input
-                type="date"
-                className="form-control"
+              <InputFecha
                 name="fechaFinal"
-                onChange={handle}
-                required
+                handle={handle}
+                min={
+                  body
+                    ? new Date(
+                        new Date(body.fechaInicio || null).setDate(
+                          new Date(body.fechaInicio || null).getDate() + 1
+                        )
+                      )
+                        .toISOString()
+                        .split("T")[0]
+                    : "2020-01-01"
+                }
+                data={body}
+                setData={setBody}
               />
             </div>
           </div>
