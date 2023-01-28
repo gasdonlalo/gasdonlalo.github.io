@@ -144,6 +144,8 @@ function PdfV2({
     paginacion: {
       fontFamily: "calibri",
       fontSize: "10pt",
+      textAlign: "right",
+      marginTop: "3px",
     },
     /* tabla: { position: "absolute", bottom: "25px", left: "655px" }, */
     infoAdicional: {
@@ -290,15 +292,15 @@ function PdfV2({
             alignItems: "flex-end",
           }}
         >
-          <Text
-            style={estilo.paginacion}
-            render={({ pageNumber, totalPages }) =>
-              `Página ${pageNumber} de ${totalPages}.`
-            }
-          />
-
           <Image src={tabladis} style={{ width: "90px" }} />
         </View>
+        <Text
+          style={estilo.paginacion}
+          render={({ pageNumber, totalPages }) =>
+            `Página ${pageNumber} de ${totalPages}.`
+          }
+          fixed
+        />
         {/* Tabla disposicion y paginacion */}
       </Page>
     </Document>
