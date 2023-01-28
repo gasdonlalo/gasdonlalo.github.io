@@ -33,7 +33,7 @@ function Administrativo() {
             />
             <Card
               icon="fa-thin fa-clipboard-list"
-              url=""
+              url="configuracion-permisos"
               text="Configuracion de permisos"
             />
             <Card
@@ -67,7 +67,7 @@ function Administrativo() {
           <h3>Reportes</h3>
           <div className="d-flex justify-content-evenly flex-wrap mt-5">
             <Card
-              url=""
+              url="rep-permisos"
               icon="chart-pie"
               text="Reporde de usuarios y opciones"
             />

@@ -1,6 +1,6 @@
 function FormConfiguracionEstacion() {
   return (
-    <div className="main1">
+    <div className="main">
       {/* Select para la estación */}
       <div className="container">
         <div className="row">
@@ -14,13 +14,12 @@ function FormConfiguracionEstacion() {
           </div>
         </div>
       </div>
-
       {/* Tarjetas */}
       <div className="row mx-5">
         {/* NO.1 */}
         <div className="col mb-3">
           <div
-            className="Card d-flex justify-content-between col-4 border border-3"
+            className="Card d-flex justify-content-between col-4 border border-2"
             style={{ width: "18rem" }}
           >
             <div className="left-column">
@@ -336,7 +335,7 @@ function FormConfiguracionEstacion() {
                   class="form-check-label text-success"
                   for="flexSwitchCheckDefault"
                 >
-                  M 1
+                  M 7
                 </label>
               </div>
               <div class="form-check form-switch text-danger">
@@ -347,7 +346,7 @@ function FormConfiguracionEstacion() {
                   id="flexSwitchCheckDefault"
                 ></input>
                 <label class="form-check-label" for="flexSwitchCheckDefault">
-                  P 1
+                  P 7
                 </label>
               </div>
               <div class="form-check form-switch">
@@ -358,7 +357,7 @@ function FormConfiguracionEstacion() {
                   id="flexSwitchCheckDefault"
                 ></input>
                 <label class="form-check-label" for="flexSwitchCheckDefault">
-                  D 1
+                  D 7
                 </label>
               </div>
             </div>
@@ -378,7 +377,7 @@ function FormConfiguracionEstacion() {
                     required
                   ></input>
                 </div>
-                <h5>Isla 1</h5>
+                <h5>Isla 4</h5>
               </div>
             </div>
 
@@ -391,7 +390,7 @@ function FormConfiguracionEstacion() {
                   id="flexSwitchCheckDefault"
                 ></input>
                 <label class="form-check-label" for="flexSwitchCheckDefault">
-                  M 2
+                  M 8
                 </label>
               </div>
               <div class="form-check form-switch text-danger">
@@ -402,7 +401,7 @@ function FormConfiguracionEstacion() {
                   id="flexSwitchCheckDefault"
                 ></input>
                 <label class="form-check-label" for="flexSwitchCheckDefault">
-                  P 2
+                  P 8
                 </label>
               </div>
               <div class="form-check form-switch">
@@ -413,7 +412,7 @@ function FormConfiguracionEstacion() {
                   id="flexSwitchCheckDefault"
                 ></input>
                 <label class="form-check-label" for="flexSwitchCheckDefault">
-                  D 2
+                  D 8
                 </label>
               </div>
             </div>
@@ -722,6 +721,9 @@ function FormConfiguracionEstacion() {
             </div>
           </div>
         </div>
+      </div>
+      <div className="text-center text-danger">
+        Nota: Solo marca la isla necesaria
       </div>
       <form className="text-center">
         <button
