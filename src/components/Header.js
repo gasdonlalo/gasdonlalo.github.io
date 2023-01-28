@@ -11,7 +11,7 @@ function Header() {
         alt="Gasolineria Don Lalo"
       />
       <div className="d-flex align-items-center">
-        <p className="me-2">{auth().auth.nombre}</p>
+        <p className="me-2">{auth().auth.nombre || ""}</p>
         <Link
           type="button"
           className="btn btn-primary me-2 rounded-circle"

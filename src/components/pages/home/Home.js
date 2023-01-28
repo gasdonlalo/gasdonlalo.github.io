@@ -15,7 +15,7 @@ function Home() {
         </div>
       )}
 
-      {dep(3) && (
+      {dep(4) && (
         <div className="card text-center" style={{ width: "18rem" }}>
           <Link to="/mantenimiento">
             <i className="bi bi-tools" style={{ fontSize: "72pt" }}></i>
@@ -26,7 +26,7 @@ function Home() {
         </div>
       )}
 
-      {dep(3) && (
+      {dep(5) && (
         <div className="card text-center shadow-sm" style={{ width: "18rem" }}>
           <Link to="/almacen1">
             <i className="bi bi-box2" style={{ fontSize: "72pt" }}></i>
@@ -37,7 +37,7 @@ function Home() {
         </div>
       )}
 
-      {dep(4) && (
+      {dep(6) && (
         <div
           className="card text-center"
           style={{ width: "18rem" }}
@@ -52,7 +52,7 @@ function Home() {
         </div>
       )}
 
-      {dep(5) && (
+      {dep(7) && (
         <div className="card text-center" style={{ width: "18rem" }}>
           <Link to="/recursos-humanos">
             <i className="bi bi-people" style={{ fontSize: "72pt" }}></i>
@@ -63,7 +63,7 @@ function Home() {
         </div>
       )}
 
-      {dep(6) && (
+      {dep(8) && (
         <div className="card text-center shadow-sm" style={{ width: "18rem" }}>
           <Link to="/administrativo">
             <i
@@ -77,7 +77,7 @@ function Home() {
         </div>
       )}
 
-      {dep(7) && (
+      {dep(9) && (
         <div className="card text-center" style={{ width: "18rem" }}>
           <Link to="/seguridad">
             <i className="bi bi-shield-lock" style={{ fontSize: "72pt" }}></i>
@@ -88,7 +88,7 @@ function Home() {
         </div>
       )}
 
-      {dep(8) && (
+      {dep(10) && (
         <div className="card text-center" style={{ width: "18rem" }}>
           <Link to="/documentos-sgc">
             <i
