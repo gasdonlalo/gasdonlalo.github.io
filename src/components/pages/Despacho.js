@@ -1,4 +1,6 @@
+// import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
+import { per } from "../Provider/auth";
 function Despacho() {
   return (
     <div className="Main">
@@ -8,37 +10,51 @@ function Despacho() {
           <h3>Captura de indicadores de desempeño</h3>
 
           <div className="w-100 d-flex justify-content-evenly flex-wrap mt-5">
-            <Card
-              url="montos-faltantes"
-              icon="money-bills"
-              text="Monto faltante"
-            />
-            <Card url="checklist" icon="check" text="Checklist bomba" />
-            <Card
-              url="evaluacion-uniforme"
-              icon="shirt"
-              text="Evaluación uniforme"
-            />
-            <Card
-              url="recoleccion-efectivo"
-              icon="sack-dollar"
-              text="Recoleccion efectivo"
-            />
-            <Card
-              url="pasos-despachar"
-              icon="list-check"
-              text="Pasos para despachar"
-            />
-            <Card
-              url="recurso-despachador"
-              icon="stapler"
-              text="Recursos despachador"
-            />
-            <Card
-              url="salida-no-conforme"
-              icon="thumbs-down"
-              text="Salidas no conformes"
-            />
+            {per(2) && (
+              <Card
+                url="montos-faltantes"
+                icon="money-bills"
+                text="Monto faltante"
+              />
+            )}
+            {per(5) && (
+              <Card url="checklist" icon="check" text="Checklist bomba" />
+            )}
+            {per(8) && (
+              <Card
+                url="evaluacion-uniforme"
+                icon="shirt"
+                text="Evaluación uniforme"
+              />
+            )}
+            {per(11) && (
+              <Card
+                url="recoleccion-efectivo"
+                icon="sack-dollar"
+                text="Recoleccion efectivo"
+              />
+            )}
+            {per(14) && (
+              <Card
+                url="pasos-despachar"
+                icon="list-check"
+                text="Pasos para despachar"
+              />
+            )}
+            {per(17) && (
+              <Card
+                url="recurso-despachador"
+                icon="stapler"
+                text="Recursos despachador"
+              />
+            )}
+            {per(20) && (
+              <Card
+                url="salida-no-conforme"
+                icon="thumbs-down"
+                text="Salidas no conformes"
+              />
+            )}
           </div>
         </div>
         <div className="text-center m-auto">

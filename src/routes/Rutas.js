@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Notfound from "../components/pages/Notfound";
 import Layout from "../GUI/Layout";
 import Home from "../components/pages/home/Home";
+import Auth from "../GUI/Auth";
 // Importacion de despacho
 import Despacho from "../components/pages/Despacho";
 import MontoFaltante from "../components/pages/despacho/MontoFaltante";
@@ -68,10 +69,17 @@ import GICA from "../components/pages/RecursosHumanos/Reportes/RepAceitoso";
 
 //pdf prueba
 import PdfV2 from "../components/pdf_generador/PdfV2";
+import ConfiguracionEstacion from "../components/pages/administrativo/ConfiguracionEstacion";
+import RepConfiguracionEstacion from "../components/pages/administrativo/reportes/RepConfiguracionEstacion";
+import ConfiguracionPermisos from "../components/pages/administrativo/ConfiguracionPermisos";
+import RepConfiguracionPermisos from "../components/pages/administrativo/reportes/RepConfiguracionPermisos";
 
 function Rutas() {
   return (
     <Router>
+      <Routes>
+        <Route path="/auth" element={<Auth />} />
+      </Routes>
       <Routes>
         {/* Rutas de despacho */}
         <Route path="/" element={<Layout />}>
@@ -162,6 +170,16 @@ function Rutas() {
         {/* Administrativo */}
         <Route path="/administrativo" element={<Layout />}>
           <Route index element={<Administrativo />} />
+          <Route
+            path="configuracion-estacion"
+            element={<ConfiguracionEstacion />}
+          />
+          <Route
+            path="configuracion-permisos"
+            element={<ConfiguracionPermisos />}
+          />
+          <Route path="rep-permisos" element={<RepConfiguracionPermisos />} />
+          <Route path="rep-estacion" element={<RepConfiguracionEstacion />} />
         </Route>
 
         {/* Mantenimiento */}
