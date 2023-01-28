@@ -75,10 +75,10 @@ const Success = ({ data, year, month }) => {
   };
   return (
     <Fragment>
-      <div className="mt-4 mx-auto">
+      <div className="mt-4 mx-auto" id="render">
         <div className="d-flex justify-content-between align-items-center">
           <div style={{ flexGrow: "1" }}>
-            <table id="tabla">
+            <table>
               <thead>
                 <tr>
                   <th className="border p-2 text-center">
@@ -98,7 +98,7 @@ const Success = ({ data, year, month }) => {
               </tbody>
             </table>
           </div>
-          <div style={{ flexGrow: "1" }} id="render">
+          <div style={{ flexGrow: "1" }}>
             <Bar
               datos={dataBar}
               legend={false}
@@ -108,7 +108,7 @@ const Success = ({ data, year, month }) => {
         </div>
       </div>
       <div>
-        <PdfV2 year={year} month={month} tabla="tabla" />
+        <PdfV2 year={year} month={month} />
       </div>
     </Fragment>
   );

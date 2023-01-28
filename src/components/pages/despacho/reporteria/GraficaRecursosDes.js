@@ -111,13 +111,13 @@ const Success = ({ recursos, year, month, quincena }) => {
     datasets: [
       {
         data: tableTotalPuntos.map((el) => el.cantidad),
-        backgroundColor: "rgba(6,43,223,1)",
+        backgroundColor: "rgba(6,43,223,0.5)",
         borderColor: "rgba(6,43,223,1)",
         label: "Total",
       },
       {
         data: tableTotalPuntos.map((el) => el.puntaje_minimo),
-        backgroundColor: "rgba(253,124,13,1)",
+        backgroundColor: "rgba(253,124,13,0.5)",
         borderColor: "rgba(253,124,13,1)",
         label: "Puntaje minimo",
       },
