@@ -177,8 +177,7 @@ const VerSNC = ({ idInsersion }) => {
   );
   console.log(consultarPdf);
   return (
-    <div className="d-flex flex-fill justify-content-center align-items-center">
-      {consultarPdf.isPending && <Loader />}
+    <div className="d-flex justify-content-center align-items-center">
       {!consultarPdf.isPending && !consultarPdf.error && (
         <PDFSalidaNoConforme
           title="salida no conforme"
@@ -205,6 +204,7 @@ const VerSNC = ({ idInsersion }) => {
         />
       )}
       {consultarPdf.error && <h4>¡Ups¡, algo salió mal</h4>}
+      {consultarPdf.isPending && <Loader />}
     </div>
   );
 };

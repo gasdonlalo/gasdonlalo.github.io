@@ -53,6 +53,7 @@ const Scale = ({ data, legend, text, optionsCustom }) => {
       } /* Termina formato de datalabel */,
       legend: {
         display: legend,
+        position: "bottom",
       },
       title: {
         display: true,
@@ -60,6 +61,7 @@ const Scale = ({ data, legend, text, optionsCustom }) => {
         font: {
           size: "25",
         },
+        padding: { bottom: 50 },
       },
     },
     layout: {

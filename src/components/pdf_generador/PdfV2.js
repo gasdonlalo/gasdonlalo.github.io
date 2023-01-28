@@ -134,7 +134,6 @@ function PdfV2({
       justifyContent: "space-around",
     },
     cuerpo: {
-      border: "1px solid black",
       marginTop: "3px",
     },
     titulos: {
@@ -266,7 +265,6 @@ function PdfV2({
                 minHeight: 200,
                 maxHeight: 450,
                 justifyContent: "center",
-                border: "1px solid blue",
               }}
             >
               <Image src={img2} />
@@ -277,7 +275,6 @@ function PdfV2({
             style={{
               minHeight: 200,
               maxHeight: 400,
-              border: "1px solid red",
               justifyContent: "center",
             }}
             break
