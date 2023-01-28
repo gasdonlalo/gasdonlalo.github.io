@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Notfound from "../components/pages/Notfound";
 import Layout from "../GUI/Layout";
 import Home from "../components/pages/home/Home";
+import Auth from "../GUI/Auth";
 // Importacion de despacho
 import Despacho from "../components/pages/Despacho";
 import MontoFaltante from "../components/pages/despacho/MontoFaltante";
