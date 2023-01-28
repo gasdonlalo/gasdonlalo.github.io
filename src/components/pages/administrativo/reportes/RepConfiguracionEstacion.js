@@ -10,13 +10,13 @@ function RepConfiguracionEstacion() {
         title="Reporte de configuracion de estación"
       >
         <IconComponents
-          text="Algo xd"
+          text="Configuración Est"
           url="/administrativo/configuracion-estacion"
           icon="fa-thin fa-clipboard-list text-primary"
         />
       </HeaderComponents>
       <div>
-        <h1>Hola gei</h1>
+        <h1>Holam</h1>
       </div>
     </div>
   );

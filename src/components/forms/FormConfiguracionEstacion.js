@@ -1,6 +1,6 @@
 function FormConfiguracionEstacion() {
   return (
-    <div className="main">
+    <div className="main1">
       {/* Select para la estación */}
       <div className="container">
         <div className="row">
@@ -16,305 +16,722 @@ function FormConfiguracionEstacion() {
       </div>
 
       {/* Tarjetas */}
-      {/* NO.1 */}
-      <div className="container mb-3">
-        <div className="Card d-flex justify-content-evenly col-4 border border-3">
-          <div className="left-column col-3">
-            <div class="form-check form-switch text-success">
-              <input
-                className="form-check-input"
-                type="checkbox"
-                role="switch"
-                id="flexSwitchCheckDefault"
-              ></input>
-              <label
-                class="form-check-label text-success"
-                for="flexSwitchCheckDefault"
-              >
-                M 1
-              </label>
-            </div>
-            <div class="form-check form-switch text-danger">
-              <input
-                className="form-check-input"
-                type="checkbox"
-                role="switch"
-                id="flexSwitchCheckDefault"
-              ></input>
-              <label class="form-check-label" for="flexSwitchCheckDefault">
-                P 1
-              </label>
-            </div>
-            <div class="form-check form-switch">
-              <input
-                className="form-check-input"
-                type="checkbox"
-                role="switch"
-                id="flexSwitchCheckDefault"
-              ></input>
-              <label class="form-check-label" for="flexSwitchCheckDefault">
-                D 1
-              </label>
-            </div>
-          </div>
-
-          <div className="center-column col-4">
-            <i
-              className="bi bi-ev-station text-primary"
-              style={{ fontSize: "72pt" }}
-            ></i>
-            <div className="card-body d-flex">
-              <div class="form-check form-switch">
+      <div className="row mx-5">
+        {/* NO.1 */}
+        <div className="col mb-3">
+          <div
+            className="Card d-flex justify-content-between col-4 border border-3"
+            style={{ width: "18rem" }}
+          >
+            <div className="left-column">
+              <div class="form-check form-switch text-success">
                 <input
-                  className="form-check-input "
+                  className="form-check-input"
                   type="checkbox"
                   role="switch"
                   id="flexSwitchCheckDefault"
-                  required
                 ></input>
+                <label
+                  class="form-check-label text-success"
+                  for="flexSwitchCheckDefault"
+                >
+                  M 1
+                </label>
               </div>
-              <h5>Isla 1</h5>
+              <div class="form-check form-switch text-danger">
+                <input
+                  className="form-check-input"
+                  type="checkbox"
+                  role="switch"
+                  id="flexSwitchCheckDefault"
+                ></input>
+                <label class="form-check-label" for="flexSwitchCheckDefault">
+                  P 1
+                </label>
+              </div>
+              <div class="form-check form-switch">
+                <input
+                  className="form-check-input"
+                  type="checkbox"
+                  role="switch"
+                  id="flexSwitchCheckDefault"
+                ></input>
+                <label class="form-check-label" for="flexSwitchCheckDefault">
+                  D 1
+                </label>
+              </div>
+            </div>
+
+            <div className="center-column">
+              <i
+                className="bi bi-ev-station text-primary"
+                style={{ fontSize: "72pt" }}
+              ></i>
+              <div className="card-body d-flex">
+                <div class="form-check form-switch">
+                  <input
+                    className="form-check-input "
+                    type="checkbox"
+                    role="switch"
+                    id="flexSwitchCheckDefault"
+                    required
+                  ></input>
+                </div>
+                <h5>Isla 1</h5>
+              </div>
+            </div>
+
+            <div className="right-column">
+              <div class="form-check form-switch text-success">
+                <input
+                  className="form-check-input"
+                  type="checkbox"
+                  role="switch"
+                  id="flexSwitchCheckDefault"
+                ></input>
+                <label class="form-check-label" for="flexSwitchCheckDefault">
+                  M 2
+                </label>
+              </div>
+              <div class="form-check form-switch text-danger">
+                <input
+                  className="form-check-input"
+                  type="checkbox"
+                  role="switch"
+                  id="flexSwitchCheckDefault"
+                ></input>
+                <label class="form-check-label" for="flexSwitchCheckDefault">
+                  P 2
+                </label>
+              </div>
+              <div class="form-check form-switch">
+                <input
+                  className="form-check-input"
+                  type="checkbox"
+                  role="switch"
+                  id="flexSwitchCheckDefault"
+                ></input>
+                <label class="form-check-label" for="flexSwitchCheckDefault">
+                  D 2
+                </label>
+              </div>
             </div>
           </div>
+        </div>
 
-          <div className="right-column">
-            <div class="form-check form-switch text-success">
-              <input
-                className="form-check-input"
-                type="checkbox"
-                role="switch"
-                id="flexSwitchCheckDefault"
-              ></input>
-              <label class="form-check-label" for="flexSwitchCheckDefault">
-                M 2
-              </label>
+        {/* NO.2 */}
+        <div className="col mb-3">
+          <div
+            className="Card d-flex justify-content-between col-4 border border-3"
+            style={{ width: "18rem" }}
+          >
+            <div className="left-column">
+              <div class="form-check form-switch text-success">
+                <input
+                  className="form-check-input"
+                  type="checkbox"
+                  role="switch"
+                  id="flexSwitchCheckDefault"
+                ></input>
+                <label class="form-check-label" for="flexSwitchCheckDefault">
+                  M 3
+                </label>
+              </div>
+              <div class="form-check form-switch text-danger">
+                <input
+                  className="form-check-input"
+                  type="checkbox"
+                  role="switch"
+                  id="flexSwitchCheckDefault"
+                ></input>
+                <label class="form-check-label" for="flexSwitchCheckDefault">
+                  P 3
+                </label>
+              </div>
+              <div class="form-check form-switch">
+                <input
+                  className="form-check-input"
+                  type="checkbox"
+                  role="switch"
+                  id="flexSwitchCheckDefault"
+                ></input>
+                <label class="form-check-label" for="flexSwitchCheckDefault">
+                  D 3
+                </label>
+              </div>
             </div>
-            <div class="form-check form-switch text-danger">
-              <input
-                className="form-check-input"
-                type="checkbox"
-                role="switch"
-                id="flexSwitchCheckDefault"
-              ></input>
-              <label class="form-check-label" for="flexSwitchCheckDefault">
-                P 2
-              </label>
+
+            <div className="center-column ">
+              <i
+                className="bi bi-ev-station text-primary"
+                style={{ fontSize: "72pt" }}
+              ></i>
+              <div className="card-body d-flex">
+                <div class="form-check form-switch">
+                  <input
+                    className="form-check-input "
+                    type="checkbox"
+                    role="switch"
+                    id="flexSwitchCheckDefault"
+                    required
+                  ></input>
+                </div>
+                <h5>Isla 2</h5>
+              </div>
             </div>
-            <div class="form-check form-switch">
-              <input
-                className="form-check-input"
-                type="checkbox"
-                role="switch"
-                id="flexSwitchCheckDefault"
-              ></input>
-              <label class="form-check-label" for="flexSwitchCheckDefault">
-                D 2
-              </label>
+
+            <div className="right-column">
+              <div class="form-check form-switch text-success">
+                <input
+                  className="form-check-input"
+                  type="checkbox"
+                  role="switch"
+                  id="flexSwitchCheckDefault"
+                ></input>
+                <label class="form-check-label" for="flexSwitchCheckDefault">
+                  M 4
+                </label>
+              </div>
+              <div class="form-check form-switch text-danger">
+                <input
+                  className="form-check-input"
+                  type="checkbox"
+                  role="switch"
+                  id="flexSwitchCheckDefault"
+                ></input>
+                <label class="form-check-label" for="flexSwitchCheckDefault">
+                  P 4
+                </label>
+              </div>
+              <div class="form-check form-switch">
+                <input
+                  className="form-check-input"
+                  type="checkbox"
+                  role="switch"
+                  id="flexSwitchCheckDefault"
+                ></input>
+                <label class="form-check-label" for="flexSwitchCheckDefault">
+                  D 4
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+        {/* NO,3 */}
+        <div className="col mb-3">
+          <div
+            className="Card d-flex justify-content-between col-4 border border-3"
+            style={{ width: "18rem" }}
+          >
+            <div className="left-column col-3">
+              <div class="form-check form-switch text-success">
+                <input
+                  className="form-check-input"
+                  type="checkbox"
+                  role="switch"
+                  id="flexSwitchCheckDefault"
+                ></input>
+                <label
+                  class="form-check-label text-success"
+                  for="flexSwitchCheckDefault"
+                >
+                  M 5
+                </label>
+              </div>
+              <div class="form-check form-switch text-danger">
+                <input
+                  className="form-check-input"
+                  type="checkbox"
+                  role="switch"
+                  id="flexSwitchCheckDefault"
+                ></input>
+                <label class="form-check-label" for="flexSwitchCheckDefault">
+                  P 5
+                </label>
+              </div>
+              <div class="form-check form-switch">
+                <input
+                  className="form-check-input"
+                  type="checkbox"
+                  role="switch"
+                  id="flexSwitchCheckDefault"
+                ></input>
+                <label class="form-check-label" for="flexSwitchCheckDefault">
+                  D 5
+                </label>
+              </div>
+            </div>
+
+            <div className="center-column col-4">
+              <i
+                className="bi bi-ev-station text-primary"
+                style={{ fontSize: "72pt" }}
+              ></i>
+              <div className="card-body d-flex">
+                <div class="form-check form-switch">
+                  <input
+                    className="form-check-input "
+                    type="checkbox"
+                    role="switch"
+                    id="flexSwitchCheckDefault"
+                    required
+                  ></input>
+                </div>
+                <h5>Isla 3</h5>
+              </div>
+            </div>
+
+            <div className="right-column">
+              <div class="form-check form-switch text-success">
+                <input
+                  className="form-check-input"
+                  type="checkbox"
+                  role="switch"
+                  id="flexSwitchCheckDefault"
+                ></input>
+                <label class="form-check-label" for="flexSwitchCheckDefault">
+                  M 6
+                </label>
+              </div>
+              <div class="form-check form-switch text-danger">
+                <input
+                  className="form-check-input"
+                  type="checkbox"
+                  role="switch"
+                  id="flexSwitchCheckDefault"
+                ></input>
+                <label class="form-check-label" for="flexSwitchCheckDefault">
+                  P 6
+                </label>
+              </div>
+              <div class="form-check form-switch">
+                <input
+                  className="form-check-input"
+                  type="checkbox"
+                  role="switch"
+                  id="flexSwitchCheckDefault"
+                ></input>
+                <label class="form-check-label" for="flexSwitchCheckDefault">
+                  D 6
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+        {/* NO.4 */}
+        <div className="col mb-3">
+          <div
+            className="Card d-flex justify-content-between col-4 border border-3"
+            style={{ width: "18rem" }}
+          >
+            <div className="left-column">
+              <div class="form-check form-switch text-success">
+                <input
+                  className="form-check-input"
+                  type="checkbox"
+                  role="switch"
+                  id="flexSwitchCheckDefault"
+                ></input>
+                <label
+                  class="form-check-label text-success"
+                  for="flexSwitchCheckDefault"
+                >
+                  M 1
+                </label>
+              </div>
+              <div class="form-check form-switch text-danger">
+                <input
+                  className="form-check-input"
+                  type="checkbox"
+                  role="switch"
+                  id="flexSwitchCheckDefault"
+                ></input>
+                <label class="form-check-label" for="flexSwitchCheckDefault">
+                  P 1
+                </label>
+              </div>
+              <div class="form-check form-switch">
+                <input
+                  className="form-check-input"
+                  type="checkbox"
+                  role="switch"
+                  id="flexSwitchCheckDefault"
+                ></input>
+                <label class="form-check-label" for="flexSwitchCheckDefault">
+                  D 1
+                </label>
+              </div>
+            </div>
+
+            <div className="center-column">
+              <i
+                className="bi bi-ev-station text-primary"
+                style={{ fontSize: "65pt" }}
+              ></i>
+              <div className="card-body d-flex">
+                <div class="form-check form-switch">
+                  <input
+                    className="form-check-input "
+                    type="checkbox"
+                    role="switch"
+                    id="flexSwitchCheckDefault"
+                    required
+                  ></input>
+                </div>
+                <h5>Isla 1</h5>
+              </div>
+            </div>
+
+            <div className="right-column">
+              <div class="form-check form-switch text-success">
+                <input
+                  className="form-check-input"
+                  type="checkbox"
+                  role="switch"
+                  id="flexSwitchCheckDefault"
+                ></input>
+                <label class="form-check-label" for="flexSwitchCheckDefault">
+                  M 2
+                </label>
+              </div>
+              <div class="form-check form-switch text-danger">
+                <input
+                  className="form-check-input"
+                  type="checkbox"
+                  role="switch"
+                  id="flexSwitchCheckDefault"
+                ></input>
+                <label class="form-check-label" for="flexSwitchCheckDefault">
+                  P 2
+                </label>
+              </div>
+              <div class="form-check form-switch">
+                <input
+                  className="form-check-input"
+                  type="checkbox"
+                  role="switch"
+                  id="flexSwitchCheckDefault"
+                ></input>
+                <label class="form-check-label" for="flexSwitchCheckDefault">
+                  D 2
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+        {/* NO.5 */}
+        <div className="col mb-3">
+          <div
+            className="Card d-flex justify-content-between col-4 border border-3"
+            style={{ width: "18rem" }}
+          >
+            <div className="left-column">
+              <div class="form-check form-switch text-success">
+                <input
+                  className="form-check-input"
+                  type="checkbox"
+                  role="switch"
+                  id="flexSwitchCheckDefault"
+                ></input>
+                <label
+                  class="form-check-label text-success"
+                  for="flexSwitchCheckDefault"
+                >
+                  M 9
+                </label>
+              </div>
+              <div class="form-check form-switch text-danger">
+                <input
+                  className="form-check-input"
+                  type="checkbox"
+                  role="switch"
+                  id="flexSwitchCheckDefault"
+                ></input>
+                <label class="form-check-label" for="flexSwitchCheckDefault">
+                  P 9
+                </label>
+              </div>
+              <div class="form-check form-switch">
+                <input
+                  className="form-check-input"
+                  type="checkbox"
+                  role="switch"
+                  id="flexSwitchCheckDefault"
+                ></input>
+                <label class="form-check-label" for="flexSwitchCheckDefault">
+                  D 9
+                </label>
+              </div>
+            </div>
+
+            <div className="center-column">
+              <i
+                className="bi bi-ev-station text-primary"
+                style={{ fontSize: "65pt" }}
+              ></i>
+              <div className="card-body d-flex">
+                <div class="form-check form-switch">
+                  <input
+                    className="form-check-input "
+                    type="checkbox"
+                    role="switch"
+                    id="flexSwitchCheckDefault"
+                    required
+                  ></input>
+                </div>
+                <h5>Isla 5</h5>
+              </div>
+            </div>
+
+            <div className="right-column">
+              <div class="form-check form-switch text-success">
+                <input
+                  className="form-check-input"
+                  type="checkbox"
+                  role="switch"
+                  id="flexSwitchCheckDefault"
+                ></input>
+                <label class="form-check-label" for="flexSwitchCheckDefault">
+                  M 10
+                </label>
+              </div>
+              <div class="form-check form-switch text-danger">
+                <input
+                  className="form-check-input"
+                  type="checkbox"
+                  role="switch"
+                  id="flexSwitchCheckDefault"
+                ></input>
+                <label class="form-check-label" for="flexSwitchCheckDefault">
+                  P 10
+                </label>
+              </div>
+              <div class="form-check form-switch">
+                <input
+                  className="form-check-input"
+                  type="checkbox"
+                  role="switch"
+                  id="flexSwitchCheckDefault"
+                ></input>
+                <label class="form-check-label" for="flexSwitchCheckDefault">
+                  D 10
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+        {/* NO.6 */}
+        <div className="col mb-3">
+          <div
+            className="Card d-flex justify-content-between col-4 border border-3"
+            style={{ width: "18rem" }}
+          >
+            <div className="left-column">
+              <div class="form-check form-switch text-success">
+                <input
+                  className="form-check-input"
+                  type="checkbox"
+                  role="switch"
+                  id="flexSwitchCheckDefault"
+                ></input>
+                <label
+                  class="form-check-label text-success"
+                  for="flexSwitchCheckDefault"
+                >
+                  M 11
+                </label>
+              </div>
+              <div class="form-check form-switch text-danger">
+                <input
+                  className="form-check-input"
+                  type="checkbox"
+                  role="switch"
+                  id="flexSwitchCheckDefault"
+                ></input>
+                <label class="form-check-label" for="flexSwitchCheckDefault">
+                  P 11
+                </label>
+              </div>
+              <div class="form-check form-switch">
+                <input
+                  className="form-check-input"
+                  type="checkbox"
+                  role="switch"
+                  id="flexSwitchCheckDefault"
+                ></input>
+                <label class="form-check-label" for="flexSwitchCheckDefault">
+                  D 11
+                </label>
+              </div>
+            </div>
+
+            <div className="center-column">
+              <i
+                className="bi bi-ev-station text-primary"
+                style={{ fontSize: "65pt" }}
+              ></i>
+              <div className="card-body d-flex">
+                <div class="form-check form-switch">
+                  <input
+                    className="form-check-input "
+                    type="checkbox"
+                    role="switch"
+                    id="flexSwitchCheckDefault"
+                    required
+                  ></input>
+                </div>
+                <h5>Isla 6</h5>
+              </div>
+            </div>
+
+            <div className="right-column">
+              <div class="form-check form-switch text-success">
+                <input
+                  className="form-check-input"
+                  type="checkbox"
+                  role="switch"
+                  id="flexSwitchCheckDefault"
+                ></input>
+                <label class="form-check-label" for="flexSwitchCheckDefault">
+                  M 12
+                </label>
+              </div>
+              <div class="form-check form-switch text-danger">
+                <input
+                  className="form-check-input"
+                  type="checkbox"
+                  role="switch"
+                  id="flexSwitchCheckDefault"
+                ></input>
+                <label class="form-check-label" for="flexSwitchCheckDefault">
+                  P 12
+                </label>
+              </div>
+              <div class="form-check form-switch">
+                <input
+                  className="form-check-input"
+                  type="checkbox"
+                  role="switch"
+                  id="flexSwitchCheckDefault"
+                ></input>
+                <label class="form-check-label" for="flexSwitchCheckDefault">
+                  D 12
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+        {/* NO.7 */}
+        <div className="col mb-3">
+          <div
+            className="Card d-flex justify-content-between col-4 border border-3"
+            style={{ width: "18rem" }}
+          >
+            <div className="left-column">
+              <div class="form-check form-switch text-success">
+                <input
+                  className="form-check-input"
+                  type="checkbox"
+                  role="switch"
+                  id="flexSwitchCheckDefault"
+                ></input>
+                <label
+                  class="form-check-label text-success"
+                  for="flexSwitchCheckDefault"
+                >
+                  M 13
+                </label>
+              </div>
+              <div class="form-check form-switch text-danger">
+                <input
+                  className="form-check-input"
+                  type="checkbox"
+                  role="switch"
+                  id="flexSwitchCheckDefault"
+                ></input>
+                <label class="form-check-label" for="flexSwitchCheckDefault">
+                  P 13
+                </label>
+              </div>
+              <div class="form-check form-switch">
+                <input
+                  className="form-check-input"
+                  type="checkbox"
+                  role="switch"
+                  id="flexSwitchCheckDefault"
+                ></input>
+                <label class="form-check-label" for="flexSwitchCheckDefault">
+                  D 13
+                </label>
+              </div>
+            </div>
+
+            <div className="center-column">
+              <i
+                className="bi bi-ev-station text-primary"
+                style={{ fontSize: "65pt" }}
+              ></i>
+              <div className="card-body d-flex">
+                <div class="form-check form-switch">
+                  <input
+                    className="form-check-input "
+                    type="checkbox"
+                    role="switch"
+                    id="flexSwitchCheckDefault"
+                    required
+                  ></input>
+                </div>
+                <h5>Isla 7</h5>
+              </div>
+            </div>
+
+            <div className="right-column">
+              <div class="form-check form-switch text-success">
+                <input
+                  className="form-check-input"
+                  type="checkbox"
+                  role="switch"
+                  id="flexSwitchCheckDefault"
+                ></input>
+                <label class="form-check-label" for="flexSwitchCheckDefault">
+                  M 14
+                </label>
+              </div>
+              <div class="form-check form-switch text-danger">
+                <input
+                  className="form-check-input"
+                  type="checkbox"
+                  role="switch"
+                  id="flexSwitchCheckDefault"
+                ></input>
+                <label class="form-check-label" for="flexSwitchCheckDefault">
+                  P 14
+                </label>
+              </div>
+              <div class="form-check form-switch">
+                <input
+                  className="form-check-input"
+                  type="checkbox"
+                  role="switch"
+                  id="flexSwitchCheckDefault"
+                ></input>
+                <label class="form-check-label" for="flexSwitchCheckDefault">
+                  D 14
+                </label>
+              </div>
             </div>
           </div>
         </div>
       </div>
-
-      {/* NO.2 */}
-      <div className="container mb-3">
-        <div className="Card d-flex justify-content-evenly col-4 border border-3">
-          <div className="left-column col-3">
-            <div class="form-check form-switch text-success">
-              <input
-                className="form-check-input"
-                type="checkbox"
-                role="switch"
-                id="flexSwitchCheckDefault"
-              ></input>
-              <label class="form-check-label" for="flexSwitchCheckDefault">
-                M 3
-              </label>
-            </div>
-            <div class="form-check form-switch text-danger">
-              <input
-                className="form-check-input"
-                type="checkbox"
-                role="switch"
-                id="flexSwitchCheckDefault"
-              ></input>
-              <label class="form-check-label" for="flexSwitchCheckDefault">
-                P 3
-              </label>
-            </div>
-            <div class="form-check form-switch">
-              <input
-                className="form-check-input"
-                type="checkbox"
-                role="switch"
-                id="flexSwitchCheckDefault"
-              ></input>
-              <label class="form-check-label" for="flexSwitchCheckDefault">
-                D 3
-              </label>
-            </div>
-          </div>
-
-          <div className="center-column col-4">
-            <i
-              className="bi bi-ev-station text-primary"
-              style={{ fontSize: "72pt" }}
-            ></i>
-            <div className="card-body d-flex">
-              <div class="form-check form-switch">
-                <input
-                  className="form-check-input "
-                  type="checkbox"
-                  role="switch"
-                  id="flexSwitchCheckDefault"
-                  required
-                ></input>
-              </div>
-              <h5>Isla 2</h5>
-            </div>
-          </div>
-
-          <div className="right-column">
-            <div class="form-check form-switch text-success">
-              <input
-                className="form-check-input"
-                type="checkbox"
-                role="switch"
-                id="flexSwitchCheckDefault"
-              ></input>
-              <label class="form-check-label" for="flexSwitchCheckDefault">
-                M 4
-              </label>
-            </div>
-            <div class="form-check form-switch text-danger">
-              <input
-                className="form-check-input"
-                type="checkbox"
-                role="switch"
-                id="flexSwitchCheckDefault"
-              ></input>
-              <label class="form-check-label" for="flexSwitchCheckDefault">
-                P 4
-              </label>
-            </div>
-            <div class="form-check form-switch">
-              <input
-                className="form-check-input"
-                type="checkbox"
-                role="switch"
-                id="flexSwitchCheckDefault"
-              ></input>
-              <label class="form-check-label" for="flexSwitchCheckDefault">
-                D 4
-              </label>
-            </div>
-          </div>
-        </div>
-      </div>
-      {/* NO,3 */}
-      <div className="container mb-3">
-        <div className="Card d-flex justify-content-evenly col-4 border border-3">
-          <div className="left-column col-3">
-            <div class="form-check form-switch text-success">
-              <input
-                className="form-check-input"
-                type="checkbox"
-                role="switch"
-                id="flexSwitchCheckDefault"
-              ></input>
-              <label
-                class="form-check-label text-success"
-                for="flexSwitchCheckDefault"
-              >
-                M 5
-              </label>
-            </div>
-            <div class="form-check form-switch text-danger">
-              <input
-                className="form-check-input"
-                type="checkbox"
-                role="switch"
-                id="flexSwitchCheckDefault"
-              ></input>
-              <label class="form-check-label" for="flexSwitchCheckDefault">
-                P 5
-              </label>
-            </div>
-            <div class="form-check form-switch">
-              <input
-                className="form-check-input"
-                type="checkbox"
-                role="switch"
-                id="flexSwitchCheckDefault"
-              ></input>
-              <label class="form-check-label" for="flexSwitchCheckDefault">
-                D 5
-              </label>
-            </div>
-          </div>
-
-          <div className="center-column col-4">
-            <i
-              className="bi bi-ev-station text-primary"
-              style={{ fontSize: "72pt" }}
-            ></i>
-            <div className="card-body d-flex">
-              <div class="form-check form-switch">
-                <input
-                  className="form-check-input "
-                  type="checkbox"
-                  role="switch"
-                  id="flexSwitchCheckDefault"
-                  required
-                ></input>
-              </div>
-              <h5>Isla 3</h5>
-            </div>
-          </div>
-
-          <div className="right-column">
-            <div class="form-check form-switch text-success">
-              <input
-                className="form-check-input"
-                type="checkbox"
-                role="switch"
-                id="flexSwitchCheckDefault"
-              ></input>
-              <label class="form-check-label" for="flexSwitchCheckDefault">
-                M 6
-              </label>
-            </div>
-            <div class="form-check form-switch text-danger">
-              <input
-                className="form-check-input"
-                type="checkbox"
-                role="switch"
-                id="flexSwitchCheckDefault"
-              ></input>
-              <label class="form-check-label" for="flexSwitchCheckDefault">
-                P 6
-              </label>
-            </div>
-            <div class="form-check form-switch">
-              <input
-                className="form-check-input"
-                type="checkbox"
-                role="switch"
-                id="flexSwitchCheckDefault"
-              ></input>
-              <label class="form-check-label" for="flexSwitchCheckDefault">
-                D 6
-              </label>
-            </div>
-          </div>
-        </div>
-      </div>
-      <button
-        type="submit"
-        className="btn btn-primary m-auto"
-        // disabled={}
-      >
-        Enviar
-      </button>
+      <form className="text-center">
+        <button
+          type="submit"
+          className="btn btn-primary m-auto"
+          // disabled={pendingForm}
+        >
+          Guardar
+        </button>
+      </form>
     </div>
   );
 }
