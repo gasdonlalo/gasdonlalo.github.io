@@ -77,6 +77,9 @@ function Rutas() {
   return (
     <Router>
       <Routes>
+        <Route path="/auth" element={<Auth />} />
+      </Routes>
+      <Routes>
         {/* Rutas de despacho */}
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />
