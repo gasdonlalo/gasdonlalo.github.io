@@ -123,14 +123,16 @@ const FormRecursosDesp = () => {
               : recursos.data.response.map((e, i) => {
                   return (
                     <div className="col-6 form-check form-switch" key={i}>
-                      <input
-                        className="form-check-input"
-                        type="checkbox"
-                        role="switch"
-                        onChange={handleSwitch}
-                        name={e.idrecurso}
-                      />
-                      <label className="form-check-label">{e.recurso}</label>
+                      <label className="form-check-label">
+                        <input
+                          className="form-check-input"
+                          type="checkbox"
+                          role="switch"
+                          onChange={handleSwitch}
+                          name={e.idrecurso}
+                        />
+                        {e.recurso}
+                      </label>
                     </div>
                   );
                 })}

@@ -27,12 +27,12 @@ function Administrativo() {
               text="Configuracion de horarios de despacho"
             />
             <Card
-              icon="fa-thin fa-clipboard-list"
-              url=""
+              icon="fa-thin fa-clipboard-list text-primary"
+              url="configuracion-usuario"
               text="Configuración de usuarios"
             />
             <Card
-              icon="fa-thin fa-clipboard-list"
+              icon="fa-thin fa-clipboard-list text-primary"
               url="configuracion-permisos"
               text="Configuracion de permisos"
             />
@@ -42,7 +42,7 @@ function Administrativo() {
               text="Configuracion de precios"
             />
             <Card
-              icon="fa-thin fa-clipboard-list"
+              icon="fa-thin fa-clipboard-list text-primary"
               url="configuracion-estacion"
               text="Configuración de estación"
             />
