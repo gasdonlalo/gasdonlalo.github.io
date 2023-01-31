@@ -9,10 +9,23 @@ import AlertSuccess from "../alerts/AlertSuccess";
 
 function ActualizarSNC({ show, handleClose, id, setActualizar, actualizar }) {
   const [showAlertSucces, setShowAlertSucces] = useState(false);
+  const [datos, setDatos] = useState([]);
 
   const SNC = useGetData(`salida-no-conforme/${id}`);
 
   const defaultDatos = !SNC.data
+    ? null
+    : [
+        {
+          fecha: format.formatFechaDB(SNC.data.response[0].fecha),
+          descripcionFalla: SNC.data.response[0].descripcion_falla,
+          accionesCorregir: SNC.data.response[0].descripcion_falla,
+        },
+      ];
+
+  console.log(defaultDatos);
+
+  /* const defaultDatos = !SNC.data
     ? false
     : SNC.data.response.map((e) => {
         return {
@@ -20,13 +33,13 @@ function ActualizarSNC({ show, handleClose, id, setActualizar, actualizar }) {
           descripcionFalla: e.descripcion_falla,
           idEmpleadoIncumple: e.idempleado_incumple,
           idIncumplimiento: e.idincumplimiento,
-          nombre: e.nombre_completo_incumple,
           accionesCorregir: e.acciones_corregir,
           concesiones: e.concesiones,
         };
       });
+
   const [datos, setDatos] = useState({
-    fecha: !defaultDatos ? null : defaultDatos[0].fecha,
+    fecha: !defaultDatos ? false : defaultDatos[0].fecha,
     descripcionFalla: !defaultDatos ? null : defaultDatos[0].descripcion_falla,
     idEmpleadoIncumple: !defaultDatos
       ? null
@@ -35,6 +48,8 @@ function ActualizarSNC({ show, handleClose, id, setActualizar, actualizar }) {
     accionesCorregir: !defaultDatos ? null : defaultDatos[0].acciones_corregir,
     concesiones: !defaultDatos ? null : defaultDatos[0].concesiones,
   });
+  console.log(defaultDatos);
+  console.log(datos, "datos"); */
   const handle = (e) => {
     setDatos({ ...datos, [e.target.name]: e.target.value });
   };
@@ -63,107 +78,106 @@ function ActualizarSNC({ show, handleClose, id, setActualizar, actualizar }) {
 
   return (
     <div>
-      <Modal show={show} onHide={handleClose} backdrop="static" centered>
-        <Modal.Header closeButton>
-          <Modal.Title>Actualizar salida no conforme {id}</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <form onSubmit={enviar}>
-            <div className="mb-3">
-              <label>Fecha</label>
-              <InputFecha
-                name="fecha"
-                data={datos}
-                setData={setDatos}
-                handle={handle}
-                //defaultValue={!defaultDatos ? null : defaultDatos[0].fecha}
-              />
-            </div>
-            <div className="mb-3">
-              <label>Descripcion del motivo</label>
-              <textarea
-                className="form-control"
-                placeholder="Describe el nuevo motivo"
-                required
-                name="descripcionFalla"
-                onChange={handle}
-                /* defaultValue={
-                  !defaultDatos ? null : defaultDatos[0].descripcionFalla
-                } */
-              />
-            </div>
-            <div className="mb-3">
-              <label>Acciones a corregir</label>
-              <textarea
-                name="accionesCorregir"
-                className="form-control"
-                placeholder="Escribe las nuevas acciones"
-                /* defaultValue={
+      {!SNC.error && !SNC.isPending && (
+        <Modal show={show} onHide={handleClose} backdrop="static" centered>
+          <Modal.Header closeButton>
+            <Modal.Title>Actualizar salida no conforme {id}</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <form onSubmit={enviar}>
+              <div className="mb-3">
+                <label>Fecha</label>
+                <InputFecha
+                  name="fecha"
+                  data={datos}
+                  setData={setDatos}
+                  handle={handle}
+                  defaultValue={defaultDatos[0].fecha}
+                />
+              </div>
+              <div className="mb-3">
+                <label>Descripcion del motivo</label>
+                <textarea
+                  className="form-control"
+                  placeholder="Describe el nuevo motivo"
+                  required
+                  name="descripcionFalla"
+                  onChange={handle}
+                  defaultValue={defaultDatos[0].motivo}
+                />
+              </div>
+              <div className="mb-3">
+                <label>Acciones a corregir</label>
+                <textarea
+                  name="accionesCorregir"
+                  className="form-control"
+                  placeholder="Escribe las nuevas acciones"
+                  /* defaultValue={
                   !defaultDatos ? null : defaultDatos[0].accionesCorregir
                 } */
-                onChange={handle}
-              />
-            </div>
-            <div className="mb-3">
-              <label>Concesiones</label>
-              <textarea
-                name="concesiones"
-                className="form-control"
-                placeholder="Escribe las nuevas acciones"
-                /* defaultValue={
+                  onChange={handle}
+                />
+              </div>
+              <div className="mb-3">
+                <label>Concesiones</label>
+                <textarea
+                  name="concesiones"
+                  className="form-control"
+                  placeholder="Escribe las nuevas acciones"
+                  /* defaultValue={
                   !defaultDatos ? null : defaultDatos[0].concesiones
                 } */
-                onChange={handle}
-              />
-            </div>
-            <div className="row mb-3">
-              <div className="col -6">
-                <label>Empleado que incumple</label>
-                {!empleado.error && !empleado.isPending && (
-                  <InputSelectEmpleado
-                    name="idEmpleadoIncumple"
-                    empleados={empleado.data.response}
-                    handle={handle}
-                    /* defaultData={{
+                  onChange={handle}
+                />
+              </div>
+              <div className="row mb-3">
+                <div className="col -6">
+                  <label>Empleado que incumple</label>
+                  {!empleado.error && !empleado.isPending && (
+                    <InputSelectEmpleado
+                      name="idEmpleadoIncumple"
+                      empleados={empleado.data.response}
+                      handle={handle}
+                      /* defaultData={{
                       nombre: !defaultDatos ? null : defaultDatos[0].nombre,
                       id: !defaultDatos
                         ? null
                         : defaultDatos[0].idEmpleadoIncumple,
                     }} */
-                  />
+                    />
+                  )}
+                </div>
+
+                {!incumplimiento.error && !incumplimiento.isPending && (
+                  <div className="col-6">
+                    <label className="label-form">Incumplimiento</label>
+                    <select
+                      name="idIncumplimiento"
+                      className="form-select form-select"
+                      onChange={handle}
+                      required
+                      /* defaultValue={
+                      !defaultDatos ? null : defaultDatos[0].idIncumplimiento
+                    } */
+                    >
+                      <option value="">-- Seleccionar incumplimiento --</option>
+                      {incumplimiento.data.response.map((el) => (
+                        <option
+                          key={el.idincumplimiento}
+                          value={Number(el.idincumplimiento)}
+                        >
+                          {el.incumplimiento}
+                        </option>
+                      ))}
+                      {/* <option value="add" className="bg-success">
+                      Añadir otro
+                    </option> */}
+                    </select>
+                  </div>
                 )}
               </div>
 
-              {!incumplimiento.error && !incumplimiento.isPending && (
-                <div className="col-6">
-                  <label className="label-form">Incumplimiento</label>
-                  <select
-                    name="idIncumplimiento"
-                    className="form-select form-select"
-                    onChange={handle}
-                    required
-                    /* defaultValue={
-                      !defaultDatos ? null : defaultDatos[0].idIncumplimiento
-                    } */
-                  >
-                    <option value="">-- Seleccionar incumplimiento --</option>
-                    {incumplimiento.data.response.map((el) => (
-                      <option
-                        key={el.idincumplimiento}
-                        value={Number(el.idincumplimiento)}
-                      >
-                        {el.incumplimiento}
-                      </option>
-                    ))}
-                    {/* <option value="add" className="bg-success">
-                      Añadir otro
-                    </option> */}
-                  </select>
-                </div>
-              )}
-            </div>
-
-            {/* <div className="mb-3">
+              {/* <div className="mb-3">
               <label>Departamento</label>
               <input
                 type="number"
@@ -172,11 +186,11 @@ function ActualizarSNC({ show, handleClose, id, setActualizar, actualizar }) {
                 min="0"
               />
             </div> */}
-            <AlertSuccess show={showAlertSucces} />
-            <button type="submit">Enviar</button>
-          </form>
-        </Modal.Body>
-        {/* <Modal.Footer>
+              <AlertSuccess show={showAlertSucces} />
+              <button type="submit">Enviar</button>
+            </form>
+          </Modal.Body>
+          {/* <Modal.Footer>
           <Button variant="secondary" onClick={handleClose}>
             Cerrar
           </Button>
@@ -184,7 +198,8 @@ function ActualizarSNC({ show, handleClose, id, setActualizar, actualizar }) {
             Continuar
           </Button>
         </Modal.Footer> */}
-      </Modal>
+        </Modal>
+      )}
     </div>
   );
 }
