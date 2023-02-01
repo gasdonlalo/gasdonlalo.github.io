@@ -4,6 +4,8 @@ import Axios from "../../../Caxios/Axios";
 import FormSolEmpleo from "../../forms/FormSolEmpleo";
 import ModalSuccess from "../../modals/ModalSuccess";
 import ModalError from "../../modals/ModalError";
+import HeaderComponents from "../../../GUI/HeaderComponents";
+import IconComponents from "../../assets/IconComponents";
 
 function SolicitudesEmpleo() {
   const [datos, setDatos] = useState([]);
@@ -54,12 +56,17 @@ function SolicitudesEmpleo() {
         close={cerrarModal}
         text={modalError.msg}
       />
-      <div>
-        <Link className="link-primary" to="/recursos-humanos">
-          Volver a recursos humanos
-        </Link>
-        <h4 className="border-bottom">Control de solicitudes de empleo</h4>
-      </div>
+      <HeaderComponents
+        title="Captura de solicitudes de empleo"
+        urlBack="/recursos-humanos"
+        textUrlback="Regresar a RH"
+      >
+        <IconComponents
+          icon="table text-danger"
+          url="../alta-baja-empleados"
+          text="Solicitudes"
+        />
+      </HeaderComponents>
       <div>
         <FormSolEmpleo handle={handle} enviar={enviar} pendiente={pendiente} />
       </div>

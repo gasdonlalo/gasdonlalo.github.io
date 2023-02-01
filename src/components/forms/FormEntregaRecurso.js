@@ -33,6 +33,7 @@ const FormEntregaRecurso = ({ enviar, handle, formPending, body, setBody }) => {
               className="form-select"
               onChange={handle}
               id="entradas"
+              name="tipo"
               required
             >
               <option value="">Tipo de entradas</option>

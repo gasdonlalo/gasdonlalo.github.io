@@ -14,7 +14,7 @@ function ModalAltaBaja({
       </Modal.Header>
       <Modal.Body>
         <form onSubmit={enviar}>
-          {mostrarId === true ? (
+          {mostrarId && (
             <div className="row">
               <div className="mb-3 col-6">
                 <label>Dar de alta como: </label>
@@ -41,7 +41,7 @@ function ModalAltaBaja({
                 />
               </div>
             </div>
-          ) : null}
+          )}
           <div className="mb-3">
             <label>Motivo</label>
             <textarea
@@ -57,11 +57,6 @@ function ModalAltaBaja({
           </button>
         </form>
       </Modal.Body>
-      {/* <Modal.Footer>
-        <Button variant="secondary" onClick={handleClose}>
-          Cerrar
-        </Button>
-      </Modal.Footer> */}
     </Modal>
   );
 }
