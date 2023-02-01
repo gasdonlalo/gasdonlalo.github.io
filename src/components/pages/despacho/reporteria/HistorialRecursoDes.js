@@ -10,6 +10,7 @@ import Scale from "../../../charts/Scale";
 import ModalSuccess from "../../../modals/ModalSuccess";
 import IconComponents from "../../../assets/IconComponents";
 import ModalError from "../../../modals/ModalError";
+import { per } from "../../../Provider/auth";
 
 const HistorialRecursoDes = () => {
   const [data, setData] = useState(null);
@@ -181,22 +182,26 @@ const GraficaSuccess = ({ data, setData, setEdit, setDel }) => {
                       {sel.evaluacion ? 1 : 0}
                     </td>
                   ))}
-                  <td
-                    className="btn btn-light d-table-cell"
-                    onClick={() =>
-                      setDel({ status: true, id: el[0].identificador })
-                    }
-                  >
-                    <li className="fa-solid fa-trash text-danger"></li>
-                  </td>
-                  <td
-                    className="btn btn-light d-table-cell"
-                    onClick={() =>
-                      setEdit({ status: true, id: el[0].identificador })
-                    }
-                  >
-                    <li className="fa-solid fa-pen text-warning"></li>
-                  </td>
+                  {per(19) && (
+                    <td
+                      className="btn btn-light d-table-cell"
+                      onClick={() =>
+                        setDel({ status: true, id: el[0].identificador })
+                      }
+                    >
+                      <li className="fa-solid fa-trash text-danger"></li>
+                    </td>
+                  )}
+                  {per(18) && (
+                    <td
+                      className="btn btn-light d-table-cell"
+                      onClick={() =>
+                        setEdit({ status: true, id: el[0].identificador })
+                      }
+                    >
+                      <li className="fa-solid fa-pen text-warning"></li>
+                    </td>
+                  )}
                 </tr>
               ))}
             <tr className="bg-secondary text-white text-center fw-semibold">

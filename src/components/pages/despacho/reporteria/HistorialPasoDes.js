@@ -9,6 +9,7 @@ import { EditED, DeleteED } from "../../../modals/EditED";
 import Decimal from "decimal.js-light";
 import Scale from "../../../charts/Scale";
 import IconComponents from "../../../assets/IconComponents";
+import { per } from "../../../Provider/auth";
 
 const HistorialPasoDes = () => {
   const [body, setBody] = useState(null);
@@ -190,30 +191,34 @@ const GraficaSuccess = ({ data, setData, setDel, setEdit, fechas }) => {
                     {sel.evaluacion ? 1 : 0}
                   </td>
                 ))}
-                <td
-                  className="px-1"
-                  onClick={() =>
-                    setDel({ status: true, id: el[0].identificador })
-                  }
-                >
-                  <li
-                    role="button"
-                    className="fa-solid fa-trash text-danger"
-                    title="Eliminar"
-                  ></li>
-                </td>
-                <td
-                  className="px-1"
-                  onClick={() =>
-                    setEdit({ status: true, id: el[0].identificador })
-                  }
-                >
-                  <li
-                    role="button"
-                    className="fa-solid fa-pen text-warning"
-                    title="Actualizar"
-                  ></li>
-                </td>
+                {per(16) && (
+                  <td
+                    className="px-1"
+                    onClick={() =>
+                      setDel({ status: true, id: el[0].identificador })
+                    }
+                  >
+                    <li
+                      role="button"
+                      className="fa-solid fa-trash text-danger"
+                      title="Eliminar"
+                    ></li>
+                  </td>
+                )}
+                {per(15) && (
+                  <td
+                    className="px-1"
+                    onClick={() =>
+                      setEdit({ status: true, id: el[0].identificador })
+                    }
+                  >
+                    <li
+                      role="button"
+                      className="fa-solid fa-pen text-warning"
+                      title="Actualizar"
+                    ></li>
+                  </td>
+                )}
               </tr>
             ))}
             <tr className="bg-secondary text-white text-center fw-semibold">

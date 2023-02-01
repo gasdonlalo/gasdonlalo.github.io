@@ -11,6 +11,7 @@ import ModalError from "../../modals/ModalError";
 import ErrorHttp from "../../assets/ErrorHttp";
 import InputChangeMes from "../../forms/InputChangeMes";
 import InputChangeYear from "../../forms/InputChangeYear";
+import { per } from "../../Provider/auth";
 
 function MontoFaltante() {
   const empleados = useGetData(`/empleado?departamento=1`);
@@ -29,11 +30,13 @@ function MontoFaltante() {
               text="MF reporte"
               url="/despacho/montos-faltantes/reporte"
             />
-            <IconComponents
-              icon="file-lines text-success"
-              text="MF empleado"
-              url="reportes/empleados"
-            />
+            {per(4) && (
+              <IconComponents
+                icon="file-lines text-success"
+                text="MF empleado"
+                url="reportes/empleados"
+              />
+            )}
             <IconComponents
               icon="calendar-days text-warning"
               text="MF tiempo"

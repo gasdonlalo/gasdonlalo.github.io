@@ -60,41 +60,55 @@ function Despacho() {
         <div className="text-center m-auto">
           <h3>Reportes</h3>
           <div className="d-flex justify-content-evenly flex-wrap mt-5">
-            <Card
-              url="montos-faltantes/reporte"
-              icon="chart-simple"
-              text="Monto faltante"
-            />
-            <Card
-              url="checklist/reporte"
-              icon="chart-line"
-              text="Checklist Bomba"
-            />
-            <Card
-              url="evaluacion-uniforme/reporte"
-              icon="chart-simple"
-              text="Evaluacion uniforme"
-            />
-            <Card
-              url="recoleccion-efectivo/reporte"
-              icon="chart-simple"
-              text="Recoleccion efectivo"
-            />
-            <Card
-              url="pasos-despachar/reporte"
-              icon="chart-simple"
-              text="Pasos para despachar"
-            />
-            <Card
-              url="recurso-despachador/reporte"
-              icon="chart-line"
-              text="Recursos despachador"
-            />
-            <Card
-              url="salida-no-conforme/files"
-              icon="file-pdf"
-              text="Salidas no conformes"
-            />
+            {per(2) && (
+              <Card
+                url="montos-faltantes/reporte"
+                icon="chart-simple"
+                text="Monto faltante"
+              />
+            )}
+            {per(5) && (
+              <Card
+                url="checklist/reporte"
+                icon="chart-line"
+                text="Checklist Bomba"
+              />
+            )}
+            {per(8) && (
+              <Card
+                url="evaluacion-uniforme/reporte"
+                icon="chart-simple"
+                text="Evaluacion uniforme"
+              />
+            )}
+            {per(11) && (
+              <Card
+                url="recoleccion-efectivo/reporte"
+                icon="chart-simple"
+                text="Recoleccion efectivo"
+              />
+            )}
+            {per(14) && (
+              <Card
+                url="pasos-despachar/reporte"
+                icon="chart-simple"
+                text="Pasos para despachar"
+              />
+            )}
+            {per(17) && (
+              <Card
+                url="recurso-despachador/reporte"
+                icon="chart-line"
+                text="Recursos despachador"
+              />
+            )}
+            {per(20) && (
+              <Card
+                url="salida-no-conforme/files"
+                icon="file-pdf"
+                text="Salidas no conformes"
+              />
+            )}
           </div>
         </div>
       </div>

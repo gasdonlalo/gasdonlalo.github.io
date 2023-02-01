@@ -73,6 +73,7 @@ import ConfiguracionEstacion from "../components/pages/administrativo/Configurac
 import RepConfiguracionEstacion from "../components/pages/administrativo/reportes/RepConfiguracionEstacion";
 import ConfiguracionPermisos from "../components/pages/administrativo/ConfiguracionPermisos";
 import RepConfiguracionPermisos from "../components/pages/administrativo/reportes/RepConfiguracionPermisos";
+import ConfiguracionUsuario from "../components/pages/administrativo/ConfiguracionUsuario";
 
 function Rutas() {
   return (
@@ -177,6 +178,10 @@ function Rutas() {
           <Route
             path="configuracion-permisos"
             element={<ConfiguracionPermisos />}
+          />
+          <Route
+            path="configuracion-usuario"
+            element={<ConfiguracionUsuario />}
           />
           <Route path="rep-permisos" element={<RepConfiguracionPermisos />} />
           <Route path="rep-estacion" element={<RepConfiguracionEstacion />} />
