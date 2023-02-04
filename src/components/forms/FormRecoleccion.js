@@ -7,6 +7,8 @@ import useGetData from "../../hooks/useGetData";
 import Loader from "../assets/Loader";
 import Axios from "../../Caxios/Axios";
 import HeaderForm from "../../GUI/HeaderForm";
+import { Tooltip, OverlayTrigger } from "react-bootstrap";
+
 function FormRecoleccion() {
   const [body, setBody] = useState(null);
   const [formPending, setFormPending] = useState(false);
@@ -47,6 +49,7 @@ function FormRecoleccion() {
       }
       setFormPending(false);
     }
+    e.target.reset();
   };
 
   return (
@@ -84,10 +87,19 @@ function FormRecoleccion() {
         <div>
           <label className="form-label">
             Cantidad{" "}
-            <li
-              className="fa fa-circle-info"
-              title="Solo se captura la diferencia de los $3000 que debe depositar el despachador, es decir si el despachador recolecta $3,100 solo se capturan los $100"
-            ></li>
+            <OverlayTrigger
+              key="right"
+              placement="right"
+              overlay={
+                <Tooltip id="tooltip-right">
+                  Solo se captura la diferencia de los $3000 que debe depositar
+                  el despachador, es decir si el despachador recolecta $3,100
+                  solo se capturan los $100
+                </Tooltip>
+              }
+            >
+              <i className="fa fa-circle-info text-primary" />
+            </OverlayTrigger>
           </label>
           <div className="input-group">
             <span className="input-group-text">$</span>

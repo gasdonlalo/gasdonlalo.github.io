@@ -107,6 +107,8 @@ const Success = ({ empleados }) => {
       } else {
         setModalError({ status: true, msg: err.code });
       }
+      event.target.reset();
+      setPendingForm(false);
     }
   };
 

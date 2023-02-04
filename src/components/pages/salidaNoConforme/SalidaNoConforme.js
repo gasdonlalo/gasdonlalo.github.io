@@ -97,7 +97,7 @@ const SalidaNoConforme = () => {
                 ></textarea>
               </div>
               <div className="mb">
-                <label className="form-label">Acciones a corregir</label>
+                <label className="form-label">Acciones/correcciones</label>
                 <textarea
                   name="accionesCorregir"
                   className="form-control"
