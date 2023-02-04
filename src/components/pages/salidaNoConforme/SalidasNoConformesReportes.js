@@ -144,7 +144,7 @@ const Success = ({
       />
       <ModalSuccess show={showSuccess} />
       <div
-        className="d-flex flex-column w-25"
+        className="d-flex flex-column   w-25"
         style={{ overflowY: "scroll", maxHeight: "100vh" }}
       >
         <ActualizarSNC
@@ -161,6 +161,9 @@ const Success = ({
             style={{ backgroundColor: "#dadada" }}
           >
             <div className="w-100">
+              <p className="fw-bold">
+                Salida no conforme No.{el.idsalida_noconforme}
+              </p>
               <p>
                 <span className="fw-bold">Empleado: </span>
                 {format.formatTextoMayusPrimeraLetra(
@@ -176,7 +179,7 @@ const Success = ({
                 {format.formatFechaComplete(el.fecha)}
               </p>
             </div>
-            <div className="d-flex flex-column">
+            <div className="d-flex flex-column justify-content-center">
               <button
                 className="btn btn-primary mb-3 "
                 onClick={() => setIdSalida(el.idsalida_noconforme)}

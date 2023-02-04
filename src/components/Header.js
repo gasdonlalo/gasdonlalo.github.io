@@ -21,21 +21,7 @@ function Header() {
         >
           <i className="bi bi-house" style={{ fontSize: "15pt" }} />
         </Link>
-        {/* Cerrar sesion  */}
-        {/* <div
-          type="button"
-          className="btn btn-secondary me-2 rounded-circle"
-          to="/auth"
-          onClick={() => {
-            localStorage.removeItem("Credentials");
-            setTimeout(() => {
-              window.location.reload();
-            }, 500);
-          }}
-        >
-          <i className="fa-regular fa-close" style={{ fontSize: "15pt" }} />
-        </div> */}
-        {/* Menu cerrar sesion */}
+        {/* Dropdown de usuario */}
         <Dropdown>
           <DropdownButton
             title={<i class="fa-regular fa-user" />}
@@ -46,28 +32,6 @@ function Header() {
               Bienvenido {auth().auth.nombre || ""}
             </DropdownItem>
             <Dropdown.Divider />
-            {/* <div
-              type="button"
-              className="btn btn-secondary me-2 rounded-circle"
-              to="/auth"
-              onClick={() => {
-                localStorage.removeItem("Credentials");
-                setTimeout(() => {
-                  window.location.reload();
-                }, 500);
-              }}
-            >
-              <text>
-                Cerrar sesión
-                <strong>
-                  <i
-                    className="fa-regular fa-close"
-                    style={{ fontSize: "15pt" }}
-                  />
-                </strong>
-              </text>
-            </div> */}
-
             <DropdownItem
               onClick={() => {
                 localStorage.removeItem("Credentials");

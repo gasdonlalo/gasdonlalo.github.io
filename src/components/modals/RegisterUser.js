@@ -25,6 +25,9 @@ export const RegisterUser = ({
       setModalSuccess(true);
       await Axios.post(`/auth/registrar`, { ...body, idEmpleado: show.id });
       setShow({ status: false, id: null });
+      setTimeout(() => {
+        setModalSuccess(false);
+      }, 800);
     } catch (err) {
       console.log(err);
       if (err.hasOwnProperty("response")) {
@@ -44,38 +47,37 @@ export const RegisterUser = ({
   return (
     <ModalCustomer title="Registrar usuario" show={show.status} close={close}>
       <form onSubmit={register}>
-        <div className="w-50 mx-auto">
-          <div>
-            <div className="col-12 mb-3">
-              <label className="form-label mb-0">Usuario</label>
-              <input
-                type="text"
-                placeholder="username"
-                className="form-control"
-                name="user"
-                onChange={handle}
-                required
-              />
-            </div>
-            <div className="col-12">
-              <label className="form-label mb-0">Contraseña</label>
-              <input
-                type="password"
-                placeholder="password"
-                className="form-control"
-                name="password"
-                onChange={handle}
-                required
-              />
-            </div>
+        <div className="w-50 m-auto">
+          <div className="mb-3">
+            <label className="form-label mb-0">Usuario</label>
+            <input
+              type="text"
+              placeholder="username"
+              className="form-control"
+              name="user"
+              onChange={handle}
+              required
+            />
+          </div>
+          <div className="mb-3">
+            <label className="form-label mb-0">Contraseña</label>
+            <input
+              type="text"
+              placeholder="password"
+              className="form-control"
+              name="password"
+              onChange={handle}
+              required
+            />
           </div>
         </div>
+
         <div>
           <button
             className="btn btn-warning mx-auto d-block"
             disabled={formPending}
           >
-            {formPending ? <Loader size="1.25" /> : "Registrar usuariio"}
+            {formPending ? <Loader size="1.25" /> : "Registrar usuario"}
           </button>
         </div>
       </form>

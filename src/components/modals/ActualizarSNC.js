@@ -76,7 +76,7 @@ const Success = ({ show, handleClose, id, setActualizar, actualizar, SNC }) => {
       {!SNC.error && !SNC.isPending && (
         <Modal show={show} onHide={handleClose} backdrop="static" centered>
           <Modal.Header closeButton>
-            <Modal.Title>Actualizar salida no conforme</Modal.Title>
+            <Modal.Title>Actualizar salida no conforme No.{id}</Modal.Title>
           </Modal.Header>
           <Modal.Body>
             <form onSubmit={enviar}>

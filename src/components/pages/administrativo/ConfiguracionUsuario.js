@@ -44,7 +44,7 @@ function ConfiguracionUsuario() {
                   <td>
                     {el.username ? (
                       <button className="btn btn-success mx-auto d-block ">
-                        administrar usuario
+                        Administrar usuario
                       </button>
                     ) : (
                       <button
@@ -53,7 +53,7 @@ function ConfiguracionUsuario() {
                           setModal({ status: true, id: el.idempleado })
                         }
                       >
-                        crear usuario
+                        Crear usuario
                       </button>
                     )}
                   </td>

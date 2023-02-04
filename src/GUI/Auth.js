@@ -42,7 +42,7 @@ const Auth = () => {
   };
 
   return (
-    <div style={{ width: "100vw", height: "100vh" }} className="d-flex">
+    <div className="d-flex align-items-center justify-content-center vh-100 vw-100">
       <div className="m-auto">
         <form className="shadow p-3 rounded" onSubmit={auth}>
           <HeaderForm title="Inicia Sesión" />
