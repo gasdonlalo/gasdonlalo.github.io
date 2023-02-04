@@ -16,7 +16,7 @@ function RepConfiguracionPermisos() {
         />
       </HeaderComponents>
       <div>
-        <h3>Holam</h3>
+        <h3>Holam uuu</h3>
       </div>
     </div>
   );

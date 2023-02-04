@@ -8,6 +8,7 @@ import { DeleteEU, EditEU } from "../../../modals/EditEU";
 import IconComponents from "../../../assets/IconComponents";
 import FormHistorialEmpleado from "../../../forms/FormHistorialEmpleado";
 import format from "../../../assets/format";
+import { per } from "../../../Provider/auth";
 
 const HistorialEvUnifome = () => {
   const [data, setData] = useState(null);
@@ -150,26 +151,32 @@ const GraficaSuccess = ({ data, setEdit, setDel }) => {
               <td className="fw-semibold border text-center">
                 {eu.total_evaluacion}
               </td>
-              <td
-                className="btn btn-light"
-                onClick={() => setDel({ status: true, id: eu.identificador })}
-              >
-                <li
-                  role="button"
-                  className="fa-solid fa-trash text-danger"
-                  title="Eliminar"
-                ></li>
-              </td>
-              <td
-                className="btn btn-light"
-                onClick={() => setEdit({ status: true, id: eu.identificador })}
-              >
-                <li
-                  role="button"
-                  className="fa-solid fa-pen text-warning"
-                  title="Actualizar"
-                ></li>
-              </td>
+              {per(10) && (
+                <td
+                  className="btn btn-light"
+                  onClick={() => setDel({ status: true, id: eu.identificador })}
+                >
+                  <li
+                    role="button"
+                    className="fa-solid fa-trash text-danger"
+                    title="Eliminar"
+                  ></li>
+                </td>
+              )}
+              {per(9) && (
+                <td
+                  className="btn btn-light"
+                  onClick={() =>
+                    setEdit({ status: true, id: eu.identificador })
+                  }
+                >
+                  <li
+                    role="button"
+                    className="fa-solid fa-pen text-warning"
+                    title="Actualizar"
+                  ></li>
+                </td>
+              )}
             </tr>
           ))}
           <tr>

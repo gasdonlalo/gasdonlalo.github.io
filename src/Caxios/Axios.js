@@ -1,4 +1,11 @@
 import Axios from "axios";
+
+const crendentials = JSON.parse(localStorage.getItem("Credentials"));
+const token = crendentials ? crendentials.token.token : null;
 export default Axios.create({
-  baseURL: "http://192.168.0.103:4000/api",
+  headers: {
+    "Content-Type": "application/json",
+    Authorization: token,
+  },
+  baseURL: "http://localhost:4000/api",
 });

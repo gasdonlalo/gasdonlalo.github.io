@@ -13,17 +13,7 @@ function RecursosHumanos() {
               icon="address-book"
               text="Solicitudes de empleo"
             />
-            <Card
-              url="alta-baja-empleados"
-              icon="fa-solid fa-arrow-right-arrow-left"
-              text="Altas y baja de empleados"
-              rotacion={90}
-            />
-            <Card
-              url={"control-documentos"}
-              icon="fa-solid fa-file-contract"
-              text="Control de documentos"
-            />
+
             <Card
               url="documentos-trabajadores"
               icon="fa-solid fa-book"
@@ -49,16 +39,11 @@ function RecursosHumanos() {
               icon="fa-thin fa-hand-holding-hand"
               text="Entrega de recursos"
             />
-            <Card
-              url="pago-recursos"
-              icon="fa-thin fa-circle-dollar-to-slot"
-              text={`Compromiso pago de recursos`}
-            />
-            <Card
+            {/* <Card
               url="empleados-dados-baja"
               icon="fa-thin  fa-arrows-down-to-people"
               text="Empleados rechazados/dados de baja"
-            />
+            /> */}
             <Card
               url="departamentos"
               icon="fa-solid fa-briefcase"
@@ -73,6 +58,11 @@ function RecursosHumanos() {
               url="grafica-mensual-faltas-retardos"
               icon="chart-simple"
               text="Faltas y retardos por empleado"
+            />
+            <Card
+              url="alta-baja-empleados"
+              icon="fa-solid fa-table"
+              text="Altas y baja de empleados"
             />
             <Card
               url="concurso-madrugador"

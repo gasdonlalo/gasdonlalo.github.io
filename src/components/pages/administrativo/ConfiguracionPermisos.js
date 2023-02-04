@@ -4,7 +4,7 @@ import FormConfiguracionPermisos from "../../forms/FormConfiguracionPermisos";
 
 function ConfiguracionPermisos() {
   return (
-    <div className="main">
+    <div className="Main">
       <HeaderComponents
         urlBack="../"
         textUrlback="Volver a Administración"

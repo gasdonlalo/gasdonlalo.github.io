@@ -4,7 +4,7 @@ import TablaEmpleados from "../../tablas/TablaEmpleados";
 import IconComponents from "../../assets/IconComponents";
 
 function AltaBaja() {
-  const [id, setId] = useState(null);
+  const [id, setId] = useState("6");
   return (
     <div className="Main">
       <HeaderComponents
@@ -13,37 +13,48 @@ function AltaBaja() {
         title="Altas y bajas de empleados"
       >
         <IconComponents
-          url="/recursos-humanos/empleados-dados-baja"
-          text="Ver bajas/rechazos"
-          icon="fa-thin  fa-arrows-down-to-people"
+          url="/recursos-humanos/captura-solicitud"
+          text="Nueva solicitud"
+          icon="address-book text-info"
         />
       </HeaderComponents>
       <div className="container">
         <form>
-          <label className="form-label">Seleccionar tipo de empleado</label>
+          <label className="form-label">Seleccionar solicitudes</label>
           <select
             className="form-control"
             onChange={(e) => setId(e.target.value)}
           >
-            <option value=" ">--Selecciona un opcion--</option>
-            <option value="1">Contratado</option>
+            <option value="6">Contratado</option>
             <option value="5">Pendiente</option>
+            <option value="3">Inactivos</option>
+            <option value="4">Rechazados</option>
           </select>
         </form>
-        {id === "1" ? (
+        {id === "6" && (
           <h4 className="border-bottom mt-2 fst-italic">
             Mostrando empleados contratados.
           </h4>
-        ) : id === "2" ? (
+        )}
+        {id === "2" && (
           <h4 className="border-bottom mt-2 fst-italic">
             Mostrando empleados practicantes.
           </h4>
-        ) : id === "5" ? (
+        )}
+        {id === "5" && (
           <h4 className="border-bottom mt-2 fst-italic">
             Mostrando solicitudes pendientes.
           </h4>
-        ) : (
-          <h4 className="mt-2 fst-italic">Selecciona un tipo de empleado...</h4>
+        )}
+        {id === "4" && (
+          <h4 className="border-bottom mt-2 fst-italic">
+            Mostrando solicitudes rechazadas.
+          </h4>
+        )}
+        {id === "3" && (
+          <h4 className="border-bottom mt-2 fst-italic">
+            Mostrando empleados dados de baja.
+          </h4>
         )}
         <div>
           <TablaEmpleados id={id} />

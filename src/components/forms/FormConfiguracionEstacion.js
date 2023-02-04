@@ -19,7 +19,7 @@ function FormConfiguracionEstacion() {
         {/* NO.1 */}
         <div className="col mb-3">
           <div
-            className="Card d-flex justify-content-between col-4 border border-2"
+            className="Card d-flex justify-content-between col-4 border border-3"
             style={{ width: "18rem" }}
           >
             <div className="left-column">
@@ -28,34 +28,26 @@ function FormConfiguracionEstacion() {
                   className="form-check-input"
                   type="checkbox"
                   role="switch"
-                  id="flexSwitchCheckDefault"
+                  id="flexSwitchCheckDefault1"
                 ></input>
-                <label
-                  class="form-check-label text-success"
-                  for="flexSwitchCheckDefault"
-                >
-                  M 1
-                </label>
+                <label>M 1</label>
               </div>
               <div class="form-check form-switch text-danger">
                 <input
                   className="form-check-input"
                   type="checkbox"
                   role="switch"
-                  id="flexSwitchCheckDefault"
                 ></input>
-                <label class="form-check-label" for="flexSwitchCheckDefault">
-                  P 1
-                </label>
+                <label>P 1</label>
               </div>
               <div class="form-check form-switch">
                 <input
                   className="form-check-input"
                   type="checkbox"
                   role="switch"
-                  id="flexSwitchCheckDefault"
+                  id="flexSwitchCheckDefault3"
                 ></input>
-                <label class="form-check-label" for="flexSwitchCheckDefault">
+                <label class="form-check-label" for="flexSwitchCheckDefault3">
                   D 1
                 </label>
               </div>
@@ -72,45 +64,47 @@ function FormConfiguracionEstacion() {
                     className="form-check-input "
                     type="checkbox"
                     role="switch"
-                    id="flexSwitchCheckDefault"
+                    id="flexSwitchCheckDefault4"
                     required
                   ></input>
+                  <label class="form-check-label" for="flexSwitchCheckDefault4">
+                    <h5>Isla 1</h5>
+                  </label>
                 </div>
-                <h5>Isla 1</h5>
               </div>
             </div>
 
             <div className="right-column">
-              <div class="form-check form-switch text-success">
+              <div class="form-check form-switch form-check-reverse text-success">
                 <input
                   className="form-check-input"
                   type="checkbox"
                   role="switch"
-                  id="flexSwitchCheckDefault"
+                  id="flexSwitchCheckReverse1"
                 ></input>
-                <label class="form-check-label" for="flexSwitchCheckDefault">
+                <label class="form-check-label" for="flexSwitchCheckReverse1">
                   M 2
                 </label>
               </div>
-              <div class="form-check form-switch text-danger">
+              <div class="form-check form-switch form-check-reverse text-danger">
                 <input
                   className="form-check-input"
                   type="checkbox"
                   role="switch"
-                  id="flexSwitchCheckDefault"
+                  id="flexSwitchCheckReverse2"
                 ></input>
-                <label class="form-check-label" for="flexSwitchCheckDefault">
+                <label class="form-check-label" for="flexSwitchCheckReverse2">
                   P 2
                 </label>
               </div>
-              <div class="form-check form-switch">
+              <div class="form-check form-switch form-check-reverse">
                 <input
                   className="form-check-input"
                   type="checkbox"
                   role="switch"
-                  id="flexSwitchCheckDefault"
+                  id="flexSwitchCheckReverse3"
                 ></input>
-                <label class="form-check-label" for="flexSwitchCheckDefault">
+                <label class="form-check-label" for="flexSwitchCheckReverse3">
                   D 2
                 </label>
               </div>
@@ -130,9 +124,9 @@ function FormConfiguracionEstacion() {
                   className="form-check-input"
                   type="checkbox"
                   role="switch"
-                  id="flexSwitchCheckDefault"
+                  id="flexSwitchCheckDefault17"
                 ></input>
-                <label class="form-check-label" for="flexSwitchCheckDefault">
+                <label class="form-check-label" for="flexSwitchCheckDefault17">
                   M 3
                 </label>
               </div>
@@ -141,9 +135,9 @@ function FormConfiguracionEstacion() {
                   className="form-check-input"
                   type="checkbox"
                   role="switch"
-                  id="flexSwitchCheckDefault"
+                  id="flexSwitchCheckDefault18"
                 ></input>
-                <label class="form-check-label" for="flexSwitchCheckDefault">
+                <label class="form-check-label" for="flexSwitchCheckDefault18">
                   P 3
                 </label>
               </div>
@@ -152,9 +146,9 @@ function FormConfiguracionEstacion() {
                   className="form-check-input"
                   type="checkbox"
                   role="switch"
-                  id="flexSwitchCheckDefault"
+                  id="flexSwitchCheckDefault19"
                 ></input>
-                <label class="form-check-label" for="flexSwitchCheckDefault">
+                <label class="form-check-label" for="flexSwitchCheckDefault19">
                   D 3
                 </label>
               </div>
@@ -171,51 +165,57 @@ function FormConfiguracionEstacion() {
                     className="form-check-input "
                     type="checkbox"
                     role="switch"
-                    id="flexSwitchCheckDefault"
+                    id="flexSwitchCheckDefault20"
                     required
                   ></input>
+                  <label
+                    class="form-check-label"
+                    for="flexSwitchCheckDefault20"
+                  >
+                    <h5>Isla 2</h5>
+                  </label>
                 </div>
-                <h5>Isla 2</h5>
               </div>
             </div>
 
             <div className="right-column">
-              <div class="form-check form-switch text-success">
+              <div class="form-check form-switch form-check-reverse text-success">
                 <input
                   className="form-check-input"
                   type="checkbox"
                   role="switch"
-                  id="flexSwitchCheckDefault"
+                  id="flexSwitchCheckReverse4"
                 ></input>
-                <label class="form-check-label" for="flexSwitchCheckDefault">
+                <label class="form-check-label" for="flexSwitchCheckReverse4">
                   M 4
                 </label>
               </div>
-              <div class="form-check form-switch text-danger">
+              <div class="form-check form-switch form-check-reverse text-danger">
                 <input
                   className="form-check-input"
                   type="checkbox"
                   role="switch"
-                  id="flexSwitchCheckDefault"
+                  id="flexSwitchCheckReverse5"
                 ></input>
-                <label class="form-check-label" for="flexSwitchCheckDefault">
+                <label class="form-check-label" for="flexSwitchCheckReverse5">
                   P 4
                 </label>
               </div>
-              <div class="form-check form-switch">
+              <div class="form-check form-switch form-check-reverse">
                 <input
                   className="form-check-input"
                   type="checkbox"
                   role="switch"
-                  id="flexSwitchCheckDefault"
+                  id="flexSwitchCheckReverse6"
                 ></input>
-                <label class="form-check-label" for="flexSwitchCheckDefault">
+                <label class="form-check-label" for="flexSwitchCheckReverse6">
                   D 4
                 </label>
               </div>
             </div>
           </div>
         </div>
+
         {/* NO,3 */}
         <div className="col mb-3">
           <div
@@ -228,11 +228,11 @@ function FormConfiguracionEstacion() {
                   className="form-check-input"
                   type="checkbox"
                   role="switch"
-                  id="flexSwitchCheckDefault"
+                  id="flexSwitchCheckDefault5"
                 ></input>
                 <label
                   class="form-check-label text-success"
-                  for="flexSwitchCheckDefault"
+                  for="flexSwitchCheckDefault5"
                 >
                   M 5
                 </label>
@@ -242,9 +242,9 @@ function FormConfiguracionEstacion() {
                   className="form-check-input"
                   type="checkbox"
                   role="switch"
-                  id="flexSwitchCheckDefault"
+                  id="flexSwitchCheckDefault6"
                 ></input>
-                <label class="form-check-label" for="flexSwitchCheckDefault">
+                <label class="form-check-label" for="flexSwitchCheckDefault6">
                   P 5
                 </label>
               </div>
@@ -253,9 +253,9 @@ function FormConfiguracionEstacion() {
                   className="form-check-input"
                   type="checkbox"
                   role="switch"
-                  id="flexSwitchCheckDefault"
+                  id="flexSwitchCheckDefault7"
                 ></input>
-                <label class="form-check-label" for="flexSwitchCheckDefault">
+                <label class="form-check-label" for="flexSwitchCheckDefault7">
                   D 5
                 </label>
               </div>
@@ -272,51 +272,57 @@ function FormConfiguracionEstacion() {
                     className="form-check-input "
                     type="checkbox"
                     role="switch"
-                    id="flexSwitchCheckDefault"
+                    id="flexSwitchCheckDefault21"
                     required
                   ></input>
+                  <label
+                    class="form-check-label"
+                    for="flexSwitchCheckDefault21"
+                  >
+                    <h5>Isla 3</h5>
+                  </label>
                 </div>
-                <h5>Isla 3</h5>
               </div>
             </div>
 
             <div className="right-column">
-              <div class="form-check form-switch text-success">
+              <div class="form-check form-switch form-check-reverse text-success">
                 <input
                   className="form-check-input"
                   type="checkbox"
                   role="switch"
-                  id="flexSwitchCheckDefault"
+                  id="flexSwitchCheckReverse7"
                 ></input>
-                <label class="form-check-label" for="flexSwitchCheckDefault">
+                <label class="form-check-label" for="flexSwitchCheckReverse7">
                   M 6
                 </label>
               </div>
-              <div class="form-check form-switch text-danger">
+              <div class="form-check form-switch form-check-reverse text-danger">
                 <input
                   className="form-check-input"
                   type="checkbox"
                   role="switch"
-                  id="flexSwitchCheckDefault"
+                  id="flexSwitchCheckReverse8"
                 ></input>
-                <label class="form-check-label" for="flexSwitchCheckDefault">
+                <label class="form-check-label" for="flexSwitchCheckReverse8">
                   P 6
                 </label>
               </div>
-              <div class="form-check form-switch">
+              <div class="form-check form-switch form-check-reverse">
                 <input
                   className="form-check-input"
                   type="checkbox"
                   role="switch"
-                  id="flexSwitchCheckDefault"
+                  id="flexSwitchCheckReverse9"
                 ></input>
-                <label class="form-check-label" for="flexSwitchCheckDefault">
+                <label class="form-check-label" for="flexSwitchCheckReverse9">
                   D 6
                 </label>
               </div>
             </div>
           </div>
         </div>
+
         {/* NO.4 */}
         <div className="col mb-3">
           <div
@@ -329,11 +335,11 @@ function FormConfiguracionEstacion() {
                   className="form-check-input"
                   type="checkbox"
                   role="switch"
-                  id="flexSwitchCheckDefault"
+                  id="flexSwitchCheckDefault8"
                 ></input>
                 <label
                   class="form-check-label text-success"
-                  for="flexSwitchCheckDefault"
+                  for="flexSwitchCheckDefault8"
                 >
                   M 7
                 </label>
@@ -343,9 +349,9 @@ function FormConfiguracionEstacion() {
                   className="form-check-input"
                   type="checkbox"
                   role="switch"
-                  id="flexSwitchCheckDefault"
+                  id="flexSwitchCheckDefault9"
                 ></input>
-                <label class="form-check-label" for="flexSwitchCheckDefault">
+                <label class="form-check-label" for="flexSwitchCheckDefault9">
                   P 7
                 </label>
               </div>
@@ -354,9 +360,9 @@ function FormConfiguracionEstacion() {
                   className="form-check-input"
                   type="checkbox"
                   role="switch"
-                  id="flexSwitchCheckDefault"
+                  id="flexSwitchCheckDefault10"
                 ></input>
-                <label class="form-check-label" for="flexSwitchCheckDefault">
+                <label class="form-check-label" for="flexSwitchCheckDefault10">
                   D 7
                 </label>
               </div>
@@ -373,51 +379,57 @@ function FormConfiguracionEstacion() {
                     className="form-check-input "
                     type="checkbox"
                     role="switch"
-                    id="flexSwitchCheckDefault"
+                    id="flexSwitchCheckDefault26"
                     required
                   ></input>
+                  <label
+                    class="form-check-label"
+                    for="flexSwitchCheckDefault26"
+                  >
+                    <h5>Isla 4</h5>
+                  </label>
                 </div>
-                <h5>Isla 4</h5>
               </div>
             </div>
 
             <div className="right-column">
-              <div class="form-check form-switch text-success">
+              <div class="form-check form-switch form-check-reverse text-success">
                 <input
                   className="form-check-input"
                   type="checkbox"
                   role="switch"
-                  id="flexSwitchCheckDefault"
+                  id="flexSwitchCheckReverse10"
                 ></input>
-                <label class="form-check-label" for="flexSwitchCheckDefault">
+                <label class="form-check-label" for="flexSwitchCheckReverse10">
                   M 8
                 </label>
               </div>
-              <div class="form-check form-switch text-danger">
+              <div class="form-check form-switch form-check-reverse text-danger">
                 <input
                   className="form-check-input"
                   type="checkbox"
                   role="switch"
-                  id="flexSwitchCheckDefault"
+                  id="flexSwitchCheckReverse11"
                 ></input>
-                <label class="form-check-label" for="flexSwitchCheckDefault">
+                <label class="form-check-label" for="flexSwitchCheckReverse11">
                   P 8
                 </label>
               </div>
-              <div class="form-check form-switch">
+              <div class="form-check form-switch form-check-reverse">
                 <input
                   className="form-check-input"
                   type="checkbox"
                   role="switch"
-                  id="flexSwitchCheckDefault"
+                  id="flexSwitchCheckReverse12"
                 ></input>
-                <label class="form-check-label" for="flexSwitchCheckDefault">
+                <label class="form-check-label" for="flexSwitchCheckReverse12">
                   D 8
                 </label>
               </div>
             </div>
           </div>
         </div>
+
         {/* NO.5 */}
         <div className="col mb-3">
           <div
@@ -430,11 +442,11 @@ function FormConfiguracionEstacion() {
                   className="form-check-input"
                   type="checkbox"
                   role="switch"
-                  id="flexSwitchCheckDefault"
+                  id="flexSwitchCheckDefault11"
                 ></input>
                 <label
                   class="form-check-label text-success"
-                  for="flexSwitchCheckDefault"
+                  for="flexSwitchCheckDefault11"
                 >
                   M 9
                 </label>
@@ -444,9 +456,9 @@ function FormConfiguracionEstacion() {
                   className="form-check-input"
                   type="checkbox"
                   role="switch"
-                  id="flexSwitchCheckDefault"
+                  id="flexSwitchCheckDefault12"
                 ></input>
-                <label class="form-check-label" for="flexSwitchCheckDefault">
+                <label class="form-check-label" for="flexSwitchCheckDefault12">
                   P 9
                 </label>
               </div>
@@ -455,9 +467,9 @@ function FormConfiguracionEstacion() {
                   className="form-check-input"
                   type="checkbox"
                   role="switch"
-                  id="flexSwitchCheckDefault"
+                  id="flexSwitchCheckDefault13"
                 ></input>
-                <label class="form-check-label" for="flexSwitchCheckDefault">
+                <label class="form-check-label" for="flexSwitchCheckDefault13">
                   D 9
                 </label>
               </div>
@@ -483,7 +495,7 @@ function FormConfiguracionEstacion() {
             </div>
 
             <div className="right-column">
-              <div class="form-check form-switch text-success">
+              <div class="form-check form-switch form-check-reverse text-success">
                 <input
                   className="form-check-input"
                   type="checkbox"
@@ -494,7 +506,7 @@ function FormConfiguracionEstacion() {
                   M 10
                 </label>
               </div>
-              <div class="form-check form-switch text-danger">
+              <div class="form-check form-switch form-check-reverse text-danger">
                 <input
                   className="form-check-input"
                   type="checkbox"
@@ -505,7 +517,7 @@ function FormConfiguracionEstacion() {
                   P 10
                 </label>
               </div>
-              <div class="form-check form-switch">
+              <div class="form-check form-switch form-check-reverse">
                 <input
                   className="form-check-input"
                   type="checkbox"
@@ -519,6 +531,7 @@ function FormConfiguracionEstacion() {
             </div>
           </div>
         </div>
+
         {/* NO.6 */}
         <div className="col mb-3">
           <div
@@ -531,11 +544,11 @@ function FormConfiguracionEstacion() {
                   className="form-check-input"
                   type="checkbox"
                   role="switch"
-                  id="flexSwitchCheckDefault"
+                  id="flexSwitchCheckDefault14"
                 ></input>
                 <label
                   class="form-check-label text-success"
-                  for="flexSwitchCheckDefault"
+                  for="flexSwitchCheckDefault14"
                 >
                   M 11
                 </label>
@@ -545,9 +558,9 @@ function FormConfiguracionEstacion() {
                   className="form-check-input"
                   type="checkbox"
                   role="switch"
-                  id="flexSwitchCheckDefault"
+                  id="flexSwitchCheckDefault15"
                 ></input>
-                <label class="form-check-label" for="flexSwitchCheckDefault">
+                <label class="form-check-label" for="flexSwitchCheckDefault15">
                   P 11
                 </label>
               </div>
@@ -556,9 +569,9 @@ function FormConfiguracionEstacion() {
                   className="form-check-input"
                   type="checkbox"
                   role="switch"
-                  id="flexSwitchCheckDefault"
+                  id="flexSwitchCheckDefault16"
                 ></input>
-                <label class="form-check-label" for="flexSwitchCheckDefault">
+                <label class="form-check-label" for="flexSwitchCheckDefault16">
                   D 11
                 </label>
               </div>
@@ -584,7 +597,7 @@ function FormConfiguracionEstacion() {
             </div>
 
             <div className="right-column">
-              <div class="form-check form-switch text-success">
+              <div class="form-check form-switch form-check-reverse text-success">
                 <input
                   className="form-check-input"
                   type="checkbox"
@@ -595,7 +608,7 @@ function FormConfiguracionEstacion() {
                   M 12
                 </label>
               </div>
-              <div class="form-check form-switch text-danger">
+              <div class="form-check form-switch form-check-reverse text-danger">
                 <input
                   className="form-check-input"
                   type="checkbox"
@@ -606,7 +619,7 @@ function FormConfiguracionEstacion() {
                   P 12
                 </label>
               </div>
-              <div class="form-check form-switch">
+              <div class="form-check form-switch form-check-reverse">
                 <input
                   className="form-check-input"
                   type="checkbox"
@@ -620,6 +633,7 @@ function FormConfiguracionEstacion() {
             </div>
           </div>
         </div>
+
         {/* NO.7 */}
         <div className="col mb-3">
           <div

@@ -1,163 +1,80 @@
-import { Fragment, useState } from "react";
-import { useLocation } from "react-router-dom";
-import Axios from "../../Caxios/Axios";
+import { useState } from "react";
 import useGetData from "../../hooks/useGetData";
+import format from "../assets/format";
+import { OverlayTrigger, Tooltip } from "react-bootstrap";
 import ModalAltaBaja from "../modals/ModalAltaBaja";
 import ModalConfirmacion from "../modals/ModalConfirmacion";
 import ModalSuccess from "../modals/ModalSuccess";
 import ModalError from "../modals/ModalError";
-import format from "../assets/format";
+import Axios from "../../Caxios/Axios";
+/* import { useLocation } from "react-router-dom";
 import Loader from "../assets/Loader";
-import { OverlayTrigger, Tooltip } from "react-bootstrap";
+import HeaderComponents from "../../GUI/HeaderComponents"; */
 
-function TablaEmpleados({ id }) {
-  //setea los botones de acuerdo al tipo de empleados mostrados
-  function SetBotones({ id, e }) {
-    if (id === "1") {
-      return (
-        <td>
-          <button
-            type="button"
-            className="btn btn-danger"
-            onClick={() => despedir(e.idempleado, e.idsolicitud_empleo)}
-          >
-            Dar de baja
-          </button>
-        </td>
-      );
-    } else if (id === "Practica") {
-      return (
-        <td>
-          <button
-            type="button"
-            className="btn btn-danger me-3"
-            onClick={() => despedir(e.idempleado, e.idsolicitud_empleo)}
-          >
-            Dar de baja
-          </button>
-          <button
-            type="button"
-            className="btn btn-success"
-            onClick={() => contratar(e.idempleado, e.idsolicitud_empleo)}
-          >
-            Validar
-          </button>
-        </td>
-      );
-    } else {
-      return (
-        <td>
-          <button
-            type="button"
-            className="btn btn-danger me-2"
-            onClick={() => rechazar(e.idempleado, e.idsolicitud_empleo)}
-          >
-            Rechazar
-          </button>
-          <button
-            type="button"
-            className="btn btn-success"
-            onClick={() => alta(e.idempleado, e.idsolicitud_empleo)}
-          >
-            Dar de alta
-          </button>
-        </td>
-      );
-    }
-  }
-  const navigate = useLocation().pathname; //obtiene la ruta actual para cambiar los encabezados de la tabla
-  const [actualizar, setActualizar] = useState(false); //actualiza la informacion XD
-
-  const datos = useGetData(
-    !id ? false : `/solicitudes/estatus/${id}`,
-    actualizar
-  ); //consulta el tipo de empleados
-  const datosPract = useGetData("/solicitudes/estatus/2");
-  //variables para modales
+const TablaEmpleados = ({ id }) => {
+  const { data, error, isPending } = useGetData(`/solicitudes/estatus/${id}`);
   const [show, setShow] = useState(false);
-  const handleClose = () => {
-    setShow(false);
-    setMostrarIdForm(false);
-  }; //cierra y limpia la opcion de id en el modal
-  const handleShow = () => setShow(true);
   const [encabezado, setEncabezado] = useState("");
-  const [mostrarIdForm, setMostrarIdForm] = useState(false);
-  //modal confirmacion
   const [confirmacion, setConfirmacion] = useState(false);
-  const showConfirmacion = () => setConfirmacion(true);
-  const closeConfirmacion = () => setConfirmacion(false);
-  //modal correcto e incorrecto
   const [modalSuccess, setModalSuccess] = useState(false);
   const [modalError, setModalError] = useState({ status: false, msg: "" });
+  const [mostrarIdForm, setMostrarIdForm] = useState(false);
+  const [idsol, setIdsol] = useState(); //idsolicitud relativa a la tabla
+  const [motivo, setMotivo] = useState([]);
+  const [actualizar, setActualizar] = useState(false); //actualiza la informacion
+
   const cerrarModal = () => {
     setModalError(false);
     setModalSuccess(false);
   };
-  //variable actualizar motivo
-  const [motivo, setMotivo] = useState([]);
-  const [idsol, setIdsol] = useState(); //idsolicitud relativa a la tabla
 
-  const enviar = (e) => {
-    e.preventDefault();
-    handleClose();
-    showConfirmacion();
+  const handleClose = () => {
+    setShow(false);
+    setMostrarIdForm(false);
   };
 
-  const enviarDatos = async () => {
+  const changeMotivo = (e) => {
+    setMotivo({ ...motivo, [e.target.name]: e.target.value });
+  };
+
+  //funcionpara acciones
+  const action = (idempleado, idsolicitud, encabezado, estatus) => {
+    setMotivo({ ...motivo, idEmpleado: idempleado, estatus: Number(estatus) });
+    setIdsol(idsolicitud);
+    setEncabezado(encabezado);
+    if (estatus === 1) setMostrarIdForm(true);
+    setShow(true);
+  };
+
+  const enviar = async (e) => {
+    e.preventDefault();
+    handleClose();
+    setConfirmacion(true);
     try {
       const req = await Axios.put(`/solicitudes/control/${idsol}`, motivo);
       console.log(req);
-      closeConfirmacion();
+      setConfirmacion(false);
       setModalSuccess(true);
       setTimeout(() => {
         cerrarModal();
-      }, "1500"); //cierra automaticamente el modal
+      }, 1500); //cierra automaticamente el modal
       setActualizar(!actualizar);
     } catch (err) {
       if (err.hasOwnProperty("response")) {
-        closeConfirmacion();
+        setConfirmacion(false);
         setModalError({ status: true, msg: err.response.data.msg });
       } else {
-        closeConfirmacion();
+        setConfirmacion(false);
         setModalError({ status: true, msg: "Error en la conexión" });
       }
     }
   };
-  const changeMotivo = (e) => {
-    setMotivo({ ...motivo, [e.target.name]: e.target.value });
-  };
-  //funciones para acciones
-  const despedir = (idempleado, idsolicitud) => {
-    setMotivo({ ...motivo, estatus: 3, idEmpleado: idempleado });
-    setIdsol(idsolicitud);
-    setEncabezado("Dar de baja empleado/practicante");
-    handleShow();
-  };
-
-  const contratar = (idempleado, idsolicitud) => {
-    setMotivo({ ...motivo, estatus: 1, idEmpleado: idempleado });
-    setIdsol(idsolicitud);
-    setEncabezado("Contratar practicante");
-    handleShow();
-  };
-
-  const rechazar = (idempleado, idsolicitud) => {
-    setMotivo({ ...motivo, estatus: 4, idEmpleado: idempleado });
-    setIdsol(idsolicitud);
-    setEncabezado("Rechazar solicitud");
-    handleShow();
-  };
-
-  const alta = (idempleado, idsolicitud) => {
-    setMotivo({ ...motivo, idEmpleado: idempleado });
-    setIdsol(idsolicitud);
-    setEncabezado("Dar de alta empleado");
-    setMostrarIdForm(true);
-    handleShow();
-  };
 
   return (
-    <div>
+    <div className="">
+      {!error && !isPending && (
+        <Success solicitud={data.response} estatus={id} action={action} />
+      )}
       <ModalSuccess show={modalSuccess} close={cerrarModal} />
       <ModalError
         show={modalError.status}
@@ -165,9 +82,9 @@ function TablaEmpleados({ id }) {
         text={modalError.msg}
       />
       <ModalConfirmacion
-        handleClose={closeConfirmacion}
+        handleClose={() => setConfirmacion(false)}
         show={confirmacion}
-        enviar={enviarDatos}
+        enviar={enviar}
       />
       <ModalAltaBaja
         show={show}
@@ -177,68 +94,45 @@ function TablaEmpleados({ id }) {
         encabezado={encabezado}
         mostrarId={mostrarIdForm}
       />
-      {!datos.error && !datos.isPending && (
-        <Sucess
-          id={id}
-          datos={datos}
-          navigate={navigate}
-          SetBotones={SetBotones}
-          actualizar={actualizar}
-          setModalError={setModalError}
-          datosPract={datosPract}
-        />
-      )}
-      {datos.error && (
-        <h4 className="mt-2 fst-italic">{datos.dataError.msg}...</h4>
-      )}
-      {datos.isPending && <Loader />}
     </div>
   );
-}
+};
 
-const Sucess = ({ id, datos, navigate, SetBotones, datosPract }) => {
-  const [emp, setEmp] = useState(
-    [datos.data.response],
-    [datosPract.data.response]
-  );
-  console.log(emp);
-  const datosPracticantes = useGetData(
-    id === "1" ? "/solicitudes/estatus/2" : null
-  );
-  // PARA HACER EL BUSCADOR "SEARCH"
+const Success = ({ solicitud, estatus, action }) => {
+  const [solicitudes, setSolicitudes] = useState(solicitud);
+
   const filterEmp = (e) => {
     const exp = new RegExp(`${e.target.value}`, "gi");
-    const search = datos.data.response.filter((el) => {
+    const search = solicitud.filter((el) => {
       const { nombre, apellido_paterno, apellido_materno } = el;
       return exp.test(`${nombre} ${apellido_paterno} ${apellido_materno}`);
     });
-    setEmp(search);
+    setSolicitudes(search);
   };
 
-  const sinValidar = !datosPracticantes.data
-    ? []
-    : datosPracticantes.data.response.map((e) => e.estatus);
+  const practicantes = solicitud.filter((el) => el.estatus === "Practica");
 
   return (
     <div>
-      {/* Boton empleados sin validar */}
-      {id === "1" ? (
+      {estatus === "6" && practicantes.length > 0 && (
         <div>
           <OverlayTrigger
             key="right"
             placement="right"
-            overlay={<Tooltip id="tooltip-right">Haz clic para verlos</Tooltip>}
+            overlay={<Tooltip id="asd">Haz Click para verlos</Tooltip>}
           >
-            <a href="#sinvalidar0" className="btn btn-primary ">
+            <a
+              href={`#sinvalidar${practicantes[0].idsolicitud_empleo}`}
+              className="btn btn-primary"
+            >
               Empleados sin validar{" "}
               <span className="badge text-bg-secondary">
-                {sinValidar.length}
+                {practicantes.length}
               </span>
             </a>
           </OverlayTrigger>
         </div>
-      ) : null}
-
+      )}
       {/* Buscador */}
       <div className="pt-0">
         <div className="row">
@@ -254,85 +148,186 @@ const Sucess = ({ id, datos, navigate, SetBotones, datosPract }) => {
           </div>
         </div>
       </div>
-
-      <table
-        className="table align-middle table-bordered mt-2 shadow-sm"
-        id="tabla1"
-      >
-        <thead className="table-light">
-          <tr>
-            <th scope="col">Nombre</th>
-            <th scope="col">Apellido paterno</th>
-            <th scope="col">Apellido Materno</th>
-            {/* Muestra el motivo para una solicitud pendiente */}
-            {navigate.match("baja-empleados") ? (
-              <Fragment>
-                <th scope="col">Estatus</th>
-                {id === "5" ? (
-                  <th scope="col">Motivo de la solicitud</th>
-                ) : null}
-                <th scope="col">Fecha alta</th>
-              </Fragment>
-            ) : null}
-
-            {navigate.match("dados-baja") ? (
-              <Fragment>
-                <th scope="col">Motivo de {id !== "4" ? "baja" : "rechazo"}</th>
-                <th scope="col">Fecha de {id !== "4" ? "baja" : "rechazo"}</th>
-              </Fragment>
-            ) : (
-              <th scope="col">Accion(es)</th>
-            )}
-          </tr>
-        </thead>
-        <tbody>
-          {emp.map((e) => {
-            return (
-              <tr>
-                <td>{e.nombre}</td>
-                <td>{e.apellido_paterno}</td>
-                <td>{e.apellido_materno}</td>
-                {navigate.match("baja-empleados") ? (
-                  <Fragment>
-                    <td>{e.estatus}</td>
-                    {id === "5" ? <td>{e.motivo}</td> : null}
-                    <td>{format.formatFechaComplete(e.update_time)}</td>
-                  </Fragment>
-                ) : null}
-                {navigate.match("dados-baja") ? (
-                  <Fragment>
-                    <td>{e.motivo}</td>
-                    <td className="text-danger">
-                      {format.formatFechaComplete(e.update_time)}
-                    </td>
-                  </Fragment>
-                ) : (
-                  <SetBotones id={id} e={e} />
-                )}
+      {/* Tabla */}
+      <div>
+        <table className="table align-middle table-bordered mt-2 shadow-sm">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Nombre</th>
+              <th>Apellido Paterno</th>
+              <th>Apellido Materno</th>
+              <th>Estatus</th>
+              {estatus === "5" && <th>Motivo de la solicitud</th>}
+              <th>Fecha Alta</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            {solicitudes.map((el) => (
+              <tr
+                key={el.idsolicitud_empleo}
+                id={`sinvalidar${el.idsolicitud_empleo}`}
+              >
+                <td>{el.idempleado || "--"}</td>
+                <td>{el.nombre}</td>
+                <td>{el.apellido_paterno}</td>
+                <td>{el.apellido_materno}</td>
+                <td>{el.estatus}</td>
+                {estatus === "5" && <td>{el.motivo}</td>}
+                <td>{format.formatFechaComplete(el.fecha_registro)}</td>
+                <SetBotones estatus={el.estatus} element={el} action={action} />
               </tr>
-            );
-          })}
-          {/* Mapeo practicantes */}
-
-          {!datosPracticantes.error && !datosPracticantes.isPending
-            ? datosPracticantes.data.response.map((e, index) => {
-                return (
-                  <tr id={`sinvalidar${index}`}>
-                    <td>{e.nombre}</td>
-                    <td>{e.apellido_paterno}</td>
-                    <td>{e.apellido_materno}</td>
-                    <td>{e.estatus}</td>
-                    <td>{format.formatFechaComplete(e.update_time)}</td>
-
-                    <SetBotones id={e.estatus} e={e} />
-                  </tr>
-                );
-              })
-            : null}
-        </tbody>
-      </table>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 };
+
+function SetBotones({ estatus, element, action }) {
+  switch (estatus) {
+    case "Practica":
+      return (
+        <td>
+          <button
+            type="button"
+            className="btn btn-danger me-3"
+            onClick={() =>
+              action(
+                element.idempleado,
+                element.idsolicitud_empleo,
+                "Dar de baja empleado/practicante",
+                3
+              )
+            }
+          >
+            Dar de baja
+          </button>
+          <button
+            type="button"
+            className="btn btn-success"
+            onClick={() =>
+              action(
+                element.idempleado,
+                element.idsolicitud_empleo,
+                "Contratar practicante",
+                1
+              )
+            }
+          >
+            Validar
+          </button>
+        </td>
+      );
+    case "Contrato":
+      return (
+        <td>
+          <button
+            type="button"
+            className="btn btn-danger"
+            onClick={() =>
+              action(
+                element.idempleado,
+                element.idsolicitud_empleo,
+                "Dar de baja empleado/practicante",
+                3
+              )
+            }
+          >
+            Dar de baja
+          </button>
+        </td>
+      );
+    default:
+      return (
+        <td>
+          <button
+            type="button"
+            className="btn btn-danger me-2"
+            onClick={() =>
+              action(
+                element.idempleado,
+                element.idsolicitud_empleo,
+                "Rechazar solicitud",
+                4
+              )
+            }
+          >
+            Rechazar
+          </button>
+          <button
+            type="button"
+            className="btn btn-success"
+            onClick={() =>
+              action(
+                element.idempleado,
+                element.idsolicitud_empleo,
+                "Dar de alta empleado",
+                1
+              )
+            }
+          >
+            Dar de alta
+          </button>
+        </td>
+      );
+  }
+}
+
+// function SetBotones({ id, e }) {
+//   if (id === "1") {
+//     return (
+//       <td>
+//         <button
+//           type="button"
+//           className="btn btn-danger"
+//           onClick={() => despedir(e.idempleado, e.idsolicitud_empleo)}
+//         >
+//           Dar de baja
+//         </button>
+//       </td>
+//     );
+//   } else if (id === "Practica") {
+//     return (
+//       <td>
+//         <button
+//           type="button"
+//           className="btn btn-danger me-3"
+//           onClick={() => despedir(e.idempleado, e.idsolicitud_empleo)}
+//         >
+//           Dar de baja
+//         </button>
+//         <button
+//           type="button"
+//           className="btn btn-success"
+//           onClick={() => contratar(e.idempleado, e.idsolicitud_empleo)}
+//         >
+//           Validar
+//         </button>
+//       </td>
+//     );
+//   } else {
+//     return (
+//       <td>
+//         <button
+//           type="button"
+//           className="btn btn-danger me-2"
+//           onClick={() => rechazar(e.idempleado, e.idsolicitud_empleo)}
+//         >
+//           Rechazar
+//         </button>
+//         <button
+//           type="button"
+//           className="btn btn-success"
+//           onClick={() => alta(e.idempleado, e.idsolicitud_empleo)}
+//         >
+//           Dar de alta
+//         </button>
+//       </td>
+//     );
+//   }
+// }
 
 export default TablaEmpleados;
