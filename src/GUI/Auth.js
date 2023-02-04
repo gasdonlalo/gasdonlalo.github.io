@@ -8,7 +8,8 @@ import user from "../components/Provider/auth";
 const Auth = () => {
   const [success, setSuccess] = useState({ status: null, pending: false });
   const [msgError, setMsgError] = useState(null);
-  console.log(user());
+  const [showPassword, setShowPassword] = useState(false);
+
   const auth = async (e) => {
     e.preventDefault();
     setSuccess({ ...success, pending: true });
@@ -33,7 +34,13 @@ const Auth = () => {
       }, 2000);
     }
   };
+
   if (user()) window.location.href = "/";
+
+  const tooglePassword = () => {
+    setShowPassword(!showPassword);
+  };
+
   return (
     <div style={{ width: "100vw", height: "100vh" }} className="d-flex">
       <div className="m-auto">
@@ -52,13 +59,28 @@ const Auth = () => {
             </div>
             <div className="col-12">
               <label className="form-label mb-0">Contraseña</label>
-              <input
-                type="password"
-                placeholder="password"
-                className="form-control"
-                name="password"
-                required
-              />
+              <div className="input-group">
+                <input
+                  type={showPassword ? "text" : "password"}
+                  placeholder="password"
+                  className="form-control"
+                  name="password"
+                  required
+                />
+                <button
+                  className="btn btn-outline-dark"
+                  type="button"
+                  onClick={tooglePassword}
+                >
+                  <i
+                    className={
+                      !showPassword
+                        ? "fa-regular fa-eye"
+                        : "fa-regular fa-eye-slash"
+                    }
+                  />
+                </button>
+              </div>
             </div>
           </div>
           <div className="mt-2">
