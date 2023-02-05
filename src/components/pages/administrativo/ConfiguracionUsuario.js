@@ -41,7 +41,6 @@ function ConfiguracionUsuario() {
           setModal={setModal}
         />
       )}
-
       <RegisterUser
         stateEdit={[modal, setModal]}
         setModalSuccess={setModalSuccess}

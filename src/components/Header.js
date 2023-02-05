@@ -1,7 +1,12 @@
 import Logo from "../IMG/LogoGL.png";
 import { Link } from "react-router-dom";
-import GloboUsuario from "./assets/GloboUsuario";
+import { Data } from "./Provider/Auth";
+import { Dropdown, DropdownButton } from "react-bootstrap";
+import DropdownItem from "react-bootstrap/esm/DropdownItem";
+
 function Header() {
+  const [user] = Data();
+  const { nombre } = user.auth;
   return (
     <div className="Header shadow-sm sticky-top ">
       <img
@@ -22,19 +27,31 @@ function Header() {
             style={{ fontSize: "15pt" }}
           />
         </Link>
-        {/* <div
-          type="button"
-          className="bg- rounded-circle"  
-          to="/auth"
-          onClick={() => {
-            localStorage.removeItem("Credentials");
-            setTimeout(() => {
-              window.location.reload();
-            }, 500);
-          }} 
-        > */}
-        <GloboUsuario />
-        {/* </div> */}
+        {/* Dropdown de usuario */}
+        <Dropdown>
+          <DropdownButton
+            title={<i class="fa-regular fa-user" />}
+            variant="outline-secondary me-2"
+            id="dropdown-menu-align-center  "
+          >
+            <DropdownItem className="pe-none">Bienvenido {nombre}</DropdownItem>
+            <Dropdown.Divider />
+            <DropdownItem
+              onClick={() => {
+                localStorage.removeItem("Credentials");
+                setTimeout(() => {
+                  window.location.reload();
+                }, 500);
+              }}
+              className="text-danger text-center"
+            >
+              Cerrar sesion{" "}
+              <strong>
+                <i class="fa-solid fa-arrow-right-from-bracket"></i>
+              </strong>
+            </DropdownItem>
+          </DropdownButton>
+        </Dropdown>
       </div>
     </div>
   );

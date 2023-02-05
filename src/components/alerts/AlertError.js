@@ -1,5 +1,5 @@
 import { Alert } from "react-bootstrap";
-function AlertError({ show, setAlertError }) {
+function AlertError({ show, setAlertError, text }) {
   if (show) {
     return (
       <div>
@@ -9,7 +9,7 @@ function AlertError({ show, setAlertError }) {
           dismissible
           onClose={() => setAlertError(false)}
         >
-          ¡Ups!, algo salio mal
+          {!text ? "¡Ups!, algo salio mal" : text}
         </Alert>
       </div>
     );

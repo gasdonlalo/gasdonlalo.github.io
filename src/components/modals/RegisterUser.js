@@ -28,6 +28,9 @@ export const RegisterUser = ({
       await Axios.post(`/auth/registrar`, { ...body, idEmpleado: show.id });
       setShow({ status: false, id: null });
       setActualizador(!actualizador);
+      setTimeout(() => {
+        setModalSuccess(false);
+      }, 800);
     } catch (err) {
       console.log(err);
       if (err.hasOwnProperty("response")) {
@@ -75,6 +78,7 @@ export const RegisterUser = ({
             </div>
           </div>
         </div>
+
         <div>
           <button
             className="btn btn-warning mx-auto d-block mt-2"

@@ -2,7 +2,7 @@ import { useState, useContext } from "react";
 import Session from "./Session";
 import FormLogin from "../../GUI/Auth";
 
-function Auth({ children, value }) {
+function Auth({ children }) {
   const [auth, setAuth] = useState(
     JSON.parse(localStorage.getItem("Credentials")) || null
   );
