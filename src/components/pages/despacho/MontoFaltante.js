@@ -11,7 +11,7 @@ import ModalError from "../../modals/ModalError";
 import ErrorHttp from "../../assets/ErrorHttp";
 import InputChangeMes from "../../forms/InputChangeMes";
 import InputChangeYear from "../../forms/InputChangeYear";
-import { per } from "../../Provider/auth";
+import { Per } from "../../Provider/Auth";
 
 function MontoFaltante() {
   const empleados = useGetData(`/empleado?departamento=1`);
@@ -30,7 +30,7 @@ function MontoFaltante() {
               text="MF reporte"
               url="/despacho/montos-faltantes/reporte"
             />
-            {per(4) && (
+            {Per(4) && (
               <IconComponents
                 icon="file-lines text-success"
                 text="MF empleado"
@@ -102,7 +102,7 @@ const Success = ({ empleados }) => {
       setBody(null);
       event.target.reset();
     } catch (err) {
-      if (err.hasOwnProperty("response")) {
+      if (err.hasOwnProPerty("response")) {
         setModalError({
           status: true,
           msg: err.response.data.msg,

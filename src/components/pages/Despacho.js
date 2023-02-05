@@ -1,6 +1,6 @@
 // import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import { per } from "../Provider/auth";
+import { Per } from "../Provider/Auth";
 function Despacho() {
   return (
     <div className="Main">
@@ -10,45 +10,45 @@ function Despacho() {
           <h3>Captura de indicadores de desempeño</h3>
 
           <div className="w-100 d-flex justify-content-evenly flex-wrap mt-5">
-            {per(2) && (
+            {Per(2) && (
               <Card
                 url="montos-faltantes"
                 icon="money-bills"
                 text="Monto faltante"
               />
             )}
-            {per(5) && (
+            {Per(5) && (
               <Card url="checklist" icon="check" text="Checklist bomba" />
             )}
-            {per(8) && (
+            {Per(8) && (
               <Card
                 url="evaluacion-uniforme"
                 icon="shirt"
                 text="Evaluación uniforme"
               />
             )}
-            {per(11) && (
+            {Per(11) && (
               <Card
                 url="recoleccion-efectivo"
                 icon="sack-dollar"
                 text="Recoleccion efectivo"
               />
             )}
-            {per(14) && (
+            {Per(14) && (
               <Card
                 url="pasos-despachar"
                 icon="list-check"
                 text="Pasos para despachar"
               />
             )}
-            {per(17) && (
+            {Per(17) && (
               <Card
                 url="recurso-despachador"
                 icon="stapler"
                 text="Recursos despachador"
               />
             )}
-            {per(20) && (
+            {Per(20) && (
               <Card
                 url="salida-no-conforme"
                 icon="thumbs-down"
@@ -60,49 +60,49 @@ function Despacho() {
         <div className="text-center m-auto">
           <h3>Reportes</h3>
           <div className="d-flex justify-content-evenly flex-wrap mt-5">
-            {per(2) && (
+            {Per(2) && (
               <Card
                 url="montos-faltantes/reporte"
                 icon="chart-simple"
                 text="Monto faltante"
               />
             )}
-            {per(5) && (
+            {Per(5) && (
               <Card
                 url="checklist/reporte"
                 icon="chart-line"
                 text="Checklist Bomba"
               />
             )}
-            {per(8) && (
+            {Per(8) && (
               <Card
                 url="evaluacion-uniforme/reporte"
                 icon="chart-simple"
                 text="Evaluacion uniforme"
               />
             )}
-            {per(11) && (
+            {Per(11) && (
               <Card
                 url="recoleccion-efectivo/reporte"
                 icon="chart-simple"
                 text="Recoleccion efectivo"
               />
             )}
-            {per(14) && (
+            {Per(14) && (
               <Card
                 url="pasos-despachar/reporte"
                 icon="chart-simple"
                 text="Pasos para despachar"
               />
             )}
-            {per(17) && (
+            {Per(17) && (
               <Card
                 url="recurso-despachador/reporte"
                 icon="chart-line"
                 text="Recursos despachador"
               />
             )}
-            {per(20) && (
+            {Per(20) && (
               <Card
                 url="salida-no-conforme/files"
                 icon="file-pdf"

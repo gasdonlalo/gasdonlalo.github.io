@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
 import Axios from "../../../Caxios/Axios";
 import FormSolEmpleo from "../../forms/FormSolEmpleo";
 import ModalSuccess from "../../modals/ModalSuccess";

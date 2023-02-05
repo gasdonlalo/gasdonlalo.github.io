@@ -10,7 +10,7 @@ import Scale from "../../../charts/Scale";
 import ModalSuccess from "../../../modals/ModalSuccess";
 import IconComponents from "../../../assets/IconComponents";
 import ModalError from "../../../modals/ModalError";
-import { per } from "../../../Provider/auth";
+import { Per } from "../../../Provider/Auth";
 
 const HistorialRecursoDes = () => {
   const [data, setData] = useState(null);
@@ -182,7 +182,7 @@ const GraficaSuccess = ({ data, setData, setEdit, setDel }) => {
                       {sel.evaluacion ? 1 : 0}
                     </td>
                   ))}
-                  {per(19) && (
+                  {Per(19) && (
                     <td
                       className="btn btn-light d-table-cell"
                       onClick={() =>
@@ -192,7 +192,7 @@ const GraficaSuccess = ({ data, setData, setEdit, setDel }) => {
                       <li className="fa-solid fa-trash text-danger"></li>
                     </td>
                   )}
-                  {per(18) && (
+                  {Per(18) && (
                     <td
                       className="btn btn-light d-table-cell"
                       onClick={() =>

@@ -9,7 +9,7 @@ import { EditED, DeleteED } from "../../../modals/EditED";
 import Decimal from "decimal.js-light";
 import Scale from "../../../charts/Scale";
 import IconComponents from "../../../assets/IconComponents";
-import { per } from "../../../Provider/auth";
+import { Per } from "../../../Provider/Auth";
 
 const HistorialPasoDes = () => {
   const [body, setBody] = useState(null);
@@ -191,7 +191,7 @@ const GraficaSuccess = ({ data, setData, setDel, setEdit, fechas }) => {
                     {sel.evaluacion ? 1 : 0}
                   </td>
                 ))}
-                {per(16) && (
+                {Per(16) && (
                   <td
                     className="px-1"
                     onClick={() =>
@@ -205,7 +205,7 @@ const GraficaSuccess = ({ data, setData, setDel, setEdit, fechas }) => {
                     ></li>
                   </td>
                 )}
-                {per(15) && (
+                {Per(15) && (
                   <td
                     className="px-1"
                     onClick={() =>

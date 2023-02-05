@@ -11,9 +11,9 @@ function ConfiguracionPermisos() {
         title="Configuración de Permisos"
       >
         <IconComponents
-          icon="chart-line text-danger"
-          text="Reporte cuadro"
-          url="/administrativo/rep-permisos"
+          icon="user text-danger"
+          text="Usuarios"
+          url="../configuracion-usuario"
         />
       </HeaderComponents>
 

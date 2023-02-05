@@ -7,12 +7,8 @@ import ModalConfirmacion from "../modals/ModalConfirmacion";
 import ModalSuccess from "../modals/ModalSuccess";
 import ModalError from "../modals/ModalError";
 import Axios from "../../Caxios/Axios";
-/* import { useLocation } from "react-router-dom";
-import Loader from "../assets/Loader";
-import HeaderComponents from "../../GUI/HeaderComponents"; */
 
 const TablaEmpleados = ({ id }) => {
-  const { data, error, isPending } = useGetData(`/solicitudes/estatus/${id}`);
   const [show, setShow] = useState(false);
   const [encabezado, setEncabezado] = useState("");
   const [confirmacion, setConfirmacion] = useState(false);
@@ -22,6 +18,10 @@ const TablaEmpleados = ({ id }) => {
   const [idsol, setIdsol] = useState(); //idsolicitud relativa a la tabla
   const [motivo, setMotivo] = useState([]);
   const [actualizar, setActualizar] = useState(false); //actualiza la informacion
+  const { data, error, isPending } = useGetData(
+    `/solicitudes/estatus/${id}`,
+    actualizar
+  );
 
   const cerrarModal = () => {
     setModalError(false);
@@ -42,7 +42,7 @@ const TablaEmpleados = ({ id }) => {
     setMotivo({ ...motivo, idEmpleado: idempleado, estatus: Number(estatus) });
     setIdsol(idsolicitud);
     setEncabezado(encabezado);
-    if (estatus === 1) setMostrarIdForm(true);
+    if (estatus === 1 && !idempleado) setMostrarIdForm(true);
     setShow(true);
   };
 
@@ -51,8 +51,7 @@ const TablaEmpleados = ({ id }) => {
     handleClose();
     setConfirmacion(true);
     try {
-      const req = await Axios.put(`/solicitudes/control/${idsol}`, motivo);
-      console.log(req);
+      await Axios.put(`/solicitudes/control/${idsol}`, motivo);
       setConfirmacion(false);
       setModalSuccess(true);
       setTimeout(() => {
@@ -158,9 +157,12 @@ const Success = ({ solicitud, estatus, action }) => {
               <th>Apellido Paterno</th>
               <th>Apellido Materno</th>
               <th>Estatus</th>
-              {estatus === "5" && <th>Motivo de la solicitud</th>}
-              <th>Fecha Alta</th>
-              <th>Acciones</th>
+              {(estatus === "5" || estatus === "4" || estatus === "3") && (
+                <th>Motivo de la solicitud</th>
+              )}
+              {estatus === "6" && <th>Fecha Alta</th>}
+              {(estatus === "3" || estatus === "4") && <th>Fecha Baja</th>}
+              {(estatus === "5" || estatus === "6") && <th>Acciones</th>}
             </tr>
           </thead>
           <tbody>
@@ -174,8 +176,15 @@ const Success = ({ solicitud, estatus, action }) => {
                 <td>{el.apellido_paterno}</td>
                 <td>{el.apellido_materno}</td>
                 <td>{el.estatus}</td>
-                {estatus === "5" && <td>{el.motivo}</td>}
-                <td>{format.formatFechaComplete(el.fecha_registro)}</td>
+                {(estatus === "5" || estatus === "4" || estatus === "3") && (
+                  <td>{el.motivo}</td>
+                )}
+                {estatus === "6" && (
+                  <td>{format.formatFechaComplete(el.fecha_registro)}</td>
+                )}
+                {(estatus === "3" || estatus === "4") && (
+                  <td>{format.formatFechaComplete(el.update_time)}</td>
+                )}
                 <SetBotones estatus={el.estatus} element={el} action={action} />
               </tr>
             ))}
@@ -240,7 +249,7 @@ function SetBotones({ estatus, element, action }) {
           </button>
         </td>
       );
-    default:
+    case "Pendiente":
       return (
         <td>
           <button
@@ -273,61 +282,10 @@ function SetBotones({ estatus, element, action }) {
           </button>
         </td>
       );
+
+    default:
+      return;
   }
 }
-
-// function SetBotones({ id, e }) {
-//   if (id === "1") {
-//     return (
-//       <td>
-//         <button
-//           type="button"
-//           className="btn btn-danger"
-//           onClick={() => despedir(e.idempleado, e.idsolicitud_empleo)}
-//         >
-//           Dar de baja
-//         </button>
-//       </td>
-//     );
-//   } else if (id === "Practica") {
-//     return (
-//       <td>
-//         <button
-//           type="button"
-//           className="btn btn-danger me-3"
-//           onClick={() => despedir(e.idempleado, e.idsolicitud_empleo)}
-//         >
-//           Dar de baja
-//         </button>
-//         <button
-//           type="button"
-//           className="btn btn-success"
-//           onClick={() => contratar(e.idempleado, e.idsolicitud_empleo)}
-//         >
-//           Validar
-//         </button>
-//       </td>
-//     );
-//   } else {
-//     return (
-//       <td>
-//         <button
-//           type="button"
-//           className="btn btn-danger me-2"
-//           onClick={() => rechazar(e.idempleado, e.idsolicitud_empleo)}
-//         >
-//           Rechazar
-//         </button>
-//         <button
-//           type="button"
-//           className="btn btn-success"
-//           onClick={() => alta(e.idempleado, e.idsolicitud_empleo)}
-//         >
-//           Dar de alta
-//         </button>
-//       </td>
-//     );
-//   }
-// }
 
 export default TablaEmpleados;

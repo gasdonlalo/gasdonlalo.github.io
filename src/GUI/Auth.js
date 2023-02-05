@@ -2,13 +2,10 @@ import { useState } from "react";
 import Axios from "../Caxios/Axios";
 import HeaderForm from "./HeaderForm";
 import Loader from "../components/assets/Loader";
-// import user from "../components/Provider/user";
-import user from "../components/Provider/auth";
 
-const Auth = () => {
+const Auth = ({ setAuth }) => {
   const [success, setSuccess] = useState({ status: null, pending: false });
   const [msgError, setMsgError] = useState(null);
-  console.log(user());
   const auth = async (e) => {
     e.preventDefault();
     setSuccess({ ...success, pending: true });
@@ -33,7 +30,6 @@ const Auth = () => {
       }, 2000);
     }
   };
-  if (user()) window.location.href = "/";
   return (
     <div style={{ width: "100vw", height: "100vh" }} className="d-flex">
       <div className="m-auto">

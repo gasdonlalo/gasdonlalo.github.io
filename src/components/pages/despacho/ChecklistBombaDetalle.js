@@ -9,7 +9,7 @@ import gdl from "../../assets/img/GDL.png";
 import ModalSuccess from "../../modals/ModalSuccess";
 import ModalError from "../../modals/ModalSuccess";
 import { DeleteCB, EditCB } from "../../modals/EditCB";
-import { per } from "../../Provider/auth";
+import { Per } from "../../Provider/Auth";
 
 const ChecklistBombaDetalle = () => {
   const [mEdit, setMEdit] = useState({ status: false, id: null });
@@ -97,7 +97,7 @@ const ChecklistBombaDetalle = () => {
                       el.nombre_completo_saliente
                     )}
                   </td>
-                  {per(7) && (
+                  {Per(7) && (
                     <td
                       className="btn"
                       onClick={() =>
@@ -111,7 +111,7 @@ const ChecklistBombaDetalle = () => {
                       ></li>
                     </td>
                   )}
-                  {per(6) && (
+                  {Per(6) && (
                     <td
                       className="btn"
                       onClick={() => {
