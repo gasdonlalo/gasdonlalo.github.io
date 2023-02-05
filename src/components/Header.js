@@ -30,7 +30,7 @@ function Header() {
         {/* Dropdown de usuario */}
         <Dropdown>
           <DropdownButton
-            title={<i class="fa-regular fa-user" />}
+            title={<i className="fa-regular fa-user" />}
             variant="outline-secondary me-2"
             id="dropdown-menu-align-center  "
           >
@@ -47,7 +47,7 @@ function Header() {
             >
               Cerrar sesion{" "}
               <strong>
-                <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                <i className="fa-solid fa-arrow-right-from-bracket"></i>
               </strong>
             </DropdownItem>
           </DropdownButton>

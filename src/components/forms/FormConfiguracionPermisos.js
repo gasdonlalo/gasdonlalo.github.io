@@ -191,7 +191,7 @@ function FormConfiguracionPemisos() {
                     <div
                       key={check.idpermiso}
                       className="form-check form-switch ms-4"
-                      title={el.descripcion}
+                      title={check.descripcion}
                     >
                       <label className="form-checkbox-label">
                         {check.permiso}
