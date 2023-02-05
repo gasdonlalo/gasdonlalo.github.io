@@ -6,50 +6,41 @@ import format from "../assets/format";
 import InputFecha from "../forms/InputFecha";
 import InputSelectEmpleado from "../forms/InputSelectEmpleado";
 import AlertSuccess from "../alerts/AlertSuccess";
+import AlertError from "../alerts/AlertError";
+import Loader from "../assets/Loader";
 
 function ActualizarSNC({ show, handleClose, id, setActualizar, actualizar }) {
+  const data = useGetData(`salida-no-conforme/${id}`);
+  return (
+    <div>
+      {!data.error && !data.isPending && (
+        <Success
+          show={show}
+          handleClose={handleClose}
+          setActualizar={setActualizar}
+          actualizar={actualizar}
+          SNC={data}
+          id={id}
+        />
+      )}
+    </div>
+  );
+}
+
+const Success = ({ show, handleClose, id, setActualizar, actualizar, SNC }) => {
   const [showAlertSucces, setShowAlertSucces] = useState(false);
-  const [datos, setDatos] = useState([]);
-
-  const SNC = useGetData(`salida-no-conforme/${id}`);
-
-  const defaultDatos = !SNC.data
-    ? null
-    : [
-        {
-          fecha: format.formatFechaDB(SNC.data.response[0].fecha),
-          descripcionFalla: SNC.data.response[0].descripcion_falla,
-          accionesCorregir: SNC.data.response[0].descripcion_falla,
-        },
-      ];
-
-  console.log(defaultDatos);
-
-  /* const defaultDatos = !SNC.data
-    ? false
-    : SNC.data.response.map((e) => {
-        return {
-          fecha: format.formatFechaDB(e.fecha),
-          descripcionFalla: e.descripcion_falla,
-          idEmpleadoIncumple: e.idempleado_incumple,
-          idIncumplimiento: e.idincumplimiento,
-          accionesCorregir: e.acciones_corregir,
-          concesiones: e.concesiones,
-        };
-      });
+  const [showError, setShowError] = useState(false);
+  const [pendiente, setPendiente] = useState(false);
 
   const [datos, setDatos] = useState({
-    fecha: !defaultDatos ? false : defaultDatos[0].fecha,
-    descripcionFalla: !defaultDatos ? null : defaultDatos[0].descripcion_falla,
-    idEmpleadoIncumple: !defaultDatos
-      ? null
-      : defaultDatos[0].idempleado_incumple,
-    idIncumplimiento: !defaultDatos ? null : defaultDatos[0].idincumplimiento,
-    accionesCorregir: !defaultDatos ? null : defaultDatos[0].acciones_corregir,
-    concesiones: !defaultDatos ? null : defaultDatos[0].concesiones,
+    fecha: format.formatFechaDB(SNC.data.response[0].fecha),
+    descripcionFalla: SNC.data.response[0].descripcion_falla,
+    accionesCorregir: SNC.data.response[0].acciones_corregir,
+    concesiones: SNC.data.response[0].concesiones,
+    idEmpleadoIncumple: SNC.data.response[0].idempleado_incumple,
+    idIncumplimiento: SNC.data.response[0].idincumplimiento,
   });
-  console.log(defaultDatos);
-  console.log(datos, "datos"); */
+
   const handle = (e) => {
     setDatos({ ...datos, [e.target.name]: e.target.value });
   };
@@ -59,20 +50,24 @@ function ActualizarSNC({ show, handleClose, id, setActualizar, actualizar }) {
   const enviar = (e) => {
     e.preventDefault();
     console.log(datos);
+    setPendiente(true);
     enviarDatos();
+    e.target.reset();
   };
 
   const enviarDatos = async () => {
     try {
       await Axios.put(`/salida-no-conforme/${id}`, datos);
+      setPendiente(false);
       setShowAlertSucces(true);
       setTimeout(() => {
         setShowAlertSucces(false);
         handleClose();
         setActualizar(!actualizar);
       }, 800);
-    } catch (error) {
-      console.log(error);
+    } catch {
+      setShowError(true);
+      setPendiente(false);
     }
   };
 
@@ -81,7 +76,7 @@ function ActualizarSNC({ show, handleClose, id, setActualizar, actualizar }) {
       {!SNC.error && !SNC.isPending && (
         <Modal show={show} onHide={handleClose} backdrop="static" centered>
           <Modal.Header closeButton>
-            <Modal.Title>Actualizar salida no conforme {id}</Modal.Title>
+            <Modal.Title>Actualizar salida no conforme No.{id}</Modal.Title>
           </Modal.Header>
           <Modal.Body>
             <form onSubmit={enviar}>
@@ -92,29 +87,29 @@ function ActualizarSNC({ show, handleClose, id, setActualizar, actualizar }) {
                   data={datos}
                   setData={setDatos}
                   handle={handle}
-                  defaultValue={defaultDatos[0].fecha}
+                  defaultValue={format.formatFechaDB(
+                    SNC.data.response[0].fecha
+                  )}
                 />
               </div>
               <div className="mb-3">
-                <label>Descripcion del motivo</label>
+                <label>Descripcion de falla</label>
                 <textarea
                   className="form-control"
                   placeholder="Describe el nuevo motivo"
                   required
                   name="descripcionFalla"
                   onChange={handle}
-                  defaultValue={defaultDatos[0].motivo}
+                  defaultValue={SNC.data.response[0].descripcion_falla}
                 />
               </div>
               <div className="mb-3">
-                <label>Acciones a corregir</label>
+                <label>Acciones/correcciones</label>
                 <textarea
                   name="accionesCorregir"
                   className="form-control"
-                  placeholder="Escribe las nuevas acciones"
-                  /* defaultValue={
-                  !defaultDatos ? null : defaultDatos[0].accionesCorregir
-                } */
+                  placeholder="Escribe las nuevas acciones  "
+                  defaultValue={SNC.data.response[0].acciones_corregir}
                   onChange={handle}
                 />
               </div>
@@ -123,10 +118,8 @@ function ActualizarSNC({ show, handleClose, id, setActualizar, actualizar }) {
                 <textarea
                   name="concesiones"
                   className="form-control"
-                  placeholder="Escribe las nuevas acciones"
-                  /* defaultValue={
-                  !defaultDatos ? null : defaultDatos[0].concesiones
-                } */
+                  placeholder="Escribe las nuevas concesiones"
+                  defaultValue={SNC.data.response[0].concesiones}
                   onChange={handle}
                 />
               </div>
@@ -138,12 +131,10 @@ function ActualizarSNC({ show, handleClose, id, setActualizar, actualizar }) {
                       name="idEmpleadoIncumple"
                       empleados={empleado.data.response}
                       handle={handle}
-                      /* defaultData={{
-                      nombre: !defaultDatos ? null : defaultDatos[0].nombre,
-                      id: !defaultDatos
-                        ? null
-                        : defaultDatos[0].idEmpleadoIncumple,
-                    }} */
+                      defaultData={{
+                        nombre: SNC.data.response[0].nombre_completo_incumple,
+                        id: SNC.data.response[0].idempleado_incumple,
+                      }}
                     />
                   )}
                 </div>
@@ -156,9 +147,7 @@ function ActualizarSNC({ show, handleClose, id, setActualizar, actualizar }) {
                       className="form-select form-select"
                       onChange={handle}
                       required
-                      /* defaultValue={
-                      !defaultDatos ? null : defaultDatos[0].idIncumplimiento
-                    } */
+                      defaultValue={SNC.data.response[0].idincumplimiento}
                     >
                       <option value="">-- Seleccionar incumplimiento --</option>
                       {incumplimiento.data.response.map((el) => (
@@ -169,39 +158,21 @@ function ActualizarSNC({ show, handleClose, id, setActualizar, actualizar }) {
                           {el.incumplimiento}
                         </option>
                       ))}
-                      {/* <option value="add" className="bg-success">
-                      Añadir otro
-                    </option> */}
                     </select>
                   </div>
                 )}
               </div>
-
-              {/* <div className="mb-3">
-              <label>Departamento</label>
-              <input
-                type="number"
-                className="form-control"
-                placeholder="Escribe las nuevas acciones"
-                min="0"
-              />
-            </div> */}
               <AlertSuccess show={showAlertSucces} />
-              <button type="submit">Enviar</button>
+              <AlertError show={showError} setAlertError={setShowError} />
+              <button type="submit" className="btn btn-primary">
+                {pendiente ? <Loader size="1.5rem" /> : "Actualizar"}
+              </button>
             </form>
           </Modal.Body>
-          {/* <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
-            Cerrar
-          </Button>
-          <Button variant="primary" onClick={enviar}>
-            Continuar
-          </Button>
-        </Modal.Footer> */}
         </Modal>
       )}
     </div>
   );
-}
+};
 
 export default ActualizarSNC;

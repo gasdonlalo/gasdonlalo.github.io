@@ -1,7 +1,12 @@
 import Logo from "../IMG/LogoGL.png";
-import auth from "./Provider/auth";
 import { Link } from "react-router-dom";
+import { Data } from "./Provider/Auth";
+import { Dropdown, DropdownButton } from "react-bootstrap";
+import DropdownItem from "react-bootstrap/esm/DropdownItem";
+
 function Header() {
+  const [user] = Data();
+  const { nombre } = user.auth;
   return (
     <div className="Header shadow-sm sticky-top ">
       <img
@@ -11,27 +16,42 @@ function Header() {
         alt="Gasolineria Don Lalo"
       />
       <div className="d-flex align-items-center">
-        <p className="me-2">{auth().auth.nombre || ""}</p>
         <Link
           type="button"
-          className="btn btn-primary me-2 rounded-circle"
+          className="btn btn-primary me-2 rounded-circle d-flex"
+          style={{ width: "50px", height: "50px" }}
           to="/"
         >
-          <i className="bi bi-house" style={{ fontSize: "15pt" }} />
+          <i
+            className="fa-regular fa-house m-auto"
+            style={{ fontSize: "15pt" }}
+          />
         </Link>
-        <div
-          type="button"
-          className="btn btn-secondary me-2 rounded-circle"
-          to="/auth"
-          onClick={() => {
-            localStorage.removeItem("Credentials");
-            setTimeout(() => {
-              window.location.reload();
-            }, 500);
-          }}
-        >
-          <i className="fa-regular fa-close" style={{ fontSize: "15pt" }} />
-        </div>
+        {/* Dropdown de usuario */}
+        <Dropdown>
+          <DropdownButton
+            title={<i className="fa-regular fa-user" />}
+            variant="outline-secondary me-2"
+            id="dropdown-menu-align-center  "
+          >
+            <DropdownItem className="pe-none">Bienvenido {nombre}</DropdownItem>
+            <Dropdown.Divider />
+            <DropdownItem
+              onClick={() => {
+                localStorage.removeItem("Credentials");
+                setTimeout(() => {
+                  window.location.reload();
+                }, 500);
+              }}
+              className="text-danger text-center"
+            >
+              Cerrar sesion{" "}
+              <strong>
+                <i className="fa-solid fa-arrow-right-from-bracket"></i>
+              </strong>
+            </DropdownItem>
+          </DropdownButton>
+        </Dropdown>
       </div>
     </div>
   );

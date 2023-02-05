@@ -13,6 +13,7 @@ import AlertSuccess from "../../alerts/AlertSuccess";
 import IconComponents from "../../assets/IconComponents";
 import HeaderComponents from "../../../GUI/HeaderComponents";
 import { useParams } from "react-router-dom";
+import { Per } from "../../Provider/Auth";
 
 const SalidaNoConforme = () => {
   const empleadoS = useGetData("/empleado?departamento=1");
@@ -97,8 +98,9 @@ const SalidaNoConforme = () => {
                 ></textarea>
               </div>
               <div className="mb">
-                <label className="form-label">Acciones a corregir</label>
+                <label className="form-label">Acciones/correcciones</label>
                 <textarea
+                  disabled={!Per(23)}
                   name="accionesCorregir"
                   className="form-control"
                   placeholder="..."
@@ -108,6 +110,7 @@ const SalidaNoConforme = () => {
               <div className="mb">
                 <label>Concesiones</label>
                 <textarea
+                  disabled={!Per(23)}
                   name="concesiones"
                   className="form-control"
                   placeholder="..."

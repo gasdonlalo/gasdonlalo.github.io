@@ -7,11 +7,13 @@ export const RegisterUser = ({
   stateEdit, //Estado para mostras el modald
   setModalSuccess, //Modal De exito
   setModalError, //Modal de error
+  toggle,
 }) => {
   new Date();
   const [show, setShow] = stateEdit;
   const [body, setBody] = useState();
   const [formPending, setFormPending] = useState(false);
+  const [actualizador, setActualizador] = toggle;
 
   const close = () => setShow({ status: false, id: null });
 
@@ -25,6 +27,10 @@ export const RegisterUser = ({
       setModalSuccess(true);
       await Axios.post(`/auth/registrar`, { ...body, idEmpleado: show.id });
       setShow({ status: false, id: null });
+      setActualizador(!actualizador);
+      setTimeout(() => {
+        setModalSuccess(false);
+      }, 800);
     } catch (err) {
       console.log(err);
       if (err.hasOwnProperty("response")) {
@@ -54,6 +60,7 @@ export const RegisterUser = ({
                 className="form-control"
                 name="user"
                 onChange={handle}
+                autoComplete="off"
                 required
               />
             </div>
@@ -65,17 +72,19 @@ export const RegisterUser = ({
                 className="form-control"
                 name="password"
                 onChange={handle}
+                autoComplete="off"
                 required
               />
             </div>
           </div>
         </div>
+
         <div>
           <button
-            className="btn btn-warning mx-auto d-block"
+            className="btn btn-warning mx-auto d-block mt-2"
             disabled={formPending}
           >
-            {formPending ? <Loader size="1.25" /> : "Registrar usuariio"}
+            {formPending ? <Loader size="1.25" /> : "Registrar usuario"}
           </button>
         </div>
       </form>

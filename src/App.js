@@ -1,14 +1,16 @@
-import Session from "./components/Provider/Session";
+// import Session from "./components/Provider/Session";
 import "./App.css";
 import Rutas from "./routes/Rutas";
+import Auth from "./components/Provider/Auth";
+import PermisoUsuario from "./components/Provider/PermisoUsuario";
 function App() {
   return (
     <div>
-      <Session.Provider
-        value={JSON.parse(localStorage.getItem("Credentials")) || null}
-      >
-        <Rutas />
-      </Session.Provider>
+      <Auth>
+        <PermisoUsuario>
+          <Rutas />
+        </PermisoUsuario>
+      </Auth>
     </div>
   );
 }

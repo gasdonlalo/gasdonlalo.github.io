@@ -78,6 +78,7 @@ const FormRecursosDesp = () => {
         setModalError({ status: true, msg: err.code });
       }
       setFormPending(false);
+      e.target.reset();
     }
   };
 
