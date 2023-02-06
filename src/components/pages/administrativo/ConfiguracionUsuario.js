@@ -6,6 +6,7 @@ import ModalSuccess from "../../modals/ModalSuccess";
 import ModalError from "../../modals/ModalError";
 import { Usuario } from "../../Provider/PermisoUsuario";
 import { useNavigate } from "react-router-dom";
+import { Per } from "../../Provider/auth";
 
 function ConfiguracionUsuario() {
   const [modalSuccess, setModalSuccess] = useState(false);
@@ -96,25 +97,27 @@ const Table = ({ data, setModal, setPermisos }) => {
                 {el.nombre} {el.apellido_paterno} {el.apellido_materno}
               </td>
               <td className="fw-semibold text-center">{el.iddepartamento}</td>
-              <td>
-                {el.username ? (
-                  <button
-                    className="btn btn-success mx-auto d-block"
-                    onClick={() => setPermisos(el)}
-                  >
-                    administrar usuario
-                  </button>
-                ) : (
-                  <button
-                    className="btn btn-warning mx-auto d-block"
-                    onClick={() =>
-                      setModal({ status: true, id: el.idempleado })
-                    }
-                  >
-                    crear usuario
-                  </button>
-                )}
-              </td>
+              {Per(49) && (
+                <td>
+                  {el.username ? (
+                    <button
+                      className="btn btn-success mx-auto d-block"
+                      onClick={() => setPermisos(el)}
+                    >
+                      administrar usuario
+                    </button>
+                  ) : (
+                    <button
+                      className="btn btn-warning mx-auto d-block"
+                      onClick={() =>
+                        setModal({ status: true, id: el.idempleado })
+                      }
+                    >
+                      crear usuario
+                    </button>
+                  )}
+                </td>
+              )}
             </tr>
           ))}
         </tbody>
