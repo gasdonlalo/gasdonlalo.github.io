@@ -4,6 +4,7 @@ import Loader from "../assets/Loader";
 import InputFecha from "./InputFecha";
 import InputSelectDep from "./InputSelectDep";
 import HeaderForm from "../../GUI/HeaderForm";
+import InputSelectEmpleado from "./InputSelectEmpleado";
 
 function FormRetardos({
   emp,
@@ -63,24 +64,16 @@ function FormRetardos({
           </div>
           <div className="col-6 mb-3">
             <label>Empleados</label>
-            <select
-              className="form-control"
-              name="idEmpleado"
-              onChange={handle}
-              required
-            >
-              <option value=""> --Selecciona un empleado--</option>
-              {!empleados
-                ? false
-                : empleados.map((e) => {
-                    return (
-                      <option
-                        value={e.idempleado}
-                        key={e.idempleado}
-                      >{`${e.nombre} ${e.apellido_paterno} ${e.apellido_materno}`}</option>
-                    );
-                  })}
-            </select>
+            {empleados ? (
+              <InputSelectEmpleado
+                empleados={empleados}
+                name="idEmpleado"
+                handle={handle}
+                reset={body}
+              />
+            ) : (
+              <div className="form-select">Selecciona un departameto</div>
+            )}
           </div>
           <div className="col-6 mb-3">
             <label className="form-label mb-0">Turno</label>

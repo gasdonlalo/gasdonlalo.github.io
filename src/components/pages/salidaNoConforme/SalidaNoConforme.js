@@ -16,8 +16,6 @@ import { useParams } from "react-router-dom";
 import { Per } from "../../Provider/Auth";
 
 const SalidaNoConforme = () => {
-  const empleadoS = useGetData("/empleado?departamento=1");
-  const incumplimiento = useGetData("/incumplimiento");
   const [showAlert, setShowAlert] = useState(false);
   const [showAlertSuccess, setShowAlertSuccess] = useState(false);
   //recupera la id del formulario enviado para generar el pdf
@@ -25,13 +23,19 @@ const SalidaNoConforme = () => {
 
   const [show, setShow] = useState(false);
 
-  const [datos, setDatos] = useState([]);
+  const [datos, setDatos] = useState({ accionesCorregir: null });
+  const { departamento } = useParams();
+  const incumplimiento = useGetData("/incumplimiento");
+  let url = `/empleado`;
+  if (departamento === "despacho") url += "?departamento=1";
+  const empleadoS = useGetData(url);
+
   const enviar = (e) => {
     e.preventDefault();
+    console.log(datos);
     enviarDatos(datos);
+    e.target.reset();
   };
-
-  const { departamento } = useParams();
 
   const enviarDatos = async (x) => {
     try {
@@ -48,6 +52,14 @@ const SalidaNoConforme = () => {
 
   const handle = (e) => {
     setDatos({ ...datos, [e.target.name]: e.target.value });
+  };
+
+  const handleAcciones = (e) => {
+    if (e.target.value.length === 0) {
+      setDatos({ ...datos, accionesCorregir: null });
+    } else {
+      setDatos({ ...datos, accionesCorregir: e.target.value });
+    }
   };
   const changeSelectIncumplimiento = (e) => {
     if (e.target.value === "add") {
@@ -78,6 +90,14 @@ const SalidaNoConforme = () => {
             text="Archivos"
             url="files"
           />
+
+          {Per(23) && (
+            <IconComponents
+              icon="clock text-warning"
+              text="Pendientes"
+              url="pendientes"
+            />
+          )}
         </div>
       </HeaderComponents>
       <div style={{ display: "flex", flexdirection: "column" }}>
@@ -111,7 +131,7 @@ const SalidaNoConforme = () => {
                   name="accionesCorregir"
                   className="form-control"
                   placeholder="..."
-                  onChange={handle}
+                  onChange={handleAcciones}
                 />
               </div>
               <div className="mb">
