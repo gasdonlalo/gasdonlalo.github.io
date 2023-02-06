@@ -51,6 +51,7 @@ function RepOctanoso() {
 
   const enviar = (e) => {
     e.preventDefault();
+    console.log(datos);
     enviarDatos();
     setPendiente(true);
   };
@@ -67,9 +68,6 @@ function RepOctanoso() {
       setPendiente(false);
     }
   };
-
-  console.log(error);
-  console.log(datosTabla);
 
   return (
     <div className="Main">
