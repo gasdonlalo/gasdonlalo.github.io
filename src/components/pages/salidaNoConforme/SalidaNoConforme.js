@@ -67,11 +67,18 @@ const SalidaNoConforme = () => {
         urlBack={`/${departamento}`}
         textUrlback="Regresar"
       >
-        <IconComponents
-          icon="file-pdf text-danger"
-          text="Archivos"
-          url="files"
-        />
+        <div className="d-flex">
+          <IconComponents
+            icon="plus text-success"
+            text="Incumplimientos"
+            url="incumplimientos"
+          />
+          <IconComponents
+            icon="file-pdf text-danger"
+            text="Archivos"
+            url="files"
+          />
+        </div>
       </HeaderComponents>
       <div style={{ display: "flex", flexdirection: "column" }}>
         <div className="me-3">
@@ -146,9 +153,6 @@ const SalidaNoConforme = () => {
                           {el.incumplimiento}
                         </option>
                       ))}
-                      <option value="add" className="bg-success">
-                        Añadir otro
-                      </option>
                     </select>
                   </div>
                 )}

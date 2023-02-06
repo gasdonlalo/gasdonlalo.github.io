@@ -34,7 +34,7 @@ import RecursosHumanos from "../components/pages/RecursosHumanos";
 import SolicitudesEmpleo from "../components/pages/RecursosHumanos/SolicitudesEmpleo";
 import AltaBaja from "../components/pages/RecursosHumanos/AltaBaja";
 import FaltasRetardos from "../components/pages/RecursosHumanos/FaltasRetardos";
-import ConcursoMadrugador from "../components/pages/RecursosHumanos/ConcursoMadrugador";
+import ConcursoMadrugador from "../components/pages/RecursosHumanos/Reportes/ConcursoMadrugador";
 import Departamentos from "../components/pages/RecursosHumanos/Departamentos";
 import EntregaRecurso from "../components/pages/RecursosHumanos/EntregaRecurso";
 import ERR from "../components/pages/RecursosHumanos/Reportes/EntregaRecursoRegistro";
@@ -74,6 +74,7 @@ import RepConfiguracionEstacion from "../components/pages/administrativo/reporte
 import ConfiguracionPermisos from "../components/pages/administrativo/ConfiguracionPermisos";
 import RepConfiguracionPermisos from "../components/pages/administrativo/reportes/RepConfiguracionPermisos";
 import ConfiguracionUsuario from "../components/pages/administrativo/ConfiguracionUsuario";
+import Inc from "../components/pages/salidaNoConforme/Incumplimientos";
 
 function Rutas() {
   return (
@@ -91,6 +92,7 @@ function Rutas() {
         <Route path="/:departamento/salida-no-conforme" element={<Layout />}>
           <Route index element={<SalidaNoConforme />} />
           <Route path="files" element={<SNR />} />;
+          <Route path="incumplimientos" element={<Inc />} />;
           <Route path="reporte-mensual" element={<GMSN />} />
           <Route path="inconformidad" element={<GSNI />} />
         </Route>

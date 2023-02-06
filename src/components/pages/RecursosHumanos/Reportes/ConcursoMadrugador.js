@@ -1,28 +1,38 @@
 import { useState } from "react";
-import HeaderComponents from "../../../GUI/HeaderComponents";
-import useGetData from "../../../hooks/useGetData";
-import Bar from "../../charts/Bar";
-import Loader from "../../assets/Loader";
-import InputChangeMes from "../../forms/InputChangeMes";
-import InputChangeYear from "../../forms/InputChangeYear";
-import format from "../../assets/format";
-import PdfGraficas from "../../pdf_generador/PdfGraficas";
-import IconComponents from "../../assets/IconComponents";
-import OffCanvasConfigIncumplimientos from "../../assets/OffCanvasConfigIncumplientos";
+import HeaderComponents from "../../../../GUI/HeaderComponents";
+import useGetData from "../../../../hooks/useGetData";
+import Bar from "../../../charts/Bar";
+import Loader from "../../../assets/Loader";
+import InputChangeMes from "../../../forms/InputChangeMes";
+import InputChangeYear from "../../../forms/InputChangeYear";
+import format from "../../../assets/format";
+import PdfGraficas from "../../../pdf_generador/PdfGraficas";
+import IconComponents from "../../../assets/IconComponents";
+import { OffCanvasConfigIncumplimientosMadrugador } from "../../../assets/OffCanvasConfigIncumplientos";
 
 function ConcursoMadrugador() {
   const date = new Date();
   const [year, setYear] = useState(date.getFullYear());
-  const [showCanva, setShowCanva] = useState();
+  const [idDep, setIdDep] = useState({ dep: 1, idconcurso: 1 });
+  const [showCanva, setShowCanva] = useState(false);
   const [month, setMonth] = useState(date.getMonth() + 1);
   const { data, error, isPending } = useGetData(
-    `/madrugador/control-mensual/todos/${year}/${month}`
+    `/madrugador/control-mensual/${idDep.dep}/${year}/${month}`
   );
+
+  const dep = useGetData(`/madrugador/departamentos`);
 
   const changeMonth = (e) => setMonth(e.target.value);
   const changeYear = (e) => setYear(e.target.value);
   const setShowCanvaOpen = () => setShowCanva(true);
   const setShowCanvaClose = () => setShowCanva(false);
+
+  const handleDep = (e) => {
+    let iddep = Number(e.target.value);
+    const { response } = dep.data;
+    let concurso = response.filter((el) => el.iddepartamento === iddep);
+    setIdDep({ dep: iddep, idconcurso: concurso.idconcurso });
+  };
 
   return (
     <div className="Main">
@@ -36,10 +46,11 @@ function ConcursoMadrugador() {
         </span>
       </HeaderComponents>
       {/* En categorizacion poner el id para identificar que concurso es en la base de datos, 1 = madrugadro, 2 = octanoso, 3=aceitoso */}
-      <OffCanvasConfigIncumplimientos
+      <OffCanvasConfigIncumplimientosMadrugador
         show={showCanva}
         close={setShowCanvaClose}
         categorizacion={1}
+        // departamento={true}
       />
       <div>
         <nav className="m-auto w-75 row">
@@ -51,10 +62,27 @@ function ConcursoMadrugador() {
             <label className="form-label">Año</label>
             <InputChangeYear handle={changeYear} defaultYear={year} />
           </div>
+          {!dep.error && !dep.isPending && (
+            <div className="col-2">
+              <label className="form-label">Departamento</label>
+              <select className="form-control" onChange={handleDep}>
+                {dep.data.response.map((el) => (
+                  <option value={el.iddepartamento} key={el.idconcurso}>
+                    {el.departamento}
+                  </option>
+                ))}
+              </select>
+            </div>
+          )}
         </nav>
       </div>
       {!error && !isPending && (
-        <Success data={data.response} year={year} month={month} />
+        <Success
+          data={data.response.data}
+          columns={data.response.columns}
+          year={year}
+          month={month}
+        />
       )}
       {isPending && (
         <div className="mt-4">
@@ -65,7 +93,7 @@ function ConcursoMadrugador() {
   );
 }
 
-const Success = ({ data, month, year }) => {
+const Success = ({ data, month, year, columns }) => {
   const irregularidades = [];
   const dataBar = {
     labels: data.map((el) => el.empleado.nombre),
@@ -78,16 +106,14 @@ const Success = ({ data, month, year }) => {
     ],
   };
 
-  let desFaltas = data.filter((el) => el.puntosPerdidos > 0);
-  desFaltas.forEach((el) => {
-    let data = el.fechas.filter(
-      (inf) =>
-        inf.puntos.check < 0 ||
-        inf.puntos.entradaSalida < 0 ||
-        inf.puntos.falta < 0 ||
-        inf.puntos.retardo < 0
-    );
-    irregularidades.push({ fechas: data, ...el.empleado });
+  const filter = data.filter((el) => el.puntosPerdidos > 0);
+  filter.forEach((el) => {
+    el.fechas.forEach((sub) => {
+      const validar = Object.values(sub.puntos).reduce(
+        (a, b) => Math.abs(a) + Math.abs(b)
+      );
+      if (validar > 0) irregularidades.push({ fecha: sub, ...el.empleado });
+    });
   });
 
   return (
@@ -124,6 +150,28 @@ const Success = ({ data, month, year }) => {
               legend={false}
               y={[0, 250]}
               text="Puntaje final despachadores"
+              optionsCustom={{
+                scales: {
+                  y: {
+                    title: {
+                      display: true,
+                      text: "Puntos",
+                      font: {
+                        size: 15,
+                      },
+                    },
+                  },
+                  x: {
+                    title: {
+                      display: true,
+                      text: "Empleados",
+                      font: {
+                        size: 15,
+                      },
+                    },
+                  },
+                },
+              }}
             />
           </div>
         </div>
@@ -134,36 +182,28 @@ const Success = ({ data, month, year }) => {
             <tr>
               <th className="border px-2 text-center">Nombre completo</th>
               <th className="border px-2 text-center">Fecha</th>
-              <th className="border px-2 text-center">Entrada / Salida</th>
-              <th className="border px-2 text-center">Retardo</th>
-              <th className="border px-2 text-center">Checklist</th>
-              <th className="border px-2 text-center">Falta</th>
+              {columns.map((el, i) => (
+                <th key={i} className="border px-2">
+                  {el.incumplimiento}
+                </th>
+              ))}
             </tr>
           </thead>
           <tbody>
             {irregularidades.length > 0 ? (
-              irregularidades.map((el, i) =>
-                el.fechas.map((fe, j) => (
-                  <tr key={irregularidades.length * i + j}>
-                    <td className="border px-2">{el.nombre_completo}</td>
-                    <td className="border px-2">
-                      {format.formatFechaComplete(fe.fecha)}
+              irregularidades.map((el, i) => (
+                <tr key={i}>
+                  <td className="border px-2">{el.nombre_completo}</td>
+                  <td className="border px-2">
+                    {format.formatFechaComplete(el.fecha.fecha)}
+                  </td>
+                  {Object.values(el.fecha.puntos).map((sub, j) => (
+                    <td key={j} className="border px-2 text-center fw-semibold">
+                      {sub}
                     </td>
-                    <td className="border text-center fw-semibold ">
-                      {fe.puntos.entradaSalida}
-                    </td>
-                    <td className="border text-center fw-semibold">
-                      {fe.puntos.retardo}
-                    </td>
-                    <td className="border text-center fw-semibold">
-                      {fe.puntos.check}
-                    </td>
-                    <td className="border text-center fw-semibold">
-                      {fe.puntos.falta}
-                    </td>
-                  </tr>
-                ))
-              )
+                  ))}
+                </tr>
+              ))
             ) : (
               <tr>
                 <td

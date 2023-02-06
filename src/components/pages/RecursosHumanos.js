@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom";
+import { Per } from "../Provider/Auth";
 
 function RecursosHumanos() {
   return (
@@ -49,6 +50,13 @@ function RecursosHumanos() {
               icon="fa-solid fa-briefcase"
               text="Departamentos"
             />
+            {Per(20) && (
+              <Card
+                url="salida-no-conforme"
+                icon="thumbs-down"
+                text="Salidas no conformes"
+              />
+            )}
           </div>
         </div>
         <div className="mt-3 text-center m-auto">
@@ -79,6 +87,13 @@ function RecursosHumanos() {
               icon="fa-thin fa-award"
               text="Concurso el aceitoso"
             />
+            {Per(20) && (
+              <Card
+                url="salida-no-conforme/files"
+                icon="file-pdf"
+                text="Salidas no conformes"
+              />
+            )}
           </div>
         </div>
       </div>
