@@ -4,7 +4,7 @@ import FormConfiguracionEstacion from "../../forms/FormConfiguracionEstacion";
 
 function ConfiguracionEstacion() {
   return (
-    <div className="main">
+    <div className="Main">
       <HeaderComponents
         urlBack="../"
         textUrlback="Volver a Administración"

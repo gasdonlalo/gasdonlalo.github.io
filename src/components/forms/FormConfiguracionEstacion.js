@@ -1,15 +1,46 @@
+import { useState } from "react";
+import useGetData from "../../hooks/useGetData";
+
 function FormConfiguracionEstacion() {
+  const [bomba, setBomba] = useState(null);
+  const [estacionS, setEstacionS] = useState(null);
+
+  const estacion = useGetData("/estaciones-servicio");
+
+  const changeEstacion = (e) => {
+    setBomba(Number(e.target.value));
+    setEstacionS(Number(e.target.value));
+  };
+
   return (
-    <div className="main">
+    <div className="Main">
       {/* Select para la estación */}
       <div className="container">
         <div className="row">
           <div className="col-4 mb-3">
             <label className="form-label">Estación de servicio</label>
-            <select className="form-select">
-              <option value="">Selecciona una estacion</option>
-              <option value={1}>ID: 1 / GDL 1</option>
-              <option value={2}>ID: 2 / GDL 2</option>
+            <select
+              className="form-select"
+              name="estacionServicio"
+              onChange={changeEstacion}
+              defaultValue={1}
+            >
+              {estacion.isPending && (
+                <option value="">Obteniendo estaciones...</option>
+              )}
+              {!estacion.error && !estacion.isPending && (
+                <option value="">Selecciona una estación de servicio</option>
+              )}
+              {!estacion.erro &&
+                !estacion.isPending &&
+                estacion.data.response.map((el) => (
+                  <option
+                    value={el.idestacion_servicio}
+                    key={el.idestacion_servicio}
+                  >
+                    {el.nombre}
+                  </option>
+                ))}
             </select>
           </div>
         </div>
