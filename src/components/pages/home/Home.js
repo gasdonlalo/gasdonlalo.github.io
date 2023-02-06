@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Dep } from "../../Provider/auth";
+import { Dep } from "../../Provider/Auth";
 
 function Home() {
   return (

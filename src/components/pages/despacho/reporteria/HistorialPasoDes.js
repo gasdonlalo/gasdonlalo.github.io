@@ -9,7 +9,7 @@ import { EditED, DeleteED } from "../../../modals/EditED";
 import Decimal from "decimal.js-light";
 import Scale from "../../../charts/Scale";
 import IconComponents from "../../../assets/IconComponents";
-import { Per } from "../../../Provider/auth";
+import { Per } from "../../../Provider/Auth";
 
 const HistorialPasoDes = () => {
   const [body, setBody] = useState(null);

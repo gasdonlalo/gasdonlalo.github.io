@@ -13,7 +13,7 @@ import AlertSuccess from "../../alerts/AlertSuccess";
 import IconComponents from "../../assets/IconComponents";
 import HeaderComponents from "../../../GUI/HeaderComponents";
 import { useParams } from "react-router-dom";
-import { Per } from "../../Provider/auth";
+import { Per } from "../../Provider/Auth";
 
 const SalidaNoConforme = () => {
   const empleadoS = useGetData("/empleado?departamento=1");
