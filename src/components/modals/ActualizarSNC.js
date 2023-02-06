@@ -28,6 +28,7 @@ function ActualizarSNC({ show, handleClose, id, setActualizar, actualizar }) {
 }
 
 const Success = ({ show, handleClose, id, setActualizar, actualizar, SNC }) => {
+  console.log(SNC);
   const [showAlertSucces, setShowAlertSucces] = useState(false);
   const [showError, setShowError] = useState(false);
   const [pendiente, setPendiente] = useState(false);

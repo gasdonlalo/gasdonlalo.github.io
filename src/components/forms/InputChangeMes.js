@@ -53,7 +53,7 @@ const InputChangeMes = ({ handle, name, defaultMes }) => {
   ];
   return (
     <select
-      className="form-select form-select"
+      className="form-select"
       aria-label=".form-select-lg example"
       onChange={handle}
       defaultValue={defaultMes}

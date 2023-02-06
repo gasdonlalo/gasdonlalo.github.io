@@ -19,6 +19,7 @@ import RecursosDesp from "../components/pages/despacho/RecursosDesp";
 import DHRD from "../components/pages/despacho/reporteria/HistorialRecursoDes";
 import SalidaNoConforme from "../components/pages/salidaNoConforme/SalidaNoConforme";
 import SNR from "../components/pages/salidaNoConforme/SalidasNoConformesReportes";
+import SNCP from "../components/pages/salidaNoConforme/SalidaNoConformePendiente";
 //importacion de graficos despacho
 import GMF from "../components/pages/despacho/reporteria/GraficaMontofaltante";
 import MFT from "../components/pages/despacho/reporteria/HistorialFaltanteTiempo";
@@ -93,6 +94,7 @@ function Rutas() {
           <Route path="files" element={<SNR />} />;
           <Route path="reporte-mensual" element={<GMSN />} />
           <Route path="inconformidad" element={<GSNI />} />
+          <Route path="pendientes" element={<SNCP />} />
         </Route>
         <Route path="/despacho" element={<Layout />}>
           <Route index element={<Despacho />} />;
