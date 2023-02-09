@@ -35,7 +35,7 @@ function ModalAltaBaja({
                   className="form-control"
                   type="number"
                   min="0"
-                  name="idEmpleado"
+                  name="idChecador"
                   required
                   onChange={changeMotivo}
                 />

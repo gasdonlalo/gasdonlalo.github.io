@@ -7,6 +7,7 @@ import ModalConfirmacion from "../modals/ModalConfirmacion";
 import ModalSuccess from "../modals/ModalSuccess";
 import ModalError from "../modals/ModalError";
 import Axios from "../../Caxios/Axios";
+import ButtonDropDown from "../forms/ButtonDropdown";
 
 const TablaEmpleados = ({ id }) => {
   const [show, setShow] = useState(false);
@@ -15,7 +16,7 @@ const TablaEmpleados = ({ id }) => {
   const [modalSuccess, setModalSuccess] = useState(false);
   const [modalError, setModalError] = useState({ status: false, msg: "" });
   const [mostrarIdForm, setMostrarIdForm] = useState(false);
-  const [idsol, setIdsol] = useState(); //idsolicitud relativa a la tabla
+  const [idEmp, setIdEmp] = useState(); //idsolicitud relativa a la tabla
   const [motivo, setMotivo] = useState([]);
   const [actualizar, setActualizar] = useState(false); //actualiza la informacion
   const { data, error, isPending } = useGetData(
@@ -37,12 +38,12 @@ const TablaEmpleados = ({ id }) => {
     setMotivo({ ...motivo, [e.target.name]: e.target.value });
   };
 
-  //funcionpara acciones
-  const action = (idempleado, idsolicitud, encabezado, estatus) => {
+  //funcion para acciones
+  const action = (idchecador, idempleado, encabezado, estatus) => {
     setMotivo({ ...motivo, idEmpleado: idempleado, estatus: Number(estatus) });
-    setIdsol(idsolicitud);
+    setIdEmp(idempleado);
     setEncabezado(encabezado);
-    if (estatus === 1 && !idempleado) setMostrarIdForm(true);
+    if (estatus === 1 && !idchecador) setMostrarIdForm(true);
     setShow(true);
   };
 
@@ -51,7 +52,7 @@ const TablaEmpleados = ({ id }) => {
     handleClose();
     setConfirmacion(true);
     try {
-      await Axios.put(`/solicitudes/control/${idsol}`, motivo);
+      await Axios.put(`/solicitudes/control/${idEmp}`, motivo);
       setConfirmacion(false);
       setModalSuccess(true);
       setTimeout(() => {
@@ -121,7 +122,7 @@ const Success = ({ solicitud, estatus, action }) => {
             overlay={<Tooltip id="asd">Haz Click para verlos</Tooltip>}
           >
             <a
-              href={`#sinvalidar${practicantes[0].idsolicitud_empleo}`}
+              href={`#sinvalidar${practicantes[0].idchecador}`}
               className="btn btn-primary"
             >
               Empleados sin validar{" "}
@@ -162,17 +163,22 @@ const Success = ({ solicitud, estatus, action }) => {
               )}
               {estatus === "6" && <th>Fecha Alta</th>}
               {(estatus === "3" || estatus === "4") && <th>Fecha Baja</th>}
-              {(estatus === "5" || estatus === "6") && <th>Acciones</th>}
+              {(estatus === "5" || estatus === "6") && (
+                <th className="text-center"></th>
+              )}
             </tr>
           </thead>
           <tbody>
-            {solicitudes.map((el) => (
-              <tr
-                key={el.idsolicitud_empleo}
-                id={`sinvalidar${el.idsolicitud_empleo}`}
-              >
-                <td>{el.idempleado || "--"}</td>
-                <td>{el.nombre}</td>
+            {solicitudes.map((el, i) => (
+              <tr key={i} id={`sinvalidar${el.idchecador || i}`}>
+                <td>{el.idchecador || "--"}</td>
+                <td
+                  onDoubleClick={(e) => (e.target.contentEditable = true)}
+                  onBlur={(e) => (e.target.contentEditable = false)}
+                  onInput={(e) => console.log(e.target.textContent)}
+                >
+                  {el.nombre}
+                </td>
                 <td>{el.apellido_paterno}</td>
                 <td>{el.apellido_materno}</td>
                 <td>{el.estatus}</td>
@@ -180,10 +186,12 @@ const Success = ({ solicitud, estatus, action }) => {
                   <td>{el.motivo}</td>
                 )}
                 {estatus === "6" && (
-                  <td>{format.formatFechaComplete(el.fecha_registro)}</td>
+                  <td>
+                    {format.formatFechaComplete(el.fecha_registro, false)}
+                  </td>
                 )}
                 {(estatus === "3" || estatus === "4") && (
-                  <td>{format.formatFechaComplete(el.update_time)}</td>
+                  <td>{format.formatFechaComplete(el.update_time, false)}</td>
                 )}
                 <SetBotones estatus={el.estatus} element={el} action={action} />
               </tr>
@@ -200,86 +208,84 @@ function SetBotones({ estatus, element, action }) {
     case "Practica":
       return (
         <td>
-          <button
-            type="button"
-            className="btn btn-danger me-3"
-            onClick={() =>
-              action(
-                element.idempleado,
-                element.idsolicitud_empleo,
-                "Dar de baja empleado/practicante",
-                3
-              )
-            }
-          >
-            Dar de baja
-          </button>
-          <button
-            type="button"
-            className="btn btn-success"
-            onClick={() =>
-              action(
-                element.idempleado,
-                element.idsolicitud_empleo,
-                "Contratar practicante",
-                1
-              )
-            }
-          >
-            Validar
-          </button>
+          <ButtonDropDown>
+            <span
+              variant="danger"
+              onClick={() =>
+                action(
+                  element.idchecador,
+                  element.idempleado,
+                  "Dar de baja empleado practicante",
+                  3
+                )
+              }
+            >
+              Dar de baja
+            </span>
+            <span
+              variant="success"
+              onClick={() =>
+                action(element.idchecador, element.idempleado, "Contratar", 1)
+              }
+            >
+              Contratar
+            </span>
+            <span variant="info">Modificar</span>
+          </ButtonDropDown>
         </td>
       );
     case "Contrato":
       return (
         <td>
-          <button
-            type="button"
-            className="btn btn-danger"
-            onClick={() =>
-              action(
-                element.idempleado,
-                element.idsolicitud_empleo,
-                "Dar de baja empleado/practicante",
-                3
-              )
-            }
-          >
-            Dar de baja
-          </button>
+          <ButtonDropDown>
+            <span
+              variant="danger"
+              onClick={() =>
+                action(
+                  element.idchecador,
+                  element.idempleado,
+                  "Dar de baja empleado",
+                  3
+                )
+              }
+            >
+              Dar de baja
+            </span>
+            <span variant="info">Modificar</span>
+          </ButtonDropDown>
         </td>
       );
     case "Pendiente":
       return (
         <td>
-          <button
-            type="button"
-            className="btn btn-danger me-2"
-            onClick={() =>
-              action(
-                element.idempleado,
-                element.idsolicitud_empleo,
-                "Rechazar solicitud",
-                4
-              )
-            }
-          >
-            Rechazar
-          </button>
-          <button
-            type="button"
-            className="btn btn-success"
-            onClick={() =>
-              action(
-                element.idempleado,
-                element.idsolicitud_empleo,
-                "Dar de alta empleado",
-                1
-              )
-            }
-          >
-            Dar de alta
-          </button>
+          <ButtonDropDown>
+            <span
+              variant="danger"
+              onClick={() =>
+                action(
+                  element.idchecador,
+                  element.idempleado,
+                  "Rechazar la solicitud",
+                  4
+                )
+              }
+            >
+              Rechazar solicitud
+            </span>
+            <span
+              variant="success"
+              onClick={() =>
+                action(
+                  element.idchecador,
+                  element.idempleado,
+                  "Dar de alta al empleado",
+                  1
+                )
+              }
+            >
+              Dar de alta
+            </span>
+          </ButtonDropDown>
         </td>
       );
 
