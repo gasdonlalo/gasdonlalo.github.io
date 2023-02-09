@@ -48,7 +48,7 @@ function Aceitoso() {
       setPendiente(false);
       setTimeout(() => {
         cerrarModal();
-      }, "1500"); //cierra el modal automaticamente
+      }, 500); //cierra el modal automaticamente
     } catch (err) {
       console.log(err);
       if (err.hasOwnProperty("response")) {

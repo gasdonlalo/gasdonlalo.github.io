@@ -302,7 +302,7 @@ const Correcto = ({ datosTabla, colores, fechaFin, fechaInicio, estacion }) => {
             <table className="table table-bordered border-dark align-middle text-center">
               <tbody>
                 <tr>
-                  <th scope="col">Total vendido en el mes</th>
+                  <th scope="col">Total vendido</th>
                   <td>$ {totalVendidoMes}</td>
                 </tr>
               </tbody>
