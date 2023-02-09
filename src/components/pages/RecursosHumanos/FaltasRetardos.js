@@ -8,7 +8,7 @@ import HeaderComponents from "../../../GUI/HeaderComponents";
 import IconComponents from "../../assets/IconComponents";
 
 function FaltasRetardos() {
-  const [body, setBody] = useState();
+  const [body, setBody] = useState(null);
   const [formPending, setFormPending] = useState(false);
   const [modalSuccess, setModalSuccess] = useState(false);
   const [modalError, setModalError] = useState({ status: false, msg: "" });
@@ -50,6 +50,7 @@ function FaltasRetardos() {
       await Axios.post("/entrada/captura", cuerpo);
       setModalSuccess(true);
       setFormPending(false);
+      setBody(null);
       e.target.reset();
     } catch (err) {
       if (err.hasOwnProperty("response")) {

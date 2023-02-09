@@ -35,7 +35,7 @@ import RecursosHumanos from "../components/pages/RecursosHumanos";
 import SolicitudesEmpleo from "../components/pages/RecursosHumanos/SolicitudesEmpleo";
 import AltaBaja from "../components/pages/RecursosHumanos/AltaBaja";
 import FaltasRetardos from "../components/pages/RecursosHumanos/FaltasRetardos";
-import ConcursoMadrugador from "../components/pages/RecursosHumanos/ConcursoMadrugador";
+import ConcursoMadrugador from "../components/pages/RecursosHumanos/Reportes/ConcursoMadrugador";
 import Departamentos from "../components/pages/RecursosHumanos/Departamentos";
 import EntregaRecurso from "../components/pages/RecursosHumanos/EntregaRecurso";
 import ERR from "../components/pages/RecursosHumanos/Reportes/EntregaRecursoRegistro";
@@ -75,6 +75,9 @@ import RepConfiguracionEstacion from "../components/pages/administrativo/reporte
 import ConfiguracionPermisos from "../components/pages/administrativo/ConfiguracionPermisos";
 import RepConfiguracionPermisos from "../components/pages/administrativo/reportes/RepConfiguracionPermisos";
 import ConfiguracionUsuario from "../components/pages/administrativo/ConfiguracionUsuario";
+import Inc from "../components/pages/salidaNoConforme/Incumplimientos";
+
+import { Dep } from "../components/Provider/Auth";
 
 function Rutas() {
   return (
@@ -92,34 +95,40 @@ function Rutas() {
         <Route path="/:departamento/salida-no-conforme" element={<Layout />}>
           <Route index element={<SalidaNoConforme />} />
           <Route path="files" element={<SNR />} />;
+          <Route path="incumplimientos" element={<Inc />} />;
           <Route path="reporte-mensual" element={<GMSN />} />
           <Route path="inconformidad" element={<GSNI />} />
           <Route path="pendientes" element={<SNCP />} />
         </Route>
-        <Route path="/despacho" element={<Layout />}>
-          <Route index element={<Despacho />} />;
-          <Route path="montos-faltantes" element={<MontoFaltante />} />;
-          <Route path="montos-faltantes/reportes/empleados" element={<MFE />} />
-          <Route path="montos-faltantes/historial" element={<MFT />} />
-          ;
-          <Route path="montos-faltantes/reporte" element={<GMF />} />;
-          <Route path="checklist" element={<ChecklistBomba />} />;
-          <Route path="checklist/:idE/:fecha" element={<CheckBombaInfo />} />;
-          <Route path="checklist/reporte" element={<CCB />} />;
-          <Route path="evaluacion-uniforme" element={<EvalUniforme />} />;
-          <Route path="evaluacion-uniforme/reporte" element={<GEU />} />;
-          <Route path="evaluacion-uniforme/historial" element={<DHEU />} />;
-          <Route path="recoleccion-efectivo" element={<RecolEfect />} />;
-          <Route path="recoleccion-efectivo/reporte" element={<DRE />} />;
-          <Route path="recoleccion-efectivo/historial" element={<DHREE />} />;
-          <Route path="pasos-despachar" element={<Pasosdespachar />} />;
-          <Route path="pasos-despachar/historial" element={<DHPD />} />;
-          <Route path="pasos-despachar/reporte" element={<GPD />} />;
-          <Route path="recurso-despachador" element={<RecursosDesp />} />;
-          <Route path="recurso-despachador/reporte" element={<GRD />} />
-          <Route path="recurso-despachador/historial" element={<DHRD />} />
-          <Route path="*" element={<Notfound />} />
-        </Route>
+        {Dep(2) && (
+          <Route path="/despacho" element={<Layout />}>
+            <Route index element={<Despacho />} />;
+            <Route path="montos-faltantes" element={<MontoFaltante />} />;
+            <Route
+              path="montos-faltantes/reportes/empleados"
+              element={<MFE />}
+            />
+            <Route path="montos-faltantes/historial" element={<MFT />} />
+            ;
+            <Route path="montos-faltantes/reporte" element={<GMF />} />;
+            <Route path="checklist" element={<ChecklistBomba />} />;
+            <Route path="checklist/:idE/:fecha" element={<CheckBombaInfo />} />;
+            <Route path="checklist/reporte" element={<CCB />} />;
+            <Route path="evaluacion-uniforme" element={<EvalUniforme />} />;
+            <Route path="evaluacion-uniforme/reporte" element={<GEU />} />;
+            <Route path="evaluacion-uniforme/historial" element={<DHEU />} />;
+            <Route path="recoleccion-efectivo" element={<RecolEfect />} />;
+            <Route path="recoleccion-efectivo/reporte" element={<DRE />} />;
+            <Route path="recoleccion-efectivo/historial" element={<DHREE />} />;
+            <Route path="pasos-despachar" element={<Pasosdespachar />} />;
+            <Route path="pasos-despachar/historial" element={<DHPD />} />;
+            <Route path="pasos-despachar/reporte" element={<GPD />} />;
+            <Route path="recurso-despachador" element={<RecursosDesp />} />;
+            <Route path="recurso-despachador/reporte" element={<GRD />} />
+            <Route path="recurso-despachador/historial" element={<DHRD />} />
+            <Route path="*" element={<Notfound />} />
+          </Route>
+        )}
 
         {/* Recursos humanos */}
         <Route path="/recursos-humanos" element={<Layout />}>

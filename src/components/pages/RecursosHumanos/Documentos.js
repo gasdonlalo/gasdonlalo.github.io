@@ -5,6 +5,7 @@ import format from "../../assets/format";
 import AddDocs from "../../modals/AddDocs";
 import Axios from "../../../Caxios/Axios";
 import Loader from "../../assets/Loader";
+import { Per } from "../../Provider/Auth";
 
 function Documentos() {
   const [actualizar, setActualizar] = useState(false);
@@ -133,13 +134,15 @@ const Sucess = ({
                 ) : (
                   <td className="text-danger">No cumple</td>
                 )}
-                <td style={{ width: " 5px" }} className="text-center">
-                  <i
-                    className="fa-solid fa-pen text-warning btn btn-outline-warning "
-                    role="button"
-                    onClick={() => mostrarModal(e.idempleado)}
-                  />
-                </td>
+                {Per(28) && (
+                  <td style={{ width: " 5px" }} className="text-center">
+                    <i
+                      className="fa-solid fa-pen text-warning btn btn-outline-warning "
+                      role="button"
+                      onClick={() => mostrarModal(e.idempleado)}
+                    />
+                  </td>
+                )}
               </tr>
             );
           })}

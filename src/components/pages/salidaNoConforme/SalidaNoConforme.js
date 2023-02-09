@@ -16,8 +16,6 @@ import { useParams } from "react-router-dom";
 import { Per } from "../../Provider/Auth";
 
 const SalidaNoConforme = () => {
-  const empleadoS = useGetData("/empleado?departamento=1");
-  const incumplimiento = useGetData("/incumplimiento");
   const [showAlert, setShowAlert] = useState(false);
   const [showAlertSuccess, setShowAlertSuccess] = useState(false);
   //recupera la id del formulario enviado para generar el pdf
@@ -26,14 +24,18 @@ const SalidaNoConforme = () => {
   const [show, setShow] = useState(false);
 
   const [datos, setDatos] = useState({ accionesCorregir: null });
+  const { departamento } = useParams();
+  const incumplimiento = useGetData("/incumplimiento");
+  let url = `/empleado`;
+  if (departamento === "despacho") url += "?departamento=1";
+  const empleadoS = useGetData(url);
+
   const enviar = (e) => {
     e.preventDefault();
     console.log(datos);
     enviarDatos(datos);
     e.target.reset();
   };
-
-  const { departamento } = useParams();
 
   const enviarDatos = async (x) => {
     try {
@@ -78,6 +80,11 @@ const SalidaNoConforme = () => {
         textUrlback="Regresar"
       >
         <div className="d-flex">
+          <IconComponents
+            icon="plus text-success"
+            text="Incumplimientos"
+            url="incumplimientos"
+          />
           <IconComponents
             icon="file-pdf text-danger"
             text="Archivos"
@@ -166,9 +173,6 @@ const SalidaNoConforme = () => {
                           {el.incumplimiento}
                         </option>
                       ))}
-                      <option value="add" className="bg-success">
-                        Añadir otro
-                      </option>
                     </select>
                   </div>
                 )}

@@ -7,6 +7,7 @@ import Axios from "../../../Caxios/Axios";
 import FormDepartamento from "../../forms/FormDepartamento";
 import ModalSuccess from "../../modals/ModalSuccess";
 import ModalError from "../../modals/ModalError";
+import { Per } from "../../Provider/Auth";
 
 const Departamentos = () => {
   const [formPending, setFormPending] = useState(false);
@@ -120,21 +121,25 @@ const Success = ({ data, edit, eliminar }) => {
             <tr key={el.iddepartamento}>
               <td className="text-center border px-2">{i + 1}</td>
               <td className="border px-2">{el.departamento}</td>
-              <td className="border px-2 text-center">
-                <li
-                  onClick={() => eliminar(el.iddepartamento)}
-                  className="fa-solid fa-trash text-danger"
-                  title="Eliminar"
-                ></li>
-              </td>
-              <td className="border px-2 text-center">
-                <li
-                  role="button"
-                  onClick={() => edit(el.iddepartamento)}
-                  className="fa-solid fa-pen text-warning"
-                  title="Actualizar"
-                ></li>
-              </td>
+              {Per(47) && (
+                <td className="border px-2 text-center">
+                  <li
+                    onClick={() => eliminar(el.iddepartamento)}
+                    className="fa-solid fa-trash text-danger"
+                    title="Eliminar"
+                  ></li>
+                </td>
+              )}
+              {Per(46) && (
+                <td className="border px-2 text-center">
+                  <li
+                    role="button"
+                    onClick={() => edit(el.iddepartamento)}
+                    className="fa-solid fa-pen text-warning"
+                    title="Actualizar"
+                  ></li>
+                </td>
+              )}
             </tr>
           ))}
           <tr></tr>
