@@ -13,14 +13,14 @@ function Documentos() {
   const [show, setShow] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
   const [showAlertError, setShowAlertError] = useState(false);
-  const [id, setId] = useState(null);
+  const [id, setId] = useState({ id: null, nombre: null });
 
   const handleClose = () => {
     setShow(false);
   };
-  const mostrarModal = (valor) => {
+  const mostrarModal = (valor, nombre) => {
     setShow(true);
-    setId(valor);
+    setId({ id: valor, nombre: nombre });
   };
   const mostrarAlert = () => {
     setShowAlert(true);
@@ -139,7 +139,12 @@ const Sucess = ({
                     <i
                       className="fa-solid fa-pen text-warning btn btn-outline-warning "
                       role="button"
-                      onClick={() => mostrarModal(e.idempleado)}
+                      onClick={() =>
+                        mostrarModal(
+                          e.idempleado,
+                          format.formatTextoMayusPrimeraLetra(e.nombre_completo)
+                        )
+                      }
                     />
                   </td>
                 )}
