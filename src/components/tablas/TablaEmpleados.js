@@ -8,6 +8,7 @@ import ModalSuccess from "../modals/ModalSuccess";
 import ModalError from "../modals/ModalError";
 import Axios from "../../Caxios/Axios";
 import ButtonDropDown from "../forms/ButtonDropdown";
+import ErrorHttp from "../assets/ErrorHttp";
 
 const TablaEmpleados = ({ id }) => {
   const [show, setShow] = useState(false);
@@ -19,11 +20,11 @@ const TablaEmpleados = ({ id }) => {
   const [idEmp, setIdEmp] = useState(); //idsolicitud relativa a la tabla
   const [motivo, setMotivo] = useState([]);
   const [actualizar, setActualizar] = useState(false); //actualiza la informacion
-  const { data, error, isPending } = useGetData(
+  const { data, error, isPending, dataError } = useGetData(
     `/solicitudes/estatus/${id}`,
     actualizar
   );
-
+  console.log(dataError);
   const cerrarModal = () => {
     setModalError(false);
     setModalSuccess(false);
@@ -51,13 +52,16 @@ const TablaEmpleados = ({ id }) => {
     e.preventDefault();
     handleClose();
     setConfirmacion(true);
+  };
+
+  const enviarDatos = async () => {
     try {
       await Axios.put(`/solicitudes/control/${idEmp}`, motivo);
       setConfirmacion(false);
       setModalSuccess(true);
       setTimeout(() => {
         cerrarModal();
-      }, 1500); //cierra automaticamente el modal
+      }, 500); //cierra automaticamente el modal
       setActualizar(!actualizar);
     } catch (err) {
       if (err.hasOwnProperty("response")) {
@@ -71,10 +75,7 @@ const TablaEmpleados = ({ id }) => {
   };
 
   return (
-    <div className="">
-      {!error && !isPending && (
-        <Success solicitud={data.response} estatus={id} action={action} />
-      )}
+    <div>
       <ModalSuccess show={modalSuccess} close={cerrarModal} />
       <ModalError
         show={modalError.status}
@@ -84,7 +85,7 @@ const TablaEmpleados = ({ id }) => {
       <ModalConfirmacion
         handleClose={() => setConfirmacion(false)}
         show={confirmacion}
-        enviar={enviar}
+        enviar={enviarDatos}
       />
       <ModalAltaBaja
         show={show}
@@ -94,6 +95,12 @@ const TablaEmpleados = ({ id }) => {
         encabezado={encabezado}
         mostrarId={mostrarIdForm}
       />
+      {!error && !isPending && (
+        <Success solicitud={data.response} estatus={id} action={action} />
+      )}
+      {error && !isPending && (
+        <ErrorHttp msg={dataError.msg} code={dataError.code} />
+      )}
     </div>
   );
 };
@@ -158,9 +165,9 @@ const Success = ({ solicitud, estatus, action }) => {
               <th>Apellido Paterno</th>
               <th>Apellido Materno</th>
               <th>Estatus</th>
-              {(estatus === "5" || estatus === "4" || estatus === "3") && (
-                <th>Motivo de la solicitud</th>
-              )}
+              {estatus === "5" && <th>Motivo de la solicitud</th>}
+              {estatus === "4" && <th>Motivo de rechazo</th>}
+              {estatus === "3" && <th>Motivo de inactividad</th>}
               {estatus === "6" && <th>Fecha Alta</th>}
               {(estatus === "3" || estatus === "4") && <th>Fecha Baja</th>}
               {(estatus === "5" || estatus === "6") && (
@@ -204,6 +211,7 @@ const Success = ({ solicitud, estatus, action }) => {
 };
 
 function SetBotones({ estatus, element, action }) {
+  console.log(estatus);
   switch (estatus) {
     case "Practica":
       return (
@@ -288,7 +296,25 @@ function SetBotones({ estatus, element, action }) {
           </ButtonDropDown>
         </td>
       );
-
+    case "Despido":
+      return (
+        <td>
+          <button
+            type="button"
+            className="btn btn-success"
+            onClick={() =>
+              action(
+                element.idempleado,
+                element.idsolicitud_empleo,
+                "Contratar practicante",
+                1
+              )
+            }
+          >
+            Reincorporar
+          </button>
+        </td>
+      );
     default:
       return;
   }
