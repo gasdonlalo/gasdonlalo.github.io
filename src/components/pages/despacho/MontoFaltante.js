@@ -102,7 +102,7 @@ const Success = ({ empleados }) => {
       setBody(null);
       event.target.reset();
     } catch (err) {
-      if (err.hasOwnProPerty("response")) {
+      if (err.hasOwnProperty("response")) {
         setModalError({
           status: true,
           msg: err.response.data.msg,
@@ -128,54 +128,49 @@ const Success = ({ empleados }) => {
   }
 
   return (
-    <div>
-      <div className="d-flex w-75 justify-content-evenly m-auto">
-        <div>
-          <label>Escoje el mes de los datos</label>
-          <InputChangeMes defaultMes={month} handle={seleccionarMes} />
-        </div>
-        <div>
-          <label>Escoje el año de los datos</label>
-          <InputChangeYear defaultYear={year} handle={seleccionarYear} />
-        </div>
-      </div>
-      <div className="d-flex flex- align-items-center">
-        <form className="w-25 ms-5 rounded p-3 shadow" onSubmit={enviar}>
-          <div className="w-100">
-            <div className="p-2">
-              <label>Selecciona el despachador</label>
-              <InputSelectEmpleado
-                reset={body} //Le paso el body para validar si esta null limpiar el input
-                empleados={empleados}
-                handle={handle}
-                name="empleado"
+    <div className="d-flex justify-content-center align-items-center">
+      <ModalError
+        show={modalError.status}
+        close={closeModal}
+        text={modalError.msg}
+      />
+      {/*Formulario */}
+      <div className="w-25 m-3">
+        <form className="rounded p-3 shadow" onSubmit={enviar}>
+          <div className="p-2">
+            <label>Selecciona el despachador</label>
+            <InputSelectEmpleado
+              reset={body} //Le paso el body para validar si esta null limpiar el input
+              empleados={empleados}
+              handle={handle}
+              name="empleado"
+            />
+          </div>
+          <div className="p-2">
+            <label className="form-label">Fecha</label>
+            <InputFecha
+              handle={handle}
+              data={body}
+              setData={setBody}
+              name="fecha"
+            />
+          </div>
+          <div className="p-2">
+            <label>Ingresa el monto</label>
+            <div className="input-group">
+              <span className="input-group-text">$</span>
+              <input
+                type="number"
+                step="0.01"
+                min="0.00"
+                className="form-control"
+                name="cantidad"
+                onChange={handle}
+                required
               />
-            </div>
-            <div className="p-2">
-              <label className="form-label">Fecha</label>
-              <InputFecha
-                handle={handle}
-                data={body}
-                setData={setBody}
-                name="fecha"
-              />
-            </div>
-            <div className="p-2">
-              <label>Ingresa el monto</label>
-              <div className="input-group">
-                <span className="input-group-text">$</span>
-                <input
-                  type="number"
-                  step="0.01"
-                  min="0.00"
-                  className="form-control"
-                  name="cantidad"
-                  onChange={handle}
-                  required
-                />
-              </div>
             </div>
           </div>
+
           <div className="d-block m-auto">
             <button
               type="submit"
@@ -187,8 +182,24 @@ const Success = ({ empleados }) => {
             </button>
           </div>
         </form>
+      </div>
+
+      <div className="w-75 m-3 border-start p-3">
+        <h3 className="text-center fst-italic">Vista previa</h3>
+        {/* Selects */}
+        <div className="row">
+          <div className="col-6">
+            <label>Escoje el mes de los datos</label>
+            <InputChangeMes defaultMes={month} handle={seleccionarMes} />
+          </div>
+          <div className="col-6">
+            <label>Escoje el año de los datos</label>
+            <InputChangeYear defaultYear={year} handle={seleccionarYear} />
+          </div>
+        </div>
+
         {!montoFaltante.error && !montoFaltante.isPending && (
-          <div className="w-75">
+          <div className="m-auto">
             <Grafica
               datos={dataBar}
               text="Gráfica semanal de monto faltante de despachador"
@@ -201,11 +212,6 @@ const Success = ({ empleados }) => {
                   },
                 },
               }}
-            />
-            <ModalError
-              show={modalError.status}
-              close={closeModal}
-              text={modalError.msg}
             />
           </div>
         )}

@@ -6,7 +6,9 @@ function ModalAltaBaja({
   changeMotivo,
   encabezado,
   mostrarId,
+  idReincorporar,
 }) {
+  console.log(idReincorporar, "ola");
   return (
     <Modal show={show} onHide={handleClose} backdrop="static" centered>
       <Modal.Header closeButton>
@@ -42,6 +44,20 @@ function ModalAltaBaja({
               </div>
             </div>
           )}
+          {idReincorporar && (
+            <div className="mb-3 col-6">
+              <label>Ingresar ID</label>
+              <input
+                className="form-control"
+                type="number"
+                min="0"
+                name="idChecador"
+                required
+                onChange={changeMotivo}
+              />
+            </div>
+          )}
+
           <div className="mb-3">
             <label>Motivo</label>
             <textarea

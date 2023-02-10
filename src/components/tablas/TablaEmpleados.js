@@ -9,6 +9,7 @@ import ModalError from "../modals/ModalError";
 import Axios from "../../Caxios/Axios";
 import ButtonDropDown from "../forms/ButtonDropdown";
 import ErrorHttp from "../assets/ErrorHttp";
+import DropdownItem from "react-bootstrap/esm/DropdownItem";
 
 const TablaEmpleados = ({ id }) => {
   const [show, setShow] = useState(false);
@@ -17,6 +18,7 @@ const TablaEmpleados = ({ id }) => {
   const [modalSuccess, setModalSuccess] = useState(false);
   const [modalError, setModalError] = useState({ status: false, msg: "" });
   const [mostrarIdForm, setMostrarIdForm] = useState(false);
+  const [idReincorporar, setIdReincorporar] = useState(false);
   const [idEmp, setIdEmp] = useState(); //idsolicitud relativa a la tabla
   const [motivo, setMotivo] = useState([]);
   const [actualizar, setActualizar] = useState(false); //actualiza la informacion
@@ -41,10 +43,17 @@ const TablaEmpleados = ({ id }) => {
 
   //funcion para acciones
   const action = (idchecador, idempleado, encabezado, estatus) => {
-    setMotivo({ ...motivo, idEmpleado: idempleado, estatus: Number(estatus) });
+    console.log(idchecador);
+    setMotivo({ ...motivo, idChecador: idempleado, estatus: Number(estatus) });
     setIdEmp(idempleado);
     setEncabezado(encabezado);
-    if (estatus === 1 && !idchecador) setMostrarIdForm(true);
+    setIdReincorporar(false);
+    if (estatus === 1 && !idchecador) {
+      setMostrarIdForm(true);
+    }
+    if (estatus === 1 && idchecador === "despido") {
+      setIdReincorporar(true);
+    }
     setShow(true);
   };
 
@@ -52,6 +61,7 @@ const TablaEmpleados = ({ id }) => {
     e.preventDefault();
     handleClose();
     setConfirmacion(true);
+    console.log();
   };
 
   const enviarDatos = async () => {
@@ -94,6 +104,7 @@ const TablaEmpleados = ({ id }) => {
         changeMotivo={changeMotivo}
         encabezado={encabezado}
         mostrarId={mostrarIdForm}
+        idReincorporar={idReincorporar}
       />
       {!error && !isPending && (
         <Success solicitud={data.response} estatus={id} action={action} />
@@ -107,6 +118,7 @@ const TablaEmpleados = ({ id }) => {
 
 const Success = ({ solicitud, estatus, action }) => {
   const [solicitudes, setSolicitudes] = useState(solicitud);
+  console.log(solicitudes);
 
   const filterEmp = (e) => {
     const exp = new RegExp(`${e.target.value}`, "gi");
@@ -211,7 +223,6 @@ const Success = ({ solicitud, estatus, action }) => {
 };
 
 function SetBotones({ estatus, element, action }) {
-  console.log(estatus);
   switch (estatus) {
     case "Practica":
       return (
@@ -299,20 +310,22 @@ function SetBotones({ estatus, element, action }) {
     case "Despido":
       return (
         <td>
-          <button
-            type="button"
-            className="btn btn-success"
-            onClick={() =>
-              action(
-                element.idempleado,
-                element.idsolicitud_empleo,
-                "Contratar practicante",
-                1
-              )
-            }
-          >
-            Reincorporar
-          </button>
+          <ButtonDropDown>
+            <DropdownItem
+              type="button"
+              variant="warning"
+              onClick={() =>
+                action(
+                  "despido",
+                  element.idempleado,
+                  "Reincorporar empleado",
+                  1
+                )
+              }
+            >
+              Reincorporar
+            </DropdownItem>
+          </ButtonDropDown>
         </td>
       );
     default:

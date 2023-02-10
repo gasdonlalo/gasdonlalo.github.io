@@ -27,13 +27,13 @@ function Despacho() {
                 text="Evaluación uniforme"
               />
             )}
-            {Per(11) && (
+            {/* {Per(11) && (
               <Card
                 url="recoleccion-efectivo"
                 icon="sack-dollar"
                 text="Recoleccion efectivo"
               />
-            )}
+            )} */}
             {Per(14) && (
               <Card
                 url="pasos-despachar"
@@ -81,13 +81,13 @@ function Despacho() {
                 text="Evaluacion uniforme"
               />
             )}
-            {Per(11) && (
+            {/* {Per(11) && (
               <Card
                 url="recoleccion-efectivo/reporte"
                 icon="chart-simple"
                 text="Recoleccion efectivo"
               />
-            )}
+            )} */}
             {Per(14) && (
               <Card
                 url="pasos-despachar/reporte"
