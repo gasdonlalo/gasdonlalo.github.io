@@ -1,5 +1,5 @@
 import HeaderComponents from "../../../GUI/HeaderComponents";
-import FormChecklist from "../../forms/FormChecklist";
+import FormChecklistNuevo from "../../forms/FormChecklistNuevo";
 import IconComponents from "../../assets/IconComponents";
 
 function ChecklistBomba() {
@@ -17,7 +17,7 @@ function ChecklistBomba() {
         />
       </HeaderComponents>
       <div>
-        <FormChecklist />
+        <FormChecklistNuevo />
       </div>
     </div>
   );
