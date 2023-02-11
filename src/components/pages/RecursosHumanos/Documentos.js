@@ -70,7 +70,7 @@ function Documentos() {
         textUrlback="Volver a recursos humanos"
       ></HeaderComponents>
       {!documentos.error && !documentos.isPending && (
-        <Sucess
+        <Success
           data={documentos}
           mostrarModal={mostrarModal}
           show={show}
@@ -88,7 +88,7 @@ function Documentos() {
   );
 }
 
-const Sucess = ({
+const Success = ({
   data,
   mostrarModal,
   show,
@@ -99,6 +99,17 @@ const Sucess = ({
   showError,
   setShowAlertError,
 }) => {
+  const [documentos, setDocumentos] = useState(data);
+
+  const filterEmp = (e) => {
+    const exp = new RegExp(`${e.target.value}`, "gi");
+    const search = data.filter((el) => {
+      const { nombre, apellido_paterno, apellido_materno } = el;
+      return exp.test(`${nombre} ${apellido_paterno} ${apellido_materno}`);
+    });
+    setDocumentos(search);
+  };
+
   return (
     <div className="container mt-3 w-50">
       <AddDocs
@@ -110,7 +121,24 @@ const Sucess = ({
         showError={showError}
         setShowAlertError={setShowAlertError}
       />
-      <table className="table table-bordered shadow ">
+      {/* Buscador xd */}
+      <div className="pt-0 mb-2">
+        <div className="row">
+          <div className="offset-md-6 col-md-6">
+            <input
+              className="form-control"
+              type="search"
+              name="buscador"
+              id="buscador"
+              onChange={filterEmp}
+              placeholder="Filtra un empleado..."
+            />
+          </div>
+        </div>
+      </div>
+
+      {/* tabla xd */}
+      <table className="table table-bordered shadow">
         <thead className="table-light">
           <tr>
             <th>Nombre del empleado</th>
@@ -120,7 +148,7 @@ const Sucess = ({
           </tr>
         </thead>
         <tbody>
-          {data.data.response.map((e, i) => {
+          {documentos.data.response.map((e, i) => {
             return (
               <tr key={i}>
                 <td key={e.nombre_completo}>

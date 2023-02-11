@@ -24,12 +24,13 @@ export const SalidasNoConformesReportes = () => {
   const [showActualizar, setShowActualizar] = useState(false);
   const [actualizar, setActualizar] = useState(false);
 
-  const reportes = useGetData(
-    `salida-no-conforme/${year}/${month}`,
-    actualizar
-  );
-
   const { departamento } = useParams();
+  let url = `/salida-no-conforme/${year}/${month}`;
+  if (departamento === "despacho") url += `/1`;
+
+  console.log(url);
+
+  const reportes = useGetData(url, actualizar);
 
   const handleMonth = (e) => {
     setMonth(e.target.value);
@@ -105,7 +106,6 @@ const Success = ({
   const [idSalida, setIdSalida] = useState(null);
   const [idActualizar, setIdActualizar] = useState(null);
   const salidaNoConforme = useGetData(`salida-no-conforme/${idSalida}`);
-  console.log(salidaNoConforme);
 
   const closeConfirmacion = () => {
     setShowConfirmacion(false);

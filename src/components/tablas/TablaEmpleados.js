@@ -37,7 +37,7 @@ const TablaEmpleados = ({ id }) => {
     setMotivo({ ...motivo, [e.target.name]: e.target.value });
   };
 
-  //funcionpara acciones
+  //funcion para acciones
   const action = (idempleado, idsolicitud, encabezado, estatus) => {
     setMotivo({ ...motivo, idEmpleado: idempleado, estatus: Number(estatus) });
     setIdsol(idsolicitud);

@@ -63,6 +63,13 @@ function RecursosHumanos() {
                 text="Departamentos"
               />
             )}
+            {Per(20) && (
+              <Card
+                url="salida-no-conforme"
+                icon="thumbs-down"
+                text="Salidas no conformes"
+              />
+            )}
           </div>
         </div>
         <div className="mt-3 text-center m-auto">
@@ -101,6 +108,13 @@ function RecursosHumanos() {
                 url="concurso-aceitoso/reporte"
                 icon="fa-thin fa-award"
                 text="Concurso el aceitoso"
+              />
+            )}
+            {Per(20) && (
+              <Card
+                url="salida-no-conforme/files"
+                icon="file-pdf"
+                text="Salidas no conformes"
               />
             )}
           </div>
