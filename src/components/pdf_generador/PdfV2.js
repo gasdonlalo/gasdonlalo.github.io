@@ -29,6 +29,7 @@ function PdfV2({
   fechaInicio,
   fechaFin,
   estacion,
+  orientacion,
 }) {
   const ruta = useLocation().pathname;
   Font.register({ family: "calibri", src: calibri });
@@ -84,6 +85,8 @@ function PdfV2({
       nombre = nombre + " CONTROL CONVOCATORIA INCENTIVO EL MADRUGADOR";
     } else if (ruta.match("orden-trabajo")) {
       nombre = nombre + "  MENSUAL MANTENIMIENTO";
+    } else if (ruta.match("faltas-retardos")) {
+      nombre = nombre + " MENSUAL DE FALTAS Y RETARDOS";
     }
     return nombre;
   }
@@ -161,7 +164,11 @@ function PdfV2({
 
   const doc = (
     <Document wrap>
-      <Page size="LETTER" orientation="landscape" style={estilo.page}>
+      <Page
+        size="LETTER"
+        orientation={!orientacion ? "landscape" : orientacion}
+        style={estilo.page}
+      >
         {/* Header */}
         <View style={estilo.header}>
           <Image src={gdl} style={{ width: "55px" }} />

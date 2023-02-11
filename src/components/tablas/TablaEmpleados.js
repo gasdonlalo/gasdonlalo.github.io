@@ -10,6 +10,7 @@ import Axios from "../../Caxios/Axios";
 import ButtonDropDown from "../forms/ButtonDropdown";
 import ErrorHttp from "../assets/ErrorHttp";
 import DropdownItem from "react-bootstrap/esm/DropdownItem";
+import ActualizarEmpleado from "../modals/ActualizarEmpleado";
 
 const TablaEmpleados = ({ id }) => {
   const [show, setShow] = useState(false);
@@ -21,7 +22,10 @@ const TablaEmpleados = ({ id }) => {
   const [idReincorporar, setIdReincorporar] = useState(false);
   const [idEmp, setIdEmp] = useState(); //idsolicitud relativa a la tabla
   const [motivo, setMotivo] = useState([]);
+  const [actualizaEmpleado, setActualizaEmpleado] = useState(false); //muestra modal de actualzacion de empleados
+  const [datosEmpleado, setDatosEmpleado] = useState(null);
   const [actualizar, setActualizar] = useState(false); //actualiza la informacion
+  const [tipoEnvio, setTipoEnvio] = useState(0);
   const { data, error, isPending, dataError } = useGetData(
     `/solicitudes/estatus/${id}`,
     actualizar
@@ -55,15 +59,32 @@ const TablaEmpleados = ({ id }) => {
       setIdReincorporar(true);
     }
     setShow(true);
+    setTipoEnvio(0);
   };
-
-  const enviar = async (e) => {
+  const mostrarActualizarEmpleado = (datos) => {
+    setDatosEmpleado({
+      nombre: datos.nombre,
+      apellidoPaterno: datos.apellido_paterno,
+      apellidoMaterno: datos.apellido_materno,
+      idDepartamento: datos.iddepartamento,
+      idChecador: Number(datos.idchecador),
+    });
+    setIdEmp(datos.idchecador);
+    setActualizaEmpleado(true);
+    setTipoEnvio(1);
+  };
+  const cerrarActualizarEmpleado = () => {
+    setActualizaEmpleado(false);
+  };
+  const enviar = (e) => {
     e.preventDefault();
     handleClose();
+    cerrarActualizarEmpleado();
     setConfirmacion(true);
-    console.log();
   };
-
+  const handleActualizar = (e) => {
+    setDatosEmpleado({ ...datosEmpleado, [e.target.name]: e.target.value });
+  };
   const enviarDatos = async () => {
     try {
       await Axios.put(`/solicitudes/control/${idEmp}`, motivo);
@@ -83,7 +104,25 @@ const TablaEmpleados = ({ id }) => {
       }
     }
   };
-
+  const enviarActualizar = async () => {
+    try {
+      await Axios.put(`/empleado/${idEmp}`, datosEmpleado);
+      setConfirmacion(false);
+      setModalSuccess(true);
+      setTimeout(() => {
+        cerrarModal();
+      }, 500); //cierra automaticamente el modal
+      setActualizar(!actualizar);
+    } catch (err) {
+      if (err.hasOwnProperty("response")) {
+        setConfirmacion(false);
+        setModalError({ status: true, msg: err.response.data.msg });
+      } else {
+        setConfirmacion(false);
+        setModalError({ status: true, msg: "Error en la conexión" });
+      }
+    }
+  };
   return (
     <div>
       <ModalSuccess show={modalSuccess} close={cerrarModal} />
@@ -95,7 +134,7 @@ const TablaEmpleados = ({ id }) => {
       <ModalConfirmacion
         handleClose={() => setConfirmacion(false)}
         show={confirmacion}
-        enviar={enviarDatos}
+        enviar={tipoEnvio === 0 ? enviarDatos : enviarActualizar}
       />
       <ModalAltaBaja
         show={show}
@@ -106,8 +145,21 @@ const TablaEmpleados = ({ id }) => {
         mostrarId={mostrarIdForm}
         idReincorporar={idReincorporar}
       />
+      <ActualizarEmpleado
+        show={actualizaEmpleado}
+        handleClose={cerrarActualizarEmpleado}
+        idEmpleado={idEmp}
+        data={datosEmpleado}
+        enviar={enviar}
+        handle={handleActualizar}
+      />
       {!error && !isPending && (
-        <Success solicitud={data.response} estatus={id} action={action} />
+        <Success
+          solicitud={data.response}
+          estatus={id}
+          action={action}
+          mostrar={mostrarActualizarEmpleado}
+        />
       )}
       {error && !isPending && (
         <ErrorHttp msg={dataError.msg} code={dataError.code} />
@@ -116,7 +168,7 @@ const TablaEmpleados = ({ id }) => {
   );
 };
 
-const Success = ({ solicitud, estatus, action }) => {
+const Success = ({ solicitud, estatus, action, mostrar }) => {
   const [solicitudes, setSolicitudes] = useState(solicitud);
   console.log(solicitudes);
 
@@ -212,7 +264,12 @@ const Success = ({ solicitud, estatus, action }) => {
                 {(estatus === "3" || estatus === "4") && (
                   <td>{format.formatFechaComplete(el.update_time, false)}</td>
                 )}
-                <SetBotones estatus={el.estatus} element={el} action={action} />
+                <SetBotones
+                  estatus={el.estatus}
+                  element={el}
+                  action={action}
+                  mostrar={mostrar}
+                />
               </tr>
             ))}
           </tbody>
@@ -222,7 +279,7 @@ const Success = ({ solicitud, estatus, action }) => {
   );
 };
 
-function SetBotones({ estatus, element, action }) {
+function SetBotones({ estatus, element, action, mostrar }) {
   switch (estatus) {
     case "Practica":
       return (
@@ -270,7 +327,9 @@ function SetBotones({ estatus, element, action }) {
             >
               Dar de baja
             </span>
-            <span variant="info">Modificar</span>
+            <span variant="info" onClick={() => mostrar(element)}>
+              Modificar
+            </span>
           </ButtonDropDown>
         </td>
       );

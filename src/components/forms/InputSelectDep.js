@@ -1,14 +1,21 @@
 import React from "react";
 import useGetData from "../../hooks/useGetData";
 
-const InputSelectDep = ({ name, handle }) => {
+const InputSelectDep = ({ name, handle, defaultDept }) => {
   const dept = useGetData("/departamento");
+
   return (
-    <select className="form-control" name={name} onChange={handle} required>
-      <option value="">--Selecciona un departamento--</option>
-      {!dept.data
-        ? false
-        : dept.data.response.map((e) => {
+    <>
+      {!dept.error && !dept.isPending && (
+        <select
+          className="form-control"
+          name={name}
+          onChange={handle}
+          required
+          defaultValue={defaultDept}
+        >
+          <option value="">--Selecciona un departamento--</option>
+          {dept.data.response.map((e) => {
             return (
               <option
                 key={e.iddepartamento}
@@ -16,7 +23,9 @@ const InputSelectDep = ({ name, handle }) => {
               >{`${e.departamento}`}</option>
             );
           })}
-    </select>
+        </select>
+      )}
+    </>
   );
 };
 
