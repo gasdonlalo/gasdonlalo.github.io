@@ -128,8 +128,6 @@ const Success = ({
             <input
               className="form-control"
               type="search"
-              name="buscador"
-              id="buscador"
               onChange={filterEmp}
               placeholder="Filtra un empleado..."
             />
