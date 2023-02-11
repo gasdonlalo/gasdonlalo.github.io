@@ -9,8 +9,8 @@ import format from "../../../assets/format";
 import Axios from "../../../../Caxios/Axios";
 import Bar from "../../../charts/Bar";
 import ErrorHttp from "../../../assets/ErrorHttp";
-import PdfGraficas from "../../../pdf_generador/PdfGraficas";
 import IconComponents from "../../../assets/IconComponents";
+import PdfV2 from "../../../pdf_generador/PdfV2";
 
 const FaltaRetardoGrafica = () => {
   const date = new Date();
@@ -127,7 +127,15 @@ const FaltaRetardoGrafica = () => {
         </div>
       </nav>
       <div className="m-3">
-        {data.success && <Success weeks={fechas} data={data} />}
+        {data.success && (
+          <Success
+            weeks={fechas}
+            data={data}
+            year={year}
+            month={month}
+            idempleado={emp}
+          />
+        )}
         {!data.success && (
           <div className="mt-5">
             <ErrorHttp msg="No hay nada por aqui" />{" "}
@@ -138,7 +146,7 @@ const FaltaRetardoGrafica = () => {
   );
 };
 
-const Success = ({ weeks, data }) => {
+const Success = ({ weeks, data, year, month, idempleado }) => {
   const [render, setRender] = useState(data.response);
   console.log(data.response);
   const [dataBar, setDataBar] = useState(null);
@@ -215,7 +223,10 @@ const Success = ({ weeks, data }) => {
               </select>
             </div>
           </div>
-          <div className="d-flex container-fluid align-items-center">
+          <div
+            className="d-flex container-fluid align-items-center"
+            id="render"
+          >
             <div className="w-25">
               <p className="mb-1 fw-bold">
                 {data.response[0].nombre} {data.response[0].apellido_paterno}{" "}
@@ -286,7 +297,8 @@ const Success = ({ weeks, data }) => {
           </div>
         </div>
       </div>
-      <PdfGraficas />
+
+      <PdfV2 year={year} month={month} idempleado={idempleado} />
     </Fragment>
   );
 };

@@ -6,9 +6,9 @@ import Loader from "../../../assets/Loader";
 import InputChangeMes from "../../../forms/InputChangeMes";
 import InputChangeYear from "../../../forms/InputChangeYear";
 import format from "../../../assets/format";
-import PdfGraficas from "../../../pdf_generador/PdfGraficas";
 import IconComponents from "../../../assets/IconComponents";
 import { OffCanvasConfigIncumplimientosMadrugador } from "../../../assets/OffCanvasConfigIncumplientos";
+import PdfV2 from "../../../pdf_generador/PdfV2";
 
 function ConcursoMadrugador() {
   const date = new Date();
@@ -217,7 +217,8 @@ const Success = ({ data, month, year, columns }) => {
           </tbody>
         </table>
       </div>
-      <PdfGraficas mes={month} year={year} anchografica="80%" />
+
+      <PdfV2 month={month} year={year} />
     </div>
   );
 };

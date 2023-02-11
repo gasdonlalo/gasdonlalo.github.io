@@ -429,6 +429,7 @@ const Correcto = ({ datosTabla, colores, fechaFin, fechaInicio, estacion }) => {
           fechaFin={fechaFin}
           estacion={estacion}
           tabla="tabla"
+          orientacion="portrait"
         />
       </div>
     </div>

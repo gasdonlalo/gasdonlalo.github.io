@@ -3,6 +3,7 @@ import InputFecha from "./InputFecha";
 import Loader from "../assets/Loader";
 import { useLocation } from "react-router-dom";
 import HeaderForm from "../../GUI/HeaderForm";
+import InputSelectEmpleado from "./InputSelectEmpleado";
 
 function FormOctanoso({
   enviar,
@@ -20,29 +21,50 @@ function FormOctanoso({
 
   return (
     <div className="container w-50 shadow mt-3">
+      {!empleado.error &&
+        !empleado.isPending &&
+        !estaciones.error &&
+        !estaciones.isPending && (
+          <Success
+            handle={handle}
+            handleSwitch={handleSwitch}
+            pendiente={pendiente}
+            estaciones={estaciones}
+            ruta={ruta}
+            data={data}
+            setData={setData}
+            empleado={empleado}
+            enviar={enviar}
+          />
+        )}
+    </div>
+  );
+}
+const Success = ({
+  handle,
+  handleSwitch,
+  pendiente,
+  estaciones,
+  ruta,
+  data,
+  setData,
+  empleado,
+  enviar,
+}) => {
+  return (
+    <>
       <HeaderForm />
       <form onSubmit={enviar}>
         <div className="row pt-3">
           <div className="mb-3 col-4">
             <label>Empleado:</label>
-            <select
-              className="form-control"
+
+            <InputSelectEmpleado
+              empleados={empleado.data.response}
+              handle={handle}
               name="idEmpleado"
-              onChange={handle}
-              required
-            >
-              <option value="">--Selecciona un empleado--</option>
-              {!empleado.data
-                ? false
-                : empleado.data.response.map((e) => {
-                    return (
-                      <option
-                        value={e.idempleado}
-                        key={e.idempleado}
-                      >{`${e.nombre} ${e.apellido_paterno} ${e.apellido_materno}`}</option>
-                    );
-                  })}
-            </select>
+              reset={data}
+            />
           </div>
           <div className="mb-3 col-4">
             <label>Fecha</label>
@@ -111,8 +133,7 @@ function FormOctanoso({
           {pendiente ? <Loader size="1.5" /> : "Añadir"}
         </button>
       </form>
-    </div>
+    </>
   );
-}
-
+};
 export default FormOctanoso;
