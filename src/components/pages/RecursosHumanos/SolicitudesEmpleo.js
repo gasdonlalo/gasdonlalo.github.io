@@ -24,11 +24,10 @@ function SolicitudesEmpleo() {
   const enviar = (e) => {
     setPendiente(true);
     e.preventDefault();
-    enviarDatos();
-    e.target.reset();
+    enviarDatos(e);
   };
 
-  const enviarDatos = async () => {
+  const enviarDatos = async (e) => {
     try {
       await Axios.post("/solicitudes/nuevo", datos);
       setModalSuccess(true);
@@ -37,6 +36,7 @@ function SolicitudesEmpleo() {
       setTimeout(() => {
         cerrarModal();
       }, "1500"); //cierra el modal automaticamente
+      e.target.reset();
     } catch (err) {
       console.log(err);
       if (err.hasOwnProperty("response")) {

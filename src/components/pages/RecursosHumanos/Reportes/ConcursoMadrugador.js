@@ -6,21 +6,26 @@ import Loader from "../../../assets/Loader";
 import InputChangeMes from "../../../forms/InputChangeMes";
 import InputChangeYear from "../../../forms/InputChangeYear";
 import format from "../../../assets/format";
-import PdfGraficas from "../../../pdf_generador/PdfGraficas";
 import IconComponents from "../../../assets/IconComponents";
-import { OffCanvasConfigIncumplimientosMadrugador } from "../../../assets/OffCanvasConfigIncumplientos";
+import AddNuevoMadrugador from "../../../modals/AddNuevoMadrugador";
+import OffCanvasConfigIncumplientos from "../../../assets/OffCanvasConfigIncumplientos";
+import PdfV2 from "../../../pdf_generador/PdfV2";
 
 function ConcursoMadrugador() {
   const date = new Date();
   const [year, setYear] = useState(date.getFullYear());
-  const [idDep, setIdDep] = useState({ dep: 1, idconcurso: 1 });
+  const [idDep, setIdDep] = useState(1);
+  const [idConcurso, setIdConcurso] = useState(1);
   const [showCanva, setShowCanva] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+  const [actualizador, setActualizador] = useState(false);
   const [month, setMonth] = useState(date.getMonth() + 1);
   const { data, error, isPending } = useGetData(
-    `/madrugador/control-mensual/${idDep.dep}/${year}/${month}`
+    `/madrugador/control-mensual/${idDep}/${year}/${month}`,
+    actualizador
   );
 
-  const dep = useGetData(`/madrugador/departamentos`);
+  const dep = useGetData(`/madrugador/departamentos`, actualizador);
 
   const changeMonth = (e) => setMonth(e.target.value);
   const changeYear = (e) => setYear(e.target.value);
@@ -31,7 +36,10 @@ function ConcursoMadrugador() {
     let iddep = Number(e.target.value);
     const { response } = dep.data;
     let concurso = response.filter((el) => el.iddepartamento === iddep);
-    setIdDep({ dep: iddep, idconcurso: concurso.idconcurso });
+    const { idconcurso } = concurso[0];
+    console.log(idConcurso);
+    setIdConcurso(idconcurso);
+    setIdDep(iddep);
   };
 
   return (
@@ -46,11 +54,12 @@ function ConcursoMadrugador() {
         </span>
       </HeaderComponents>
       {/* En categorizacion poner el id para identificar que concurso es en la base de datos, 1 = madrugadro, 2 = octanoso, 3=aceitoso */}
-      <OffCanvasConfigIncumplimientosMadrugador
+      <OffCanvasConfigIncumplientos
         show={showCanva}
         close={setShowCanvaClose}
-        categorizacion={1}
-        // departamento={true}
+        categorizacion={idConcurso}
+        departamento={idDep}
+        toogle={[actualizador, setActualizador]}
       />
       <div>
         <nav className="m-auto w-75 row">
@@ -74,6 +83,16 @@ function ConcursoMadrugador() {
               </select>
             </div>
           )}
+          <div className="col-2 d-flex align-items-end">
+            <button
+              className="btn btn-info"
+              title="Crear un concurso madrugador para otra área de trabajo dentro de la empresa"
+              onClick={() => setShowModal(true)}
+            >
+              {" "}
+              Nuevo
+            </button>
+          </div>
         </nav>
       </div>
       {!error && !isPending && (
@@ -89,6 +108,10 @@ function ConcursoMadrugador() {
           <Loader />
         </div>
       )}
+      <AddNuevoMadrugador
+        stateEdit={[showModal, setShowModal]}
+        toogle={[actualizador, setActualizador]}
+      />
     </div>
   );
 }
@@ -217,7 +240,8 @@ const Success = ({ data, month, year, columns }) => {
           </tbody>
         </table>
       </div>
-      <PdfGraficas mes={month} year={year} anchografica="80%" />
+
+      <PdfV2 month={month} year={year} />
     </div>
   );
 };

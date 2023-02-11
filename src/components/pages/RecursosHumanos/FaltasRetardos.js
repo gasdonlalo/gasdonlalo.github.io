@@ -36,11 +36,13 @@ function FaltasRetardos() {
   const turnos = useGetData("/estaciones-servicio/turnos");
 
   const enviar = async (e) => {
+    if (!body.hasOwnProperty("idEmpleado"))
+      setModalError({ status: true, msg: "Falta el id de empleado" });
     e.preventDefault();
     setFormPending(true);
     let form = e.target;
     const cuerpo = {
-      idEmpleado: Number(form.idEmpleado.value),
+      idEmpleado: Number(body.idEmpleado),
       horaEntrada: form.horaEntrada.value || null,
       fecha: form.fecha.value,
       idTurno: Number(form.idTurno.value) || null,

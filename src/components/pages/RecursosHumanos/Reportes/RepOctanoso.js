@@ -305,8 +305,8 @@ const Correcto = ({ datosTabla, colores, fechaFin, fechaInicio, estacion }) => {
           <table className="table table-bordered border-dark align-middle text-center">
             <tbody>
               <tr>
-                <th scope="col">Total vendido en el mes</th>
-                <td>$ {totalLitrosVendidoMes}</td>
+                <th scope="col">Total de litros de combustible vendido</th>
+                <td>{totalLitrosVendidoMes} L</td>
               </tr>
             </tbody>
           </table>
@@ -390,6 +390,7 @@ const Correcto = ({ datosTabla, colores, fechaFin, fechaInicio, estacion }) => {
         fechaFin={fechaFin}
         estacion={estacion}
         tabla="tabla"
+        orientacion="portrait"
       />
     </div>
   );

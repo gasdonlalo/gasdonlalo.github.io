@@ -8,6 +8,7 @@ import ModalSuccess from "../modals/ModalSuccess";
 import ModalError from "../modals/ModalError";
 import HeaderForm from "../../GUI/HeaderForm";
 import ModalEmpleados from "../modals/ModalEmpleados";
+import { OverlayTrigger, Tooltip } from "react-bootstrap";
 
 function FormChecklist() {
   const [bomba, setBomba] = useState(null);
@@ -15,6 +16,7 @@ function FormChecklist() {
   const [modalSuccess, setModalSuccess] = useState(false);
   const [modalError, setModalError] = useState({ status: false, msg: "" });
   const [formPending, setFormPending] = useState(false);
+  const [checkErroneo, setCheckErroneo] = useState(false);
   const [body, setBody] = useState({
     islaLimpia: 1,
     aceitesCompletos: 1,
@@ -32,6 +34,13 @@ function FormChecklist() {
   };
 
   const handle = (e) => setBody({ ...body, [e.target.name]: e.target.value });
+  const handleSwitch = (e) => {
+    if (e.target.checked) {
+      setCheckErroneo(true);
+    } else {
+      setCheckErroneo(false);
+    }
+  };
 
   const closeModal = () => {
     setModalError({ status: false, msg: "" });
@@ -66,6 +75,7 @@ function FormChecklist() {
       e.target.reset();
     }
   };
+  console.log(checkErroneo);
 
   return (
     <div className="container">
@@ -81,6 +91,31 @@ function FormChecklist() {
         onSubmit={enviar}
       >
         <HeaderForm />
+        {/* Switch */}
+        <div className="form-check form-switch">
+          <label className="form-check-label">
+            <input
+              className="form-check-input"
+              type="checkbox"
+              role="switch"
+              onChange={handleSwitch}
+            />
+            Marcar checklist como erroneo {""}
+            <OverlayTrigger
+              key="right"
+              placement="right"
+              overlay={
+                <Tooltip id="tooltip-right">
+                  Sí checklist fue llenado de manera erronea. Solo se capturará
+                  fecha, empleado entrante y empleado saliente.
+                </Tooltip>
+              }
+            >
+              <i className="bi bi-question-circle-fill" />
+            </OverlayTrigger>
+          </label>
+        </div>
+
         <div className="col-6">
           <label className="form-label">Fecha de check</label>
           <InputFecha
@@ -97,6 +132,7 @@ function FormChecklist() {
             className="form-select"
             onChange={changeEstacion}
             defaultValue={1}
+            disabled={checkErroneo}
           >
             {estacion.isPending && (
               <option value="">Cargando estaciones...</option>
@@ -126,6 +162,7 @@ function FormChecklist() {
             className="form-select"
             defaultValue={1}
             onChange={handle}
+            disabled={checkErroneo}
           >
             {!turnos.error && !turnos.isPending && (
               <option value=""> -- Selecciona el turno -- </option>
@@ -148,6 +185,7 @@ function FormChecklist() {
             className="form-select"
             onChange={handle}
             required
+            disabled={checkErroneo}
           >
             {!bombas.error && !bombas.isPending && (
               <option value=""> -- Selecciona bomba -- </option>
@@ -173,6 +211,7 @@ function FormChecklist() {
                 className="input-check-form"
                 value={1}
                 defaultChecked
+                disabled={checkErroneo}
               />
             </label>
             <label className="form-label rounded border p-2 d-flex flex-column">
@@ -183,6 +222,7 @@ function FormChecklist() {
                 name="islaLimpia"
                 className="input-check-form"
                 value={0}
+                disabled={checkErroneo}
               />
             </label>
           </div>
@@ -199,6 +239,7 @@ function FormChecklist() {
                 value={1}
                 onChange={handle}
                 defaultChecked
+                disabled={checkErroneo}
               />
             </label>
             <label className="form-label rounded border p-2 d-flex flex-column">
@@ -209,6 +250,7 @@ function FormChecklist() {
                 onChange={handle}
                 className="input-check-form"
                 value={0}
+                disabled={checkErroneo}
               />
             </label>
           </div>

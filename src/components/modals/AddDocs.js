@@ -12,7 +12,7 @@ function AddDocs({
   showError,
   setShowAlertError,
 }) {
-  const docEmpleado = useGetData(`/control-documento/${idEmpleado}`);
+  const docEmpleado = useGetData(`/control-documento/${idEmpleado.id}`);
 
   return (
     <>
@@ -22,29 +22,34 @@ function AddDocs({
         </Modal.Header>
         <Modal.Body>
           <div className="mb-3">
-            <AlertSuccess show={showAlert} />
-            <AlertError show={showError} setAlertError={setShowAlertError} />
+            <h5>Documentos de: {idEmpleado.nombre} </h5>
             <label>Documentos</label>
             {!docEmpleado.error && !docEmpleado.isPending
               ? docEmpleado.data.response.map((e, i) => {
                   return (
                     <div className="form-check form-switch" key={i}>
-                      <input
-                        key={e.iddocumento}
-                        className="form-check-input"
-                        type="checkbox"
-                        role="switch"
-                        name="iddocumento"
-                        onChange={handle}
-                        value={e.iddocumento}
-                        id={e.idempleado}
-                        defaultChecked={e.cumple}
-                      />
-                      <label className="form-check-label">{e.documento}</label>
+                      <label className="form-check-label">
+                        {e.documento}
+                        <input
+                          key={e.iddocumento}
+                          className="form-check-input"
+                          type="checkbox"
+                          role="switch"
+                          name="iddocumento"
+                          onChange={handle}
+                          value={e.iddocumento}
+                          id={e.idempleado}
+                          defaultChecked={e.cumple}
+                        />
+                      </label>
                     </div>
                   );
                 })
               : null}
+          </div>
+          <div style={{ height: "60px" }}>
+            <AlertSuccess show={showAlert} />
+            <AlertError show={showError} setAlertError={setShowAlertError} />
           </div>
         </Modal.Body>
       </Modal>

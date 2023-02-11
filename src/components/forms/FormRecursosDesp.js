@@ -123,8 +123,8 @@ const FormRecursosDesp = () => {
               ? false
               : recursos.data.response.map((e, i) => {
                   return (
-                    <div className="col-6 form-check form-switch" key={i}>
-                      <label className="form-check-label">
+                    <div className="col-6 form-check form-switch " key={i}>
+                      <label className="form-check-label ">
                         <input
                           className="form-check-input"
                           type="checkbox"

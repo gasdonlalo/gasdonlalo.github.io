@@ -10,7 +10,7 @@ function AltaBaja() {
       <HeaderComponents
         urlBack="/recursos-humanos"
         textUrlback="Volver a recursos humanos"
-        title="Altas y bajas de empleados"
+        title="Control de empleados"
       >
         <IconComponents
           url="/recursos-humanos/captura-solicitud"

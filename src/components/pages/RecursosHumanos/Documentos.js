@@ -5,7 +5,7 @@ import format from "../../assets/format";
 import AddDocs from "../../modals/AddDocs";
 import Axios from "../../../Caxios/Axios";
 import Loader from "../../assets/Loader";
-import { Per } from "../../Provider/Auth";
+import { Per } from "../../Provider/auth";
 
 function Documentos() {
   const [actualizar, setActualizar] = useState(false);
@@ -13,14 +13,14 @@ function Documentos() {
   const [show, setShow] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
   const [showAlertError, setShowAlertError] = useState(false);
-  const [id, setId] = useState(null);
+  const [id, setId] = useState({ id: null, nombre: null });
 
   const handleClose = () => {
     setShow(false);
   };
-  const mostrarModal = (valor) => {
+  const mostrarModal = (valor, nombre) => {
     setShow(true);
-    setId(valor);
+    setId({ id: valor, nombre: nombre });
   };
   const mostrarAlert = () => {
     setShowAlert(true);
@@ -71,7 +71,7 @@ function Documentos() {
       ></HeaderComponents>
       {!documentos.error && !documentos.isPending && (
         <Success
-          data={documentos}
+          documentos={documentos}
           mostrarModal={mostrarModal}
           show={show}
           handleClose={handleClose}
@@ -146,7 +146,7 @@ const Success = ({
           </tr>
         </thead>
         <tbody>
-          {documentos.data.response.map((e, i) => {
+          {data.data.response.map((e, i) => {
             return (
               <tr key={i}>
                 <td key={e.nombre_completo}>
@@ -165,7 +165,12 @@ const Success = ({
                     <i
                       className="fa-solid fa-pen text-warning btn btn-outline-warning "
                       role="button"
-                      onClick={() => mostrarModal(e.idempleado)}
+                      onClick={() =>
+                        mostrarModal(
+                          e.idempleado,
+                          format.formatTextoMayusPrimeraLetra(e.nombre_completo)
+                        )
+                      }
                     />
                   </td>
                 )}

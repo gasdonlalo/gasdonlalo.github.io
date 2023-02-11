@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { Per } from "../Provider/Auth";
+import { Per } from "../Provider/auth";
 
 function Administrativo() {
   return (

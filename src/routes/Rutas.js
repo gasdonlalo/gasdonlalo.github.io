@@ -20,6 +20,7 @@ import DHRD from "../components/pages/despacho/reporteria/HistorialRecursoDes";
 import SalidaNoConforme from "../components/pages/salidaNoConforme/SalidaNoConforme";
 import SNR from "../components/pages/salidaNoConforme/SalidasNoConformesReportes";
 import SNCP from "../components/pages/salidaNoConforme/SalidaNoConformePendiente";
+import SNCPET from "../components/pages/salidaNoConforme/PorEmpleadoTipo";
 //importacion de graficos despacho
 import GMF from "../components/pages/despacho/reporteria/GraficaMontofaltante";
 import MFT from "../components/pages/despacho/reporteria/HistorialFaltanteTiempo";
@@ -77,7 +78,7 @@ import RepConfiguracionPermisos from "../components/pages/administrativo/reporte
 import ConfiguracionUsuario from "../components/pages/administrativo/ConfiguracionUsuario";
 import Inc from "../components/pages/salidaNoConforme/Incumplimientos";
 
-import { Dep } from "../components/Provider/Auth";
+import { Dep } from "../components/Provider/auth";
 
 function Rutas() {
   return (
@@ -99,6 +100,7 @@ function Rutas() {
           <Route path="reporte-mensual" element={<GMSN />} />
           <Route path="inconformidad" element={<GSNI />} />
           <Route path="pendientes" element={<SNCP />} />
+          <Route path="por-empleado-tipo" element={<SNCPET />} />
         </Route>
         {Dep(2) && (
           <Route path="/despacho" element={<Layout />}>

@@ -107,10 +107,10 @@ function FormSolEmpleo({ handle, enviar, pendiente }) {
             <input
               type="number"
               className="form-control"
-              name="idEmpleado"
+              name="idChecador"
               onChange={handle}
               placeholder="Dejar vacio si la solicitud es de estatus pendiente."
-              disabled={estatus === 1 || estatus === 2 ? false : true}
+              disabled={!(estatus === 1 || estatus === 2)}
             />
           </div>
         </div>

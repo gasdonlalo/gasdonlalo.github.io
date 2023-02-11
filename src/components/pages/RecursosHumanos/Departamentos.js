@@ -7,7 +7,7 @@ import Axios from "../../../Caxios/Axios";
 import FormDepartamento from "../../forms/FormDepartamento";
 import ModalSuccess from "../../modals/ModalSuccess";
 import ModalError from "../../modals/ModalError";
-import { Per } from "../../Provider/Auth";
+import { Per } from "../../Provider/auth";
 
 const Departamentos = () => {
   const [formPending, setFormPending] = useState(false);
