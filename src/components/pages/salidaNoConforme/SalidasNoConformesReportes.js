@@ -13,7 +13,7 @@ import ModalConfirmacion from "../../modals/ModalConfirmacion";
 import ModalSuccess from "../../modals/ModalSuccess";
 import Axios from "../../../Caxios/Axios";
 import ActualizarSNC from "../../modals/ActualizarSNC";
-import { Per } from "../../Provider/Auth";
+import { Per } from "../../Provider/auth";
 
 export const SalidasNoConformesReportes = () => {
   const date = new Date();
@@ -57,6 +57,10 @@ export const SalidasNoConformesReportes = () => {
             icon="chart-simple text-info"
             text="Reporte inconformidad"
             url="../inconformidad"
+          />
+          <IconComponents
+            url="../por-empleado-tipo"
+            text="Reporte empleado y tipo"
           />
         </div>
       </HeaderComponents>

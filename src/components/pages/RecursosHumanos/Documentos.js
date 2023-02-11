@@ -5,7 +5,7 @@ import format from "../../assets/format";
 import AddDocs from "../../modals/AddDocs";
 import Axios from "../../../Caxios/Axios";
 import Loader from "../../assets/Loader";
-import { Per } from "../../Provider/Auth";
+import { Per } from "../../Provider/auth";
 
 function Documentos() {
   const [actualizar, setActualizar] = useState(false);
@@ -70,8 +70,8 @@ function Documentos() {
         textUrlback="Volver a recursos humanos"
       ></HeaderComponents>
       {!documentos.error && !documentos.isPending && (
-        <Sucess
-          data={documentos}
+        <Success
+          documentos={documentos}
           mostrarModal={mostrarModal}
           show={show}
           handleClose={handleClose}
@@ -88,7 +88,7 @@ function Documentos() {
   );
 }
 
-const Sucess = ({
+const Success = ({
   data,
   mostrarModal,
   show,
@@ -99,6 +99,17 @@ const Sucess = ({
   showError,
   setShowAlertError,
 }) => {
+  const [documentos, setDocumentos] = useState(data);
+
+  const filterEmp = (e) => {
+    const exp = new RegExp(`${e.target.value}`, "gi");
+    const search = data.filter((el) => {
+      const { nombre, apellido_paterno, apellido_materno } = el;
+      return exp.test(`${nombre} ${apellido_paterno} ${apellido_materno}`);
+    });
+    setDocumentos(search);
+  };
+
   return (
     <div className="container mt-3 w-50">
       <AddDocs
@@ -110,7 +121,22 @@ const Sucess = ({
         showError={showError}
         setShowAlertError={setShowAlertError}
       />
-      <table className="table table-bordered shadow ">
+      {/* Buscador xd */}
+      <div className="pt-0 mb-2">
+        <div className="row">
+          <div className="offset-md-6 col-md-6">
+            <input
+              className="form-control"
+              type="search"
+              onChange={filterEmp}
+              placeholder="Filtra un empleado..."
+            />
+          </div>
+        </div>
+      </div>
+
+      {/* tabla xd */}
+      <table className="table table-bordered shadow">
         <thead className="table-light">
           <tr>
             <th>Nombre del empleado</th>

@@ -30,7 +30,7 @@ const TablaEmpleados = ({ id }) => {
     `/solicitudes/estatus/${id}`,
     actualizar
   );
-  console.log(dataError);
+
   const cerrarModal = () => {
     setModalError(false);
     setModalSuccess(false);
@@ -47,7 +47,6 @@ const TablaEmpleados = ({ id }) => {
 
   //funcion para acciones
   const action = (idchecador, idempleado, encabezado, estatus) => {
-    console.log(idchecador);
     setMotivo({ ...motivo, idChecador: idempleado, estatus: Number(estatus) });
     setIdEmp(idempleado);
     setEncabezado(encabezado);
@@ -69,7 +68,7 @@ const TablaEmpleados = ({ id }) => {
       idDepartamento: datos.iddepartamento,
       idChecador: Number(datos.idchecador),
     });
-    setIdEmp(datos.idchecador);
+    setIdEmp(datos.idempleado);
     setActualizaEmpleado(true);
     setTipoEnvio(1);
   };
@@ -170,7 +169,6 @@ const TablaEmpleados = ({ id }) => {
 
 const Success = ({ solicitud, estatus, action, mostrar }) => {
   const [solicitudes, setSolicitudes] = useState(solicitud);
-  console.log(solicitudes);
 
   const filterEmp = (e) => {
     const exp = new RegExp(`${e.target.value}`, "gi");

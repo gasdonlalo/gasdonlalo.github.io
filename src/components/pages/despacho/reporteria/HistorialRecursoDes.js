@@ -10,7 +10,7 @@ import Scale from "../../../charts/Scale";
 import ModalSuccess from "../../../modals/ModalSuccess";
 import IconComponents from "../../../assets/IconComponents";
 import ModalError from "../../../modals/ModalError";
-import { Per } from "../../../Provider/Auth";
+import { Per } from "../../../Provider/auth";
 
 const HistorialRecursoDes = () => {
   const [data, setData] = useState(null);

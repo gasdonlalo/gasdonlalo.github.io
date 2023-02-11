@@ -1,6 +1,6 @@
 import Logo from "../IMG/LogoGL.png";
 import { Link } from "react-router-dom";
-import { Data } from "./Provider/Auth";
+import { Data } from "./Provider/auth";
 import { Dropdown, DropdownButton } from "react-bootstrap";
 import DropdownItem from "react-bootstrap/esm/DropdownItem";
 
