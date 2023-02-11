@@ -9,7 +9,7 @@ import gdl from "../../assets/img/GDL.png";
 import ModalSuccess from "../../modals/ModalSuccess";
 import ModalError from "../../modals/ModalSuccess";
 import { DeleteCB, EditCB } from "../../modals/EditCB";
-import { Per } from "../../Provider/auth";
+import { Per } from "../../Provider/Auth";
 
 const ChecklistBombaDetalle = () => {
   const [mEdit, setMEdit] = useState({ status: false, id: null });

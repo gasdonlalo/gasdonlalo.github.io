@@ -27,7 +27,7 @@ const GraficaRecursosDes = () => {
       <HeaderComponents
         urlBack="/despacho"
         textUrlback="Volver al despacho"
-        title="Reporte de recursos de despachador"
+        title="Reporte mensual de recursos despachador"
       >
         <div className="d-flex">
           <IconComponents
@@ -173,9 +173,12 @@ const Success = ({ recursos, year, month, quincena }) => {
         )}
 
         {table.length > 0 && (
-          <div className="mt-4 d-flex justify-content-between" id="render">
+          <div
+            className="mt-4 d-flex flex-column justify-content-between"
+            id="render"
+          >
             <div>
-              <table>
+              <table className="table w-50 mx-auto">
                 <thead>
                   <tr>
                     <th className="border">
@@ -198,21 +201,38 @@ const Success = ({ recursos, year, month, quincena }) => {
                 </tbody>
               </table>
             </div>
-            <div style={{ flexGrow: "1" }}>
+            <div className="w-75 mx-auto">
               <Scale
                 data={dataScale}
+                text="Gráfica mensual recursos despachador"
                 optionsCustom={{
                   scales: {
                     y: {
                       min: 0,
                       max: 20,
+                      title: {
+                        display: true,
+                        text: "Puntos obtenidos",
+                        font: {
+                          size: "15px",
+                        },
+                      },
                       ticks: {
                         stepSize: 1,
                       },
                     },
+                    x: {
+                      title: {
+                        display: true,
+                        text: "Despachadores",
+                        font: {
+                          size: "15px",
+                        },
+                      },
+                    },
                   },
                 }}
-              ></Scale>
+              />
             </div>
           </div>
         )}

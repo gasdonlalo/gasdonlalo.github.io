@@ -1,5 +1,5 @@
 import { Fragment, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import InputChangeYear from "../../../forms/InputChangeYear";
 import InputChangeMes from "../../../forms/InputChangeMes";
 import useGetData from "../../../../hooks/useGetData";
@@ -71,8 +71,36 @@ function GraficaChecklist() {
   );
 }
 
-const Success = ({ data, year, month, navigate }) => {
-  const validarInserciones = (el, da) => {
+const Success = ({ data, year, month }) => {
+  const iterar = data.map((el) => {
+    const filtrado = el.fechas;
+    //console.log(filtrado);
+    const total = filtrado
+      .map((seg) => (seg.snc ? 1 : 0))
+      .reduce((a, b) => a + b, 0);
+    return { empleado: el.empleado, total };
+  });
+
+  const dataScale = {
+    labels: iterar.map((el) => el.empleado.nombre),
+    datasets: [
+      {
+        label: "empleados",
+        data: iterar.map((el) => el.total),
+        borderColor: "rgb(255, 99, 132)",
+        backgroundColor: "rgba(255, 99, 132, 0.5)",
+      },
+      {
+        label: "puntaje minimo",
+        data: iterar.map((el) => 28),
+        borderColor: "rgb(53, 162, 235)",
+        backgroundColor: "rgba(53, 162, 235, 0.5)",
+      },
+    ],
+  };
+
+  console.log(dataScale);
+  /* const validarInserciones = (el, da) => {
     if (el.cumple) {
       return (
         <span
@@ -104,14 +132,14 @@ const Success = ({ data, year, month, navigate }) => {
         );
       }
     }
-  };
+  }; */
 
-  const totalChkB = useGetData(`/bomba-check/total/${year}/${month}`);
-  let dataScale = {};
+  /* const totalChkB = useGetData(`/bomba-check/total/${year}/${month}`);
+  let dataScale = {}; */
 
-  if (!totalChkB.error && !totalChkB.isPending) {
+  /* if (!totalChkB.error && !totalChkB.isPending) {
     dataScale = {
-      labels: totalChkB.data.response.map((el) => el.nombre_completo),
+      labels: data.response.map((el) => el.empleado.nombre_completo),
       datasets: [
         {
           label: "Empleados",
@@ -127,7 +155,7 @@ const Success = ({ data, year, month, navigate }) => {
         },
       ],
     };
-  }
+  } */
 
   return (
     <Fragment>
@@ -145,14 +173,14 @@ const Success = ({ data, year, month, navigate }) => {
               <th colSpan={data.length}>
                 <span className="text-center">
                   {format.formatTextoMayusPrimeraLetra(
-                    format.formatMes(data[0].fecha)
+                    format.formatMes(data[0].fechas[0].fecha)
                   )}{" "}
-                  del {format.formatYear(data[0].fecha)}
+                  del {format.formatYear(data[0].fechas[0].fecha)}
                 </span>
               </th>
             </tr>
             <tr>
-              {data.map((el) => (
+              {data[0].fechas.map((el) => (
                 <th key={format.obtenerDiaMes(el.fecha)}>
                   {format.obtenerDiaMes(el.fecha)}
                 </th>
@@ -160,23 +188,22 @@ const Success = ({ data, year, month, navigate }) => {
             </tr>
           </thead>
           <tbody>
-            {data[0].data.map((el, i) => (
+            {data.map((el, i) => (
               <tr key={i}>
-                <td>{el.nombre_completo}</td>
-                {data.map((da, j) => (
-                  <td key={i + j}>
-                    {validarInserciones(da.data[i], da.data[i])}
-                  </td>
+                <td className="fw-semibold">
+                  {el.empleado.nombre} {el.empleado.apellido_paterno}
+                  {el.empleado.apellido_materno}
+                </td>
+                {el.fechas.map((fe, j) => (
+                  <td key={j}>{fe.snc === null ? null : fe.snc ? 1 : 0}</td>
                 ))}
               </tr>
             ))}
           </tbody>
         </table>
-        {!totalChkB.error && !totalChkB.isPending && (
-          <div id="render" className="w-75 m-auto">
-            {<Scale data={dataScale} />}
-          </div>
-        )}
+        <div id="render" className="w-75 m-auto">
+          {<Scale data={dataScale} />}
+        </div>
       </div>
       <div>
         <PdfV2 month={month} year={year} tabla="tabla" />

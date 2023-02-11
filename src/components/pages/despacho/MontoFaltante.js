@@ -11,7 +11,7 @@ import ModalError from "../../modals/ModalError";
 import ErrorHttp from "../../assets/ErrorHttp";
 import InputChangeMes from "../../forms/InputChangeMes";
 import InputChangeYear from "../../forms/InputChangeYear";
-import { Per } from "../../Provider/auth";
+import { Per } from "../../Provider/Auth";
 
 function MontoFaltante() {
   const empleados = useGetData(`/empleado?departamento=1`);

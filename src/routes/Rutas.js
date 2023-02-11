@@ -78,7 +78,7 @@ import RepConfiguracionPermisos from "../components/pages/administrativo/reporte
 import ConfiguracionUsuario from "../components/pages/administrativo/ConfiguracionUsuario";
 import Inc from "../components/pages/salidaNoConforme/Incumplimientos";
 
-import { Dep } from "../components/Provider/auth";
+import { Dep } from "../components/Provider/Auth";
 
 function Rutas() {
   return (

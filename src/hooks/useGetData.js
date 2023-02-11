@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import Axios from "../Caxios/Axios";
-import { Data } from "../components/Provider/auth";
+import { Data } from "../components/Provider/Auth";
 
 export default function useGetData(url, actualizar) {
   const stateAuth = Data();

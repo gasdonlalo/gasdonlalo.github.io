@@ -13,7 +13,7 @@ import ModalConfirmacion from "../../modals/ModalConfirmacion";
 import ModalSuccess from "../../modals/ModalSuccess";
 import Axios from "../../../Caxios/Axios";
 import ActualizarSNC from "../../modals/ActualizarSNC";
-import { Per } from "../../Provider/auth";
+import { Per } from "../../Provider/Auth";
 
 export const SalidasNoConformesReportes = () => {
   const date = new Date();
