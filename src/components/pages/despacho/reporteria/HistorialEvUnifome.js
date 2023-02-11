@@ -8,7 +8,7 @@ import { DeleteEU, EditEU } from "../../../modals/EditEU";
 import IconComponents from "../../../assets/IconComponents";
 import FormHistorialEmpleado from "../../../forms/FormHistorialEmpleado";
 import format from "../../../assets/format";
-import { Per } from "../../../Provider/auth";
+import { Per } from "../../../Provider/Auth";
 
 const HistorialEvUnifome = () => {
   const [data, setData] = useState(null);

@@ -1,6 +1,6 @@
 // import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import { Per } from "../Provider/auth";
+import { Per } from "../Provider/Auth";
 function Despacho() {
   return (
     <div className="Main">

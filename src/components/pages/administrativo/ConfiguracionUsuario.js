@@ -6,7 +6,7 @@ import ModalSuccess from "../../modals/ModalSuccess";
 import ModalError from "../../modals/ModalError";
 import { Usuario } from "../../Provider/PermisoUsuario";
 import { useNavigate } from "react-router-dom";
-import { Per } from "../../Provider/auth";
+import { Per } from "../../Provider/Auth";
 
 function ConfiguracionUsuario() {
   const [modalSuccess, setModalSuccess] = useState(false);

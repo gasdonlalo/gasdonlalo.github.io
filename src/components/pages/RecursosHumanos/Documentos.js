@@ -5,7 +5,7 @@ import format from "../../assets/format";
 import AddDocs from "../../modals/AddDocs";
 import Axios from "../../../Caxios/Axios";
 import Loader from "../../assets/Loader";
-import { Per } from "../../Provider/auth";
+import { Per } from "../../Provider/Auth";
 
 function Documentos() {
   const [actualizar, setActualizar] = useState(false);
