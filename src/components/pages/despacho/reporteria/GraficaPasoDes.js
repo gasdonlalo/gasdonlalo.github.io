@@ -115,6 +115,10 @@ const Success = ({ data, year, month, idEmpleado, qna }) => {
         y: {
           min: 0,
           max: 10,
+          title: {
+            display: true,
+            text: "Promedio",
+          },
         },
       },
     };

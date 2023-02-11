@@ -80,6 +80,7 @@ function FormDespachar() {
           <label className="form-label">Selecciona el empleado</label>
           {!despachador.error && !despachador.isPending && (
             <InputSelectEmpleados
+              reset={body.hasOwnProperty("empleado")}
               name="empleado"
               empleados={despachador.data.response}
               handle={handle}

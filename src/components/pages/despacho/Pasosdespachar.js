@@ -1,4 +1,3 @@
-import { Link } from "react-router-dom";
 import Axios from "../../../Caxios/Axios";
 import { useState } from "react";
 import useGetData from "../../../hooks/useGetData";
@@ -25,7 +24,6 @@ function Pasosdespachar() {
   const enviar = (e) => {
     e.preventDefault();
     enviarDatos(data);
-    console.log(data);
   };
 
   const enviarDatos = async (x) => {
@@ -43,7 +41,7 @@ function Pasosdespachar() {
       <HeaderComponents
         urlBack="/despacho"
         textUrlback="Volver al despacho"
-        title="Pasos para despachar"
+        title="Evaluación pasos para despachar"
       >
         <IconComponents
           url="/despacho/pasos-despachar/reporte"
