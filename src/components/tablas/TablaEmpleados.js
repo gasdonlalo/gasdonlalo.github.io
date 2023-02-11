@@ -232,6 +232,7 @@ const Success = ({ solicitud, estatus, action, mostrar }) => {
               {estatus === "5" && <th>Motivo de la solicitud</th>}
               {estatus === "4" && <th>Motivo de rechazo</th>}
               {estatus === "3" && <th>Motivo de inactividad</th>}
+              {estatus === "6" && <th>Departamento</th>}
               {estatus === "6" && <th>Fecha Alta</th>}
               {(estatus === "3" || estatus === "4") && <th>Fecha Baja</th>}
               {(estatus === "5" || estatus === "6") && (
@@ -256,6 +257,7 @@ const Success = ({ solicitud, estatus, action, mostrar }) => {
                 {(estatus === "5" || estatus === "4" || estatus === "3") && (
                   <td>{el.motivo}</td>
                 )}
+                {estatus === "6" && <td>{el.departamento}</td>}
                 {estatus === "6" && (
                   <td>
                     {format.formatFechaComplete(el.fecha_registro, false)}
@@ -306,7 +308,9 @@ function SetBotones({ estatus, element, action, mostrar }) {
             >
               Contratar
             </span>
-            <span variant="info">Modificar</span>
+            <span variant="info" onClick={() => mostrar(element)}>
+              Modificar
+            </span>
           </ButtonDropDown>
         </td>
       );
