@@ -8,7 +8,6 @@ function ModalAltaBaja({
   mostrarId,
   idReincorporar,
 }) {
-  console.log(idReincorporar, "ola");
   return (
     <Modal show={show} onHide={handleClose} backdrop="static" centered>
       <Modal.Header closeButton>

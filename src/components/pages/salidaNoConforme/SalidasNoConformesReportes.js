@@ -58,6 +58,10 @@ export const SalidasNoConformesReportes = () => {
             text="Reporte inconformidad"
             url="../inconformidad"
           />
+          <IconComponents
+            url="../por-empleado-tipo"
+            text="Reporte empleado y tipo"
+          />
         </div>
       </HeaderComponents>
 
