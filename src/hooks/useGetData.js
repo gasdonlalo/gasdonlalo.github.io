@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
 import Axios from "../Caxios/Axios";
+import { Data } from "../components/Provider/Auth";
 
 export default function useGetData(url, actualizar) {
+  const stateAuth = Data();
   const [data, setData] = useState(null);
   const [error, setError] = useState(null);
   const [dataError, setDataError] = useState(null);
@@ -14,6 +16,10 @@ export default function useGetData(url, actualizar) {
         setIsPending(false);
       })
       .catch((err) => {
+        if (err.status === 401) {
+          localStorage.removeItem("Credentials");
+          stateAuth[1](null);
+        }
         setDataError(err.data);
         setError(true);
         setIsPending(false);
@@ -25,7 +31,7 @@ export default function useGetData(url, actualizar) {
       setDataError(null);
       setIsPending(true);
     };
-  }, [url, actualizar]);
+  }, [url, actualizar, stateAuth]);
 
   return { data, error, dataError, isPending };
 }
@@ -40,6 +46,7 @@ const consultar = (url) =>
         reject(consulta);
       }
     } catch (err) {
+      console.log(err);
       reject(err.response);
     }
   });

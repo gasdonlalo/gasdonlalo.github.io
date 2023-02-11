@@ -3,6 +3,7 @@ import "./App.css";
 import Rutas from "./routes/Rutas";
 import Auth from "./components/Provider/Auth";
 import PermisoUsuario from "./components/Provider/PermisoUsuario";
+
 function App() {
   return (
     <div>
