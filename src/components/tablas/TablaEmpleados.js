@@ -11,6 +11,7 @@ import ButtonDropDown from "../forms/ButtonDropdown";
 import ErrorHttp from "../assets/ErrorHttp";
 import DropdownItem from "react-bootstrap/esm/DropdownItem";
 import ActualizarEmpleado from "../modals/ActualizarEmpleado";
+import PdfEmpleados from "../pdf_generador/PdfEmpleados";
 
 const TablaEmpleados = ({ id }) => {
   const [show, setShow] = useState(false);
@@ -179,6 +180,17 @@ const Success = ({ solicitud, estatus, action, mostrar }) => {
     setSolicitudes(search);
   };
 
+  //Importante para el completo PDF
+  const titulosPDFTabla = [
+    "Empleados Contratados",
+    "Empleados Prácticantes",
+    "Empleados Despedidos",
+    "Empleados Rechazados",
+    "Empleados Pendientes",
+    "Empleados Contratados",
+  ];
+  let id = Number(estatus);
+
   const practicantes = solicitud.filter((el) => el.estatus === "Practica");
 
   return (
@@ -206,14 +218,22 @@ const Success = ({ solicitud, estatus, action, mostrar }) => {
       <div className="pt-0">
         <div className="row">
           <div className="offset-md-6 col-md-6">
-            <input
-              type="text"
-              className="form-control"
-              name="buscador"
-              id="buscador"
-              onChange={filterEmp}
-              placeholder="Buscar un empleado..."
-            ></input>
+            <div className="d-flex gap-2">
+              <input
+                type="text"
+                className="form-control"
+                name="buscador"
+                id="buscador"
+                onChange={filterEmp}
+                placeholder="Buscar un empleado..."
+              ></input>
+              <div title="Imprimir lista de empleados">
+                <PdfEmpleados
+                  data={solicitud}
+                  title={titulosPDFTabla[id - 1]}
+                />
+              </div>
+            </div>
           </div>
         </div>
       </div>
