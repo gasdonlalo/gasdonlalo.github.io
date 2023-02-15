@@ -1,15 +1,15 @@
-import { useState } from "react";
+// import { useState } from "react";
 import useGetData from "../../hooks/useGetData";
 
 function FormConfiguracionEstacion() {
-  const [bomba, setBomba] = useState(null);
-  const [estacionS, setEstacionS] = useState(null);
+  // const [bomba, setBomba] = useState(null);
+  // const [estacionS, setEstacionS] = useState(null);
 
   const estacion = useGetData("/estaciones-servicio");
 
   const changeEstacion = (e) => {
-    setBomba(Number(e.target.value));
-    setEstacionS(Number(e.target.value));
+    // setBomba(Number(e.target.value));
+    // setEstacionS(Number(e.target.value));
   };
 
   return (

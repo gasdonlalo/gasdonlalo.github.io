@@ -5,7 +5,6 @@ import Axios from "../../Caxios/Axios";
 import InputFecha from "../forms/InputFecha";
 import Loader from "../assets/Loader";
 import ModalCustomer from "./ModalCustomer";
-import InputSelectEmpleado from "../forms/InputSelectEmpleado";
 
 export const EditCB = ({
   stateEdit, //Estado para mostras el modald
@@ -23,11 +22,8 @@ export const EditCB = ({
     `/com/findone?table=checklist_bomba&id=${show.id}`
   );
 
-  const empleados = useGetData(`/empleado?departamento=1`);
-  const handle = (e) =>
-    setBody({ ...body, [e.target.name]: Number(e.target.value) });
-  const handleChekboxs = (e) => {
-    setBody({ ...body, [e.target.name]: e.target.checked ? 1 : 0 });
+  const handle = (e) => {
+    setBody({ ...body, [e.target.name]: e.target.checked ? true : false });
   };
 
   const act = async (e) => {
@@ -37,10 +33,10 @@ export const EditCB = ({
       fecha: format.formatFechaDB(data.response[0].fecha),
       islaLimpia: data.response[0].isla_limpia,
       aceitesCompletos: data.response[0].aceites_completos,
-      idbomba: data.response[0].idbomba,
+      bomba: data.response[0].bomba,
       turno: data.response[0].turno,
-      idempleadoEntrante: data.response[0].idempleado_entrante,
-      idempleadoSaliente: data.response[0].idempleado_saliente,
+      idEmpleado: data.response[0].idempleado,
+      estacionServicio: data.response[0].estacion_servicio,
     };
     try {
       e.target.reset();
@@ -76,7 +72,6 @@ export const EditCB = ({
             <div className="mb-3">
               <label className="form-label mb-0">Fecha</label>
               <InputFecha
-                handle={handle}
                 name="fecha"
                 disabled={true}
                 data={body}
@@ -87,13 +82,41 @@ export const EditCB = ({
             <div className="mb-3">
               <div className="form-check form-switch">
                 <label className="form-label mb-0">
-                  Aceites completos
+                  Estación Servicio
                   <input
                     type="checkbox"
                     className="form-check-input"
-                    name="aceitesCompletos"
-                    onChange={handleChekboxs}
-                    defaultChecked={data.response[0].aceites_completos}
+                    name="estacionServicio"
+                    onChange={handle}
+                    defaultChecked={data.response[0].estacion_servicio}
+                  />
+                </label>
+              </div>
+            </div>
+            <div className="mb-3">
+              <div className="form-check form-switch">
+                <label className="form-label mb-0">
+                  Turno
+                  <input
+                    type="checkbox"
+                    className="form-check-input"
+                    name="turno"
+                    onChange={handle}
+                    defaultChecked={data.response[0].turno}
+                  />
+                </label>
+              </div>
+            </div>
+            <div className="mb-3">
+              <div className="form-check form-switch">
+                <label className="form-label mb-0">
+                  Bomba
+                  <input
+                    type="checkbox"
+                    className="form-check-input"
+                    name="bomba"
+                    onChange={handle}
+                    defaultChecked={data.response[0].bomba}
                   />
                 </label>
               </div>
@@ -106,25 +129,25 @@ export const EditCB = ({
                     type="checkbox"
                     name="islaLimpia"
                     className="form-check-input"
-                    onChange={handleChekboxs}
+                    onChange={handle}
                     defaultChecked={data.response[0].isla_limpia}
                   />
                 </label>
               </div>
             </div>
             <div className="mb-3">
-              <label className="form-label mb-0">Empleado recibe</label>
-              {!empleados.error && !empleados.isPending && (
-                <InputSelectEmpleado
-                  empleados={empleados.data.response}
-                  handle={handle}
-                  name="idempleadoSaliente"
-                  defaultData={{
-                    nombre: "Empleado Guardado",
-                    id: data.response[0].idempleado_saliente,
-                  }}
-                />
-              )}
+              <div className="form-check form-switch">
+                <label className="form-label mb-0">
+                  Aceites completos
+                  <input
+                    type="checkbox"
+                    className="form-check-input"
+                    name="aceitesCompletos"
+                    onChange={handle}
+                    defaultChecked={data.response[0].aceites_completos}
+                  />
+                </label>
+              </div>
             </div>
           </div>
           <div>

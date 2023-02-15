@@ -16,8 +16,6 @@ function GraficaChecklist() {
   const [month, setMonth] = useState(date.getMonth() + 1);
   const checkBomba = useGetData(`/bomba-check/${year}/${month}`);
 
-  console.log(checkBomba);
-
   const handleYear = (e) => {
     setYear(e.target.value);
   };
@@ -58,25 +56,16 @@ function GraficaChecklist() {
         />
       )}
       {checkBomba.isPending && <Loader />}
-      <div className="d-flex justify-content-center">
-        <span
-          className="border rounded p-1 m-1"
-          role="button"
-          onClick={() => navigate("detalles")}
-        >
-          Mostrar detalles {">"}
-        </span>
-      </div>
     </div>
   );
 }
 
 const Success = ({ data, year, month }) => {
+  const navigate = useNavigate();
   const iterar = data.map((el) => {
     const filtrado = el.fechas;
-    //console.log(filtrado);
     const total = filtrado
-      .map((seg) => (seg.snc ? 1 : 0))
+      .map((seg) => (seg.cumple ? 1 : 0))
       .reduce((a, b) => a + b, 0);
     return { empleado: el.empleado, total };
   });
@@ -98,64 +87,6 @@ const Success = ({ data, year, month }) => {
       },
     ],
   };
-
-  console.log(dataScale);
-  /* const validarInserciones = (el, da) => {
-    if (el.cumple) {
-      return (
-        <span
-          className="text-success m-0 p-0 fw-bold"
-          onClick={() =>
-            navigate(`/despacho/checklist/${da.idempleado}/${da.fechaGenerada}`)
-          }
-          role="button"
-        >
-          1
-        </span>
-      );
-    } else {
-      if (!el.fecha_db) {
-        return null;
-      } else {
-        return (
-          <span
-            className="text-danger m-0 p-0 fw-bold"
-            onClick={() =>
-              navigate(
-                `/despacho/checklist/${da.idempleado}/${da.fechaGenerada}`
-              )
-            }
-            role="button"
-          >
-            0
-          </span>
-        );
-      }
-    }
-  }; */
-
-  /* const totalChkB = useGetData(`/bomba-check/total/${year}/${month}`);
-  let dataScale = {}; */
-
-  /* if (!totalChkB.error && !totalChkB.isPending) {
-    dataScale = {
-      labels: data.response.map((el) => el.empleado.nombre_completo),
-      datasets: [
-        {
-          label: "Empleados",
-          data: totalChkB.data.response.map((el) => el.total_checklist),
-          borderColor: "rgb(255, 99, 132)",
-          backgroundColor: "rgba(255, 99, 132, 0.5)",
-        },
-        {
-          label: "Minimo",
-          data: totalChkB.data.response.map((el) => 28),
-          borderColor: "rgb(53, 162, 235)",
-          backgroundColor: "rgba(53, 162, 235, 0.5)",
-        },
-      ],
-    };
-  } */
 
   return (
     <Fragment>
@@ -191,12 +122,35 @@ const Success = ({ data, year, month }) => {
             {data.map((el, i) => (
               <tr key={i}>
                 <td className="fw-semibold">
-                  {el.empleado.nombre} {el.empleado.apellido_paterno}
-                  {el.empleado.apellido_materno}
+                  <span
+                    onClick={() =>
+                      navigate(
+                        `../checklist/${year}/${month}/${el.empleado.idempleado}`
+                      )
+                    }
+                  >
+                    {el.empleado.nombre} {el.empleado.apellido_paterno}{" "}
+                    {el.empleado.apellido_materno}
+                  </span>
                 </td>
-                {el.fechas.map((fe, j) => (
-                  <td key={j}>{fe.snc === null ? null : fe.snc ? 1 : 0}</td>
-                ))}
+                {el.fechas.map((fe, j) => {
+                  if (fe.cumple === null) {
+                    return <td key={j}></td>;
+                  } else {
+                    return (
+                      <td
+                        key={j}
+                        className={
+                          fe.cumple
+                            ? "text-success text-center fw-semibold"
+                            : "text-danger text-center fw-semibold"
+                        }
+                      >
+                        {fe.cumple ? "1" : "0"}
+                      </td>
+                    );
+                  }
+                })}
               </tr>
             ))}
           </tbody>
