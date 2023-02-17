@@ -71,7 +71,7 @@ function Documentos() {
       ></HeaderComponents>
       {!documentos.error && !documentos.isPending && (
         <Sucess
-          data={documentos}
+          data={documentos.data.response}
           mostrarModal={mostrarModal}
           show={show}
           handleClose={handleClose}
@@ -99,6 +99,18 @@ const Sucess = ({
   showError,
   setShowAlertError,
 }) => {
+  const [documentos, setDocumentos] = useState(data);
+  const filterEmp = (e) => {
+    const exp = new RegExp(e.target.value, "gi");
+    const search = documentos.filter((el) => {
+      let ola = exp.test(el.nombre_completo);
+      console.log(ola, "ola");
+      return ola;
+    });
+    setDocumentos(search);
+  };
+
+  console.log(documentos);
   return (
     <div className="container mt-3 w-50">
       <AddDocs
@@ -110,6 +122,20 @@ const Sucess = ({
         showError={showError}
         setShowAlertError={setShowAlertError}
       />
+      <div className="pt-0">
+        <div className="row">
+          <div className="offset-md-6 col-md-6">
+            <input
+              type="text"
+              className="form-control"
+              name="buscador"
+              id="buscador"
+              onChange={filterEmp}
+              placeholder="Buscar un empleado..."
+            ></input>
+          </div>
+        </div>
+      </div>
       <table className="table table-bordered shadow ">
         <thead className="table-light">
           <tr>
@@ -120,7 +146,7 @@ const Sucess = ({
           </tr>
         </thead>
         <tbody>
-          {data.data.response.map((e, i) => {
+          {documentos.map((e, i) => {
             return (
               <tr key={i}>
                 <td key={e.nombre_completo}>

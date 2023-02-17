@@ -178,7 +178,7 @@ const Success = ({ solicitud, estatus, action, mostrar }) => {
     });
     setSolicitudes(search);
   };
-
+  console.log(solicitudes);
   const practicantes = solicitud.filter((el) => el.estatus === "Practica");
 
   return (
