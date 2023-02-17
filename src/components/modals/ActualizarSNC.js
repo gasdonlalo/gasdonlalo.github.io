@@ -8,6 +8,7 @@ import InputSelectEmpleado from "../forms/InputSelectEmpleado";
 import AlertSuccess from "../alerts/AlertSuccess";
 import AlertError from "../alerts/AlertError";
 import Loader from "../assets/Loader";
+import { Per } from "../Provider/Auth";
 
 function ActualizarSNC({ show, handleClose, id, setActualizar, actualizar }) {
   const data = useGetData(`salida-no-conforme/${id}`);
@@ -111,6 +112,7 @@ const Success = ({ show, handleClose, id, setActualizar, actualizar, SNC }) => {
                   className="form-control"
                   placeholder="Escribe las nuevas acciones  "
                   defaultValue={SNC.data.response[0].acciones_corregir}
+                  disabled={!Per(23)}
                   onChange={handle}
                 />
               </div>
@@ -121,6 +123,7 @@ const Success = ({ show, handleClose, id, setActualizar, actualizar, SNC }) => {
                   className="form-control"
                   placeholder="Escribe las nuevas concesiones"
                   defaultValue={SNC.data.response[0].concesiones}
+                  disabled={!Per(23)}
                   onChange={handle}
                 />
               </div>
