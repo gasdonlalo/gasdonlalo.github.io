@@ -5,7 +5,7 @@ import useGetData from "../../../hooks/useGetData";
 import format from "../../assets/format";
 import Loader from "../../assets/Loader";
 import ModalSuccess from "../../modals/ModalSuccess";
-import ModalError from "../../modals/ModalSuccess";
+import ModalError from "../../modals/ModalError";
 import { DeleteCB, EditCB } from "../../modals/EditCB";
 import gdl from "../../assets/img/GDL.png";
 import { Per } from "../../Provider/Auth";
