@@ -182,7 +182,7 @@ const Success = ({ empleados, url, date }) => {
               text={format.formatTextoMayusPrimeraLetra(
                 dEmpleado.data.response[0].nombre_completo
               )}
-            ></Bar>
+            />
           </div>
         </div>
       )}

@@ -14,10 +14,16 @@ import IconComponents from "../../assets/IconComponents";
 import HeaderComponents from "../../../GUI/HeaderComponents";
 import { useParams } from "react-router-dom";
 import { Per } from "../../Provider/Auth";
+import SNCPendienteCaptura from "../../modals/SNCPendienteCaptura";
 
 const SalidaNoConforme = () => {
   const [showAlert, setShowAlert] = useState(false);
   const [showAlertSuccess, setShowAlertSuccess] = useState(false);
+  const [defaultIncumpliento, setDefaultIncumpliento] = useState(null);
+  const [defaultEmpleado, setDefaultEmpleado] = useState(null);
+  const [defaultFecha, setDefaultFecha] = useState(null);
+  const [showPendientesCaptura, setShowPendientesCaptura] = useState(false);
+  const [actualizar, setActualizar] = useState(false);
   //recupera la id del formulario enviado para generar el pdf
   const [idsalida, setIdsalida] = useState(null);
 
@@ -29,12 +35,18 @@ const SalidaNoConforme = () => {
   let url = `/empleado`;
   if (departamento === "despacho") url += "?departamento=1";
   const empleadoS = useGetData(url);
-
+  const LimpiarDefault = () => {
+    setDefaultIncumpliento(null);
+    setDefaultFecha(null);
+    setDefaultEmpleado(null);
+  };
   const enviar = (e) => {
     e.preventDefault();
     console.log(datos);
     enviarDatos(datos);
     e.target.reset();
+    setDatos({ accionesCorregir: null });
+    LimpiarDefault();
   };
 
   const enviarDatos = async (x) => {
@@ -45,6 +57,7 @@ const SalidaNoConforme = () => {
       setTimeout(() => {
         setShowAlertSuccess(false);
       }, 800);
+      setActualizar(!actualizar);
     } catch {
       setShowAlert(true);
     }
@@ -70,10 +83,25 @@ const SalidaNoConforme = () => {
   const cerrarModal = () => {
     setShow(false);
   };
+  const closePendientesCaptura = () => {
+    setShowPendientesCaptura(false);
+  };
+  const mostrarPendientesCaptura = () => {
+    setShowPendientesCaptura(true);
+  };
 
   return (
     <div className="Main">
       <ModalAddIncumplimiento show={show} close={cerrarModal} />
+      <SNCPendienteCaptura
+        show={showPendientesCaptura}
+        handleClose={closePendientesCaptura}
+        handleIncumplimiento={setDefaultIncumpliento}
+        handleEmpleado={setDefaultEmpleado}
+        handleFecha={setDefaultFecha}
+        setDatos={setDatos}
+        actualizar={actualizar}
+      />
       <HeaderComponents
         title="Captura de salidas no conformes"
         urlBack={`/${departamento}`}
@@ -98,6 +126,14 @@ const SalidaNoConforme = () => {
               url="pendientes"
             />
           )}
+          <div
+            className="rounded p-2 btn-select m-1 d-flex flex-column align-items-center mt-0 pt-0"
+            style={{ minWidth: "100px", maxWidth: "150px" }}
+            onClick={mostrarPendientesCaptura}
+          >
+            <i className="bi bi-bell-fill" style={{ fontSize: "40px" }} />
+            <p className="p-0 m-0 text-nowrap">Pendientes de captura</p>
+          </div>
         </div>
       </HeaderComponents>
       <div style={{ display: "flex", flexdirection: "column" }}>
@@ -112,6 +148,7 @@ const SalidaNoConforme = () => {
                   data={datos}
                   setData={setDatos}
                   name="fecha"
+                  defaultValue={defaultFecha}
                 />
               </div>
               <div className="mb">
@@ -121,6 +158,7 @@ const SalidaNoConforme = () => {
                   className="form-control"
                   placeholder="Motivo de la inconformidad"
                   rows={5}
+                  required
                   onChange={handle}
                 ></textarea>
               </div>
@@ -152,6 +190,12 @@ const SalidaNoConforme = () => {
                       empleados={empleadoS.data.response}
                       name="idEmpleadoIncumple"
                       handle={handle}
+                      defaultData={{
+                        nombre: !defaultEmpleado
+                          ? null
+                          : defaultEmpleado.nombre,
+                        id: !defaultEmpleado ? null : defaultEmpleado.id,
+                      }}
                     />
                   </div>
                 )}
@@ -163,6 +207,7 @@ const SalidaNoConforme = () => {
                       className="form-select form-select"
                       onChange={(changeSelectIncumplimiento, handle)}
                       required
+                      value={defaultIncumpliento}
                     >
                       <option value="">-- Seleccionar incumplimiento --</option>
                       {incumplimiento.data.response.map((el) => (
@@ -184,6 +229,17 @@ const SalidaNoConforme = () => {
                 >
                   Crear salida no conforme
                 </button>
+                {!defaultEmpleado &&
+                !defaultFecha &&
+                !defaultIncumpliento ? null : (
+                  <button
+                    type="button"
+                    className="btn btn-danger d-block m-auto mt-2"
+                    onClick={LimpiarDefault}
+                  >
+                    Cancelar captura
+                  </button>
+                )}
                 <div className="mt-3">
                   <AlertError show={showAlert} setAlertError={setShowAlert} />
                   <AlertSuccess show={showAlertSuccess} />

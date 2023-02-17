@@ -41,10 +41,32 @@ function PorEmpleadoTipo() {
   );
 }
 const Success = ({ datos }) => {
-  console.log(datos);
+  const [limiteIncumplimiento, setLimiteIncumplimiento] = useState(
+    datos[0].incumplimientos.length
+  );
+
+  const sumaSNCTipo = () => {
+    const agrupar = datos.map((el) =>
+      el.incumplimientos.map((el) => {
+        return {
+          incumplimiento: el.incumplimiento,
+          total: el.total,
+        };
+      })
+    );
+
+    const suma = agrupar.map((el) => {
+      return el.map((el) => el.total).reduce((a, b) => a + b, 0);
+    });
+
+    return suma;
+  };
+
+  const totalSNC = datos.map((el) => el.totalSNC).reduce((a, b) => a + b, 0);
+
   return (
     <div className="container-fluid">
-      <div className="mt-3">
+      <div className="mt-3 overflow-auto">
         <table className="table table-bordered">
           <thead>
             <tr>
@@ -71,9 +93,17 @@ const Success = ({ datos }) => {
                       </Fragment>
                     );
                   })}
+                  <td>{el.totalSNC}</td>
                 </tr>
               );
             })}
+            <tr>
+              <td>Total por incorfomidad</td>
+              {sumaSNCTipo().map((el) => {
+                return <td>{el}</td>;
+              })}
+              <td>{totalSNC}</td>
+            </tr>
           </tbody>
         </table>
       </div>
