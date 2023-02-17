@@ -3,6 +3,7 @@ import { Fragment, useState } from "react";
 import InputChangeMes from "../../forms/InputChangeMes";
 import InputChangeYear from "../../forms/InputChangeYear";
 import useGetData from "../../../hooks/useGetData";
+import Bar from "../../charts/Bar";
 
 function PorEmpleadoTipo() {
   const date = new Date();
@@ -41,32 +42,39 @@ function PorEmpleadoTipo() {
   );
 }
 const Success = ({ datos }) => {
-  const [limiteIncumplimiento, setLimiteIncumplimiento] = useState(
-    datos[0].incumplimientos.length
-  );
+  const limiteIncumplimiento = datos[0].incumplimientos.length;
 
   const sumaSNCTipo = () => {
-    const agrupar = datos.map((el) =>
-      el.incumplimientos.map((el) => {
-        return {
-          incumplimiento: el.incumplimiento,
-          total: el.total,
-        };
-      })
-    );
+    const agrupar = datos
+      .map((el) =>
+        el.incumplimientos.map((el) => {
+          return {
+            incumplimiento: el.incumplimiento,
+            total: el.total,
+          };
+        })
+      )
+      .slice(0, limiteIncumplimiento);
+    console.log(agrupar, "grupo");
 
     const suma = agrupar.map((el) => {
       return el.map((el) => el.total).reduce((a, b) => a + b, 0);
     });
-
+    console.log(suma);
     return suma;
   };
 
   const totalSNC = datos.map((el) => el.totalSNC).reduce((a, b) => a + b, 0);
 
+  const dataBar = {
+    labels: datos[0].incumplimientos.map((el) => [el.incumplimiento]),
+    dataset: sumaSNCTipo(),
+  };
+  console.log(dataBar);
+
   return (
     <div className="container-fluid">
-      <div className="mt-3 overflow-auto">
+      <div className="mt-3 overflow-scroll">
         <table className="table table-bordered">
           <thead>
             <tr>
@@ -106,6 +114,11 @@ const Success = ({ datos }) => {
             </tr>
           </tbody>
         </table>
+      </div>
+      <div className="d-flex">
+        <div className="m-auto w-100">
+          <Bar datos={dataBar} text="Salidas no conformes por tipo" />{" "}
+        </div>
       </div>
     </div>
   );

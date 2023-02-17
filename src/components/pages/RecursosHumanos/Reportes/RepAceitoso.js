@@ -24,6 +24,7 @@ function RepAceitoso() {
   const [fechaFin, setFechaFin] = useState(null);
   const [estacion, setEstacion] = useState(null);
   const [datos, setDatos] = useState([]);
+  const [actualizador, setActualizador] = useState(false);
 
   const [datosTabla, setDatosTabla] = useState(null);
   const [error, setError] = useState(null);
@@ -84,6 +85,7 @@ function RepAceitoso() {
         show={showCanva}
         close={setShowCanvaClose}
         categorizacion={3}
+        toogle={[actualizador, setActualizador]}
       />
       <div className="container">
         <form onSubmit={enviar}>
