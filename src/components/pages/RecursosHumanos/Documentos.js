@@ -70,8 +70,8 @@ function Documentos() {
         textUrlback="Volver a recursos humanos"
       ></HeaderComponents>
       {!documentos.error && !documentos.isPending && (
-        <Sucess
-          data={documentos.data.response}
+        <Success
+          data={documentos}
           mostrarModal={mostrarModal}
           show={show}
           handleClose={handleClose}
@@ -88,7 +88,7 @@ function Documentos() {
   );
 }
 
-const Sucess = ({
+const Success = ({
   data,
   mostrarModal,
   show,
@@ -99,18 +99,17 @@ const Sucess = ({
   showError,
   setShowAlertError,
 }) => {
-  const [documentos, setDocumentos] = useState(data);
+  const [documentos, setDocumentos] = useState(data.data.response);
+
   const filterEmp = (e) => {
-    const exp = new RegExp(e.target.value, "gi");
+    const exp = new RegExp(`${e.target.value}`, "gim");
     const search = documentos.filter((el) => {
-      let ola = exp.test(el.nombre_completo);
-      console.log(ola, "ola");
-      return ola;
+      const { nombre, apellido_paterno, apellido_materno } = el;
+      return exp.test(`${nombre} ${apellido_paterno} ${apellido_materno}`);
     });
     setDocumentos(search);
   };
 
-  console.log(documentos);
   return (
     <div className="container mt-3 w-50">
       <AddDocs
@@ -122,21 +121,22 @@ const Sucess = ({
         showError={showError}
         setShowAlertError={setShowAlertError}
       />
-      <div className="pt-0">
+      {/* Buscador xd */}
+      <div className="pt-0 mb-2">
         <div className="row">
           <div className="offset-md-6 col-md-6">
             <input
-              type="text"
               className="form-control"
-              name="buscador"
-              id="buscador"
+              type="search"
               onChange={filterEmp}
-              placeholder="Buscar un empleado..."
-            ></input>
+              placeholder="Filtra un empleado..."
+            />
           </div>
         </div>
       </div>
-      <table className="table table-bordered shadow ">
+
+      {/* tabla xd */}
+      <table className="table table-bordered shadow">
         <thead className="table-light">
           <tr>
             <th>Nombre del empleado</th>

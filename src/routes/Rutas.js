@@ -114,7 +114,11 @@ function Rutas() {
             ;
             <Route path="montos-faltantes/reporte" element={<GMF />} />;
             <Route path="checklist" element={<ChecklistBomba />} />;
-            <Route path="checklist/:idE/:fecha" element={<CheckBombaInfo />} />;
+            <Route
+              path="checklist/:year/:month/:idEmpleado"
+              element={<CheckBombaInfo />}
+            />
+            ;
             <Route path="checklist/reporte" element={<CCB />} />;
             <Route path="evaluacion-uniforme" element={<EvalUniforme />} />;
             <Route path="evaluacion-uniforme/reporte" element={<GEU />} />;

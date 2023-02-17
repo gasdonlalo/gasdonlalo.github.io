@@ -69,7 +69,10 @@ const GraficaEvUnifome = () => {
             <InputSelectEmpleado
               empleados={despachador.data.response}
               handle={changeDespachador}
-              defaultValue={iddespachador}
+              defaultData={{
+                id: iddespachador,
+                nombre: "Empledo seleccionado",
+              }}
             />
           )}
         </div>
@@ -165,7 +168,29 @@ const Success = ({ pasos, year, month, idempleado, iddespachador }) => {
         </table>
         {!evUni.error && !evUni.isPending && (
           <div id="render">
-            <Bar datos={dataBar} />
+            <Bar
+              datos={dataBar}
+              text="Evaluación uniforme"
+              optionsCustom={{
+                scales: {
+                  y: {
+                    title: {
+                      display: true,
+                      text: "Puntos",
+                      font: {
+                        size: "20px",
+                        weight: "bold",
+                      },
+                    },
+                    min: 0,
+                    max: 1,
+                    ticks: {
+                      stepSize: 1,
+                    },
+                  },
+                },
+              }}
+            />
           </div>
         )}
       </div>
