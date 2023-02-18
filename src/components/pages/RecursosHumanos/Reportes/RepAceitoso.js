@@ -215,7 +215,7 @@ const Correcto = ({ datosTabla, colores, fechaFin, fechaInicio, estacion }) => {
       {
         data: totalTabla.map((e) => e.cantidadLitros),
         backgroundColor: totalTabla.map((e, index) => {
-          if (index < 4 && !e.descalificado) {
+          if (index < 3 && !e.descalificado) {
             return colores[index];
           } else if (e.descalificado || e.cantidadNC >= 3) {
             return "rgba(202,202,202,1)";
@@ -321,7 +321,7 @@ const Correcto = ({ datosTabla, colores, fechaFin, fechaInicio, estacion }) => {
               </thead>
               <tbody>
                 {totalTabla.map((e, index) => {
-                  if (index < 4) {
+                  if (index < 3) {
                     return (
                       <tr>
                         <td style={{ backgroundColor: colores[index] }}>
@@ -331,13 +331,7 @@ const Correcto = ({ datosTabla, colores, fechaFin, fechaInicio, estacion }) => {
                           $
                           {new Decimal(Number(e.cantidadLitros))
                             .times(
-                              index === 0
-                                ? 0.05
-                                : index === 1
-                                ? 0.04
-                                : index === 2
-                                ? 0.03
-                                : 0.02
+                              index === 0 ? 0.05 : index === 1 ? 0.03 : 0.02
                             )
                             .toFixed(2)}
                         </td>
@@ -370,7 +364,7 @@ const Correcto = ({ datosTabla, colores, fechaFin, fechaInicio, estacion }) => {
                   return (
                     <tr
                       style={
-                        index < 4
+                        index < 3
                           ? { backgroundColor: colores[index] }
                           : e.descalificado || e.cantidadNC >= 3
                           ? { backgroundColor: "#cacaca" }
@@ -404,7 +398,7 @@ const Correcto = ({ datosTabla, colores, fechaFin, fechaInicio, estacion }) => {
                 </thead>
                 <tbody>
                   {totalTabla.map((e, index) => {
-                    if (index < 4) {
+                    if (index < 3) {
                       return (
                         <tr>
                           <td style={{ backgroundColor: colores[index] }}>

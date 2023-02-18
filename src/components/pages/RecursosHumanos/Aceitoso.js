@@ -72,12 +72,14 @@ function Aceitoso() {
         urlBack="/recursos-humanos"
         textUrlback="Volver a recursos humanos"
         title="Registro de litros de aceites vendidos"
+        className="d-flex"
       >
         <IconComponents
           text="Reporte"
           icon="chart-simple text-success"
-          url="reporte"
+          url="../reporte"
         />
+        <IconComponents text="Registros" icon="file-lines" url="registros" />
       </HeaderComponents>
       <FormOctanoso
         enviar={enviar}
