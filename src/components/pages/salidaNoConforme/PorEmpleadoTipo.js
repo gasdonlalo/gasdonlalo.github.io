@@ -3,6 +3,9 @@ import { Fragment, useState } from "react";
 import InputChangeMes from "../../forms/InputChangeMes";
 import InputChangeYear from "../../forms/InputChangeYear";
 import useGetData from "../../../hooks/useGetData";
+import Bar from "../../charts/Bar";
+import PdfV2 from "../../pdf_generador/PdfV2";
+import Loader from "../../assets/Loader";
 
 function PorEmpleadoTipo() {
   const date = new Date();
@@ -36,45 +39,58 @@ function PorEmpleadoTipo() {
           <InputChangeYear defaultYear={year} handle={handleYear} />
         </div>
       </div>
-      {!error && !isPending && <Success datos={data.response} />}
+      {!error && !isPending && (
+        <Success datos={data.response} month={month} year={year} />
+      )}
+      {isPending && <Loader />}
     </div>
   );
 }
-const Success = ({ datos }) => {
-  const [limiteIncumplimiento, setLimiteIncumplimiento] = useState(
-    datos[0].incumplimientos.length
-  );
-
+const Success = ({ datos, month, year }) => {
   const sumaSNCTipo = () => {
-    const agrupar = datos.map((el) =>
-      el.incumplimientos.map((el) => {
-        return {
-          incumplimiento: el.incumplimiento,
-          total: el.total,
-        };
-      })
-    );
-
-    const suma = agrupar.map((el) => {
-      return el.map((el) => el.total).reduce((a, b) => a + b, 0);
+    const agrupar = datos[0].incumplimientos.map((el, i) => {
+      //total: datos.incumplimientos.map((el) => el.total),
+      //incumplimiento: el.incumplimiento,
+      return datos.map((el) => el.incumplimientos[i].total);
     });
-
+    const suma = agrupar.map((el, i) => {
+      return el.map((el) => el).reduce((a, b) => a + b);
+    });
     return suma;
   };
 
   const totalSNC = datos.map((el) => el.totalSNC).reduce((a, b) => a + b, 0);
 
+  const dataBarTipo = {
+    labels: datos[0].incumplimientos.map((el) => [el.incumplimiento]),
+    dataset: [{ data: sumaSNCTipo(), label: "SNC" }],
+  };
+
+  const dataBarEmpleado = {
+    labels: datos.map((el) => [el.empleado]),
+    dataset: [
+      {
+        data: datos.map((el) => el.totalSNC),
+        label: "SNC",
+        backgroundColor: "rgba(237,50,5,1)",
+      },
+    ],
+  };
+  console.log(dataBarEmpleado);
   return (
     <div className="container-fluid">
-      <div className="mt-3 overflow-auto">
-        <table className="table table-bordered">
+      <div className="mt-3" style={{ overflowX: "scroll" }}>
+        <table
+          className="table table-bordered  border-dark shadow-sm"
+          id="tabla"
+        >
           <thead>
             <tr>
               <th>Despachador</th>
               {datos[0].incumplimientos.map((e) => {
                 return (
                   <Fragment>
-                    <th>{e.incumplimiento}</th>
+                    <th key={e.incumplimiento}>{e.incumplimiento}</th>
                   </Fragment>
                 );
               })}
@@ -82,14 +98,16 @@ const Success = ({ datos }) => {
             </tr>
           </thead>
           <tbody>
-            {datos.map((el) => {
+            {datos.map((el, i) => {
               return (
-                <tr>
-                  <td>{el.empleado}</td>
-                  {el.incumplimientos.map((el) => {
+                <tr key={i}>
+                  <td key={el.empleado}>{el.empleado}</td>
+                  {el.incumplimientos.map((el, i) => {
                     return (
                       <Fragment>
-                        <td>{el.total}</td>
+                        <td key={i} style={{ width: "50px" }}>
+                          {el.total}
+                        </td>
                       </Fragment>
                     );
                   })}
@@ -98,15 +116,36 @@ const Success = ({ datos }) => {
               );
             })}
             <tr>
-              <td>Total por incorfomidad</td>
-              {sumaSNCTipo().map((el) => {
-                return <td>{el}</td>;
+              <td className="bg-warning">Total por tipo SNC</td>
+              {sumaSNCTipo().map((el, i) => {
+                return (
+                  <td key={i} className="bg-secondary">
+                    {el}
+                  </td>
+                );
               })}
-              <td>{totalSNC}</td>
+              <td className="bg-danger">{totalSNC}</td>
             </tr>
           </tbody>
         </table>
       </div>
+      <div className="d-flex flex-column" id="render">
+        <div className="m-auto w-100">
+          <Bar
+            datos={dataBarTipo}
+            text="Salidas no conformes por tipo"
+            legend={false}
+          />
+        </div>
+        <div className="m-auto w-100">
+          <Bar
+            datos={dataBarEmpleado}
+            text="Salidas no conformes por empleado"
+            legend={false}
+          />
+        </div>
+      </div>
+      <PdfV2 tabla="tabla" month={month} year={year} />
     </div>
   );
 };

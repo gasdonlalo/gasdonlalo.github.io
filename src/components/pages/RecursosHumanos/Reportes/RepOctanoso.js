@@ -30,6 +30,7 @@ function RepOctanoso() {
   const [estacion, setEstacion] = useState(null);
   const [datos, setDatos] = useState([]);
   const [pendiente, setPendiente] = useState(false);
+  const [actualizador, setActualizador] = useState(false);
 
   const setShowCanvaOpen = () => setShowCanva(true);
   const setShowCanvaClose = () => setShowCanva(false);
@@ -51,7 +52,6 @@ function RepOctanoso() {
 
   const enviar = (e) => {
     e.preventDefault();
-    console.log(datos);
     enviarDatos();
     setPendiente(true);
   };
@@ -84,6 +84,7 @@ function RepOctanoso() {
         show={showCanva}
         close={setShowCanvaClose}
         categorizacion={2}
+        toogle={[actualizador, setActualizador]}
       />
 
       <div className="container">

@@ -116,6 +116,7 @@ const OffCanvasConfigIncumplimientos = ({
                           defaultValue={el.cantidad}
                           disabled={!el.cantidad}
                           onBlur={handleCantidad}
+                          min="0"
                         />
                         {iconSuccess === el.idincumplimiento && (
                           <li className="fa-regular fa-check text-success"></li>

@@ -104,7 +104,7 @@ const Table = ({ data, setModal, setPermisos }) => {
                       className="btn btn-success mx-auto d-block"
                       onClick={() => setPermisos(el)}
                     >
-                      administrar usuario
+                      Administrar usuario
                     </button>
                   ) : (
                     <button
@@ -113,7 +113,7 @@ const Table = ({ data, setModal, setPermisos }) => {
                         setModal({ status: true, id: el.idempleado })
                       }
                     >
-                      crear usuario
+                      Crear usuario
                     </button>
                   )}
                 </td>

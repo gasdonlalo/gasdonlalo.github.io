@@ -31,7 +31,7 @@ const GraficaPasoDes = () => {
       <HeaderComponents
         urlBack="/despacho"
         textUrlback="Regresar a despacho"
-        title="Evaluaciones de despacho"
+        title="Evaluaciones pasos para despachar"
       >
         <div className="d-flex">
           <IconComponents

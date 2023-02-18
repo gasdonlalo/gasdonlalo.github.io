@@ -60,7 +60,8 @@ export const SalidasNoConformesReportes = () => {
           />
           <IconComponents
             url="../por-empleado-tipo"
-            text="Reporte empleado y tipo"
+            text="Empleado y tipo"
+            icon="user-tag text-warning"
           />
         </div>
       </HeaderComponents>

@@ -80,6 +80,7 @@ const FormRecursosDesp = () => {
       setFormPending(false);
       e.target.reset();
     }
+    setBody({ recursos: [] });
   };
 
   return (
@@ -109,6 +110,7 @@ const FormRecursosDesp = () => {
                 empleados={despachador.data.response}
                 handle={handle}
                 name="empleado"
+                reset={body.hasOwnProperty("empleado")}
               />
             )}
             {despachador.isPending && (

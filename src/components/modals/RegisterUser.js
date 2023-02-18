@@ -56,7 +56,7 @@ export const RegisterUser = ({
               <label className="form-label mb-0">Usuario</label>
               <input
                 type="text"
-                placeholder="username"
+                placeholder="Usuario"
                 className="form-control"
                 name="user"
                 onChange={handle}
@@ -67,8 +67,8 @@ export const RegisterUser = ({
             <div className="col-12">
               <label className="form-label mb-0">Contraseña</label>
               <input
-                type="password"
-                placeholder="password"
+                type="text"
+                placeholder="Password"
                 className="form-control"
                 name="password"
                 onChange={handle}

@@ -51,6 +51,9 @@ function FaltasRetardos() {
     try {
       await Axios.post("/entrada/captura", cuerpo);
       setModalSuccess(true);
+      setTimeout(() => {
+        setModalSuccess(false);
+      }, 800);
       setFormPending(false);
       setBody(null);
       e.target.reset();
