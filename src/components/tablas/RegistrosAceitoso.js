@@ -52,8 +52,7 @@ function RegistrosAceitoso() {
       }, 800);
     } catch {}
   };
-  console.log(data);
-  console.log(idAceite);
+
   return (
     <div className="Main">
       <ModalSuccess show={showCorrecto} close={closeModal} />

@@ -74,12 +74,18 @@ function Aceitoso() {
         title="Registro de litros de aceites vendidos"
         className="d-flex"
       >
-        <IconComponents
-          text="Reporte"
-          icon="chart-simple text-success"
-          url="../reporte"
-        />
-        <IconComponents text="Registros" icon="file-lines" url="registros" />
+        <div className="d-flex content-evenly">
+          <IconComponents
+            text="Reporte"
+            icon="chart-simple text-success"
+            url="../reporte"
+          />
+          <IconComponents
+            text="Registros"
+            icon="file-lines text-warning"
+            url="registros"
+          />
+        </div>
       </HeaderComponents>
       <FormOctanoso
         enviar={enviar}
