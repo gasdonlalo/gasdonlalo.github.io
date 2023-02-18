@@ -63,7 +63,7 @@ const Success = ({
               empleados={empleado.data.response}
               handle={handle}
               name="idEmpleado"
-              reset={data}
+              reset={data.hasOwnProperty("idEmpleado")}
             />
           </div>
           <div className="mb-3 col-4">

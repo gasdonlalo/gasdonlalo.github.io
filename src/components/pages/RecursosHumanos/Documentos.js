@@ -71,7 +71,7 @@ function Documentos() {
       ></HeaderComponents>
       {!documentos.error && !documentos.isPending && (
         <Success
-          data={documentos}
+          data={documentos.data.response}
           mostrarModal={mostrarModal}
           show={show}
           handleClose={handleClose}
@@ -99,13 +99,14 @@ const Success = ({
   showError,
   setShowAlertError,
 }) => {
-  const [documentos, setDocumentos] = useState(data.data.response);
+  const [documentos, setDocumentos] = useState(data);
+  console.log(data, "data");
 
   const filterEmp = (e) => {
-    const exp = new RegExp(`${e.target.value}`, "gim");
-    const search = documentos.filter((el) => {
-      const { nombre, apellido_paterno, apellido_materno } = el;
-      return exp.test(`${nombre} ${apellido_paterno} ${apellido_materno}`);
+    const exp = new RegExp(`${e.target.value}`, "gi");
+    const search = data.filter((el) => {
+      const { nombre_completo } = el;
+      return exp.test(nombre_completo);
     });
     setDocumentos(search);
   };

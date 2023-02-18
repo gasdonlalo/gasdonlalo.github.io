@@ -35,6 +35,9 @@ function FormDespachar() {
       let res = await Axios.post(`pasos-despachar`, body);
       console.log(res);
       setModalSuccess(true);
+      setTimeout(() => {
+        setModalSuccess(false);
+      }, 800);
       setFormPending(false);
       e.target.reset();
     } catch (err) {
@@ -50,6 +53,7 @@ function FormDespachar() {
       setFormPending(false);
       e.target.reset();
     }
+    setBody({ pasos: [] });
   };
 
   const closeModal = () => {

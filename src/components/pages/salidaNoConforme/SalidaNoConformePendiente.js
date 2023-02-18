@@ -40,7 +40,7 @@ export const SalidasNoConformesPendientes = () => {
   return (
     <div className="Main">
       <HeaderComponents
-        title="Registros de salidas no conformes"
+        title="SNC por resolver"
         urlBack={`/${departamento}`}
         textUrlback={`Regresar a ${departamento}`}
       >

@@ -87,6 +87,8 @@ function PdfV2({
       nombre = nombre + "  MENSUAL MANTENIMIENTO";
     } else if (ruta.match("faltas-retardos")) {
       nombre = nombre + " MENSUAL DE FALTAS Y RETARDOS";
+    } else if (ruta.match("por-empleado-tipo")) {
+      nombre = nombre + " MENSUAL DE SNC POR DESPACHADORES Y TIPOS";
     }
     return nombre;
   }

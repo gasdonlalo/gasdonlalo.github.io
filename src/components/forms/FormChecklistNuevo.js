@@ -47,6 +47,13 @@ function FormChecklistNuevo() {
       setFormPending(false);
       e.target.reset();
     }
+    setRadio({
+      islaLimpia: false,
+      aceitesCompletos: false,
+      bomba: false,
+      turno: false,
+      estacionServicio: false,
+    });
   };
 
   const closeModal = () => {
@@ -128,7 +135,7 @@ const DivChecks = ({ text, state, name }) => {
         onClick={() => setRadio({ ...radio, [name]: true })}
         className={
           radio[name]
-            ? "bg-primary bg-opacity-75 text-center"
+            ? "bg-success bg-opacity-75 text-center"
             : // eslint-disable-next-line no-useless-concat
               "text-center"
         }

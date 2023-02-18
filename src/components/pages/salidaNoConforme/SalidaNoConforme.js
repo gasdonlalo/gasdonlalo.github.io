@@ -39,13 +39,14 @@ const SalidaNoConforme = () => {
     setDefaultIncumpliento(null);
     setDefaultFecha(null);
     setDefaultEmpleado(null);
+    setDatos(null);
   };
   const enviar = (e) => {
     e.preventDefault();
     console.log(datos);
     enviarDatos(datos);
     e.target.reset();
-    setDatos({ accionesCorregir: null });
+    setDatos(null);
     LimpiarDefault();
   };
 
@@ -122,16 +123,19 @@ const SalidaNoConforme = () => {
           {Per(23) && (
             <IconComponents
               icon="clock text-warning"
-              text="Pendientes"
+              text="Por resolver"
               url="pendientes"
             />
           )}
           <div
-            className="rounded p-2 btn-select m-1 d-flex flex-column align-items-center mt-0 pt-0"
+            className="rounded btn-select m-1 d-flex flex-column align-items-center mt-0 pt-0"
             style={{ minWidth: "100px", maxWidth: "150px" }}
             onClick={mostrarPendientesCaptura}
           >
-            <i className="bi bi-bell-fill" style={{ fontSize: "40px" }} />
+            <i
+              className="fa-solid fa-file-pen text-info"
+              style={{ fontSize: "40px" }}
+            />
             <p className="p-0 m-0 text-nowrap">Pendientes de captura</p>
           </div>
         </div>
@@ -190,6 +194,7 @@ const SalidaNoConforme = () => {
                       empleados={empleadoS.data.response}
                       name="idEmpleadoIncumple"
                       handle={handle}
+                      reset={datos}
                       defaultData={{
                         nombre: !defaultEmpleado
                           ? null
