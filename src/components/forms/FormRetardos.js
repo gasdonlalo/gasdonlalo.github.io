@@ -23,7 +23,7 @@ function FormRetardos({
     );
     setEmpleados(filEmp);
   };
-  const handleCheckSwitch = (e) => setHoraEntradaOpcional(e.target.checked);
+  // const handleCheckSwitch = (e) => setHoraEntradaOpcional(e.target.checked);
   const InputHora = useRef();
 
   if (body) {

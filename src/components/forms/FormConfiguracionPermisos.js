@@ -13,7 +13,9 @@ function FormConfiguracionPemisos() {
   const [modal, setModal] = useState(false);
   const [modalError, setModalError] = useState({ status: false, msg: "" });
   const [modalSuccess, setModalSuccess] = useState(false);
-  const [id, setId] = useState(user ? user.idempleado : null);
+  const [msgSuccess, setMsgSuccess] = useState(null);
+  const [msgError, setMsgError] = useState(null);
+  const [id, setId] = useState(user ? user.idchecador : null);
 
   const { data, error, isPending } = useGetData(`/auth/permisos/${id}}`, id);
   const usuarios = useGetData(`/auth/usuarios/${id}`, id);
@@ -39,7 +41,6 @@ function FormConfiguracionPemisos() {
   }
   const guardar = async () => {
     const establecidos = data.response.filter((el) => el.user);
-    console.log(establecidos);
     const quitar = [],
       establecer = [];
     establecidos.forEach((el) => {
@@ -64,10 +65,14 @@ function FormConfiguracionPemisos() {
           permiso: quitar,
         });
       }
+      setMsgSuccess("Permisos guardados");
       setAddPer([]);
       setDelPer([]);
+      setTimeout(() => {
+        setMsgSuccess(null);
+      }, 500);
     } catch (err) {
-      console.log(err);
+      setMsgError("Error, intente de nuevo o refresca la página");
     }
   };
 
@@ -103,7 +108,7 @@ function FormConfiguracionPemisos() {
                 onChange={(e) => {
                   setId(Number(e.target.value));
                 }}
-                defaultValue={user ? user.idempleado : null}
+                defaultValue={user ? user.idchecador : null}
               />
             </div>
           </div>
@@ -170,6 +175,8 @@ function FormConfiguracionPemisos() {
               >
                 Guardar permisos
               </button>
+              {msgSuccess && <span className="text-success">{msgSuccess}</span>}
+              {msgError && <span className="text-danger">{msgError}</span>}
             </div>
           )}
         </div>

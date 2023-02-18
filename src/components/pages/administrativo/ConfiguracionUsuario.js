@@ -59,18 +59,21 @@ function ConfiguracionUsuario() {
 }
 
 const Table = ({ data, setModal, setPermisos }) => {
-  const [usuarios, setUsuarios] = useState(data);
+  const users = data.filter((el) => el.idchecador);
+  const [usuarios, setUsuarios] = useState(users);
 
   const filterEmp = (e) => {
     const exp = new RegExp(`${e.target.value}`, "gi");
     const search = data.filter((el) => {
-      const { nombre, apellido_paterno, apellido_materno, idempleado } = el;
+      const { nombre, apellido_paterno, apellido_materno, idchecador } = el;
       return exp.test(
-        `${idempleado} ${nombre} ${apellido_paterno} ${apellido_materno}`
+        `${idchecador} ${nombre} ${apellido_paterno} ${apellido_materno}`
       );
     });
     setUsuarios(search);
   };
+
+  console.log(users);
 
   return (
     <div className="container mt-3 w-50">
@@ -92,11 +95,11 @@ const Table = ({ data, setModal, setPermisos }) => {
         <tbody>
           {usuarios.map((el) => (
             <tr key={el.idempleado}>
-              <td>{el.idempleado}</td>
+              <td>{el.idchecador}</td>
               <td>
                 {el.nombre} {el.apellido_paterno} {el.apellido_materno}
               </td>
-              <td className="fw-semibold text-center">{el.iddepartamento}</td>
+              <td className="fw-semibold text-center">{el.departamento}</td>
               {Per(49) && (
                 <td>
                   {el.username ? (
