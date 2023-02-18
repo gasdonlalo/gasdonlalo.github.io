@@ -112,7 +112,6 @@ const Success = ({ pasos, year, month, idempleado, iddespachador }) => {
     };
   }
 
-  console.log(evUni);
   return (
     <Fragment>
       <div className="mt-5 m-auto">

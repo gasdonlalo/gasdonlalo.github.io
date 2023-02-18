@@ -118,7 +118,7 @@ function FormRetardos({
             )}
           </div>
         </div>
-        <div>
+        {/* <div>
           <div className="form-check form-switch">
             <label className="form-label">
               Modificar hora entrada
@@ -129,7 +129,7 @@ function FormRetardos({
               />
             </label>
           </div>
-        </div>
+        </div> */}
         {showHoraEntradaOpcional && (
           <div className="row">
             <div className="col-4">
