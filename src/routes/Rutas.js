@@ -80,6 +80,7 @@ import ConfiguracionUsuario from "../components/pages/administrativo/Configuraci
 import Inc from "../components/pages/salidaNoConforme/Incumplimientos";
 
 import { Dep } from "../components/Provider/Auth";
+import OctanosoRegistros from "../components/pages/RecursosHumanos/Reportes/OctanosoRegistros";
 
 function Rutas() {
   return (
@@ -165,6 +166,7 @@ function Rutas() {
           <Route path="concurso-octanoso">
             <Route index element={<Octanoso />} />
             <Route path="reporte" element={<GICO />} />
+            <Route path="registros" element={<OctanosoRegistros />} />
           </Route>
           <Route path="concurso-aceitoso">
             <Route index element={<Aceitoso />} />
