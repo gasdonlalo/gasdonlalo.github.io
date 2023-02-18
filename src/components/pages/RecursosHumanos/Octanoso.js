@@ -71,11 +71,18 @@ function Octanoso() {
           textUrlback="Volver a recursos humanos"
           title="Registro de litros combustible vendidos"
         >
-          <IconComponents
-            text="Reporte"
-            icon="chart-simple text-success"
-            url="reporte"
-          />
+          <div className="d-flex">
+            <IconComponents
+              text="Reporte"
+              icon="chart-simple text-success"
+              url="reporte"
+            />
+            <IconComponents
+              text="Registros"
+              icon="file-lines text-warning"
+              url="registros"
+            />
+          </div>
         </HeaderComponents>
       </div>
       <FormOctanoso
