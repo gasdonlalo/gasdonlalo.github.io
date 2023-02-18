@@ -65,7 +65,7 @@ const SalidaInconformidadesGrafica = () => {
 const Success = ({ data, year, month }) => {
   console.log(data);
   const dataBar = {
-    labels: data.map((el) => el.incumplimiento),
+    labels: data.map((el) => el.incumplimiento.split(" ")),
     dataset: [
       {
         data: data.map((el) => el.total),
@@ -103,6 +103,16 @@ const Success = ({ data, year, month }) => {
               datos={dataBar}
               legend={false}
               text="Cumplimientos e inconformidades en el área de despacho"
+              optionsCustom={{
+                scales: {
+                  y: {
+                    min: 0,
+                    ticks: {
+                      stepSize: 1,
+                    },
+                  },
+                },
+              }}
             />
           </div>
         </div>

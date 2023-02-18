@@ -124,7 +124,39 @@ const Success = ({ data, year, month }) => {
           </span>
         </div>
         <div id="render" className="mt-5">
-          <Scale data={dataScale} legend={false} />
+          <Scale
+            data={dataScale}
+            text={`Salidas no conformes del mes de ${format.formatMes(
+              `${year}-${month}-01`
+            )}`}
+            legend={false}
+            optionsCustom={{
+              scales: {
+                y: {
+                  min: 0,
+                  title: {
+                    display: true,
+                    text: "Cantidad",
+                    font: {
+                      size: "20px",
+                    },
+                  },
+                  ticks: {
+                    stepSize: 1,
+                  },
+                },
+                x: {
+                  title: {
+                    display: true,
+                    text: "Despachadores",
+                    font: {
+                      size: "20px",
+                    },
+                  },
+                },
+              },
+            }}
+          />
         </div>
       </div>
       <div>
