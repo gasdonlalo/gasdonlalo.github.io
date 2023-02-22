@@ -12,6 +12,7 @@ import ErrorHttp from "../assets/ErrorHttp";
 import DropdownItem from "react-bootstrap/esm/DropdownItem";
 import ActualizarEmpleado from "../modals/ActualizarEmpleado";
 import PdfEmpleados from "../pdf_generador/PdfEmpleados";
+import Loader from "../assets/Loader";
 
 const TablaEmpleados = ({ id }) => {
   const [show, setShow] = useState(false);
@@ -164,6 +165,7 @@ const TablaEmpleados = ({ id }) => {
       {error && !isPending && (
         <ErrorHttp msg={dataError.msg} code={dataError.code} />
       )}
+      {isPending && <Loader />}
     </div>
   );
 };

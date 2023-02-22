@@ -42,6 +42,7 @@ import ConcursoMadrugador from "../components/pages/RecursosHumanos/Reportes/Con
 import Departamentos from "../components/pages/RecursosHumanos/Departamentos";
 import EntregaRecurso from "../components/pages/RecursosHumanos/EntregaRecurso";
 import ERR from "../components/pages/RecursosHumanos/Reportes/EntregaRecursoRegistro";
+import RGA from "../components/tablas/RegistrosAceitoso";
 // Importación gráficos recursos
 import FRG from "../components/pages/RecursosHumanos/Reportes/FaltaRetardoGrafica";
 
@@ -81,7 +82,7 @@ import ConfiguracionUsuario from "../components/pages/administrativo/Configuraci
 import Inc from "../components/pages/salidaNoConforme/Incumplimientos";
 
 import { Dep } from "../components/Provider/Auth";
-import OrdenIsla from "../components/pages/despacho/OrdenIsla";
+import OctanosoRegistros from "../components/pages/RecursosHumanos/Reportes/OctanosoRegistros";
 
 function Rutas() {
   return (
@@ -169,10 +170,12 @@ function Rutas() {
           <Route path="concurso-octanoso">
             <Route index element={<Octanoso />} />
             <Route path="reporte" element={<GICO />} />
+            <Route path="registros" element={<OctanosoRegistros />} />
           </Route>
           <Route path="concurso-aceitoso">
             <Route index element={<Aceitoso />} />
             <Route path="reporte" element={<GICA />} />
+            <Route path="registros" element={<RGA />} />
           </Route>
         </Route>
 

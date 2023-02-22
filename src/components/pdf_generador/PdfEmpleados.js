@@ -170,7 +170,7 @@ const Tbody = ({ data }) => {
 
 const Mydoc = ({ data, title }) => {
   return (
-    <Document title="Hola que hace">
+    <Document title="Control de empleados">
       <Page size="LETTER" style={styles.page}>
         <View style={styles.title}>
           <Text>{title}</Text>

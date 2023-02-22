@@ -1,6 +1,7 @@
 import React from "react";
 import { Modal } from "react-bootstrap";
 import useGetData from "../../hooks/useGetData";
+import ErrorHttp from "../assets/ErrorHttp";
 import format from "../assets/format";
 
 function SNCPendienteCaptura({
@@ -53,7 +54,7 @@ const Success = ({ show, handleClose, datos, handle }) => {
       </Modal.Header>
       <Modal.Body>
         {datos.length === 0 ? (
-          <h4>No hay datos</h4>
+          <ErrorHttp msg="No hay registros" />
         ) : (
           datos.map((el) => {
             return <Card el={el} handle={handle} />;
