@@ -1,5 +1,9 @@
 import { useState } from "react";
+import Axios from "../../Caxios/Axios";
 import useGetData from "../../hooks/useGetData";
+import Loader from "../assets/Loader";
+import ModalError from "../modals/ModalError";
+import ModalSuccess from "../modals/ModalSuccess";
 import InputFecha from "./InputFecha";
 import InputSelectEmpleado from "./InputSelectEmpleado";
 
@@ -20,23 +24,68 @@ function FormOrdenIsla() {
   const [bomba, setBomba] = useState(null);
   const [estacionS, setEstacionS] = useState(null);
   const despachador = useGetData(`/empleado?departamento=1`);
-  const evaluador = useGetData(`/empleado?departamento=1`);
   const estacion = useGetData("/estaciones-servicio");
   const turnos = useGetData(`/estaciones-servicio/turnos/${estacionS}`);
   const bombas = useGetData(`/bomba/${bomba}`);
   const [checkErroneo, setCheckErroneo] = useState(false);
+  const [modalSuccess, setModalSuccess] = useState(false);
+  const [modalError, setModalError] = useState({ status: false, msg: "" });
+  const [formPending, setFormPending] = useState(false);
 
   const changeEstacion = (e) => {
     setEstacionS(Number(e.target.value));
     setBomba(Number(e.target.value));
   };
 
+  const closeModal = () => {
+    setModalSuccess(false);
+    setModalError({ status: false });
+  };
+
   const handle = (e) => setBody({ ...body, [e.target.name]: e.target.value });
+
+  const enviar = async (e) => {
+    e.preventDefault();
+    setFormPending(true);
+    try {
+      await Axios.post("/ordenLimpieza", { ...body, ...radio });
+      setFormPending(false);
+      setModalSuccess(true);
+      setBody(null);
+      setTimeout(() => {
+        setModalSuccess(false);
+      }, 800);
+      e.target.reset();
+    } catch (err) {
+      if (err.hasOwnProperty("response")) {
+        setModalError({
+          status: true,
+          msg: err.response.data.msg,
+        });
+      } else {
+        setModalError({ status: true, msg: err.code });
+      }
+      setFormPending(false);
+      e.target.reset();
+    }
+    setRadio({
+      aceites: false,
+      manguerasBomba: false,
+      limpiaparabrisas: false,
+      mangueraAguaAire: false,
+      maseteros: false,
+      bombalimpia: false,
+      pisolimpio: false,
+      islalimpia: false,
+      franja: false,
+      contenedorAgua: false,
+    });
+  };
   return (
     <div className="Container">
-      <form className="m-auto shadow rounded p-2 mt-3 w-75 ">
+      <form className="m-auto shadow rounded p-2 mt-3 w-75 " onSubmit={enviar}>
         <div className="d-flex flex-wrap justify-content-around mb-3 w-100">
-          <div className="col-md-6">
+          <div className="p-2" style={{ flexGrow: 1 }}>
             <label className="form-label">Fecha de evaluación</label>
             <InputFecha
               data={body}
@@ -44,6 +93,17 @@ function FormOrdenIsla() {
               handle={handle}
               name="fecha"
             />
+          </div>
+          <div className="p-2" style={{ flexGrow: 1 }}>
+            <label className="form-label">Nombre del evaluado</label>
+            {!despachador.error & !despachador.isPending && (
+              <InputSelectEmpleado
+                empleados={despachador.data.response}
+                reset={body}
+                name="idEmpleadoEvaluado"
+                handle={handle}
+              />
+            )}
           </div>
         </div>
         <div className="d-flex flex-wrap justify-content-around mb-3 w-100">
@@ -122,30 +182,6 @@ function FormOrdenIsla() {
             </select>
           </div>
         </div>
-        <div className="d-flex flex-wrap justify-content-around mb-3 w-100">
-          <div className="p-2" style={{ flexGrow: 1 }}>
-            <label className="form-label">Nombre del evaluado</label>
-            {!despachador.error & !despachador.isPending && (
-              <InputSelectEmpleado
-                empleados={despachador.data.response}
-                reset={body}
-                name="idEmpleadoEvaluado"
-                handle={handle}
-              />
-            )}
-          </div>
-          <div className="p-2" style={{ flexGrow: 1 }}>
-            <label className="form-label">Nombre del evaluador</label>
-            {!evaluador.error & !evaluador.isPending && (
-              <InputSelectEmpleado
-                empleados={evaluador.data.response}
-                reset={body}
-                name="idEmpleadoEvaluado"
-                handle={handle}
-              />
-            )}
-          </div>
-        </div>
 
         <div className="mb-2 text-success">Parte I. Elementos de la isla</div>
         <div className="mb-2">
@@ -222,7 +258,18 @@ function FormOrdenIsla() {
             />
           </div>
         </div>
+        <div className="d-flex justifi-content-center">
+          <button type="submit" className="btn btn-primary m-auto d-block">
+            {formPending ? <Loader size="1.5" /> : "Guardar Check"}
+          </button>
+        </div>
       </form>
+      <ModalSuccess show={modalSuccess} close={closeModal} />
+      <ModalError
+        show={modalError.status}
+        close={closeModal}
+        text={modalError.msg}
+      />
     </div>
   );
 }
