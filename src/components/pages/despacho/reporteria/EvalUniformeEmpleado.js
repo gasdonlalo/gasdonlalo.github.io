@@ -2,7 +2,9 @@ import { Fragment, useState } from "react";
 import { useParams } from "react-router-dom";
 import HeaderComponents from "../../../../GUI/HeaderComponents";
 import useGetData from "../../../../hooks/useGetData";
+import ErrorHttp from "../../../assets/ErrorHttp";
 import format from "../../../assets/format";
+import Loader from "../../../assets/Loader";
 import Grafica from "../../../charts/Bar";
 import InputChangeMes from "../../../forms/InputChangeMes";
 import InputChangeYear from "../../../forms/InputChangeYear";
@@ -12,9 +14,11 @@ function EvalUniformeEmpleado() {
   const [anio, setAnio] = useState(year);
   const [mes, setMes] = useState(month);
 
-  const { data, error, isPending } = useGetData(
+  const { data, error, isPending, dataError } = useGetData(
     `evaluacion-uniforme/${anio}/${mes}/${id}`
   );
+  console.log(isPending, error, "si");
+  console.log(data);
   const changeYear = (e) => {
     setAnio(e.target.value);
   };
@@ -42,7 +46,8 @@ function EvalUniformeEmpleado() {
           </div>
         </div>
       </div>
-      {!isPending && Error && <Success datos={data.response} />}
+      {!isPending && !error && <Success datos={data.response} />}
+      {isPending && <Loader />}
     </div>
   );
 }
@@ -81,48 +86,50 @@ const Success = ({ datos }) => {
         )}
       </h4> */}
       {/* Tabla */}
-      <div className="container-fluid">
-        <table className="table table-bordered text-center">
-          <thead>
-            <tr>
-              <td colSpan={datos[0].cantidad.length + 2} className="fs-4">
-                Nombre del evaluado:{" "}
-                {format.formatTextoMayusPrimeraLetra(
-                  `${datos[0].nombre} ${datos[0].apellido_paterno} ${datos[0].apellido_materno}`
-                )}
-              </td>
-            </tr>
-            <tr>
-              <th>Fecha</th>
-              {datos[0].cantidad.map((el) => {
-                return (
-                  <Fragment>
-                    <th>{el.cumplimiento}</th>
-                  </Fragment>
-                );
-              })}
-              <th>Total de puntos por evaluación</th>
-            </tr>
-          </thead>
-          <tbody>
-            {datos[0].evaluaciones.map((el, i) => {
-              return (
-                <tr key={i}>
-                  <td key={el[0].fecha}>
-                    {format.formatFechaComplete(el[0].fecha)}
+      {datos[0].evaluaciones.length > 0 ? (
+        <div>
+          <div className="container-fluid">
+            <table className="table table-bordered text-center">
+              <thead>
+                <tr>
+                  <td colSpan={datos[0].cantidad.length + 2} className="fs-4">
+                    Nombre del evaluado:{" "}
+                    {format.formatTextoMayusPrimeraLetra(
+                      `${datos[0].nombre} ${datos[0].apellido_paterno} ${datos[0].apellido_materno}`
+                    )}
                   </td>
-                  {el.map((el, i) => {
+                </tr>
+                <tr>
+                  <th>Fecha</th>
+                  {datos[0].cantidad.map((el) => {
                     return (
                       <Fragment>
-                        <td key={i}>{el.cumple ? "1" : "0"}</td>
+                        <th>{el.cumplimiento}</th>
                       </Fragment>
                     );
                   })}
-                  <td>{totalPuntos[i].total}</td>
+                  <th>Total de puntos por evaluación</th>
                 </tr>
-              );
-            })}
-            {/* <tr>
+              </thead>
+              <tbody>
+                {datos[0].evaluaciones.map((el, i) => {
+                  return (
+                    <tr key={i}>
+                      <td key={el[0].fecha}>
+                        {format.formatFechaComplete(el[0].fecha)}
+                      </td>
+                      {el.map((el, i) => {
+                        return (
+                          <Fragment>
+                            <td key={i}>{el.cumple ? "1" : "0"}</td>
+                          </Fragment>
+                        );
+                      })}
+                      <td>{totalPuntos[i].total}</td>
+                    </tr>
+                  );
+                })}
+                {/* <tr>
               <td colSpan={datos[0].cantidad.length + 2}>
                 <table>
                   <thead>
@@ -134,61 +141,67 @@ const Success = ({ datos }) => {
                 </table>
               </td>
             </tr> */}
-            <tr className="bg bg-success bg-opacity-50">
-              <th>Total buenas</th>
-              {datos[0].cantidad.map((el) => {
-                return (
-                  <Fragment>
-                    <td>{el.totalBuena}</td>
-                  </Fragment>
-                );
-              })}
-              <td className="bg-dark"></td>
-            </tr>
-            <tr className="bg bg-danger bg-opacity-50">
-              <th>Total malas</th>
-              {datos[0].cantidad.map((el) => {
-                return (
-                  <Fragment>
-                    <td>{el.totalMalas}</td>
-                  </Fragment>
-                );
-              })}
-              <td className="bg-dark"></td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      {/* Grafica */}
-      <div className="d-flex">
-        <div className="m-auto w-50">
-          <Grafica
-            datos={dataBar}
-            text="Total puntos buenos y malos"
-            optionsCustom={{
-              scales: {
-                y: {
-                  title: { display: true, text: "Puntaje" },
-                },
-                x: { title: { display: true, text: "Rubros evaluados" } },
-              },
-            }}
-          />
+                <tr className="bg bg-success bg-opacity-50">
+                  <th className="text-nowrap px-2">Total buenas</th>
+                  {datos[0].cantidad.map((el) => {
+                    return (
+                      <Fragment>
+                        <td>{el.totalBuena}</td>
+                      </Fragment>
+                    );
+                  })}
+                  <td className="bg-dark"></td>
+                </tr>
+                <tr className="bg bg-danger bg-opacity-50">
+                  <th>Total malas</th>
+                  {datos[0].cantidad.map((el) => {
+                    return (
+                      <Fragment>
+                        <td>{el.totalMalas}</td>
+                      </Fragment>
+                    );
+                  })}
+                  <td className="bg-dark"></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          {/* Grafica */}
+          <div className="d-flex">
+            <div className="m-auto w-50">
+              <Grafica
+                datos={dataBar}
+                text="Total puntos buenos y malos"
+                optionsCustom={{
+                  scales: {
+                    y: {
+                      title: { display: true, text: "Puntaje" },
+                    },
+                    x: { title: { display: true, text: "Rubros evaluados" } },
+                  },
+                }}
+              />
+            </div>
+            <div className="m-auto w-50">
+              <Grafica
+                datos={totalxEval}
+                text="Total de puntos por evaluaciones"
+                legend={false}
+                optionsCustom={{
+                  scales: {
+                    y: { title: { display: true, text: "Puntos totales" } },
+                    x: { title: { display: true, text: "Fecha" } },
+                  },
+                }}
+              />
+            </div>
+          </div>
         </div>
-        <div className="m-auto w-50">
-          <Grafica
-            datos={totalxEval}
-            text="Total de puntos por evaluaciones"
-            legend={false}
-            optionsCustom={{
-              scales: {
-                y: { title: { display: true, text: "Puntos totales" } },
-                x: { title: { display: true, text: "Fecha" } },
-              },
-            }}
-          />
+      ) : (
+        <div>
+          <ErrorHttp />
         </div>
-      </div>
+      )}
     </div>
   );
 };

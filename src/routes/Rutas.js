@@ -84,7 +84,7 @@ import Inc from "../components/pages/salidaNoConforme/Incumplimientos";
 
 import { Dep } from "../components/Provider/Auth";
 import OctanosoRegistros from "../components/pages/RecursosHumanos/Reportes/OctanosoRegistros";
-import OrdenIsla from "../components/pages/despacho/OrdenIsla";
+//import OrdenIsla from "../components/pages/despacho/OrdenIsla";
 import EvalUniformeEmpleado from "../components/pages/despacho/reporteria/EvalUniformeEmpleado";
 
 function Rutas() {

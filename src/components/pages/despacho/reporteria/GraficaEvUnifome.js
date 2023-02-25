@@ -11,6 +11,7 @@ import IconComponents from "../../../assets/IconComponents";
 import Decimal from "decimal.js-light";
 import { Link } from "react-router-dom";
 import Scale from "../../../charts/Scale";
+import Loader from "../../../assets/Loader";
 
 const GraficaEvUnifome = () => {
   const date = new Date();
@@ -89,6 +90,7 @@ const GraficaEvUnifome = () => {
       {!isPending && !error && (
         <TablaGral datos={data.response} year={year} month={month} />
       )}
+      {isPending && <Loader />}
       {/* {!pasos.error && !pasos.isPending && (
         <Success
           year={year}

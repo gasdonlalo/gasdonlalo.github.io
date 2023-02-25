@@ -9,6 +9,10 @@ import Scale from "../../../charts/Scale";
 import PdfV2 from "../../../pdf_generador/PdfV2";
 import HeaderComponents from "../../../../GUI/HeaderComponents";
 import IconComponents from "../../../assets/IconComponents";
+import { OverlayTrigger, Tooltip } from "react-bootstrap";
+import { Datos } from "../../../Provider/Checklist";
+import { useContext } from "react";
+import Grafica from "../../../charts/Bar";
 
 function GraficaChecklist() {
   const date = new Date();
@@ -49,7 +53,7 @@ function GraficaChecklist() {
       </div>
       {!checkBomba.error && !checkBomba.isPending && (
         <Success
-          data={checkBomba.data.response}
+          datos={checkBomba.data.response}
           year={year}
           month={month}
           navigate={navigate}
@@ -60,7 +64,7 @@ function GraficaChecklist() {
   );
 }
 
-const Success = ({ data, year, month }) => {
+/* const Success = ({ data, year, month }) => {
   const navigate = useNavigate();
   const iterar = data.map((el) => {
     const filtrado = el.fechas;
@@ -163,6 +167,167 @@ const Success = ({ data, year, month }) => {
         <PdfV2 month={month} year={year} tabla="tabla" />
       </div>
     </Fragment>
+  );
+}; */
+
+const Success = ({ datos, year, month }) => {
+  const setData = useContext(Datos);
+  const navigate = useNavigate();
+  const totalBuenas = datos.map((el) => {
+    return {
+      empleado: `${el.empleado.nombre} ${el.empleado.apellido_paterno} ${el.empleado.apellido_materno}`,
+      id: el.empleado.idempleado,
+      total: el.fechas
+        .map((el) => el.cumple)
+        .filter((el) => el === 1)
+        .reduce((a, b) => a + b, 0),
+    };
+  });
+
+  const totalMalas = datos.map((el) => {
+    return {
+      empleado: `${el.empleado.nombre} ${el.empleado.apellido_paterno} ${el.empleado.apellido_materno}`,
+      total: el.fechas.map((el) => el.cumple).filter((el) => el === 0).length,
+    };
+  });
+
+  const dataBar1 = {
+    labels: totalBuenas.map((el) => el.empleado),
+    dataset: [
+      {
+        data: totalBuenas.map((el) => el.total),
+        borderColor: "rgb(0,200,37)",
+        backgroundColor: "rgba(0,200,37, 0.5)",
+        label: "Correctos",
+      },
+      {
+        data: totalMalas.map((el) => el.total),
+        borderColor: "rgb(200,0,0)",
+        backgroundColor: "rgba(200,0,0, 0.5)",
+        label: "Incorrectos",
+      },
+      {
+        type: "line",
+        data: totalBuenas.map((el) => el.total),
+        borderColor: "rgb(0,200,37)",
+        backgroundColor: "rgba(0,200,37, 0.5)",
+        label: "Correctos",
+      },
+    ],
+  };
+  const dataBar2 = {
+    labels: totalBuenas.map((el) => el.empleado),
+    datasets: [
+      {
+        data: totalBuenas.map((el) => el.total),
+        borderColor: "rgb(0,200,37)",
+        backgroundColor: "rgba(0,200,37, 0.5)",
+        label: "Correctos",
+      },
+      {
+        data: totalMalas.map((el) => el.total),
+        borderColor: "rgb(200,0,0)",
+        backgroundColor: "rgba(200,0,0, 0.5)",
+        label: "Incorrectos",
+      },
+    ],
+  };
+  return (
+    <div>
+      {/* tabla */}
+      <div className="container-fluid mt-3 " style={{ overflowX: "scroll" }}>
+        <table className="table table-bordered text-center">
+          <thead>
+            <tr>
+              <th>Nombre del empleado</th>
+              {datos[0].fechas.map((el) => {
+                return (
+                  <Fragment>
+                    <th>{el.fecha}</th>
+                  </Fragment>
+                );
+              })}
+            </tr>
+          </thead>
+          <tbody>
+            {datos.map((el) => {
+              return (
+                <tr>
+                  <td className="text-nowrap px-2">
+                    <OverlayTrigger
+                      key="right"
+                      placement="right"
+                      overlay={
+                        <Tooltip id="tooltip-right">
+                          Haz clic para ver mas detalles
+                        </Tooltip>
+                      }
+                    >
+                      <span
+                        className="link-primary text-decoration-underline"
+                        onClick={() => (
+                          setData[1]([datos]),
+                          navigate(
+                            `../checklist/${year}/${month}/${el.empleado.idempleado}`
+                          )
+                        )}
+                      >
+                        {format.formatTextoMayusPrimeraLetra(
+                          `${el.empleado.nombre} ${el.empleado.apellido_paterno} ${el.empleado.apellido_materno}`
+                        )}
+                      </span>
+                    </OverlayTrigger>
+                  </td>
+                  {el.fechas.map((el) => {
+                    return (
+                      <Fragment>
+                        <td
+                          className={
+                            el.cumple === 1
+                              ? "bg-success bg-opacity-50"
+                              : el.cumple === 0
+                              ? "bg-danger bg-opacity-50"
+                              : null
+                          }
+                        >
+                          {el.cumple}
+                        </td>
+                      </Fragment>
+                    );
+                  })}
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
+      {/* Grafica */}
+      <div className="m-auto ">
+        <Scale
+          data={dataBar2}
+          text="Checklist correctos e incorrectos realizados mensuales por empleado"
+          optionsCustom={{
+            scales: {
+              y: {
+                min: 0,
+                ticks: { stepSize: 1 },
+                title: {
+                  display: true,
+                  text: "Numero de checklist realizados",
+                },
+              },
+              x: {
+                title: {
+                  display: true,
+                  text: "Empleados",
+                },
+              },
+            },
+          }}
+        />
+        {/* <Grafica datos={dataBar1} /> */}
+      </div>
+    </div>
   );
 };
 
