@@ -122,7 +122,7 @@ const Success = ({ empleados }) => {
       ),
       dataset: montoFaltante.data.response[0].semanas.map((el, i) => ({
         data: montoFaltante.data.response.map((eld) => eld.semanas[i].cantidad),
-        label: `semana ${i + 1}`,
+        label: `Semana ${i + 1}`,
       })),
     };
   }
@@ -203,11 +203,27 @@ const Success = ({ empleados }) => {
             <Grafica
               datos={dataBar}
               text="Gráfica semanal de monto faltante de despachador"
-              customObj={{
+              optionsCustom={{
                 scales: {
                   y: {
                     ticks: {
                       callback: (value) => `$${value}`,
+                    },
+                    title: {
+                      display: true,
+                      text: "Cantidad en pesos",
+                      font: {
+                        size: "12pt",
+                      },
+                    },
+                  },
+                  x: {
+                    title: {
+                      display: true,
+                      text: "Empleados",
+                      font: {
+                        size: "15pt",
+                      },
                     },
                   },
                 },
@@ -216,7 +232,7 @@ const Success = ({ empleados }) => {
           </div>
         )}
         {montoFaltante.error && !montoFaltante.isPending && (
-          <div className="w-75">
+          <div className="m-auto mt-5">
             <ErrorHttp
               code={montoFaltante.dataError.code}
               msg={montoFaltante.dataError.msg}

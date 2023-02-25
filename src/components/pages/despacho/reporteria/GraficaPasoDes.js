@@ -357,7 +357,19 @@ const Success = ({ data, year, month, idEmpleado, qna }) => {
                 datos={dataBarP}
                 text={dataBarP.text}
                 legend={false}
-                optionsCustom={customBar}
+                optionsCustom={{
+                  scales: {
+                    y: {
+                      min: 0,
+                      max: 10,
+                      title: {
+                        display: true,
+                        text: "Promedio",
+                      },
+                    },
+                    x: { title: { display: true, text: "Rubros evaluados" } },
+                  },
+                }}
               />
             </div>
           </div>

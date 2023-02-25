@@ -65,7 +65,7 @@ const Scale = ({ data, legend, text, optionsCustom }) => {
       },
     },
     layout: {
-      padding: { top: 50 },
+      padding: { top: 50, right: 50 },
     },
   };
 
