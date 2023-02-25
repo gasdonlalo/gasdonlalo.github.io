@@ -21,6 +21,7 @@ import SalidaNoConforme from "../components/pages/salidaNoConforme/SalidaNoConfo
 import SNR from "../components/pages/salidaNoConforme/SalidasNoConformesReportes";
 import SNCP from "../components/pages/salidaNoConforme/SalidaNoConformePendiente";
 import SNCPET from "../components/pages/salidaNoConforme/PorEmpleadoTipo";
+import OrdenIsla from "../components/pages/despacho/OrdenIsla";
 
 //importacion de graficos despacho
 import GMF from "../components/pages/despacho/reporteria/GraficaMontofaltante";
