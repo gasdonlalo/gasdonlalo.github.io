@@ -33,7 +33,6 @@ import GPD from "../components/pages/despacho/reporteria/GraficaPasoDes";
 import GRD from "../components/pages/despacho/reporteria/GraficaRecursosDes";
 import GMSN from "../components/pages/salidaNoConforme/SalidaNoConformeGraficaMensual";
 import GSNI from "../components/pages/salidaNoConforme/SalidaInconformidadesGrafica";
-import Calificaciones from "../components/pages/despacho/reporteria/Calificaciones";
 //importaciones recursos humanos
 import RecursosHumanos from "../components/pages/RecursosHumanos";
 import SolicitudesEmpleo from "../components/pages/RecursosHumanos/SolicitudesEmpleo";
@@ -118,7 +117,6 @@ function Rutas() {
             <Route path="montos-faltantes/historial" element={<MFT />} />
             ;
             <Route path="montos-faltantes/reporte" element={<GMF />} />;
-            <Route path="calificaciones" element={<Calificaciones />} />;
             <Route path="checklist" element={<ChecklistBomba />} />;
             <Route
               path="checklist/:year/:month/:idEmpleado"

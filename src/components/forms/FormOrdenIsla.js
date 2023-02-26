@@ -8,54 +8,77 @@ import InputFecha from "./InputFecha";
 import InputSelectEmpleado from "./InputSelectEmpleado";
 
 function FormOrdenIsla() {
-  const [body, setBody] = useState(null);
-  const [radio, setRadio] = useState({
-    aceites: false,
-    manguerasBomba: false,
-    limpiaparabrisas: false,
-    mangueraAguaAire: false,
-    maseteros: false,
-    bombalimpia: false,
-    pisolimpio: false,
-    islalimpia: false,
-    franja: false,
-    contenedorAgua: false,
+  const [actualizador, setActualizador] = useState(false);
+  const [body, setBody] = useState({
+    evaluaciones: [
+      { idcumplimiento: 0, cumple: 1 },
+      { idcumplimiento: 1, cumple: 1 },
+      { idcumplimiento: 2, cumple: 1 },
+      { idcumplimiento: 3, cumple: 1 },
+      { idcumplimiento: 4, cumple: 1 },
+      { idcumplimiento: 5, cumple: 1 },
+      { idcumplimiento: 6, cumple: 1 },
+      { idcumplimiento: 7, cumple: 1 },
+      { idcumplimiento: 8, cumple: 1 },
+      { idcumplimiento: 9, cumple: 1 },
+    ],
   });
+
   const [bomba, setBomba] = useState(null);
   const [estacionS, setEstacionS] = useState(null);
-  const despachador = useGetData(`/empleado?departamento=1`);
+  const despachador = useGetData(`/empleado?departamento=1`, actualizador);
   const estacion = useGetData("/estaciones-servicio");
-  const turnos = useGetData(`/estaciones-servicio/turnos/${estacionS}`);
-  const bombas = useGetData(`/bomba/${bomba}`);
-  const [checkErroneo, setCheckErroneo] = useState(false);
+  const islas = useGetData(`/bomba/${bomba}`);
+  const pasos = useGetData("/ordenLimpieza/cumplimientos");
+  const [checkErroneo] = useState(false);
   const [modalSuccess, setModalSuccess] = useState(false);
   const [modalError, setModalError] = useState({ status: false, msg: "" });
   const [formPending, setFormPending] = useState(false);
-
-  const changeEstacion = (e) => {
-    setEstacionS(Number(e.target.value));
-    setBomba(Number(e.target.value));
-  };
 
   const closeModal = () => {
     setModalSuccess(false);
     setModalError({ status: false });
   };
 
-  const handle = (e) => setBody({ ...body, [e.target.name]: e.target.value });
+  const handle = (e) => {
+    setBody({ ...body, [e.target.name]: e.target.value });
+    setEstacionS(Number(e.target.value));
+    setBomba(Number(e.target.value));
+  };
+
+  const handleEv = (e) => {
+    let contenido = body.evaluaciones.filter(
+      (el) => el.idcumplimiento !== Number(e.target.name)
+    );
+    contenido.push({
+      idcumplimiento: Number(e.target.name),
+      cumple: Number(e.target.value),
+    });
+    setBody({ ...body, evaluaciones: contenido });
+  };
 
   const enviar = async (e) => {
     e.preventDefault();
     setFormPending(true);
+
+    console.log(body);
+
     try {
-      await Axios.post("/ordenLimpieza", { ...body, ...radio });
+      let res = await Axios.post("/ordenLimpieza", body);
+      console.log(res);
       setFormPending(false);
       setModalSuccess(true);
-      setBody(null);
+      setBody({
+        evaluaciones: body.evaluaciones.map((el) => ({
+          idcumplimiento: el.idcumplimiento,
+          cumple: 1,
+        })),
+      });
       setTimeout(() => {
         setModalSuccess(false);
       }, 800);
       e.target.reset();
+      setActualizador(!actualizador);
     } catch (err) {
       if (err.hasOwnProperty("response")) {
         setModalError({
@@ -68,18 +91,6 @@ function FormOrdenIsla() {
       setFormPending(false);
       e.target.reset();
     }
-    setRadio({
-      aceites: false,
-      manguerasBomba: false,
-      limpiaparabrisas: false,
-      mangueraAguaAire: false,
-      maseteros: false,
-      bombalimpia: false,
-      pisolimpio: false,
-      islalimpia: false,
-      franja: false,
-      contenedorAgua: false,
-    });
   };
   return (
     <div className="Container">
@@ -100,7 +111,7 @@ function FormOrdenIsla() {
               <InputSelectEmpleado
                 empleados={despachador.data.response}
                 reset={body}
-                name="idEmpleadoEvaluado"
+                name="idEmpleado"
                 handle={handle}
               />
             )}
@@ -110,9 +121,9 @@ function FormOrdenIsla() {
           <div className="p-2" style={{ flexGrow: 1 }}>
             <label className="form-label">Escoje la estacion de servicio</label>
             <select
-              name="estacionServicio"
+              name="idEstacionServicio"
               className="form-select"
-              onChange={changeEstacion}
+              onChange={handle}
               defaultValue={1}
               disabled={checkErroneo}
             >
@@ -138,125 +149,79 @@ function FormOrdenIsla() {
             </select>
           </div>
           <div className="pt-2" style={{ flexGrow: 1 }}>
-            <label className="form-label">Escoje la bomba</label>
+            <label className="form-label">Escoje la isla</label>
             <select
-              name="idbomba"
+              name="isla"
               className="form-select"
               onChange={handle}
               required
               disabled={checkErroneo}
             >
-              {!bombas.error && !bombas.isPending && (
-                <option value=""> -- Selecciona bomba -- </option>
+              {!islas.error && !islas.isPending && (
+                <option value=""> -- Seleccione Isla-- </option>
               )}
-              {!bombas.error &&
-                !bombas.isPending &&
-                bombas.data.response.map((el) => (
+              {!islas.error &&
+                !islas.isPending &&
+                islas.data.response.map((el) => (
                   <option value={el.idbomba} key={el.idbomba}>
                     {el.bomba}
                   </option>
                 ))}
             </select>
           </div>
-          <div className="p-2" style={{ flexGrow: 1 }}>
-            <label className="form-label">Turno</label>
-            <select
-              name="turno"
-              className="form-select"
-              defaultValue={1}
-              onChange={handle}
-              disabled={checkErroneo}
-            >
-              {!turnos.error && !turnos.isPending && (
-                <option value=""> -- Selecciona el turno -- </option>
-              )}
-              {!turnos.error &&
-                !turnos.isPending &&
-                turnos.data.response.map((el) => (
-                  <option key={el.idturno} value={el.turno}>
-                    {el.turno}
-                  </option>
-                ))}
-              {turnos.isPending && <option value="">Cargando turnos</option>}
-              {turnos.error && !turnos.isPending && <option value=""></option>}
-            </select>
-          </div>
         </div>
 
-        <div className="mb-2 text-success">Parte I. Elementos de la isla</div>
-        <div className="mb-2">
-          <table className="table">
-            <tbody>
-              <DivChecks
-                text="Eshibidor de aceite (Productos ordenados)"
-                state={[radio, setRadio]}
-                name="aceites"
-              />
-              <DivChecks
-                text="Contenedor limpiaparabrisas (sin roturas)"
-                state={[radio, setRadio]}
-                name="limpiaparabrisas"
-              />
-              <DivChecks
-                text="Mangueras de la bomba (enrolladas sin tocar el piso)"
-                state={[radio, setRadio]}
-                name="maguerasBomba"
-              />
-              <DivChecks
-                text="Mangueras de despachadora de agua y aire (enrollada sin tocar el piso)"
-                state={[radio, setRadio]}
-                name="manguerasAguaAire"
-              />
-              <DivChecks
-                text="Maseteros, solo aplica a isla 1 y 2 de GDL1 (sin basura)"
-                state={[radio, setRadio]}
-                name="maseteros"
-              />
-            </tbody>
-          </table>
-          <div className="mb-2 text-success">Parte II. Limpieza de la Isla</div>
-          <table className="table">
-            <tbody>
-              <DivChecks
-                text="Bomba limpia (sin lodo o polvo)"
-                state={[radio, setRadio]}
-                name="bombaLimpia"
-              />
-              <DivChecks
-                text="Piso limpio de la isla (sin lodo o polvo"
-                state={[radio, setRadio]}
-                name="pisoLimpio"
-              />
-              <DivChecks
-                text="Isla limpia (sin basura)"
-                state={[radio, setRadio]}
-                name="islaLimpia"
-              />
-              <DivChecks
-                text="Franja amarilla isla (sin lodo o polvo"
-                state={[radio, setRadio]}
-                name="franja"
-              />
-              <DivChecks
-                text="Contenedor de agua para limpiaparabrisas limpio (sin lodo o polvo)"
-                state={[radio, setRadio]}
-                name="contenedorAgua"
-              />
-            </tbody>
-          </table>
-          <div className="mb-3">
+        <div className="w-100 m-auto">
+          <div className="form-label">Evaluaciones</div>
+          <div className="d-flex flex-wrap justify-content-center">
+            {!pasos.error &&
+              !pasos.isPending &&
+              pasos.data.response.map((el) => (
+                <div
+                  className="mx-1 p-1 text-center border my-2 rounded"
+                  key={el.idoyl_cumplimiento}
+                >
+                  <label className="form-abel">{el.cumplimiento}</label>
+                  <div className="w-100 d-flex justify-content-evenly">
+                    <label className="form-label rounded border p-2 d-flex flex-column mx-1 text-success">
+                      Cumple
+                      <input
+                        type="radio"
+                        name={el.idoyl_cumplimiento}
+                        className="input-check-form"
+                        value={1}
+                        onChange={handleEv}
+                        defaultChecked
+                      />
+                    </label>
+                    <label className="form-label rounded border p-2 d-flex flex-column mx-1 text-danger">
+                      No cumple
+                      <input
+                        type="radio"
+                        name={el.idoyl_cumplimiento}
+                        className="input-check-form"
+                        value={0}
+                        onChange={handleEv}
+                      />
+                    </label>
+                  </div>
+                </div>
+              ))}
+          </div>
+
+          {/* <div className="mb-3">
             <label className="form-label text-success">
               Incidentes durante la evaluación
             </label>
             <textarea
-              type="text"
-              step="0.01"
+            type="text"
+            step="0.01"
               min="0.00"
               className="form-control"
               name="motivo"
               onChange={handle}
             />
-          </div>
+          </div> */}
         </div>
         <div className="d-flex justifi-content-center">
           <button type="submit" className="btn btn-primary m-auto d-block">
@@ -273,30 +238,5 @@ function FormOrdenIsla() {
     </div>
   );
 }
-
-const DivChecks = ({ text, state, name }) => {
-  const [radio, setRadio] = state;
-  return (
-    <tr>
-      <th>{text}</th>
-      <th
-        onClick={() => setRadio({ ...radio, [name]: true })}
-        className={
-          radio[name] ? "bg-success bg-opacity-75 text-center" : "text-center"
-        }
-      >
-        Cumple
-      </th>
-      <th
-        onClick={() => setRadio({ ...radio, [name]: false })}
-        className={
-          !radio[name] ? "bg-danger bg-opacity-75 text-center" : "text-center"
-        }
-      >
-        No cumple
-      </th>
-    </tr>
-  );
-};
 
 export default FormOrdenIsla;
