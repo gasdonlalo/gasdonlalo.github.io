@@ -8,15 +8,22 @@ import Bar from "../../../charts/Bar";
 import PdfV2 from "../../../pdf_generador/PdfV2";
 import HeaderComponents from "../../../../GUI/HeaderComponents";
 import IconComponents from "../../../assets/IconComponents";
+import Decimal from "decimal.js-light";
+import { Link } from "react-router-dom";
+import Scale from "../../../charts/Scale";
+import Loader from "../../../assets/Loader";
 
 const GraficaEvUnifome = () => {
   const date = new Date();
   const [year, setYear] = useState(date.getFullYear());
   const [month, setMonth] = useState(date.getMonth() + 1);
-  const [iddespachador, setIddespachador] = useState(null);
+  //const [iddespachador, setIddespachador] = useState(null);
 
-  const despachador = useGetData(`/empleado?departamento=1`);
+  //const despachador = useGetData(`/empleado?departamento=1`);
   const pasos = useGetData(`evaluacion-uniforme/get-pasos`);
+  const { data, isPending, dataError, error } = useGetData(
+    `evaluacion-uniforme/${year}/${month}`
+  );
 
   const handleYear = (e) => {
     setYear(e.target.value);
@@ -26,14 +33,14 @@ const GraficaEvUnifome = () => {
     setMonth(e.target.value);
   };
 
-  const changeDespachador = (e) => {
+  /* const changeDespachador = (e) => {
     setIddespachador(e.target.value);
-  };
+  }; */
 
   return (
     <div className="Main">
       <HeaderComponents
-        title="Evaluación de uniformes"
+        title="Evaluación de uniforme"
         urlBack="/despacho"
         textUrlback="Volver a despacho"
       >
@@ -60,16 +67,17 @@ const GraficaEvUnifome = () => {
           </div>
         </div>
       </HeaderComponents>
-      <div className="row w-75 mx-auto">
-        <div className="col-md-6 mb-3">
-          <label className="form-label">Selecciona el mes</label>
-          <InputChangeMes defaultMes={month} handle={handleMonth} />
-        </div>
-        <div className="col-md-6 mb-3">
-          <label className="form-label">Selecciona el año</label>
-          <InputChangeYear defaultYear={year} handle={handleYear} />
-        </div>
-        <div className="12">
+      <div className="container-fluid w-75 mt-3">
+        <div className="row">
+          <div className="col-md-6 mb-3">
+            <label className="form-label">Selecciona el mes</label>
+            <InputChangeMes defaultMes={month} handle={handleMonth} />
+          </div>
+          <div className="col-md-6 mb-3">
+            <label className="form-label">Selecciona el año</label>
+            <InputChangeYear defaultYear={year} handle={handleYear} />
+          </div>
+          {/* <div className="12">
           <label className="form-label">
             {despachador.isPending
               ? "Cargando despachadores"
@@ -85,9 +93,15 @@ const GraficaEvUnifome = () => {
               }}
             />
           )}
+        </div> */}
         </div>
       </div>
-      {!pasos.error && !pasos.isPending && (
+
+      {!isPending && !error && (
+        <TablaGral datos={data.response} year={year} month={month} />
+      )}
+      {isPending && <Loader />}
+      {/* {!pasos.error && !pasos.isPending && (
         <Success
           year={year}
           month={month}
@@ -95,15 +109,12 @@ const GraficaEvUnifome = () => {
           idempleado={iddespachador}
           iddespachador={iddespachador}
         />
-      )}
+      )} */}
     </div>
   );
 };
 
-const Success = ({ pasos, year, month, idempleado, iddespachador }) => {
-  const evUni = useGetData(
-    `evaluacion-uniforme/periodo-mensual/${year}/${month}/${idempleado || null}`
-  );
+/* const Success = ({ pasos, year, month, idempleado, iddespachador }) => {
   let dataBar = {};
 
   if (!evUni.error && !evUni.isPending) {
@@ -212,6 +223,87 @@ const Success = ({ pasos, year, month, idempleado, iddespachador }) => {
         />
       </div>
     </Fragment>
+  );
+}; */
+const TablaGral = ({ datos, year, month }) => {
+  const [evaluaciones, setEvaluaciones] = useState(datos);
+
+  const filterEmp = (e) => {
+    const exp = new RegExp(`${e.target.value}`, "gi");
+    const search = datos.filter((el) => {
+      const { nombre, apellido_paterno, apellido_materno } = el;
+      return exp.test(`${nombre} ${apellido_paterno} ${apellido_materno}`);
+    });
+    setEvaluaciones(search);
+  };
+
+  const dataBar = {
+    labels: evaluaciones.map((el) =>
+      format.formatTextoMayusPrimeraLetra(
+        `${el.nombre} ${el.apellido_paterno} ${el.apellido_materno} `
+      )
+    ),
+    datasets: [
+      {
+        data: evaluaciones.map((el) => new Decimal(el.promedio).toFixed(2)),
+        borderColor: "rgb(53, 162, 235)",
+        backgroundColor: "rgba(53, 162, 235, 0.5)",
+        label: "Puntos",
+      },
+    ],
+  };
+
+  return (
+    <div className="container-fluid w-75">
+      {/* Buscador */}
+      <div className="mb-3">
+        <div className="row">
+          <div className="offset-md-6 col-md-6">
+            <div className="d-flex gap-2">
+              <input
+                type="text"
+                className="form-control"
+                name="buscador"
+                id="buscador"
+                onChange={filterEmp}
+                placeholder="Buscar un empleado..."
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+      {/* Tabla */}
+      <div style={{ maxHeight: "50vh", overflowY: "scroll" }}>
+        <table className="table table-bordered text-center">
+          <thead>
+            <tr>
+              <th>Empleado</th>
+              <th className="w-25">
+                Promedio de mensual de evaluación de uniforme
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {evaluaciones.map((el) => {
+              return (
+                <tr>
+                  <td>
+                    <Link
+                      to={`${el.idempleado}/${year}/${month}`}
+                    >{`${el.nombre} ${el.apellido_paterno} ${el.apellido_materno} `}</Link>
+                  </td>
+                  <td>{new Decimal(el.promedio).toFixed(2)}</td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
+
+      <div className="m-auto">
+        <Scale data={dataBar} text="Promedios de evaluacion uniforme" />
+      </div>
+    </div>
   );
 };
 

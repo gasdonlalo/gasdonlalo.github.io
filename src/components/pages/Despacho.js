@@ -55,6 +55,11 @@ function Despacho() {
                 text="Salidas no conformes"
               />
             )}
+            <Card
+              url="orden-limpieza-isla"
+              icon="bi bi-check2-circle"
+              text="Orden y limpieza de isla"
+            />
           </div>
         </div>
         <div className="text-center m-auto">
@@ -109,6 +114,11 @@ function Despacho() {
                 text="Salidas no conformes"
               />
             )}
+            <Card
+              url="calificaciones"
+              icon="bi bi-clipboard-check-fill"
+              text="Calificaciones"
+            />
           </div>
         </div>
       </div>

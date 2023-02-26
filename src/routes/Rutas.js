@@ -21,6 +21,8 @@ import SalidaNoConforme from "../components/pages/salidaNoConforme/SalidaNoConfo
 import SNR from "../components/pages/salidaNoConforme/SalidasNoConformesReportes";
 import SNCP from "../components/pages/salidaNoConforme/SalidaNoConformePendiente";
 import SNCPET from "../components/pages/salidaNoConforme/PorEmpleadoTipo";
+import OrdenIsla from "../components/pages/despacho/OrdenIsla";
+
 //importacion de graficos despacho
 import GMF from "../components/pages/despacho/reporteria/GraficaMontofaltante";
 import MFT from "../components/pages/despacho/reporteria/HistorialFaltanteTiempo";
@@ -31,6 +33,7 @@ import GPD from "../components/pages/despacho/reporteria/GraficaPasoDes";
 import GRD from "../components/pages/despacho/reporteria/GraficaRecursosDes";
 import GMSN from "../components/pages/salidaNoConforme/SalidaNoConformeGraficaMensual";
 import GSNI from "../components/pages/salidaNoConforme/SalidaInconformidadesGrafica";
+import Calificaciones from "../components/pages/despacho/reporteria/Calificaciones";
 //importaciones recursos humanos
 import RecursosHumanos from "../components/pages/RecursosHumanos";
 import SolicitudesEmpleo from "../components/pages/RecursosHumanos/SolicitudesEmpleo";
@@ -81,6 +84,8 @@ import Inc from "../components/pages/salidaNoConforme/Incumplimientos";
 
 import { Dep } from "../components/Provider/Auth";
 import OctanosoRegistros from "../components/pages/RecursosHumanos/Reportes/OctanosoRegistros";
+//import OrdenIsla from "../components/pages/despacho/OrdenIsla";
+import EvalUniformeEmpleado from "../components/pages/despacho/reporteria/EvalUniformeEmpleado";
 
 function Rutas() {
   return (
@@ -115,6 +120,7 @@ function Rutas() {
             <Route path="montos-faltantes/historial" element={<MFT />} />
             ;
             <Route path="montos-faltantes/reporte" element={<GMF />} />;
+            <Route path="calificaciones" element={<Calificaciones />} />;
             <Route path="checklist" element={<ChecklistBomba />} />;
             <Route
               path="checklist/:year/:month/:idEmpleado"
@@ -123,7 +129,14 @@ function Rutas() {
             ;
             <Route path="checklist/reporte" element={<CCB />} />;
             <Route path="evaluacion-uniforme" element={<EvalUniforme />} />;
-            <Route path="evaluacion-uniforme/reporte" element={<GEU />} />;
+            <Route path="evaluacion-uniforme/reporte">
+              <Route index element={<GEU />} />
+              <Route
+                path=":id/:year/:month"
+                element={<EvalUniformeEmpleado />}
+              />
+            </Route>
+            ;
             <Route path="evaluacion-uniforme/historial" element={<DHEU />} />;
             <Route path="recoleccion-efectivo" element={<RecolEfect />} />;
             <Route path="recoleccion-efectivo/reporte" element={<DRE />} />;
@@ -135,6 +148,7 @@ function Rutas() {
             <Route path="recurso-despachador/reporte" element={<GRD />} />
             <Route path="recurso-despachador/historial" element={<DHRD />} />
             <Route path="*" element={<Notfound />} />
+            <Route path="orden-limpieza-isla" element={<OrdenIsla />} />
           </Route>
         )}
 

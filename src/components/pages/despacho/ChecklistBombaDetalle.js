@@ -9,14 +9,24 @@ import ModalError from "../../modals/ModalError";
 import { DeleteCB, EditCB } from "../../modals/EditCB";
 import gdl from "../../assets/img/GDL.png";
 import { Per } from "../../Provider/Auth";
+import { Datos } from "../../Provider/Checklist";
+import { useContext } from "react";
+import Grafica from "../../charts/Bar";
 
 const ChecklistBombaDetalle = () => {
+  const { year, month, idEmpleado, totalBuenas } = useParams();
+  const [datas] = useContext(Datos);
+
+  const datosFiltrados = Object.values(datas[0]).filter(
+    (el) => el.empleado.idempleado === Number(idEmpleado)
+  );
+
   const [mEdit, setMEdit] = useState({ status: false, id: null });
   const [mDel, setMDel] = useState({ status: true, id: null });
   const [modalSucces, setModalSucces] = useState(false);
   const [modalError, setModalError] = useState({ status: false, msg: "" });
   const [actualizador, setActualizador] = useState(false);
-  const { year, month, idEmpleado } = useParams();
+
   const { data, error, isPending } = useGetData(
     `/bomba-check/findCheck/${year}/${month}/${idEmpleado}`,
     actualizador
@@ -25,11 +35,12 @@ const ChecklistBombaDetalle = () => {
     setModalSucces(false);
     setModalError({ status: false, msg: "" });
   };
+  console.log(totalBuenas);
 
   return (
     <div className="Main">
       <HeaderComponents
-        title="Reporte Checklist de Bomba"
+        title="Detalles Checklist de Bomba"
         urlBack="/despacho/checklist/reporte"
         textUrlback="Volver a reportes"
       ></HeaderComponents>
@@ -39,7 +50,12 @@ const ChecklistBombaDetalle = () => {
         </div>
       )}
       {!isPending && !error && (
-        <Success data={data} setMDel={setMDel} setMEdit={setMEdit} />
+        <Success
+          data={data}
+          setMDel={setMDel}
+          setMEdit={setMEdit}
+          datosGrafica={datosFiltrados}
+        />
       )}
       {!isPending && error && (
         <div>
@@ -84,116 +100,151 @@ const ChecklistBombaDetalle = () => {
   );
 };
 
-const Success = ({ data, setMDel, setMEdit }) => {
+const Success = ({ data, setMDel, setMEdit, datosGrafica }) => {
+  console.log(datosGrafica);
+  const dataBar = {
+    labels: datosGrafica[0].fechas.map((el) => el.fecha),
+    dataset: [
+      {
+        data: datosGrafica[0].fechas.map((el) =>
+          el.cumple === 1 ? 1 : el.cumple === 0 ? 0 : 0
+        ),
+        label: "Correctos",
+      },
+    ],
+  };
+
   return (
     <div>
-      <div className="m-auto" style={{ width: "min-content" }}>
-        <p className="text-nowrap">
-          <span className="fw-bold">Empleado: </span>
-          <span className="fw-semibold">
-            {format.formatTextoMayusPrimeraLetra(data.response.empleado.nombre)}{" "}
-            {format.formatTextoMayusPrimeraLetra(
-              data.response.empleado.apellido_paterno
-            )}{" "}
-            {format.formatTextoMayusPrimeraLetra(
-              data.response.empleado.apellido_materno
-            )}
-          </span>
-        </p>
-      </div>
+      <h4 className="text-center">
+        <b>Empleado: </b>
 
-      {
-        <table className="m-auto">
-          <thead>
-            <tr>
-              <th className="border px-2 text-center">Fecha</th>
-              <th className="border px-2 text-center">Estación servicio</th>
-              <th className="border px-2 text-center">Turno</th>
-              <th className="border px-2 text-center">Bomba</th>
-              <th className="border px-2 text-center">Isla limpia</th>
-              <th className="border px-2 text-center">Aceites completos</th>
+        {format.formatTextoMayusPrimeraLetra(
+          `${data.response.empleado.nombre} ${data.response.empleado.apellido_paterno} ${data.response.empleado.apellido_materno}`
+        )}
+      </h4>
+
+      <table className="m-auto">
+        <thead>
+          <tr>
+            <th className="border px-2 text-center">Fecha</th>
+            <th className="border px-2 text-center">Estación servicio</th>
+            <th className="border px-2 text-center">Turno</th>
+            <th className="border px-2 text-center">Bomba</th>
+            <th className="border px-2 text-center">Isla limpia</th>
+            <th className="border px-2 text-center">Aceites completos</th>
+            <th className="border px-2 text-center">
+              Empleado empleado entrante
+            </th>
+            <th className="border px-2 text-center">Empleado saliente</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          {data.response.data.map((el) => (
+            <tr key={el.idchecklist_bomba}>
+              <td className="border text-center px-2">
+                {format.formatFechaComplete(el.fecha)}
+              </td>
+              <td className="border text-center px-2">
+                {el.estacion_servicio ? (
+                  <span className="text-success fw-semibold">Cumple</span>
+                ) : (
+                  <span className="text-danger fw-semibold">No cumple</span>
+                )}
+              </td>
+              <td className="border text-center px-2">
+                {el.turno ? (
+                  <span className="text-success fw-semibold">Cumple</span>
+                ) : (
+                  <span className="text-danger fw-semibold">No cumple</span>
+                )}
+              </td>
+              <td className="border text-center px-2">
+                {el.bomba ? (
+                  <span className="text-success fw-semibold">Cumple</span>
+                ) : (
+                  <span className="text-danger fw-semibold">No cumple</span>
+                )}
+              </td>
+              <td className="border text-center px-2">
+                {el.isla_limpia ? (
+                  <span className="text-success fw-semibold">Cumple</span>
+                ) : (
+                  <span className="text-danger fw-semibold">No cumple</span>
+                )}
+              </td>
+              <td className="border text-center px-2">
+                {el.aceites_completos ? (
+                  <span className="text-success fw-semibold">Cumple</span>
+                ) : (
+                  <span className="text-danger fw-semibold">No cumple</span>
+                )}
+              </td>
+              <td className="border text-center px-2">
+                {el.empleado_entrante ? "Sí" : "No"}
+              </td>
+              <td className="border text-center px-2">
+                {format.formatTextoMayusPrimeraLetra(
+                  `${el.empSaliente.nombre} ${el.empSaliente.apellido_paterno} ${el.empSaliente.apellido_materno}`
+                )}
+              </td>
+
+              {Per(7) && (
+                <td
+                  className="btn"
+                  onClick={() =>
+                    setMDel({ status: true, id: el.idchecklist_bomba })
+                  }
+                >
+                  <li
+                    role="button"
+                    className="fa-solid fa-trash text-danger"
+                    title="Eliminar"
+                  ></li>
+                </td>
+              )}
+              {Per(6) && (
+                <td
+                  className="btn"
+                  onClick={() => {
+                    setMEdit({
+                      status: true,
+                      id: el.idchecklist_bomba,
+                    });
+                  }}
+                >
+                  <li
+                    role="button"
+                    className="fa-solid fa-pen text-warning"
+                    title="Actualizar"
+                  ></li>
+                </td>
+              )}
             </tr>
-          </thead>
-          {
-            <tbody>
-              {data.response.data.map((el) => (
-                <tr key={el.idchecklist_bomba}>
-                  <td className="border text-center px-2">
-                    {format.formatFechaComplete(el.fecha)}
-                  </td>
-                  <td className="border text-center px-2">
-                    {el.estacion_servicio ? (
-                      <span className="text-success fw-semibold">Cumple</span>
-                    ) : (
-                      <span className="text-danger fw-semibold">No cumple</span>
-                    )}
-                  </td>
-                  <td className="border text-center px-2">
-                    {el.turno ? (
-                      <span className="text-success fw-semibold">Cumple</span>
-                    ) : (
-                      <span className="text-danger fw-semibold">No cumple</span>
-                    )}
-                  </td>
-                  <td className="border text-center px-2">
-                    {el.bomba ? (
-                      <span className="text-success fw-semibold">Cumple</span>
-                    ) : (
-                      <span className="text-danger fw-semibold">No cumple</span>
-                    )}
-                  </td>
-                  <td className="border text-center px-2">
-                    {el.isla_limpia ? (
-                      <span className="text-success fw-semibold">Cumple</span>
-                    ) : (
-                      <span className="text-danger fw-semibold">No cumple</span>
-                    )}
-                  </td>
-                  <td className="border text-center px-2">
-                    {el.aceites_completos ? (
-                      <span className="text-success fw-semibold">Cumple</span>
-                    ) : (
-                      <span className="text-danger fw-semibold">No cumple</span>
-                    )}
-                  </td>
-
-                  {Per(7) && (
-                    <td
-                      className="btn"
-                      onClick={() =>
-                        setMDel({ status: true, id: el.idchecklist_bomba })
-                      }
-                    >
-                      <li
-                        role="button"
-                        className="fa-solid fa-trash text-danger"
-                        title="Eliminar"
-                      ></li>
-                    </td>
-                  )}
-                  {Per(6) && (
-                    <td
-                      className="btn"
-                      onClick={() => {
-                        setMEdit({
-                          status: true,
-                          id: el.idchecklist_bomba,
-                        });
-                      }}
-                    >
-                      <li
-                        role="button"
-                        className="fa-solid fa-pen text-warning"
-                        title="Actualizar"
-                      ></li>
-                    </td>
-                  )}
-                </tr>
-              ))}
-            </tbody>
-          }
-        </table>
-      }
+          ))}
+        </tbody>
+      </table>
+      <div className="m-auto">
+        <Grafica
+          text={`Checklists correctos de ${format.formatTextoMayusPrimeraLetra(
+            `${data.response.empleado.nombre} ${data.response.empleado.apellido_paterno} ${data.response.empleado.apellido_materno}`
+          )} `}
+          datos={dataBar}
+          optionsCustom={{
+            scales: {
+              y: {
+                title: { display: true, text: "Cumple" },
+                ticks: {
+                  stepSize: 1,
+                  callback: (value) => (value === 1 ? "Cumple" : "No cumple"),
+                },
+              },
+              x: { title: { display: true, text: "Fecha" } },
+            },
+          }}
+        />
+      </div>
     </div>
   );
 };
