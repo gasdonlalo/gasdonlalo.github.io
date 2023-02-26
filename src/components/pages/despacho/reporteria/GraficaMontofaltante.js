@@ -72,7 +72,7 @@ function GraficaMontofaltante() {
                 <Bar
                   datos={dataBar}
                   text="GRÁFICA SEMANAL DE MONTO FALTANTE DESPACHADOR"
-                  customObj={{
+                  optionsCustom={{
                     scales: {
                       y: {
                         ticks: {

@@ -36,6 +36,7 @@ const HistorialPasoDes = () => {
       console.log(err);
     }
   };
+  console.log(data);
 
   return (
     <div className="Main">

@@ -11,7 +11,7 @@ function FormChecklistNuevo() {
   const [formPending, setFormPending] = useState(false);
   const [modalSuccess, setModalSuccess] = useState(false);
   const [modalError, setModalError] = useState({ status: false, msg: "" });
-  const despachador = useGetData(`/empleado?departamento=1`);
+  const despachador = useGetData(`/empleado`);
   const [body, setBody] = useState(null);
   const [radio, setRadio] = useState({
     islaLimpia: false,
@@ -62,10 +62,10 @@ function FormChecklistNuevo() {
   };
 
   return (
-    <div className="container">
-      <form className="m-auto shadow rounded p-2 mt-3 w-75" onSubmit={enviar}>
-        <div className="d-flex flex-wrap justify-content-around mb-3 w-100">
-          <div className="p-2" style={{ flexGrow: 1 }}>
+    <div className="container-lg">
+      <form className="m-auto shadow rounded p-2 mt-3 " onSubmit={enviar}>
+        <div className="row p-2">
+          <div className="col-6">
             <label className="form-label">Fecha</label>
             <InputFecha
               data={body}
@@ -74,8 +74,8 @@ function FormChecklistNuevo() {
               name="fecha"
             />
           </div>
-          <div className="p-2" style={{ flexGrow: 1 }}>
-            <label className="form-label">Empleado</label>
+          <div className="col-6">
+            <label className="form-label">Empleado entrante</label>
             {!despachador.error && !despachador.isPending && (
               <InputSelectEmpleado
                 empleados={despachador.data.response}
@@ -116,6 +116,7 @@ function FormChecklistNuevo() {
           </button>
         </div>
       </form>
+
       <ModalSuccess show={modalSuccess} close={closeModal} />
       <ModalError
         show={modalError.status}

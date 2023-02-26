@@ -57,7 +57,6 @@ const FormRecursosDesp = () => {
     e.preventDefault();
     console.log(body);
     setFormPending(true);
-
     try {
       const res = await Axios.post("/lista-recurso-despachador", body);
       console.log(res);
@@ -67,6 +66,7 @@ const FormRecursosDesp = () => {
       }, 800);
       setFormPending(false);
       e.target.reset();
+      setBody({ recursos: [] });
     } catch (err) {
       console.log(err);
       if (err.hasOwnProperty("response")) {
@@ -79,6 +79,7 @@ const FormRecursosDesp = () => {
       }
       setFormPending(false);
       e.target.reset();
+      setBody({ recursos: [] });
     }
     setBody({ recursos: [] });
   };

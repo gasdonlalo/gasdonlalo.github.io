@@ -83,6 +83,8 @@ import Inc from "../components/pages/salidaNoConforme/Incumplimientos";
 
 import { Dep } from "../components/Provider/Auth";
 import OctanosoRegistros from "../components/pages/RecursosHumanos/Reportes/OctanosoRegistros";
+//import OrdenIsla from "../components/pages/despacho/OrdenIsla";
+import EvalUniformeEmpleado from "../components/pages/despacho/reporteria/EvalUniformeEmpleado";
 
 function Rutas() {
   return (
@@ -125,7 +127,14 @@ function Rutas() {
             ;
             <Route path="checklist/reporte" element={<CCB />} />;
             <Route path="evaluacion-uniforme" element={<EvalUniforme />} />;
-            <Route path="evaluacion-uniforme/reporte" element={<GEU />} />;
+            <Route path="evaluacion-uniforme/reporte">
+              <Route index element={<GEU />} />
+              <Route
+                path=":id/:year/:month"
+                element={<EvalUniformeEmpleado />}
+              />
+            </Route>
+            ;
             <Route path="evaluacion-uniforme/historial" element={<DHEU />} />;
             <Route path="recoleccion-efectivo" element={<RecolEfect />} />;
             <Route path="recoleccion-efectivo/reporte" element={<DRE />} />;
