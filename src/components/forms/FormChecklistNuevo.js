@@ -21,6 +21,12 @@ function FormChecklistNuevo() {
     estacionServicio: false,
     empleadoEntrante: false,
   });
+  let despachadoresEmp;
+  if (!despachador.isPending && !despachador.error) {
+    despachadoresEmp = despachador.data.response.filter(
+      (el) => el.iddepartamento === 1
+    );
+  }
 
   const handle = (e) => setBody({ ...body, [e.target.name]: e.target.value });
 
@@ -89,7 +95,7 @@ function FormChecklistNuevo() {
             </label>
             {!despachador.error && !despachador.isPending && (
               <InputSelectEmpleado
-                empleados={despachador.data.response}
+                empleados={despachadoresEmp}
                 reset={body}
                 name="idEmpleado"
                 handle={handle}
