@@ -34,7 +34,7 @@ function SNCPendienteCaptura({
     });
     handleClose();
   };
-
+  console.log(data);
   const descartar = async (id) => {
     try {
       await Axios.delete(`/sncacumuladas/eliminar/${id}`);

@@ -55,11 +55,13 @@ function Despacho() {
                 text="Salidas no conformes"
               />
             )}
-            <Card
-              url="orden-limpieza-isla"
-              icon="bi bi-check2-circle"
-              text="Orden y limpieza de isla"
-            />
+            {Per(25) && (
+              <Card
+                url="orden-limpieza-isla"
+                icon="bi bi-check2-circle"
+                text="Orden y limpieza de isla"
+              />
+            )}
           </div>
         </div>
         <div className="text-center m-auto">

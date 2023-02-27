@@ -1,7 +1,7 @@
 import { useState } from "react";
 import useGetData from "../../hooks/useGetData";
 import format from "../assets/format";
-import { OverlayTrigger, Tooltip } from "react-bootstrap";
+//import { OverlayTrigger, Tooltip } from "react-bootstrap";
 import ModalAltaBaja from "../modals/ModalAltaBaja";
 import ModalConfirmacion from "../modals/ModalConfirmacion";
 import ModalSuccess from "../modals/ModalSuccess";
@@ -171,6 +171,7 @@ const TablaEmpleados = ({ id }) => {
 };
 
 const Success = ({ solicitud, estatus, action, mostrar }) => {
+  console.log(solicitud);
   const [solicitudes, setSolicitudes] = useState(solicitud);
 
   const filterEmp = (e) => {
@@ -193,11 +194,11 @@ const Success = ({ solicitud, estatus, action, mostrar }) => {
   ];
   let id = Number(estatus);
 
-  const practicantes = solicitud.filter((el) => el.estatus === "Practica");
+  //const practicantes = solicitud.filter((el) => el.estatus === "Practica");
 
   return (
     <div>
-      {estatus === "6" && practicantes.length > 0 && (
+      {/* {estatus === "6" && practicantes.length > 0 && (
         <div>
           <OverlayTrigger
             key="right"
@@ -215,7 +216,7 @@ const Success = ({ solicitud, estatus, action, mostrar }) => {
             </a>
           </OverlayTrigger>
         </div>
-      )}
+      )} */}
       {/* Buscador */}
       <div className="pt-0">
         <div className="row">

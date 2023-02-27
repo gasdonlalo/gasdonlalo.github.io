@@ -232,7 +232,7 @@ const SalidaNoConforme = () => {
               <div className="mb">
                 <label className="form-label">Acciones/correcciones</label>
                 <textarea
-                  disabled={!Per(23) || deshabilitar.correciones}
+                  disabled={!Per(20) || deshabilitar.correciones}
                   name="accionesCorregir"
                   className="form-control"
                   placeholder="..."
@@ -242,7 +242,7 @@ const SalidaNoConforme = () => {
               <div className="mb">
                 <label>Concesiones</label>
                 <textarea
-                  disabled={!Per(23) || deshabilitar.conseciones}
+                  disabled={!Per(20) || deshabilitar.conseciones}
                   name="concesiones"
                   className="form-control"
                   placeholder="..."
