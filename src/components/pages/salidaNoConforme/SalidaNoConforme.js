@@ -24,6 +24,10 @@ const SalidaNoConforme = () => {
   const [defaultFecha, setDefaultFecha] = useState(null);
   const [showPendientesCaptura, setShowPendientesCaptura] = useState(false);
   const [actualizar, setActualizar] = useState(false);
+  const [deshabilitar, setDeshabilitar] = useState({
+    conseciones: false,
+    correciones: false,
+  });
   //recupera la id del formulario enviado para generar el pdf
   const [idsalida, setIdsalida] = useState(null);
 
@@ -53,6 +57,10 @@ const SalidaNoConforme = () => {
     setDefaultFecha(null);
     setDefaultEmpleado(null);
     setDatos(null);
+    setDeshabilitar({
+      conseciones: false,
+      correciones: false,
+    });
   };
   const enviar = (e) => {
     e.preventDefault();
@@ -84,8 +92,20 @@ const SalidaNoConforme = () => {
   const handleAcciones = (e) => {
     if (e.target.value.length === 0) {
       setDatos({ ...datos, accionesCorregir: null });
+      setDeshabilitar({ ...deshabilitar, conseciones: false });
     } else {
+      setDeshabilitar({ ...deshabilitar, conseciones: true });
       setDatos({ ...datos, accionesCorregir: e.target.value });
+    }
+  };
+
+  const handleConseciones = (e) => {
+    if (e.target.value.length === 0) {
+      setDeshabilitar({ ...deshabilitar, correciones: false });
+      setDatos({ ...datos, [e.target.name]: null });
+    } else {
+      setDeshabilitar({ ...deshabilitar, correciones: true });
+      setDatos({ ...datos, [e.target.name]: e.target.value });
     }
   };
   const changeSelectIncumplimiento = (e) => {
@@ -183,6 +203,7 @@ const SalidaNoConforme = () => {
         </div>
       </HeaderComponents>
       <div className="d-flex flex-md-row flex-column  ">
+        {/* Formulario */}
         <div className="me-3 w-50 ">
           <form onSubmit={enviar} className="shadow p-2 ms-2 my-3">
             <div className="row">
@@ -211,7 +232,7 @@ const SalidaNoConforme = () => {
               <div className="mb">
                 <label className="form-label">Acciones/correcciones</label>
                 <textarea
-                  disabled={!Per(23)}
+                  disabled={!Per(23) || deshabilitar.correciones}
                   name="accionesCorregir"
                   className="form-control"
                   placeholder="..."
@@ -221,11 +242,11 @@ const SalidaNoConforme = () => {
               <div className="mb">
                 <label>Concesiones</label>
                 <textarea
-                  disabled={!Per(23)}
+                  disabled={!Per(23) || deshabilitar.conseciones}
                   name="concesiones"
                   className="form-control"
                   placeholder="..."
-                  onChange={handle}
+                  onChange={handleConseciones}
                 />
               </div>
               <div className="row">
@@ -295,6 +316,7 @@ const SalidaNoConforme = () => {
             </div>
           </form>
         </div>
+        {/* Visor pdf */}
         {!idsalida ? null : <VerSNC idInsersion={idsalida} />}
       </div>
     </div>
