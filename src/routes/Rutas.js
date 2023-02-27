@@ -32,7 +32,9 @@ import DRE from "../components/pages/despacho/reporteria/GraficaRecolEfectivo";
 import GPD from "../components/pages/despacho/reporteria/GraficaPasoDes";
 import GRD from "../components/pages/despacho/reporteria/GraficaRecursosDes";
 import GMSN from "../components/pages/salidaNoConforme/SalidaNoConformeGraficaMensual";
+import GOYL from "../components/pages/despacho/reporteria/GraficaOyL";
 import GSNI from "../components/pages/salidaNoConforme/SalidaInconformidadesGrafica";
+import GOYLE from "../components/pages/despacho/reporteria/GraficaOyLEmpleado";
 //importaciones recursos humanos
 import RecursosHumanos from "../components/pages/RecursosHumanos";
 import SolicitudesEmpleo from "../components/pages/RecursosHumanos/SolicitudesEmpleo";
@@ -147,6 +149,11 @@ function Rutas() {
             <Route path="recurso-despachador/historial" element={<DHRD />} />
             <Route path="*" element={<Notfound />} />
             <Route path="orden-limpieza-isla" element={<OrdenIsla />} />
+            <Route path="orden-limpieza-isla/reporte" element={<GOYL />} />
+            <Route
+              path="orden-limpieza-isla/reporte/:idEmpleado"
+              element={<GOYLE />}
+            />
           </Route>
         )}
 
