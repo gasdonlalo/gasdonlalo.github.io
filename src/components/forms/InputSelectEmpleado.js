@@ -27,6 +27,7 @@ const InputSelectEmpleado = ({
   name,
   reset,
   defaultData,
+  disabled,
 }) => {
   const [text, setText] = useState(defaultData.nombre || "Selecciona empleado");
   const [id, setId] = useState(null);
@@ -78,6 +79,7 @@ const InputSelectEmpleado = ({
             key={el.idempleado}
             eventKey={el.idempleado}
             active={Number(el.idempleado) === Number(id || defaultData.id)}
+            disabled={disabled}
           >
             <option value={el.idempleado}>
               {`${el.nombre} ${el.apellido_paterno} ${el.apellido_materno}`}
@@ -94,5 +96,6 @@ InputSelectEmpleado.defaultProps = {
     nombre: null,
     id: null,
   },
+  disabled: false,
 };
 export default InputSelectEmpleado;

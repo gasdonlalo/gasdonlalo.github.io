@@ -1,10 +1,8 @@
-import { Fragment, useState } from "react";
+import { useState } from "react";
 import useGetData from "../../../../hooks/useGetData";
 import InputChangeMes from "../../../forms/InputChangeMes";
 import InputChangeYear from "../../../forms/InputChangeYear";
-import InputSelectEmpleado from "../../../forms/InputSelectEmpleado";
 import format from "../../../assets/format";
-import Bar from "../../../charts/Bar";
 import PdfV2 from "../../../pdf_generador/PdfV2";
 import HeaderComponents from "../../../../GUI/HeaderComponents";
 import IconComponents from "../../../assets/IconComponents";
@@ -20,8 +18,8 @@ const GraficaEvUnifome = () => {
   //const [iddespachador, setIddespachador] = useState(null);
 
   //const despachador = useGetData(`/empleado?departamento=1`);
-  const pasos = useGetData(`evaluacion-uniforme/get-pasos`);
-  const { data, isPending, dataError, error } = useGetData(
+  //const pasos = useGetData(`evaluacion-uniforme/get-pasos`);
+  const { data, isPending, error } = useGetData(
     `evaluacion-uniforme/${year}/${month}`
   );
 
@@ -244,7 +242,7 @@ const TablaGral = ({ datos, year, month }) => {
   };
 
   return (
-    <div className="container-fluid w-75">
+    <div className="container-fluid">
       {/* Buscador */}
       <div className="mb-3">
         <div className="row">
@@ -263,8 +261,11 @@ const TablaGral = ({ datos, year, month }) => {
         </div>
       </div>
       {/* Tabla */}
-      <div style={{ maxHeight: "50vh", overflowY: "scroll" }}>
-        <table className="table table-bordered text-center">
+      <div
+        style={{ maxHeight: "50vh", overflowY: "scroll" }}
+        className="w-75 m-auto"
+      >
+        <table className="table table-bordered text-center" id="tabla">
           <thead>
             <tr>
               <th>Empleado</th>
@@ -290,9 +291,19 @@ const TablaGral = ({ datos, year, month }) => {
         </table>
       </div>
 
-      <div className="m-auto">
-        <Scale data={dataBar} text="Promedios de evaluacion uniforme" />
+      <div className="m-auto" id="render">
+        <Scale
+          data={dataBar}
+          text="Promedios de evaluacion uniforme"
+          optionsCustom={{
+            scales: {
+              y: { min: 0, title: { display: true, text: "Promedio" } },
+              x: { title: { display: true, text: "Empleados" } },
+            },
+          }}
+        />
       </div>
+      <PdfV2 tabla="tabla" month={month} year={year} />
     </div>
   );
 };

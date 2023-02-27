@@ -27,7 +27,12 @@ const HistorialPasoDes = () => {
   const buscarDatos = async () => {
     try {
       const res = await Axios.post("/pasos-despachar/buscar", body);
-      setData(res.data.response);
+      setData(res.data.response.length > 0 ? res.data.response : null);
+      if (res.data.response.length === 0)
+        setModalError({
+          status: true,
+          msg: "No se encontraron datos en el intervalo de tiempo",
+        });
     } catch (err) {
       setModalError({
         status: true,

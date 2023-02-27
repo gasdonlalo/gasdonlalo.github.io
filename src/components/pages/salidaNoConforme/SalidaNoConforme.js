@@ -28,6 +28,7 @@ const SalidaNoConforme = () => {
   const [idsalida, setIdsalida] = useState(null);
 
   const [show, setShow] = useState(false);
+  const date = new Date();
 
   const [datos, setDatos] = useState({ accionesCorregir: null });
   const { departamento } = useParams();
@@ -35,6 +36,18 @@ const SalidaNoConforme = () => {
   let url = `/empleado`;
   if (departamento === "despacho") url += "?departamento=1";
   const empleadoS = useGetData(url);
+  const pendientesCaptura = useGetData(
+    "/salida-no-conforme/pendientes",
+    actualizar
+  );
+  const porResolver = useGetData(
+    `salida-no-conforme/pendientes/${date.getFullYear()}/${
+      date.getMonth() + 1
+    }`,
+    actualizar
+  );
+  console.log(porResolver);
+
   const LimpiarDefault = () => {
     setDefaultIncumpliento(null);
     setDefaultFecha(null);
@@ -102,6 +115,7 @@ const SalidaNoConforme = () => {
         handleFecha={setDefaultFecha}
         setDatos={setDatos}
         actualizar={actualizar}
+        setActualizar={setActualizar}
       />
       <HeaderComponents
         title="Captura de salidas no conformes"
@@ -125,18 +139,46 @@ const SalidaNoConforme = () => {
               icon="clock text-warning"
               text="Por resolver"
               url="pendientes"
+              position="position-relative"
+              span={
+                (!porResolver.error && !porResolver.isPending && (
+                  <span
+                    className=" position-absolute start-100 translate-middle badge rounded-pill bg-danger"
+                    style={{ fontSize: "10px" }}
+                  >
+                    {porResolver.data.response.length}
+                  </span>
+                )) ||
+                (porResolver.error && !porResolver.isPending && (
+                  <span
+                    className=" position-absolute start-100 translate-middle badge rounded-pill bg-danger"
+                    style={{ fontSize: "10px" }}
+                  >
+                    0
+                  </span>
+                ))
+              }
             />
           )}
           <div
-            className="rounded btn-select m-1 d-flex flex-column align-items-center mt-0 pt-0"
+            className="rounded p-2 btn-select m-1 d-flex flex-column align-items-center mt-0 pt-0"
             style={{ minWidth: "100px", maxWidth: "150px" }}
             onClick={mostrarPendientesCaptura}
           >
             <i
-              className="fa-solid fa-file-pen text-info"
+              className="fa-solid fa-file-pen text-info position-relative"
               style={{ fontSize: "40px" }}
-            />
-            <p className="p-0 m-0 text-nowrap">Pendientes de captura</p>
+            >
+              {!pendientesCaptura.error && !pendientesCaptura.isPending && (
+                <span
+                  className=" position-absolute start-100 translate-middle badge rounded-pill bg-danger"
+                  style={{ fontSize: "10px" }}
+                >
+                  {pendientesCaptura.data.response.length}
+                </span>
+              )}
+            </i>
+            <p className="p-0 m-0 text-nowrap">Por capturar </p>
           </div>
         </div>
       </HeaderComponents>

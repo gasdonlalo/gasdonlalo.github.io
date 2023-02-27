@@ -1,5 +1,6 @@
 import React from "react";
 import { Modal } from "react-bootstrap";
+import Axios from "../../Caxios/Axios";
 import useGetData from "../../hooks/useGetData";
 import ErrorHttp from "../assets/ErrorHttp";
 import format from "../assets/format";
@@ -12,6 +13,7 @@ function SNCPendienteCaptura({
   handleFecha,
   setDatos,
   actualizar,
+  setActualizar,
 }) {
   const { data, error, isPending } = useGetData(
     "/salida-no-conforme/pendientes",
@@ -32,6 +34,13 @@ function SNCPendienteCaptura({
     });
     handleClose();
   };
+
+  const descartar = async (id) => {
+    try {
+      await Axios.delete(`/sncacumuladas/eliminar/${id}`);
+      setActualizar(!actualizar);
+    } catch (err) {}
+  };
   return (
     <div>
       {!error && !isPending && (
@@ -40,13 +49,14 @@ function SNCPendienteCaptura({
           handleClose={handleClose}
           datos={data.response}
           handle={handle}
+          descartar={descartar}
         />
       )}
     </div>
   );
 }
 
-const Success = ({ show, handleClose, datos, handle }) => {
+const Success = ({ show, handleClose, datos, handle, descartar }) => {
   return (
     <Modal show={show} onHide={handleClose} backdrop="static" centered>
       <Modal.Header closeButton>
@@ -57,16 +67,15 @@ const Success = ({ show, handleClose, datos, handle }) => {
           <ErrorHttp msg="No hay registros" />
         ) : (
           datos.map((el) => {
-            return <Card el={el} handle={handle} />;
+            return <Card el={el} handle={handle} descartar={descartar} />;
           })
         )}
       </Modal.Body>
     </Modal>
   );
 };
-const Card = ({ el, handle }) => {
+const Card = ({ el, handle, descartar }) => {
   const empleado = useGetData(`/empleado/${el.idempleado}`);
-  console.log(empleado);
   return (
     <div>
       {!empleado.error && !empleado.isPending && (
@@ -84,6 +93,10 @@ const Card = ({ el, handle }) => {
               {format.formatFechaComplete(el.fecha)}
             </p>
             <p>
+              <span className="fw-bold">Descripcion: </span>
+              {el.descripcion}
+            </p>
+            <p>
               <span className="fw-bold">Empleado que incumple: </span>
               {format.formatTextoMayusPrimeraLetra(
                 `${empleado.data.response[0].nombre} ${empleado.data.response[0].apellido_paterno} ${empleado.data.response[0].apellido_materno}`
@@ -92,10 +105,18 @@ const Card = ({ el, handle }) => {
           </div>
           <div className="d-flex flex-column justify-content-center">
             <button
+              type="button"
               className="btn btn-primary mb-3 "
               onClick={() => handle(el, empleado.data.response[0])}
             >
               Capturar
+            </button>
+            <button
+              type="button"
+              className="btn btn-danger mb-3"
+              onClick={() => descartar(el.idsncacumuladas)}
+            >
+              Descartar
             </button>
           </div>
         </div>

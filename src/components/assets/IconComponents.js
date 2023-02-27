@@ -1,7 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
-const IconComponents = ({ url, text, icon, sizeIcon }) => {
+const IconComponents = ({ url, text, icon, sizeIcon, span, position }) => {
   const navigate = useNavigate();
   return (
     <div
@@ -9,7 +9,12 @@ const IconComponents = ({ url, text, icon, sizeIcon }) => {
       onClick={() => navigate(url)}
       style={{ minWidth: "100px", maxWidth: "150px" }}
     >
-      <i className={`fa-regular fa-${icon}`} style={{ fontSize: sizeIcon }}></i>
+      <i
+        className={`fa-regular fa-${icon} ${position}`}
+        style={{ fontSize: sizeIcon }}
+      >
+        {span}
+      </i>
       <p className="p-0 m-0 text-nowrap">{text}</p>
     </div>
   );
