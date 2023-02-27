@@ -114,7 +114,7 @@ function FormRetardos({
           <div className="col-4">
             <label className="form-label">Tipo falta</label>
             {!turnos.error && !turnos.isPending && (
-              <SelectTipoFalta handle={handle} j />
+              <SelectTipoFalta handle={handle} />
             )}
           </div>
         </div>
@@ -187,7 +187,7 @@ const SelectTipoFalta = ({ handle }) => {
         !isPending &&
         data.response.map((el) => (
           <option
-            value={el.idtipo_falta}
+            value={Number(el.idtipo_falta)}
             key={el.idtipo_falta}
             title={el.descripcion}
           >

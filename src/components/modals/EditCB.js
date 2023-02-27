@@ -5,6 +5,7 @@ import Axios from "../../Caxios/Axios";
 import InputFecha from "../forms/InputFecha";
 import Loader from "../assets/Loader";
 import ModalCustomer from "./ModalCustomer";
+import InputSelectEmpleado from "../forms/InputSelectEmpleado";
 
 export const EditCB = ({
   stateEdit, //Estado para mostras el modald
@@ -21,9 +22,14 @@ export const EditCB = ({
   const { data, error, isPending } = useGetData(
     `/com/findone?table=checklist_bomba&id=${show.id}`
   );
-
+  const empleado = useGetData("/empleado");
+  console.log(empleado);
+  console.log(data);
   const handle = (e) => {
     setBody({ ...body, [e.target.name]: e.target.checked ? true : false });
+  };
+  const handleEmp = (e) => {
+    setBody({ ...body, [e.target.name]: Number(e.target.value) });
   };
 
   const act = async (e) => {
@@ -37,10 +43,13 @@ export const EditCB = ({
       turno: data.response[0].turno,
       idEmpleado: data.response[0].idempleado,
       estacionServicio: data.response[0].estacion_servicio,
+      idEmpleadoSaliente: data.response[0].idempleado_saliente,
+      empleadoEntrante: data.response[0].empleado_entrante,
     };
+    console.log({ ...datos, ...body });
     try {
       e.target.reset();
-      // setShow({ status: false, id: null });
+      setShow({ status: false, id: null });
       setModalSuccess(true);
       await Axios.put(`/bomba-check/${show.id}`, {
         ...datos,
@@ -68,7 +77,7 @@ export const EditCB = ({
     >
       {!error && !isPending ? (
         <form onSubmit={act}>
-          <div className="w-50 mx-auto">
+          <div className="mx-auto">
             <div className="mb-3">
               <label className="form-label mb-0">Fecha</label>
               <InputFecha
@@ -77,7 +86,7 @@ export const EditCB = ({
                 data={body}
                 setData={setBody}
                 defaultValue={format.formatFechaDB(data.response[0].fecha)}
-              ></InputFecha>
+              />
             </div>
             <div className="mb-3">
               <div className="form-check form-switch">
@@ -147,6 +156,51 @@ export const EditCB = ({
                     defaultChecked={data.response[0].aceites_completos}
                   />
                 </label>
+              </div>
+            </div>
+            <div className="mb-3">
+              <div className="form-check form-switch">
+                <label className="form-label mb-0">
+                  Empleado entrante
+                  <input
+                    type="checkbox"
+                    className="form-check-input"
+                    name="empleadoEntrante"
+                    onChange={handle}
+                    defaultChecked={data.response[0].empleado_entrante}
+                  />
+                </label>
+              </div>
+            </div>
+            <div className="mb-3">
+              <div>
+                <label className="form-label mb-0">Empleado entrante</label>
+                {!empleado.error && !empleado.isPending && (
+                  <InputSelectEmpleado
+                    empleados={empleado.data.response}
+                    name="idEmpleado"
+                    handle={handleEmp}
+                    disabled={true}
+                    defaultData={{
+                      nombre: show.nombreEntrante,
+                      id: data.response[0].idempleado,
+                    }}
+                  />
+                )}
+              </div>
+              <div>
+                <label className="form-label mb-0">Empleado saliente</label>
+                {!empleado.error && !empleado.isPending && (
+                  <InputSelectEmpleado
+                    empleados={empleado.data.response}
+                    name="idEmpleadoSaliente"
+                    handle={handleEmp}
+                    defaultData={{
+                      nombre: show.nombreSaliente,
+                      id: data.response[0].idempleado_saliente,
+                    }}
+                  />
+                )}
               </div>
             </div>
           </div>

@@ -80,10 +80,7 @@ const Success = ({ datos, month, year }) => {
   return (
     <div className="container-fluid">
       <div className="mt-3" style={{ overflowX: "scroll" }}>
-        <table
-          className="table table-bordered  border-dark shadow-sm"
-          id="tabla"
-        >
+        <table className="table table-bordered text-center  " id="tabla">
           <thead>
             <tr>
               <th>Despachador</th>
@@ -101,7 +98,9 @@ const Success = ({ datos, month, year }) => {
             {datos.map((el, i) => {
               return (
                 <tr key={i}>
-                  <td key={el.empleado}>{el.empleado}</td>
+                  <td key={el.empleado} className="text-nowrap">
+                    {el.empleado}
+                  </td>
                   {el.incumplimientos.map((el, i) => {
                     return (
                       <Fragment>
@@ -116,10 +115,10 @@ const Success = ({ datos, month, year }) => {
               );
             })}
             <tr>
-              <td className="bg-warning">Total por tipo SNC</td>
+              <td className="bg-warning bg-opacity-50">Total por tipo SNC</td>
               {sumaSNCTipo().map((el, i) => {
                 return (
-                  <td key={i} className="bg-secondary">
+                  <td key={i} className="bg-secondary bg-opacity-50">
                     {el}
                   </td>
                 );
@@ -129,19 +128,52 @@ const Success = ({ datos, month, year }) => {
           </tbody>
         </table>
       </div>
-      <div className="d-flex flex-column" id="render">
-        <div className="m-auto w-100">
+      {/* Graficas */}
+      <div className="d-flex " id="render">
+        <div className="m-auto w-50">
           <Bar
             datos={dataBarTipo}
             text="Salidas no conformes por tipo"
             legend={false}
+            optionsCustom={{
+              scales: {
+                y: {
+                  title: {
+                    display: true,
+                    text: "Numero de SNC",
+                  },
+                },
+                x: {
+                  title: {
+                    display: true,
+                    text: "Tipo de SNC",
+                  },
+                },
+              },
+            }}
           />
         </div>
-        <div className="m-auto w-100">
+        <div className="m-auto w-50">
           <Bar
             datos={dataBarEmpleado}
             text="Salidas no conformes por empleado"
             legend={false}
+            optionsCustom={{
+              scales: {
+                y: {
+                  title: {
+                    display: true,
+                    text: "Numero de SNC",
+                  },
+                },
+                x: {
+                  title: {
+                    display: true,
+                    text: "Empleados",
+                  },
+                },
+              },
+            }}
           />
         </div>
       </div>

@@ -9,9 +9,8 @@ function OrdenIsla() {
         textUrlback="Volver a Despacho"
         title="Orden y Limpiza de Isla"
       ></HeaderComponents>
-      <div>
-        <FormOrdenIsla />
-      </div>
+
+      <FormOrdenIsla />
     </div>
   );
 }

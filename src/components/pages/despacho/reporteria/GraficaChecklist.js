@@ -12,7 +12,6 @@ import IconComponents from "../../../assets/IconComponents";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
 import { Datos } from "../../../Provider/Checklist";
 import { useContext } from "react";
-import Grafica from "../../../charts/Bar";
 
 function GraficaChecklist() {
   const date = new Date();
@@ -43,7 +42,7 @@ function GraficaChecklist() {
         />
       </HeaderComponents>
 
-      <div className="row w-75 mx-auto">
+      <div className="row w-75 mx-auto mt-3">
         <div className="col-md-6">
           <InputChangeMes defaultMes={month} handle={handleMonth} />
         </div>
@@ -63,112 +62,6 @@ function GraficaChecklist() {
     </div>
   );
 }
-
-/* const Success = ({ data, year, month }) => {
-  const navigate = useNavigate();
-  const iterar = data.map((el) => {
-    const filtrado = el.fechas;
-    const total = filtrado
-      .map((seg) => (seg.cumple ? 1 : 0))
-      .reduce((a, b) => a + b, 0);
-    return { empleado: el.empleado, total };
-  });
-
-  const dataScale = {
-    labels: iterar.map((el) => el.empleado.nombre),
-    datasets: [
-      {
-        label: "empleados",
-        data: iterar.map((el) => el.total),
-        borderColor: "rgb(255, 99, 132)",
-        backgroundColor: "rgba(255, 99, 132, 0.5)",
-      },
-      {
-        label: "puntaje minimo",
-        data: iterar.map((el) => 28),
-        borderColor: "rgb(53, 162, 235)",
-        backgroundColor: "rgba(53, 162, 235, 0.5)",
-      },
-    ],
-  };
-
-  return (
-    <Fragment>
-      <div>
-        <table
-          id="tabla"
-          className="table table-bordered w-100 m-auto mt-4"
-          border="1px"
-        >
-          <thead>
-            <tr>
-              <th rowSpan={2} align="center">
-                Nombre del despachador
-              </th>
-              <th colSpan={data.length}>
-                <span className="text-center">
-                  {format.formatTextoMayusPrimeraLetra(
-                    format.formatMes(data[0].fechas[0].fecha)
-                  )}{" "}
-                  del {format.formatYear(data[0].fechas[0].fecha)}
-                </span>
-              </th>
-            </tr>
-            <tr>
-              {data[0].fechas.map((el) => (
-                <th key={format.obtenerDiaMes(el.fecha)}>
-                  {format.obtenerDiaMes(el.fecha)}
-                </th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {data.map((el, i) => (
-              <tr key={i}>
-                <td className="fw-semibold">
-                  <span
-                    onClick={() =>
-                      navigate(
-                        `../checklist/${year}/${month}/${el.empleado.idempleado}`
-                      )
-                    }
-                  >
-                    {el.empleado.nombre} {el.empleado.apellido_paterno}{" "}
-                    {el.empleado.apellido_materno}
-                  </span>
-                </td>
-                {el.fechas.map((fe, j) => {
-                  if (fe.cumple === null) {
-                    return <td key={j}></td>;
-                  } else {
-                    return (
-                      <td
-                        key={j}
-                        className={
-                          fe.cumple
-                            ? "text-success text-center fw-semibold"
-                            : "text-danger text-center fw-semibold"
-                        }
-                      >
-                        {fe.cumple ? "1" : "0"}
-                      </td>
-                    );
-                  }
-                })}
-              </tr>
-            ))}
-          </tbody>
-        </table>
-        <div id="render" className="w-75 m-auto">
-          {<Scale data={dataScale} />}
-        </div>
-      </div>
-      <div>
-        <PdfV2 month={month} year={year} tabla="tabla" />
-      </div>
-    </Fragment>
-  );
-}; */
 
 const Success = ({ datos, year, month }) => {
   const setData = useContext(Datos);
@@ -191,31 +84,7 @@ const Success = ({ datos, year, month }) => {
     };
   });
 
-  const dataBar1 = {
-    labels: totalBuenas.map((el) => el.empleado),
-    dataset: [
-      {
-        data: totalBuenas.map((el) => el.total),
-        borderColor: "rgb(0,200,37)",
-        backgroundColor: "rgba(0,200,37, 0.5)",
-        label: "Correctos",
-      },
-      {
-        data: totalMalas.map((el) => el.total),
-        borderColor: "rgb(200,0,0)",
-        backgroundColor: "rgba(200,0,0, 0.5)",
-        label: "Incorrectos",
-      },
-      {
-        type: "line",
-        data: totalBuenas.map((el) => el.total),
-        borderColor: "rgb(0,200,37)",
-        backgroundColor: "rgba(0,200,37, 0.5)",
-        label: "Correctos",
-      },
-    ],
-  };
-  const dataBar2 = {
+  const dataBar = {
     labels: totalBuenas.map((el) => el.empleado),
     datasets: [
       {
@@ -236,7 +105,7 @@ const Success = ({ datos, year, month }) => {
     <div>
       {/* tabla */}
       <div className="container-fluid mt-3 " style={{ overflowX: "scroll" }}>
-        <table className="table table-bordered text-center">
+        <table className="table table-bordered text-center" id="tabla">
           <thead>
             <tr>
               <th>Nombre del empleado</th>
@@ -266,6 +135,7 @@ const Success = ({ datos, year, month }) => {
                       <span
                         className="link-primary text-decoration-underline"
                         onClick={() => (
+                          // eslint-disable-next-line
                           setData[1]([datos]),
                           navigate(
                             `../checklist/${year}/${month}/${el.empleado.idempleado}`
@@ -302,9 +172,9 @@ const Success = ({ datos, year, month }) => {
         </table>
       </div>
       {/* Grafica */}
-      <div className="m-auto ">
+      <div className="m-auto " id="render">
         <Scale
-          data={dataBar2}
+          data={dataBar}
           text="Checklist correctos e incorrectos realizados mensuales por empleado"
           optionsCustom={{
             scales: {
@@ -325,8 +195,8 @@ const Success = ({ datos, year, month }) => {
             },
           }}
         />
-        {/* <Grafica datos={dataBar1} /> */}
       </div>
+      <PdfV2 tabla="tabla" month={month} year={year} />
     </div>
   );
 };

@@ -4,7 +4,7 @@ import TablaEmpleados from "../../tablas/TablaEmpleados";
 import IconComponents from "../../assets/IconComponents";
 
 function AltaBaja() {
-  const [id, setId] = useState("6");
+  const [id, setId] = useState("1");
   return (
     <div className="Main">
       <HeaderComponents
@@ -25,13 +25,14 @@ function AltaBaja() {
             className="form-control"
             onChange={(e) => setId(e.target.value)}
           >
-            <option value="6">Contratado</option>
+            <option value="1">Contratado</option>
+            <option value="2">Practicantes</option>
             <option value="5">Pendiente</option>
             <option value="3">Inactivos</option>
             <option value="4">Rechazados</option>
           </select>
         </form>
-        {id === "6" && (
+        {id === "1" && (
           <h4 className="border-bottom mt-2 fst-italic">
             Mostrando empleados contratados.
           </h4>

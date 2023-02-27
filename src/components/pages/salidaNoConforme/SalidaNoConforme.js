@@ -24,10 +24,15 @@ const SalidaNoConforme = () => {
   const [defaultFecha, setDefaultFecha] = useState(null);
   const [showPendientesCaptura, setShowPendientesCaptura] = useState(false);
   const [actualizar, setActualizar] = useState(false);
+  const [deshabilitar, setDeshabilitar] = useState({
+    conseciones: false,
+    correciones: false,
+  });
   //recupera la id del formulario enviado para generar el pdf
   const [idsalida, setIdsalida] = useState(null);
 
   const [show, setShow] = useState(false);
+  const date = new Date();
 
   const [datos, setDatos] = useState({ accionesCorregir: null });
   const { departamento } = useParams();
@@ -35,11 +40,27 @@ const SalidaNoConforme = () => {
   let url = `/empleado`;
   if (departamento === "despacho") url += "?departamento=1";
   const empleadoS = useGetData(url);
+  const pendientesCaptura = useGetData(
+    "/salida-no-conforme/pendientes",
+    actualizar
+  );
+  const porResolver = useGetData(
+    `salida-no-conforme/pendientes/${date.getFullYear()}/${
+      date.getMonth() + 1
+    }`,
+    actualizar
+  );
+  console.log(porResolver);
+
   const LimpiarDefault = () => {
     setDefaultIncumpliento(null);
     setDefaultFecha(null);
     setDefaultEmpleado(null);
     setDatos(null);
+    setDeshabilitar({
+      conseciones: false,
+      correciones: false,
+    });
   };
   const enviar = (e) => {
     e.preventDefault();
@@ -71,8 +92,20 @@ const SalidaNoConforme = () => {
   const handleAcciones = (e) => {
     if (e.target.value.length === 0) {
       setDatos({ ...datos, accionesCorregir: null });
+      setDeshabilitar({ ...deshabilitar, conseciones: false });
     } else {
+      setDeshabilitar({ ...deshabilitar, conseciones: true });
       setDatos({ ...datos, accionesCorregir: e.target.value });
+    }
+  };
+
+  const handleConseciones = (e) => {
+    if (e.target.value.length === 0) {
+      setDeshabilitar({ ...deshabilitar, correciones: false });
+      setDatos({ ...datos, [e.target.name]: null });
+    } else {
+      setDeshabilitar({ ...deshabilitar, correciones: true });
+      setDatos({ ...datos, [e.target.name]: e.target.value });
     }
   };
   const changeSelectIncumplimiento = (e) => {
@@ -102,6 +135,7 @@ const SalidaNoConforme = () => {
         handleFecha={setDefaultFecha}
         setDatos={setDatos}
         actualizar={actualizar}
+        setActualizar={setActualizar}
       />
       <HeaderComponents
         title="Captura de salidas no conformes"
@@ -125,25 +159,54 @@ const SalidaNoConforme = () => {
               icon="clock text-warning"
               text="Por resolver"
               url="pendientes"
+              position="position-relative"
+              span={
+                (!porResolver.error && !porResolver.isPending && (
+                  <span
+                    className=" position-absolute start-100 translate-middle badge rounded-pill bg-danger"
+                    style={{ fontSize: "10px" }}
+                  >
+                    {porResolver.data.response.length}
+                  </span>
+                )) ||
+                (porResolver.error && !porResolver.isPending && (
+                  <span
+                    className=" position-absolute start-100 translate-middle badge rounded-pill bg-danger"
+                    style={{ fontSize: "10px" }}
+                  >
+                    0
+                  </span>
+                ))
+              }
             />
           )}
           <div
-            className="rounded btn-select m-1 d-flex flex-column align-items-center mt-0 pt-0"
+            className="rounded p-2 btn-select m-1 d-flex flex-column align-items-center mt-0 pt-0"
             style={{ minWidth: "100px", maxWidth: "150px" }}
             onClick={mostrarPendientesCaptura}
           >
             <i
-              className="fa-solid fa-file-pen text-info"
+              className="fa-solid fa-file-pen text-info position-relative"
               style={{ fontSize: "40px" }}
-            />
-            <p className="p-0 m-0 text-nowrap">Pendientes de captura</p>
+            >
+              {!pendientesCaptura.error && !pendientesCaptura.isPending && (
+                <span
+                  className=" position-absolute start-100 translate-middle badge rounded-pill bg-danger"
+                  style={{ fontSize: "10px" }}
+                >
+                  {pendientesCaptura.data.response.length}
+                </span>
+              )}
+            </i>
+            <p className="p-0 m-0 text-nowrap">Por capturar </p>
           </div>
         </div>
       </HeaderComponents>
-      <div style={{ display: "flex", flexdirection: "column" }}>
-        <div className="me-3">
+      <div className="d-flex flex-md-row flex-column  ">
+        {/* Formulario */}
+        <div className="me-3 w-50 ">
           <form onSubmit={enviar} className="shadow p-2 ms-2 my-3">
-            <div className="row" style={{ width: "500px" }}>
+            <div className="row">
               <HeaderForm />
               <div className="col-md-5 mb-3">
                 <label className="form-label">Fecha</label>
@@ -164,12 +227,12 @@ const SalidaNoConforme = () => {
                   rows={5}
                   required
                   onChange={handle}
-                ></textarea>
+                />
               </div>
               <div className="mb">
                 <label className="form-label">Acciones/correcciones</label>
                 <textarea
-                  disabled={!Per(23)}
+                  disabled={!Per(20) || deshabilitar.correciones}
                   name="accionesCorregir"
                   className="form-control"
                   placeholder="..."
@@ -179,11 +242,11 @@ const SalidaNoConforme = () => {
               <div className="mb">
                 <label>Concesiones</label>
                 <textarea
-                  disabled={!Per(23)}
+                  disabled={!Per(20) || deshabilitar.conseciones}
                   name="concesiones"
                   className="form-control"
                   placeholder="..."
-                  onChange={handle}
+                  onChange={handleConseciones}
                 />
               </div>
               <div className="row">
@@ -253,6 +316,7 @@ const SalidaNoConforme = () => {
             </div>
           </form>
         </div>
+        {/* Visor pdf */}
         {!idsalida ? null : <VerSNC idInsersion={idsalida} />}
       </div>
     </div>
@@ -263,7 +327,7 @@ const VerSNC = ({ idInsersion }) => {
   const consultarPdf = useGetData(
     `/salida-no-conforme/${idInsersion.insertId}`
   );
-  console.log(consultarPdf);
+
   return (
     <div className="d-flex flex-fill justify-content-center align-items-center">
       {!consultarPdf.isPending && !consultarPdf.error && (

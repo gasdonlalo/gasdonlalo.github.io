@@ -14,12 +14,15 @@ import { useContext } from "react";
 import Grafica from "../../charts/Bar";
 
 const ChecklistBombaDetalle = () => {
-  const { year, month, idEmpleado, totalBuenas } = useParams();
+  const { year, month, idEmpleado } = useParams();
   const [datas] = useContext(Datos);
 
-  const datosFiltrados = Object.values(datas[0]).filter(
-    (el) => el.empleado.idempleado === Number(idEmpleado)
-  );
+  const datosFiltrados =
+    datas === null
+      ? null
+      : Object.values(datas[0]).filter(
+          (el) => el.empleado.idempleado === Number(idEmpleado)
+        );
 
   const [mEdit, setMEdit] = useState({ status: false, id: null });
   const [mDel, setMDel] = useState({ status: true, id: null });
@@ -35,7 +38,6 @@ const ChecklistBombaDetalle = () => {
     setModalSucces(false);
     setModalError({ status: false, msg: "" });
   };
-  console.log(totalBuenas);
 
   return (
     <div className="Main">
@@ -101,8 +103,7 @@ const ChecklistBombaDetalle = () => {
 };
 
 const Success = ({ data, setMDel, setMEdit, datosGrafica }) => {
-  console.log(datosGrafica);
-  const dataBar = {
+  const dataBar = datosGrafica !== null && {
     labels: datosGrafica[0].fechas.map((el) => el.fecha),
     dataset: [
       {
@@ -113,7 +114,6 @@ const Success = ({ data, setMDel, setMEdit, datosGrafica }) => {
       },
     ],
   };
-
   return (
     <div>
       <h4 className="text-center">
@@ -211,6 +211,8 @@ const Success = ({ data, setMDel, setMEdit, datosGrafica }) => {
                     setMEdit({
                       status: true,
                       id: el.idchecklist_bomba,
+                      nombreEntrante: `${data.response.empleado.nombre} ${data.response.empleado.apellido_paterno} ${data.response.empleado.apellido_materno}`,
+                      nombreSaliente: `${el.empSaliente.nombre} ${el.empSaliente.apellido_paterno} ${el.empSaliente.apellido_materno}`,
                     });
                   }}
                 >
@@ -225,26 +227,28 @@ const Success = ({ data, setMDel, setMEdit, datosGrafica }) => {
           ))}
         </tbody>
       </table>
-      <div className="m-auto">
-        <Grafica
-          text={`Checklists correctos de ${format.formatTextoMayusPrimeraLetra(
-            `${data.response.empleado.nombre} ${data.response.empleado.apellido_paterno} ${data.response.empleado.apellido_materno}`
-          )} `}
-          datos={dataBar}
-          optionsCustom={{
-            scales: {
-              y: {
-                title: { display: true, text: "Cumple" },
-                ticks: {
-                  stepSize: 1,
-                  callback: (value) => (value === 1 ? "Cumple" : "No cumple"),
+      {datosGrafica !== null && (
+        <div className="m-auto">
+          <Grafica
+            text={`Checklists correctos de ${format.formatTextoMayusPrimeraLetra(
+              `${data.response.empleado.nombre} ${data.response.empleado.apellido_paterno} ${data.response.empleado.apellido_materno}`
+            )} `}
+            datos={dataBar}
+            optionsCustom={{
+              scales: {
+                y: {
+                  title: { display: true, text: "Cumple" },
+                  ticks: {
+                    stepSize: 1,
+                    callback: (value) => (value === 1 ? "Cumple" : "No cumple"),
+                  },
                 },
+                x: { title: { display: true, text: "Fecha" } },
               },
-              x: { title: { display: true, text: "Fecha" } },
-            },
-          }}
-        />
-      </div>
+            }}
+          />
+        </div>
+      )}
     </div>
   );
 };

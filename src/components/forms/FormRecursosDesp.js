@@ -85,14 +85,14 @@ const FormRecursosDesp = () => {
   };
 
   return (
-    <div>
+    <div className="container">
       <ModalSuccess show={modalSuccess} close={closeModal} />
       <ModalError
         show={modalError.status}
         close={closeModal}
         text={modalError.msg}
       />
-      <form onSubmit={enviar} className="w-75 m-auto shadow p-4">
+      <form onSubmit={enviar} className="mt-3 m-auto shadow p-4">
         <HeaderForm />
         <div className="row">
           <div className="col-md-6">

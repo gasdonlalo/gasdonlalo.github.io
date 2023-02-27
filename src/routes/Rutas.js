@@ -101,6 +101,7 @@ function Rutas() {
           <Route path="home" element={<Home />} />
           <Route path="*" element={<Notfound />} />
         </Route>
+        {/* SNC */}
         <Route path="/:departamento/salida-no-conforme" element={<Layout />}>
           <Route index element={<SalidaNoConforme />} />
           <Route path="files" element={<SNR />} />;
