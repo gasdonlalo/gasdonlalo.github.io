@@ -1,5 +1,6 @@
 import { useState } from "react";
 import Axios from "../../Caxios/Axios";
+import HeaderForm from "../../GUI/HeaderForm";
 import useGetData from "../../hooks/useGetData";
 import Loader from "../assets/Loader";
 import ModalError from "../modals/ModalError";
@@ -87,8 +88,9 @@ function FormOrdenIsla() {
     }
   };
   return (
-    <div className="Container">
-      <form className="m-auto shadow rounded p-2 mt-3 w-75 " onSubmit={enviar}>
+    <div className="container">
+      <form className="m-auto shadow rounded p-2 mt-3" onSubmit={enviar}>
+        <HeaderForm />
         <div className="d-flex flex-wrap justify-content-around mb-3 w-100">
           <div className="p-2" style={{ flexGrow: 1 }}>
             <label className="form-label">Fecha de evaluación</label>

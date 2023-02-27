@@ -128,14 +128,14 @@ const Success = ({ empleados }) => {
   }
 
   return (
-    <div className="d-flex justify-content-center align-items-center">
+    <div className="d-flex flex-column flex-md-row justify-content-center align-items-center">
       <ModalError
         show={modalError.status}
         close={closeModal}
         text={modalError.msg}
       />
       {/*Formulario */}
-      <div className="w-25 m-3">
+      <div className="lg-w-25 m-3">
         <form className="rounded p-3 shadow" onSubmit={enviar}>
           <div className="p-2">
             <label>Selecciona el despachador</label>
@@ -184,7 +184,7 @@ const Success = ({ empleados }) => {
         </form>
       </div>
 
-      <div className="w-75 m-3 border-start p-3">
+      <div className="flex-fill m-3 p-3">
         <h3 className="text-center fst-italic">Vista previa</h3>
         {/* Selects */}
         <div className="row">

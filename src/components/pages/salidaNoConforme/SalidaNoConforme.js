@@ -182,10 +182,10 @@ const SalidaNoConforme = () => {
           </div>
         </div>
       </HeaderComponents>
-      <div style={{ display: "flex", flexdirection: "column" }}>
-        <div className="me-3">
+      <div className="d-flex flex-md-row flex-column  ">
+        <div className="me-3 w-50 ">
           <form onSubmit={enviar} className="shadow p-2 ms-2 my-3">
-            <div className="row" style={{ width: "500px" }}>
+            <div className="row">
               <HeaderForm />
               <div className="col-md-5 mb-3">
                 <label className="form-label">Fecha</label>
@@ -206,7 +206,7 @@ const SalidaNoConforme = () => {
                   rows={5}
                   required
                   onChange={handle}
-                ></textarea>
+                />
               </div>
               <div className="mb">
                 <label className="form-label">Acciones/correcciones</label>
@@ -305,7 +305,7 @@ const VerSNC = ({ idInsersion }) => {
   const consultarPdf = useGetData(
     `/salida-no-conforme/${idInsersion.insertId}`
   );
-  console.log(consultarPdf);
+
   return (
     <div className="d-flex flex-fill justify-content-center align-items-center">
       {!consultarPdf.isPending && !consultarPdf.error && (

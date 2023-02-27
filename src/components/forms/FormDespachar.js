@@ -62,16 +62,16 @@ function FormDespachar() {
   };
 
   return (
-    <div>
+    <div className="container">
       <ModalSuccess show={modalSuccess} close={closeModal} />
       <ModalError
         show={modalError.status}
         close={closeModal}
         text={modalError.msg}
       />
-      <form onSubmit={enviar} className="row m-auto w-75 shadow p-2 nt-3">
+      <form onSubmit={enviar} className="row m-auto  shadow p-2 mt-3">
         <HeaderForm />
-        <div className="col-md-6">
+        <div className="col-6">
           <label className="form-label">Fecha</label>
           <InputFecha
             handle={handle}
@@ -80,7 +80,7 @@ function FormDespachar() {
             name="fecha"
           />
         </div>
-        <div className="col-md-6">
+        <div className="col-6">
           <label className="form-label">Selecciona el empleado</label>
           {!despachador.error && !despachador.isPending && (
             <InputSelectEmpleados
