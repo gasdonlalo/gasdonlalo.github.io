@@ -114,11 +114,6 @@ function Despacho() {
                 text="Salidas no conformes"
               />
             )}
-            <Card
-              url="calificaciones"
-              icon="bi bi-clipboard-check-fill"
-              text="Calificaciones"
-            />
           </div>
         </div>
       </div>

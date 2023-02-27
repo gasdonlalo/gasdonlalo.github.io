@@ -53,6 +53,16 @@ const GraficaEvUnifome = () => {
             url="../evaluacion-uniforme/historial"
             text="Registros"
           />
+          <div className="d-flex flex-column ms-3">
+            <a
+              href={`http://192.168.10.20:4000/api/excel/evPasoDes/${year}/${month}`}
+              className="btn btn-success"
+              style={{ height: "40px" }}
+            >
+              <li className="fa-regular fa-file-excel" />
+            </a>
+            Excel
+          </div>
         </div>
       </HeaderComponents>
       <div className="container-fluid w-75 mt-3">
