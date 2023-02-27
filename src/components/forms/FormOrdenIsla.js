@@ -24,11 +24,7 @@ function FormOrdenIsla() {
     ],
   });
 
-  const [bomba, setBomba] = useState(null);
-  const [estacionS, setEstacionS] = useState(null);
   const despachador = useGetData(`/empleado?departamento=1`, actualizador);
-  const estacion = useGetData("/estaciones-servicio");
-  const islas = useGetData(`/bomba/${bomba}`);
   const pasos = useGetData("/ordenLimpieza/cumplimientos");
   const [checkErroneo] = useState(false);
   const [modalSuccess, setModalSuccess] = useState(false);
@@ -42,8 +38,6 @@ function FormOrdenIsla() {
 
   const handle = (e) => {
     setBody({ ...body, [e.target.name]: e.target.value });
-    setEstacionS(Number(e.target.value));
-    setBomba(Number(e.target.value));
   };
 
   const handleEv = (e) => {
@@ -124,28 +118,12 @@ function FormOrdenIsla() {
               name="idEstacionServicio"
               className="form-select"
               onChange={handle}
-              defaultValue={1}
               disabled={checkErroneo}
+              required
             >
-              {estacion.isPending && (
-                <option value="">Cargando estaciones...</option>
-              )}
-              {!estacion.error && !estacion.isPending && (
-                <option value="">-- Estacion de servicio --</option>
-              )}
-              {!estacion.error &&
-                !estacion.isPending &&
-                estacion.data.response.map((el) => (
-                  <option
-                    value={el.idestacion_servicio}
-                    key={el.idestacion_servicio}
-                  >
-                    {el.nombre}
-                  </option>
-                ))}
-              {estacion.isPending && (
-                <option value="">Cargando estaciones ... </option>
-              )}
+              <option value="">-- Selecciona estacion de servicio --</option>
+              <option value="1"> GDL 1</option>
+              <option value="2">GDL 2</option>
             </select>
           </div>
           <div className="pt-2" style={{ flexGrow: 1 }}>
@@ -154,19 +132,13 @@ function FormOrdenIsla() {
               name="isla"
               className="form-select"
               onChange={handle}
-              required
               disabled={checkErroneo}
+              required
             >
-              {!islas.error && !islas.isPending && (
-                <option value=""> -- Seleccione Isla-- </option>
-              )}
-              {!islas.error &&
-                !islas.isPending &&
-                islas.data.response.map((el) => (
-                  <option value={el.idbomba} key={el.idbomba}>
-                    {el.bomba}
-                  </option>
-                ))}
+              <option value="">-- Seleccione bomba --</option>
+              <option value="1">Bomba 1</option>
+              <option value="2">Bomba 2</option>
+              <option value="3">Bomba 3</option>
             </select>
           </div>
         </div>
