@@ -135,10 +135,10 @@ function FormOrdenIsla() {
               disabled={checkErroneo}
               required
             >
-              <option value="">-- Seleccione bomba --</option>
-              <option value="1">Bomba 1</option>
-              <option value="2">Bomba 2</option>
-              <option value="3">Bomba 3</option>
+              <option value="">-- Seleccione Isla --</option>
+              <option value="1">Isla 1</option>
+              <option value="2">Isla 2</option>
+              <option value="3">Isla 3</option>
             </select>
           </div>
         </div>
