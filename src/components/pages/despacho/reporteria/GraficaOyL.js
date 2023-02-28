@@ -5,10 +5,9 @@ import { useNavigate } from "react-router-dom";
 import InputChangeMes from "../../../forms/InputChangeMes";
 import InputChangeYear from "../../../forms/InputChangeYear";
 import useGetData from "../../../../hooks/useGetData";
-import ErrorHttp from "../../../assets/ErrorHttp";
-import format from "../../../assets/format";
+// import ErrorHttp from "../../../assets/ErrorHttp";
 import IconComponents from "../../../assets/IconComponents";
-import PdfV2 from "../../../pdf_generador/PdfV2";
+// import PdfV2 from "../../../pdf_generador/PdfV2";
 
 function GraficaOyL() {
   const date = new Date();
@@ -106,7 +105,9 @@ const Success = ({ data, year, month }) => {
           {data.map((el, i) => (
             <tr key={i}>
               <td onClick={() => navOyL(el)}>
-                {el.nombre} {el.apellido_paterno} {el.apellido_materno}
+                <u>
+                  {el.nombre} {el.apellido_paterno} {el.apellido_materno}
+                </u>
               </td>
               <td className="text-center">{el.totalPuntos}</td>
             </tr>
