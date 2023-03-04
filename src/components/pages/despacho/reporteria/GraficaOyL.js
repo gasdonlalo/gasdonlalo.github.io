@@ -31,11 +31,18 @@ function GraficaOyL() {
         textUrlback="Regresar a despacho"
         title="Reportes de Orden y Limpieza de la Isla"
       >
-        <IconComponents
-          icon="calendar-days text-warning"
-          text="MF tiempo"
-          url="/despacho/montos-faltantes/historial"
-        />
+        <div className="d-flex">
+          <IconComponents
+            icon=" bi-check2-circle text-info"
+            text="Orden y Limpieza"
+            url="/despacho/orden-limpieza-isla"
+          />
+          <IconComponents
+            icon="file-lines text-warning"
+            text="Historial"
+            url="../orden-limpieza-isla/historial"
+          />
+        </div>
       </HeaderComponents>
       <div className="container">
         <form>

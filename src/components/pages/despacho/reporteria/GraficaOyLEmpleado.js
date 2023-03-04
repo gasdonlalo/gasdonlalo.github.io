@@ -7,7 +7,6 @@ import InputChangeMes from "../../../forms/InputChangeMes";
 import InputChangeYear from "../../../forms/InputChangeYear";
 import useGetData from "../../../../hooks/useGetData";
 import format from "../../../assets/format";
-import IconComponents from "../../../assets/IconComponents";
 // import PdfV2 from "../../../pdf_generador/PdfV2";
 
 function GraficaOyLEmpleado() {
@@ -37,13 +36,7 @@ function GraficaOyLEmpleado() {
         urlBack="/despacho/orden-limpieza-isla/reporte"
         textUrlback="Regresar a reportes"
         title="Reportes de Orden y Limpieza de la Isla"
-      >
-        <IconComponents
-          icon="calendar-days text-warning"
-          text="MF tiempo"
-          url="/despacho/montos-faltantes/historial"
-        />
-      </HeaderComponents>
+      ></HeaderComponents>
       <div className="container">
         <form>
           <div className="row">
