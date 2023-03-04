@@ -20,6 +20,14 @@ function Despacho() {
             {Per(5) && (
               <Card url="checklist" icon="check" text="Checklist bomba" />
             )}
+
+            {Per(25) && (
+              <Card
+                url="orden-limpieza-isla"
+                icon="bi bi-check2-circle"
+                text="Orden y limpieza de isla"
+              />
+            )}
             {Per(8) && (
               <Card
                 url="evaluacion-uniforme"
@@ -55,13 +63,6 @@ function Despacho() {
                 text="Salidas no conformes"
               />
             )}
-            {Per(25) && (
-              <Card
-                url="orden-limpieza-isla"
-                icon="bi bi-check2-circle"
-                text="Orden y limpieza de isla"
-              />
-            )}
           </div>
         </div>
         <div className="text-center m-auto">
@@ -79,6 +80,13 @@ function Despacho() {
                 url="checklist/reporte"
                 icon="chart-line"
                 text="Checklist Bomba"
+              />
+            )}
+            {Per(25) && (
+              <Card
+                url="orden-limpieza-isla/reporte"
+                icon="chart-simple"
+                text="Orden y limpieza de isla"
               />
             )}
             {Per(8) && (
