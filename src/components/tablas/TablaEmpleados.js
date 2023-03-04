@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { Fragment, useState } from "react";
 import useGetData from "../../hooks/useGetData";
 import format from "../assets/format";
 //import { OverlayTrigger, Tooltip } from "react-bootstrap";
@@ -13,6 +13,10 @@ import DropdownItem from "react-bootstrap/esm/DropdownItem";
 import ActualizarEmpleado from "../modals/ActualizarEmpleado";
 import PdfEmpleados from "../pdf_generador/PdfEmpleados";
 import Loader from "../assets/Loader";
+import { Modal } from "react-bootstrap";
+import { Link } from "react-router-dom";
+import AlertSuccess from "../alerts/AlertSuccess";
+import AlertError from "../alerts/AlertError";
 
 const TablaEmpleados = ({ id }) => {
   const [show, setShow] = useState(false);
@@ -20,6 +24,15 @@ const TablaEmpleados = ({ id }) => {
   const [confirmacion, setConfirmacion] = useState(false);
   const [modalSuccess, setModalSuccess] = useState(false);
   const [modalError, setModalError] = useState({ status: false, msg: "" });
+  const [modalFechas, setModalFechas] = useState({
+    show: false,
+    titulo: "",
+    tipo: null,
+    idEmp: null,
+    idImss: null,
+    tipoEnvio: null,
+    defaultFecha: null,
+  });
   const [mostrarIdForm, setMostrarIdForm] = useState(false);
   const [idReincorporar, setIdReincorporar] = useState(false);
   const [idEmp, setIdEmp] = useState(); //idsolicitud relativa a la tabla
@@ -74,6 +87,17 @@ const TablaEmpleados = ({ id }) => {
     setActualizaEmpleado(true);
     setTipoEnvio(1);
   };
+  const mostrarModalFechas = (titulo, idEmpleado, idIMSS, fecha) => {
+    setModalFechas({
+      ...modalFechas,
+      show: true,
+      titulo: titulo,
+      idEmp: idEmpleado,
+      idImss: idIMSS,
+      tipoEnvio: null,
+      defaultFecha: fecha,
+    });
+  };
   const cerrarActualizarEmpleado = () => {
     setActualizaEmpleado(false);
   };
@@ -124,6 +148,7 @@ const TablaEmpleados = ({ id }) => {
       }
     }
   };
+
   return (
     <div>
       <ModalSuccess show={modalSuccess} close={cerrarModal} />
@@ -154,12 +179,23 @@ const TablaEmpleados = ({ id }) => {
         enviar={enviar}
         handle={handleActualizar}
       />
+      <ModalUpdFechas
+        show={modalFechas.show}
+        handleClose={() => setModalFechas({ ...modalFechas, show: false })}
+        titulo={modalFechas.titulo}
+        idEmp={modalFechas.idEmp}
+        idImss={modalFechas.idImss}
+        setActualizar={setActualizar}
+        actualizar={actualizar}
+        defaultFecha={modalFechas.defaultFecha}
+      />
       {!error && !isPending && (
         <Success
           solicitud={data.response}
           estatus={id}
           action={action}
           mostrar={mostrarActualizarEmpleado}
+          mostrarUpdFecha={mostrarModalFechas}
         />
       )}
       {error && !isPending && (
@@ -170,7 +206,7 @@ const TablaEmpleados = ({ id }) => {
   );
 };
 
-const Success = ({ solicitud, estatus, action, mostrar }) => {
+const Success = ({ solicitud, estatus, action, mostrar, mostrarUpdFecha }) => {
   console.log(solicitud);
   const [solicitudes, setSolicitudes] = useState(solicitud);
 
@@ -198,25 +234,6 @@ const Success = ({ solicitud, estatus, action, mostrar }) => {
 
   return (
     <div>
-      {/* {estatus === "6" && practicantes.length > 0 && (
-        <div>
-          <OverlayTrigger
-            key="right"
-            placement="right"
-            overlay={<Tooltip id="asd">Haz Click para verlos</Tooltip>}
-          >
-            <a
-              href={`#sinvalidar${practicantes[0].idchecador}`}
-              className="btn btn-primary"
-            >
-              Empleados sin validar{" "}
-              <span className="badge text-bg-secondary">
-                {practicantes.length}
-              </span>
-            </a>
-          </OverlayTrigger>
-        </div>
-      )} */}
       {/* Buscador */}
       <div className="pt-0">
         <div className="row">
@@ -253,8 +270,14 @@ const Success = ({ solicitud, estatus, action, mostrar }) => {
               {estatus === "5" && <th>Motivo de la solicitud</th>}
               {estatus === "4" && <th>Motivo de rechazo</th>}
               {estatus === "3" && <th>Motivo de inactividad</th>}
-              {estatus === "6" && <th>Departamento</th>}
-              {estatus === "6" && <th>Fecha Alta</th>}
+              {estatus === "1" && (
+                <Fragment>
+                  <th>Departamento</th>
+                  <th>Fecha de inicio de labores</th>
+                  <th>Ultima actualizacion</th>
+                  <th>Fecha de alta IMSS</th>
+                </Fragment>
+              )}
               {(estatus === "3" || estatus === "4") && <th>Fecha Baja</th>}
               {(estatus === "5" || estatus === "6") && (
                 <th className="text-center"></th>
@@ -278,12 +301,24 @@ const Success = ({ solicitud, estatus, action, mostrar }) => {
                 {(estatus === "5" || estatus === "4" || estatus === "3") && (
                   <td>{el.motivo}</td>
                 )}
-                {estatus === "6" && <td>{el.departamento}</td>}
-                {estatus === "6" && (
-                  <td>
-                    {format.formatFechaComplete(el.fecha_registro, false)}
-                  </td>
+                {estatus === "1" && (
+                  <Fragment>
+                    <td>{el.departamento}</td>
+                    <td>
+                      {format.formatFechaComplete(el.fecha_registro, false)}
+                    </td>
+                    <td>{format.formatFechaComplete(el.update_time, false)}</td>
+                    <td>
+                      {!el.update_time_imss
+                        ? "---"
+                        : format.formatFechaComplete(
+                            el.update_time_imss,
+                            false
+                          )}
+                    </td>
+                  </Fragment>
                 )}
+
                 {(estatus === "3" || estatus === "4") && (
                   <td>{format.formatFechaComplete(el.update_time, false)}</td>
                 )}
@@ -292,6 +327,7 @@ const Success = ({ solicitud, estatus, action, mostrar }) => {
                   element={el}
                   action={action}
                   mostrar={mostrar}
+                  mostrarModalfechas={mostrarUpdFecha}
                 />
               </tr>
             ))}
@@ -302,7 +338,7 @@ const Success = ({ solicitud, estatus, action, mostrar }) => {
   );
 };
 
-function SetBotones({ estatus, element, action, mostrar }) {
+function SetBotones({ estatus, element, action, mostrar, mostrarModalfechas }) {
   switch (estatus) {
     case "Practica":
       return (
@@ -354,6 +390,32 @@ function SetBotones({ estatus, element, action, mostrar }) {
             </span>
             <span variant="info" onClick={() => mostrar(element)}>
               Modificar
+            </span>
+            <span
+              variant="secondary"
+              onClick={() =>
+                mostrarModalfechas(
+                  "Modificacion fecha de labores",
+                  element.idempleado,
+                  null,
+                  format.formatFechaDB(element.fecha_registro)
+                )
+              }
+            >
+              Modificar fecha de inicio de labores
+            </span>
+            <span
+              variant="warning"
+              onClick={() =>
+                mostrarModalfechas(
+                  "Modificacion fecha de alta IMSS",
+                  null,
+                  element.idimss,
+                  format.formatFechaDB(element.update_time_imss)
+                )
+              }
+            >
+              Modificar fecha de alta IMSS
             </span>
           </ButtonDropDown>
         </td>
@@ -416,5 +478,101 @@ function SetBotones({ estatus, element, action, mostrar }) {
       return;
   }
 }
+const ModalUpdFechas = ({
+  show,
+  handleClose,
+  titulo,
+  idEmp,
+  idImss,
+  setActualizar,
+  actualizar,
+  defaultFecha,
+}) => {
+  const [datos, setDatos] = useState(null);
+  const [showCorrecto, setShowCorrecto] = useState(false);
+  const [showError, setShowError] = useState({ show: false, msg: "" });
+  console.log(datos === defaultFecha);
+
+  const handleFecha = (e) => {
+    setDatos({ ...datos, [e.target.name]: e.target.value });
+  };
+  const enviar = () => {
+    if (idEmp === null) {
+      enviarFechaImss();
+    } else {
+      enviarFechaLabores();
+    }
+  };
+  const enviarFechaLabores = async () => {
+    try {
+      await Axios.put(`/empleado/updateRegistro/${idEmp}`, datos);
+      setActualizar(!actualizar);
+      setShowCorrecto(true);
+      setTimeout(() => {
+        setShowCorrecto(false);
+      }, 500);
+    } catch (err) {
+      setShowError({ ...showError, show: true, msg: err.response.data.msg });
+    }
+  };
+  const enviarFechaImss = async () => {
+    try {
+      await Axios.put(`/control-documento/updateTime/${idImss}`, datos);
+      setActualizar(!actualizar);
+      setShowCorrecto(true);
+      setTimeout(() => {
+        setShowCorrecto(false);
+      }, 500);
+    } catch (err) {
+      setShowError({ ...showError, show: true, msg: err.response.data.msg });
+    }
+  };
+
+  return (
+    <Modal show={show} onHide={handleClose} centered>
+      <Modal.Header closeButton>
+        <Modal.Title>{titulo}</Modal.Title>
+      </Modal.Header>
+      <Modal.Body>
+        {!idEmp && !idImss ? (
+          <p className="text-danger fs-5 fst-italic">
+            El empleado no ha entregado su numero de seguro social. Si ya fue
+            entregado marcalo{" "}
+            <Link to="/recursos-humanos/documentos-trabajadores">aquí.</Link>
+          </p>
+        ) : (
+          <div>
+            <label>Fecha</label>
+            <input
+              type="date"
+              className="form-control"
+              name="fecha"
+              onChange={handleFecha}
+              defaultValue={defaultFecha}
+            />
+          </div>
+        )}
+        <div className="mt-3" style={{ height: "80px" }}>
+          <AlertSuccess show={showCorrecto} />
+          <AlertError
+            show={showError.show}
+            text={showError.msg}
+            setAlertError={setShowError}
+          />
+        </div>
+      </Modal.Body>
+      <Modal.Footer>
+        <button
+          type="button"
+          className="btn btn-primary"
+          onClick={enviar}
+          disabled={!idEmp && !idImss}
+        >
+          Actualizar
+        </button>
+      </Modal.Footer>
+    </Modal>
+  );
+};
 
 export default TablaEmpleados;
