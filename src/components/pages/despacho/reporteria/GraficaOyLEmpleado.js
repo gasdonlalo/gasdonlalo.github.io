@@ -153,7 +153,7 @@ const Success = ({ data }) => {
               <tr>
                 {evaluaciones.map((el, i) => (
                   <td key={i} className="text-center">
-                    {format.formatFechaDB(el[0].fecha)}
+                    {format.formatFechaComplete(el[0].fecha)}
                   </td>
                 ))}
               </tr>
