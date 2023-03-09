@@ -9,6 +9,7 @@ import ErrorHttp from "../../../assets/ErrorHttp";
 import format from "../../../assets/format";
 import IconComponents from "../../../assets/IconComponents";
 import PdfV2 from "../../../pdf_generador/PdfV2";
+import { Per } from "../../../Provider/Auth";
 
 function GraficaMontofaltante() {
   const date = new Date();
@@ -43,11 +44,20 @@ function GraficaMontofaltante() {
         textUrlback="Regresar a despacho"
         title="Montos Faltantes Mensuales"
       >
-        <IconComponents
-          icon="calendar-days text-warning"
-          text="MF tiempo"
-          url="/despacho/montos-faltantes/historial"
-        />
+        <div className="d-flex">
+          <IconComponents
+            icon="calendar-days text-warning"
+            text="MF tiempo"
+            url="/despacho/montos-faltantes/historial"
+          />
+          {Per(4) && (
+            <IconComponents
+              icon="file-lines text-success"
+              text="MF empleado"
+              url="reportes/empleados"
+            />
+          )}
+        </div>
       </HeaderComponents>
       <div className="container">
         <form>

@@ -19,13 +19,22 @@ function FormChecklistNuevo() {
     bomba: false,
     turno: false,
     estacionServicio: false,
+    empleadoEntrante: false,
   });
+  let despachadoresEmp;
+  if (!despachador.isPending && !despachador.error) {
+    despachadoresEmp = despachador.data.response.filter(
+      (el) => el.iddepartamento === 1
+    );
+  }
 
   const handle = (e) => setBody({ ...body, [e.target.name]: e.target.value });
 
   const enviar = async (e) => {
     e.preventDefault();
     setFormPending(true);
+    console.log(body);
+    console.log(radio);
     try {
       await Axios.post("/bomba-check", { ...body, ...radio });
       setFormPending(false);
@@ -53,6 +62,7 @@ function FormChecklistNuevo() {
       bomba: false,
       turno: false,
       estacionServicio: false,
+      empleadoEntrante: false,
     });
   };
 
@@ -65,8 +75,8 @@ function FormChecklistNuevo() {
     <div className="container-lg">
       <form className="m-auto shadow rounded p-2 mt-3 " onSubmit={enviar}>
         <div className="row p-2">
-          <div className="col-6">
-            <label className="form-label">Fecha</label>
+          <div className="col-4">
+            <label>Fecha</label>
             <InputFecha
               data={body}
               setData={setBody}
@@ -74,13 +84,36 @@ function FormChecklistNuevo() {
               name="fecha"
             />
           </div>
+        </div>
+        <div className="row p-2">
           <div className="col-6">
-            <label className="form-label">Empleado entrante</label>
+            <label>
+              Empleado entrante{" "}
+              <span>
+                <i className="fa-solid fa-person-walking fs-3" />
+              </span>
+            </label>
+            {!despachador.error && !despachador.isPending && (
+              <InputSelectEmpleado
+                empleados={despachadoresEmp}
+                reset={body}
+                name="idEmpleado"
+                handle={handle}
+              />
+            )}
+          </div>
+          <div className="col-6">
+            <label>
+              Empleado saliente{" "}
+              <span>
+                <i className="fa-solid fa-person-walking-arrow-right fs-3" />
+              </span>
+            </label>
             {!despachador.error && !despachador.isPending && (
               <InputSelectEmpleado
                 empleados={despachador.data.response}
                 reset={body}
-                name="idEmpleado"
+                name="idEmpleadoSaliente"
                 handle={handle}
               />
             )}
@@ -105,6 +138,11 @@ function FormChecklistNuevo() {
                 text="Aceites completos"
                 state={[radio, setRadio]}
                 name="aceitesCompletos"
+              />
+              <DivChecks
+                text="Empleado entrante"
+                state={[radio, setRadio]}
+                name="empleadoEntrante"
               />
             </tbody>
           </table>

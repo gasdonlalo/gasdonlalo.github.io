@@ -36,7 +36,7 @@ export const SalidasNoConformesPendientes = () => {
   const handleYear = (e) => {
     setYear(e.target.value);
   };
-  console.log(reportes);
+
   return (
     <div className="Main">
       <HeaderComponents
@@ -101,7 +101,6 @@ const Success = ({
   setShowActualizar,
 }) => {
   const [idActualizar, setIdActualizar] = useState(null);
-  console.log(data);
 
   const closeConfirmacion = () => {
     setShowConfirmacion(false);

@@ -49,15 +49,14 @@ function Pasosdespachar() {
           icon="chart-line text-danger"
         />
       </HeaderComponents>
-      <div>
-        <FormDespachar
-          datos={empleados}
-          enviar={enviar}
-          handle={handle}
-          handleEval={handleEval}
-          pasos={pasos}
-        />
-      </div>
+
+      <FormDespachar
+        datos={empleados}
+        enviar={enviar}
+        handle={handle}
+        handleEval={handleEval}
+        pasos={pasos}
+      />
     </div>
   );
 }

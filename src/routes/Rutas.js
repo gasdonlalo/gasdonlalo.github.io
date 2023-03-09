@@ -22,6 +22,7 @@ import SNR from "../components/pages/salidaNoConforme/SalidasNoConformesReportes
 import SNCP from "../components/pages/salidaNoConforme/SalidaNoConformePendiente";
 import SNCPET from "../components/pages/salidaNoConforme/PorEmpleadoTipo";
 import OrdenIsla from "../components/pages/despacho/OrdenIsla";
+import DHOL from "../components/pages/despacho/reporteria/HistorialOyL";
 
 //importacion de graficos despacho
 import GMF from "../components/pages/despacho/reporteria/GraficaMontofaltante";
@@ -32,7 +33,9 @@ import DRE from "../components/pages/despacho/reporteria/GraficaRecolEfectivo";
 import GPD from "../components/pages/despacho/reporteria/GraficaPasoDes";
 import GRD from "../components/pages/despacho/reporteria/GraficaRecursosDes";
 import GMSN from "../components/pages/salidaNoConforme/SalidaNoConformeGraficaMensual";
+import GOYL from "../components/pages/despacho/reporteria/GraficaOyL";
 import GSNI from "../components/pages/salidaNoConforme/SalidaInconformidadesGrafica";
+import GOYLE from "../components/pages/despacho/reporteria/GraficaOyLEmpleado";
 //importaciones recursos humanos
 import RecursosHumanos from "../components/pages/RecursosHumanos";
 import SolicitudesEmpleo from "../components/pages/RecursosHumanos/SolicitudesEmpleo";
@@ -77,6 +80,7 @@ import PdfV2 from "../components/pdf_generador/PdfV2";
 import ConfiguracionEstacion from "../components/pages/administrativo/ConfiguracionEstacion";
 import RepConfiguracionEstacion from "../components/pages/administrativo/reportes/RepConfiguracionEstacion";
 import ConfiguracionPermisos from "../components/pages/administrativo/ConfiguracionPermisos";
+import ConfiguracionLecturasIni from "../components/pages/administrativo/ConfiguracionLecturasIni";
 import RepConfiguracionPermisos from "../components/pages/administrativo/reportes/RepConfiguracionPermisos";
 import ConfiguracionUsuario from "../components/pages/administrativo/ConfiguracionUsuario";
 import Inc from "../components/pages/salidaNoConforme/Incumplimientos";
@@ -99,6 +103,7 @@ function Rutas() {
           <Route path="home" element={<Home />} />
           <Route path="*" element={<Notfound />} />
         </Route>
+        {/* SNC */}
         <Route path="/:departamento/salida-no-conforme" element={<Layout />}>
           <Route index element={<SalidaNoConforme />} />
           <Route path="files" element={<SNR />} />;
@@ -147,6 +152,12 @@ function Rutas() {
             <Route path="recurso-despachador/historial" element={<DHRD />} />
             <Route path="*" element={<Notfound />} />
             <Route path="orden-limpieza-isla" element={<OrdenIsla />} />
+            <Route path="orden-limpieza-isla/reporte" element={<GOYL />} />
+            <Route path="orden-limpieza-isla/historial" element={<DHOL />} />
+            <Route
+              path="orden-limpieza-isla/reporte/:idEmpleado"
+              element={<GOYLE />}
+            />
           </Route>
         )}
 
@@ -215,6 +226,10 @@ function Rutas() {
           <Route
             path="configuracion-usuario"
             element={<ConfiguracionUsuario />}
+          />
+          <Route
+            path="permisos-inicial"
+            element={<ConfiguracionLecturasIni />}
           />
           <Route path="rep-permisos" element={<RepConfiguracionPermisos />} />
           <Route path="rep-estacion" element={<RepConfiguracionEstacion />} />

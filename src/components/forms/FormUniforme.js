@@ -84,82 +84,80 @@ function FormUniforme() {
   };
 
   return (
-    <form
-      onSubmit={enviar}
-      className="row m-auto shadow p-2 mb-3"
-      style={{ width: "900px" }}
-    >
-      <ModalError
-        show={modalError.status}
-        close={modalClose}
-        text={modalError.msg}
-      />
-      <ModalSuccess show={modalSuccess} close={modalClose} />
-      <HeaderForm />
-      <div className="col-md-6">
-        <label className="form-label">Fecha a evaluar</label>
-        <InputFecha
-          handle={handle}
-          data={body}
-          setData={setBody}
-          name="fecha"
+    <div className="container ">
+      <form onSubmit={enviar} className="row m-auto shadow p-2 mb-3">
+        <ModalError
+          show={modalError.status}
+          close={modalClose}
+          text={modalError.msg}
         />
-      </div>
-      <div className="col-md-6 mb-3">
-        <label className="form-label">Empleado a evaluar</label>
-        {!despachadores.error && !despachadores.isPending && (
-          <InputSelectEmpleado
-            name="empleado"
-            empleados={despachadores.data.response}
+        <ModalSuccess show={modalSuccess} close={modalClose} />
+        <HeaderForm />
+        <div className="col-md-6">
+          <label className="form-label">Fecha a evaluar</label>
+          <InputFecha
             handle={handle}
+            data={body}
+            setData={setBody}
+            name="fecha"
           />
-        )}
-      </div>
-      <div className="w-100 m-auto">
-        <label className="form-label">Evaluaciones</label>
-        <div className="d-flex flex-wrap justify-content-center">
-          {!pasosDespacho.error &&
-            !pasosDespacho.isPending &&
-            pasosDespacho.data.response.map((el) => (
-              <div
-                className="mx-1 p-1 text-center border my-2 rounded"
-                key={el.idcumplimiento_uniforme}
-              >
-                <label className="form-label">{el.cumplimiento}</label>
-                <div className="w-100 d-flex justify-content-evenly">
-                  <label className="form-label rounded border p-2 d-flex flex-column mx-1">
-                    Cumple
-                    <input
-                      type="radio"
-                      name={el.idcumplimiento_uniforme}
-                      className="input-check-form"
-                      value={1}
-                      onChange={handleEv}
-                      defaultChecked
-                    />
-                  </label>
-                  <label className="form-label rounded border p-2 d-flex flex-column mx-1">
-                    No cumple
-                    <input
-                      type="radio"
-                      name={el.idcumplimiento_uniforme}
-                      className="input-check-form"
-                      value={0}
-                      onChange={handleEv}
-                    />
-                  </label>
+        </div>
+        <div className="col-md-6 mb-3">
+          <label className="form-label">Empleado a evaluar</label>
+          {!despachadores.error && !despachadores.isPending && (
+            <InputSelectEmpleado
+              name="empleado"
+              empleados={despachadores.data.response}
+              handle={handle}
+            />
+          )}
+        </div>
+        <div className="w-100 m-auto">
+          <label className="form-label">Evaluaciones</label>
+          <div className="d-flex flex-wrap justify-content-center">
+            {!pasosDespacho.error &&
+              !pasosDespacho.isPending &&
+              pasosDespacho.data.response.map((el) => (
+                <div
+                  className="mx-1 p-1 text-center border my-2 rounded"
+                  key={el.idcumplimiento_uniforme}
+                >
+                  <label className="form-label">{el.cumplimiento}</label>
+                  <div className="w-100 d-flex justify-content-evenly">
+                    <label className="form-label rounded border p-2 d-flex flex-column mx-1">
+                      Cumple
+                      <input
+                        type="radio"
+                        name={el.idcumplimiento_uniforme}
+                        className="input-check-form"
+                        value={1}
+                        onChange={handleEv}
+                        defaultChecked
+                      />
+                    </label>
+                    <label className="form-label rounded border p-2 d-flex flex-column mx-1">
+                      No cumple
+                      <input
+                        type="radio"
+                        name={el.idcumplimiento_uniforme}
+                        className="input-check-form"
+                        value={0}
+                        onChange={handleEv}
+                      />
+                    </label>
+                  </div>
                 </div>
-              </div>
-            ))}
+              ))}
+          </div>
+          <div className="col-md-12">
+            <button className="m-auto d-block btn btn-primary">
+              {" "}
+              {formPending ? <Loader size="1.5" /> : "Evaluar"}{" "}
+            </button>
+          </div>
         </div>
-        <div className="col-md-12">
-          <button className="m-auto d-block btn btn-primary">
-            {" "}
-            {formPending ? <Loader size="1.5" /> : "Evaluar"}{" "}
-          </button>
-        </div>
-      </div>
-    </form>
+      </form>
+    </div>
   );
 }
 export default FormUniforme;

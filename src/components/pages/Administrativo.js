@@ -41,6 +41,11 @@ function Administrativo() {
                 text="Configuracion de permisos"
               />
             )}
+            <Card
+              icon="fa-thin fa-clipboard-list text-danger"
+              url="permisos-inicial"
+              text="entra gei"
+            />
             {/* <Card
               icon="fa-thin fa-clipboard-list"
               url=""

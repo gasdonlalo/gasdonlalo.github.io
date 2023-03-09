@@ -12,6 +12,7 @@ import { Per } from "../Provider/Auth";
 
 function ActualizarSNC({ show, handleClose, id, setActualizar, actualizar }) {
   const data = useGetData(`salida-no-conforme/${id}`);
+
   return (
     <div>
       {!data.error && !data.isPending && (
@@ -29,10 +30,13 @@ function ActualizarSNC({ show, handleClose, id, setActualizar, actualizar }) {
 }
 
 const Success = ({ show, handleClose, id, setActualizar, actualizar, SNC }) => {
-  console.log(SNC);
   const [showAlertSucces, setShowAlertSucces] = useState(false);
   const [showError, setShowError] = useState(false);
   const [pendiente, setPendiente] = useState(false);
+  const [deshabilitar, setDeshabilitar] = useState({
+    conseciones: false,
+    correciones: false,
+  });
 
   const [datos, setDatos] = useState({
     fecha: format.formatFechaDB(SNC.data.response[0].fecha),
@@ -46,12 +50,29 @@ const Success = ({ show, handleClose, id, setActualizar, actualizar, SNC }) => {
   const handle = (e) => {
     setDatos({ ...datos, [e.target.name]: e.target.value });
   };
+  const handleAcciones = (e) => {
+    if (e.target.value.length === 0) {
+      setDatos({ ...datos, accionesCorregir: null });
+      setDeshabilitar({ ...deshabilitar, conseciones: false });
+    } else {
+      setDeshabilitar({ ...deshabilitar, conseciones: true });
+      setDatos({ ...datos, accionesCorregir: e.target.value });
+    }
+  };
+  const handleConseciones = (e) => {
+    if (e.target.value.length === 0) {
+      setDatos({ ...datos, [e.target.name]: null });
+      setDeshabilitar({ ...deshabilitar, correciones: false });
+    } else {
+      setDeshabilitar({ ...deshabilitar, correciones: true });
+      setDatos({ ...datos, [e.target.name]: e.target.value });
+    }
+  };
 
   const empleado = useGetData("/empleado?departamento=1");
   const incumplimiento = useGetData("/incumplimiento");
   const enviar = (e) => {
     e.preventDefault();
-    console.log(datos);
     setPendiente(true);
     enviarDatos();
     e.target.reset();
@@ -112,8 +133,8 @@ const Success = ({ show, handleClose, id, setActualizar, actualizar, SNC }) => {
                   className="form-control"
                   placeholder="Escribe las nuevas acciones  "
                   defaultValue={SNC.data.response[0].acciones_corregir}
-                  disabled={!Per(23)}
-                  onChange={handle}
+                  disabled={!Per(23) || deshabilitar.correciones}
+                  onChange={handleAcciones}
                 />
               </div>
               <div className="mb-3">
@@ -123,8 +144,8 @@ const Success = ({ show, handleClose, id, setActualizar, actualizar, SNC }) => {
                   className="form-control"
                   placeholder="Escribe las nuevas concesiones"
                   defaultValue={SNC.data.response[0].concesiones}
-                  disabled={!Per(23)}
-                  onChange={handle}
+                  disabled={!Per(23) || deshabilitar.conseciones}
+                  onChange={handleConseciones}
                 />
               </div>
               <div className="row mb-3">
