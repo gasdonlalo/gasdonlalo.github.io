@@ -143,7 +143,7 @@ const Success = ({ empleados }) => {
               reset={body} //Le paso el body para validar si esta null limpiar el input
               empleados={empleados}
               handle={handle}
-              name="idEmpleado"
+              name="empleado"
             />
           </div>
           <div className="p-2">
