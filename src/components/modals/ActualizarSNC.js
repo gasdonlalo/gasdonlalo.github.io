@@ -93,6 +93,7 @@ const Success = ({ show, handleClose, id, setActualizar, actualizar, SNC }) => {
       setPendiente(false);
     }
   };
+  const exp = new RegExp(/^\s*$/, "g");
 
   return (
     <div>
@@ -189,7 +190,22 @@ const Success = ({ show, handleClose, id, setActualizar, actualizar, SNC }) => {
               </div>
               <AlertSuccess show={showAlertSucces} />
               <AlertError show={showError} setAlertError={setShowError} />
-              <button type="submit" className="btn btn-primary">
+              {(exp.test(datos.accionesCorregir) ||
+                exp.test(datos.descripcionFalla) ||
+                exp.test(datos.concesiones)) && (
+                <p className="text-danger text-center fst-italic">
+                  No puedes dejar los campos vacios, revisalos e intenta de
+                  nuevo
+                </p>
+              )}
+              <button
+                type="submit"
+                className="btn btn-primary"
+                disabled={
+                  exp.test(datos.concesiones) ||
+                  exp.test(datos.accionesCorregir)
+                }
+              >
                 {pendiente ? <Loader size="1.5rem" /> : "Actualizar"}
               </button>
             </form>
