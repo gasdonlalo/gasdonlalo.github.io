@@ -83,6 +83,7 @@ import ConfiguracionPermisos from "../components/pages/administrativo/Configurac
 import RepConfiguracionPermisos from "../components/pages/administrativo/reportes/RepConfiguracionPermisos";
 import ConfiguracionUsuario from "../components/pages/administrativo/ConfiguracionUsuario";
 import Inc from "../components/pages/salidaNoConforme/Incumplimientos";
+import SNCE from "../components/pages/salidaNoConforme/SNCEmpleado";
 
 import { Dep } from "../components/Provider/Auth";
 import OctanosoRegistros from "../components/pages/RecursosHumanos/Reportes/OctanosoRegistros";
@@ -105,6 +106,7 @@ function Rutas() {
           <Route index element={<Home />} />
           <Route path="home" element={<Home />} />
           <Route path="/auth/changePassword" element={<ChangePass />} />
+          <Route path="/snc" element={<SNCE />} />
           <Route path="*" element={<Notfound />} />
         </Route>
         {/* SNC */}
