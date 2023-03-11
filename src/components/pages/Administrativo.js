@@ -41,6 +41,11 @@ function Administrativo() {
                 text="Configuracion de permisos"
               />
             )}
+            <Card
+              text="Boleta de evaluaciones de despachador"
+              url="resumen-despacho"
+              icon="fa-solid fa-user-check text-primary"
+            />
             {/* <Card
               icon="fa-thin fa-clipboard-list"
               url=""

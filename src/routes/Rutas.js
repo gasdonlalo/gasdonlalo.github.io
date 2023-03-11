@@ -88,6 +88,8 @@ import { Dep } from "../components/Provider/Auth";
 import OctanosoRegistros from "../components/pages/RecursosHumanos/Reportes/OctanosoRegistros";
 //import OrdenIsla from "../components/pages/despacho/OrdenIsla";
 import EvalUniformeEmpleado from "../components/pages/despacho/reporteria/EvalUniformeEmpleado";
+import Boleta from "../components/pages/administrativo/Boletas/Boleta";
+import DetalleBoletas from "../components/pages/administrativo/Boletas/DetalleBoletas";
 
 function Rutas() {
   return (
@@ -228,6 +230,10 @@ function Rutas() {
           />
           <Route path="rep-permisos" element={<RepConfiguracionPermisos />} />
           <Route path="rep-estacion" element={<RepConfiguracionEstacion />} />
+          <Route path="resumen-despacho">
+            <Route index element={<Boleta />} />
+            <Route path="detalles/:id" element={<DetalleBoletas />} />
+          </Route>
         </Route>
 
         {/* Mantenimiento */}
