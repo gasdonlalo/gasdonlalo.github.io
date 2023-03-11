@@ -90,6 +90,8 @@ import OctanosoRegistros from "../components/pages/RecursosHumanos/Reportes/Octa
 import EvalUniformeEmpleado from "../components/pages/despacho/reporteria/EvalUniformeEmpleado";
 import Boleta from "../components/pages/administrativo/Boletas/Boleta";
 import DetalleBoletas from "../components/pages/administrativo/Boletas/DetalleBoletas";
+//Auth change
+import ChangePass from "../components/pages/ChangePass";
 
 function Rutas() {
   return (
@@ -102,6 +104,7 @@ function Rutas() {
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />
           <Route path="home" element={<Home />} />
+          <Route path="/auth/changePassword" element={<ChangePass />} />
           <Route path="*" element={<Notfound />} />
         </Route>
         {/* SNC */}
