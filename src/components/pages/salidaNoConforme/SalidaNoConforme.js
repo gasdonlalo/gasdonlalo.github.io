@@ -50,6 +50,7 @@ const SalidaNoConforme = () => {
     }`,
     actualizar
   );
+  console.log(porResolver);
 
   const LimpiarDefault = () => {
     setDefaultIncumpliento(null);
@@ -63,13 +64,11 @@ const SalidaNoConforme = () => {
   };
   const enviar = (e) => {
     e.preventDefault();
-    enviarDatos(datos);
-    e.target.reset();
-    setDatos(null);
-    LimpiarDefault();
+    console.log(datos);
+    enviarDatos(datos, e);
   };
 
-  const enviarDatos = async (x) => {
+  const enviarDatos = async (x, e) => {
     try {
       const req = await Axios.post("/salida-no-conforme", x);
       setIdsalida(req.data.response);
@@ -77,7 +76,10 @@ const SalidaNoConforme = () => {
       setTimeout(() => {
         setShowAlertSuccess(false);
       }, 800);
+      setDatos(null);
       setActualizar(!actualizar);
+      LimpiarDefault();
+      e.target.reset();
     } catch {
       setShowAlert(true);
     }
@@ -121,8 +123,6 @@ const SalidaNoConforme = () => {
   const mostrarPendientesCaptura = () => {
     setShowPendientesCaptura(true);
   };
-
-  const exp = new RegExp(/^\s*$/, "g");
 
   return (
     <div className="Main">
@@ -291,27 +291,12 @@ const SalidaNoConforme = () => {
                 )}
               </div>
               <div className="mt-2 mb-5 w-100">
-                {(exp.test(datos.accionesCorregir) ||
-                  exp.test(datos.descripcionFalla) ||
-                  exp.test(datos.concesiones)) && (
-                  <p className="text-danger text-center fst-italic">
-                    No puedes dejar los campos vacios, revisalos e intenta de
-                    nuevo
-                  </p>
-                )}
                 <button
                   type="submit"
                   className="btn btn-primary d-block m-auto"
-                  disabled={
-                    exp.test(datos.accionesCorregir) ||
-                    exp.test(datos.descripcionFalla) ||
-                    exp.test(datos.concesiones)
-                  }
                 >
                   Crear salida no conforme
                 </button>
-
-                {/* Boton cancelar captura */}
                 {!defaultEmpleado &&
                 !defaultFecha &&
                 !defaultIncumpliento ? null : (
