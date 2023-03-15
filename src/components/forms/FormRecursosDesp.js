@@ -20,33 +20,16 @@ const FormRecursosDesp = () => {
     setBody({ ...body, [e.target.name]: e.target.value });
   };
 
-  /*   const handleRecursos = (e) => {
-    let idRecurso = Number(e.target.name);
-    let evaluacion = Number(e.target.value);
-    let filtrarPasos = body.recursos.filter((el) => el.idRecurso !== idRecurso);
-    let insertarNuevo = { idRecurso, evaluacion };
+  const handleSwitch = (e) => {
+    let evaluacion = e.target.checked ? 1 : 0;
+    let cuerpo = body.recursos.filter(
+      (el) => el.idRecurso !== Number(e.target.name)
+    );
+    cuerpo.push({ idRecurso: Number(e.target.name), evaluacion: evaluacion });
     setBody({
       ...body,
-      recursos: [...filtrarPasos, insertarNuevo],
+      recursos: cuerpo,
     });
-  };
- */
-  const handleSwitch = (e) => {
-    let id = Number(e.target.name);
-    let evaluacion = e.target.checked ? 1 : 0;
-    if (e.target.checked) {
-      let filtrarPasos = body.recursos.filter((el) => el.idRecurso !== id);
-      setBody({
-        ...body,
-        recursos: [...filtrarPasos, { idRecurso: id, evaluacion: evaluacion }],
-      });
-    } else {
-      let filtrarPasos = body.recursos.filter((el) => el.idRecurso !== id);
-      setBody({
-        ...body,
-        recursos: [...filtrarPasos, { idRecurso: id, evaluacion: evaluacion }],
-      });
-    }
   };
 
   const closeModal = () => {
@@ -55,11 +38,9 @@ const FormRecursosDesp = () => {
   };
   const enviar = async (e) => {
     e.preventDefault();
-    console.log(body);
     setFormPending(true);
     try {
       const res = await Axios.post("/lista-recurso-despachador", body);
-      console.log(res);
       setModalSuccess(true);
       setTimeout(() => {
         setModalSuccess(false);
@@ -68,7 +49,6 @@ const FormRecursosDesp = () => {
       e.target.reset();
       setBody({ recursos: [] });
     } catch (err) {
-      console.log(err);
       if (err.hasOwnProperty("response")) {
         setModalError({
           status: true,
@@ -81,9 +61,8 @@ const FormRecursosDesp = () => {
       e.target.reset();
       setBody({ recursos: [] });
     }
-    setBody({ recursos: [] });
   };
-
+  console.log(body);
   return (
     <div className="container">
       <ModalSuccess show={modalSuccess} close={closeModal} />
@@ -127,12 +106,12 @@ const FormRecursosDesp = () => {
               : recursos.data.response.map((e, i) => {
                   return (
                     <div className="col-6 form-check form-switch " key={i}>
-                      <label className="form-check-label ">
+                      <label className="form-check-label">
                         <input
                           className="form-check-input"
                           type="checkbox"
                           role="switch"
-                          onChange={handleSwitch}
+                          onClick={handleSwitch}
                           name={e.idrecurso}
                         />
                         {e.recurso}
