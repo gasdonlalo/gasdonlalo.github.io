@@ -8,12 +8,12 @@ function OrdenIsla() {
       <HeaderComponents
         urlBack="/despacho"
         textUrlback="Volver a Despacho"
-        title="Orden y Limpiza de Isla"
+        title="Orden y Limpieza de Isla"
       >
         <div>
           <IconComponents
             icon="chart-simple text-danger"
-            text="Reportes orde y limpieza"
+            text="Reportes orden y limpieza"
             url="reporte"
           />
         </div>
