@@ -128,6 +128,7 @@ const Success = ({ data, setMDel, setMEdit, datosGrafica }) => {
         <thead>
           <tr>
             <th className="border px-2 text-center">Fecha</th>
+            <th className="border px-2 text-center">Fecha check</th>
             <th className="border px-2 text-center">Estación servicio</th>
             <th className="border px-2 text-center">Turno</th>
             <th className="border px-2 text-center">Bomba</th>
@@ -136,6 +137,7 @@ const Success = ({ data, setMDel, setMEdit, datosGrafica }) => {
             <th className="border px-2 text-center">
               Empleado empleado entrante
             </th>
+            <th className="border px-2 text-center">Empleado saliente check</th>
             <th className="border px-2 text-center">Empleado saliente</th>
           </tr>
         </thead>
@@ -145,6 +147,13 @@ const Success = ({ data, setMDel, setMEdit, datosGrafica }) => {
             <tr key={el.idchecklist_bomba}>
               <td className="border text-center px-2">
                 {format.formatFechaComplete(el.fecha)}
+              </td>
+              <td className="border text-center px-2">
+                {el.fechac ? (
+                  <span className="text-success fw-semibold">Cumple</span>
+                ) : (
+                  <span className="text-danger fw-semibold">No cumple</span>
+                )}
               </td>
               <td className="border text-center px-2">
                 {el.estacion_servicio ? (
@@ -182,8 +191,20 @@ const Success = ({ data, setMDel, setMEdit, datosGrafica }) => {
                 )}
               </td>
               <td className="border text-center px-2">
-                {el.empleado_entrante ? "Sí" : "No"}
+                {el.empleado_entrante ? (
+                  <span className="text-success fw-semibold">Cumple</span>
+                ) : (
+                  <span className="text-danger fw-semibold">No cumple</span>
+                )}
               </td>
+              <td className="border text-center px-2">
+                {el.empleado_saliente ? (
+                  <span className="text-success fw-semibold">Cumple</span>
+                ) : (
+                  <span className="text-danger fw-semibold">No cumple</span>
+                )}
+              </td>
+
               <td className="border text-center px-2">
                 {format.formatTextoMayusPrimeraLetra(
                   `${el.empSaliente.nombre} ${el.empSaliente.apellido_paterno} ${el.empSaliente.apellido_materno}`

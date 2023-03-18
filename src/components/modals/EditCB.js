@@ -45,6 +45,8 @@ export const EditCB = ({
       estacionServicio: data.response[0].estacion_servicio,
       idEmpleadoSaliente: data.response[0].idempleado_saliente,
       empleadoEntrante: data.response[0].empleado_entrante,
+      empleadoSaliente: data.response[0].empleado_saliente,
+      fechac: data.response[0].fechac,
     };
     console.log({ ...datos, ...body });
     try {
@@ -87,6 +89,20 @@ export const EditCB = ({
                 setData={setBody}
                 defaultValue={format.formatFechaDB(data.response[0].fecha)}
               />
+            </div>
+            <div className="mb-3">
+              <div className="form-check form-switch">
+                <label className="form-label mb-0">
+                  fecha
+                  <input
+                    type="checkbox"
+                    className="form-check-input"
+                    name="fechac"
+                    onChange={handle}
+                    defaultChecked={data.response[0].fechac}
+                  />
+                </label>
+              </div>
             </div>
             <div className="mb-3">
               <div className="form-check form-switch">
@@ -168,6 +184,20 @@ export const EditCB = ({
                     name="empleadoEntrante"
                     onChange={handle}
                     defaultChecked={data.response[0].empleado_entrante}
+                  />
+                </label>
+              </div>
+            </div>
+            <div className="mb-3">
+              <div className="form-check form-switch">
+                <label className="form-label mb-0">
+                  Empleado saliente
+                  <input
+                    type="checkbox"
+                    className="form-check-input"
+                    name="empleadoSaliente"
+                    onChange={handle}
+                    defaultChecked={data.response[0].empleado_saliente}
                   />
                 </label>
               </div>

@@ -65,13 +65,10 @@ const SalidaNoConforme = () => {
   const enviar = (e) => {
     e.preventDefault();
     console.log(datos);
-    enviarDatos(datos);
-    e.target.reset();
-    setDatos(null);
-    LimpiarDefault();
+    enviarDatos(datos, e);
   };
 
-  const enviarDatos = async (x) => {
+  const enviarDatos = async (x, e) => {
     try {
       const req = await Axios.post("/salida-no-conforme", x);
       setIdsalida(req.data.response);
@@ -79,7 +76,10 @@ const SalidaNoConforme = () => {
       setTimeout(() => {
         setShowAlertSuccess(false);
       }, 800);
+      setDatos(null);
       setActualizar(!actualizar);
+      LimpiarDefault();
+      e.target.reset();
     } catch {
       setShowAlert(true);
     }

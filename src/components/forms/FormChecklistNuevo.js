@@ -122,6 +122,7 @@ function FormChecklistNuevo() {
         <div className="mb-2">
           <table className="table">
             <tbody>
+              <DivChecks text="Fecha" state={[radio, setRadio]} name="fechac" />
               <DivChecks
                 text="Estacion Servicio"
                 state={[radio, setRadio]}
@@ -143,6 +144,11 @@ function FormChecklistNuevo() {
                 text="Empleado entrante"
                 state={[radio, setRadio]}
                 name="empleadoEntrante"
+              />
+              <DivChecks
+                text="Empleado saliente"
+                state={[radio, setRadio]}
+                name="empleadoSaliente"
               />
             </tbody>
           </table>

@@ -84,11 +84,16 @@ import ConfiguracionLecturasIni from "../components/pages/administrativo/Configu
 import RepConfiguracionPermisos from "../components/pages/administrativo/reportes/RepConfiguracionPermisos";
 import ConfiguracionUsuario from "../components/pages/administrativo/ConfiguracionUsuario";
 import Inc from "../components/pages/salidaNoConforme/Incumplimientos";
+import SNCE from "../components/pages/salidaNoConforme/SNCEmpleado";
 
 import { Dep } from "../components/Provider/Auth";
 import OctanosoRegistros from "../components/pages/RecursosHumanos/Reportes/OctanosoRegistros";
 //import OrdenIsla from "../components/pages/despacho/OrdenIsla";
 import EvalUniformeEmpleado from "../components/pages/despacho/reporteria/EvalUniformeEmpleado";
+import Boleta from "../components/pages/administrativo/Boletas/Boleta";
+import DetalleBoletas from "../components/pages/administrativo/Boletas/DetalleBoletas";
+//Auth change
+import ChangePass from "../components/pages/ChangePass";
 
 function Rutas() {
   return (
@@ -101,6 +106,8 @@ function Rutas() {
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />
           <Route path="home" element={<Home />} />
+          <Route path="/auth/changePassword" element={<ChangePass />} />
+          <Route path="/snc" element={<SNCE />} />
           <Route path="*" element={<Notfound />} />
         </Route>
         {/* SNC */}
@@ -233,6 +240,10 @@ function Rutas() {
           />
           <Route path="rep-permisos" element={<RepConfiguracionPermisos />} />
           <Route path="rep-estacion" element={<RepConfiguracionEstacion />} />
+          <Route path="resumen-despacho">
+            <Route index element={<Boleta />} />
+            <Route path="detalles/:id" element={<DetalleBoletas />} />
+          </Route>
         </Route>
 
         {/* Mantenimiento */}

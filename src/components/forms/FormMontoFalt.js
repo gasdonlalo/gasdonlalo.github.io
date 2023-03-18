@@ -3,14 +3,12 @@ function FormMontoFalt({ handle, enviar }) {
     <div className="container">
       <form onSubmit={enviar}>
         <div className="mb-3">
-          <label htmlFor="exampleInputEmail1" className="form-label">
-            ID de empleado
-          </label>
+          <label className="form-label">ID de empleado</label>
           <input
             type="number"
             className="form-control"
             aria-describedby="emailHelp"
-            name="empleado"
+            name="idEmpleado"
             onChange={handle}
           />
         </div>

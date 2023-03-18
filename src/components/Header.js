@@ -1,5 +1,5 @@
 import Logo from "../IMG/LogoGL.png";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Data } from "./Provider/Auth";
 import { Dropdown, DropdownButton } from "react-bootstrap";
 import DropdownItem from "react-bootstrap/esm/DropdownItem";
@@ -7,6 +7,10 @@ import DropdownItem from "react-bootstrap/esm/DropdownItem";
 function Header() {
   const [user] = Data();
   const { nombre } = user.auth;
+  const navigate = useNavigate();
+  const changePass = () => {
+    navigate("/auth/changePassword");
+  };
   return (
     <div className="Header shadow-sm sticky-top ">
       <img
@@ -34,7 +38,19 @@ function Header() {
             variant="outline-secondary me-2"
             id="dropdown-menu-align-center  "
           >
-            <DropdownItem className="pe-none">Bienvenido {nombre}</DropdownItem>
+            <DropdownItem active={false} className="pe-none">
+              Bienvenido {nombre}
+            </DropdownItem>
+            <DropdownItem>
+              <div>
+                <button
+                  className="btn btn-danger d-block mx-auto"
+                  onClick={changePass}
+                >
+                  Cambiar contraseña
+                </button>
+              </div>
+            </DropdownItem>
             <Dropdown.Divider />
             <DropdownItem
               onClick={() => {

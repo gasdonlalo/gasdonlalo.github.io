@@ -63,6 +63,11 @@ export const SalidasNoConformesReportes = () => {
             text="Empleado y tipo"
             icon="user-tag text-warning"
           />
+          <IconComponents
+            url="/snc"
+            text="SNC empleado"
+            icon="person text-danger"
+          />
         </div>
       </HeaderComponents>
 
