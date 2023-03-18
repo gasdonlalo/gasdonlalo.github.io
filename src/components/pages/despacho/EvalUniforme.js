@@ -19,12 +19,6 @@ function EvalUniforme() {
             />
           </div>
         </HeaderComponents>
-        <p style={{ background: "#dadada" }} className="rounded">
-          <em>
-            Solo ser permiten dos evaluaciones por despachador, entre la primera
-            y segunda quincena de cada mes
-          </em>
-        </p>
         <FormUniforme />
       </div>
     </div>

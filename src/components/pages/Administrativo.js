@@ -46,6 +46,11 @@ function Administrativo() {
               url="resumen-despacho"
               icon="fa-solid fa-user-check text-primary"
             />
+            <Card
+              icon="fa-thin fa-clipboard-list text-primary"
+              url="configuracion-estacion"
+              text="Configuración de estación"
+            />
             {/* <Card
               icon="fa-thin fa-clipboard-list"
               url=""
