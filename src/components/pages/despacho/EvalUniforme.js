@@ -19,7 +19,9 @@ function EvalUniforme() {
             />
           </div>
         </HeaderComponents>
-        <FormUniforme />
+        <div className="pt-4">
+          <FormUniforme />
+        </div>
       </div>
     </div>
   );
