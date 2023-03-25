@@ -6,9 +6,7 @@ function Ventana({ cerrar, children, title }) {
     >
       {/* Boton cerrar */}
       <div className="d-flex flex-row border-bottom">
-        <h5 style={{ width: "100%" }}>
-          Configuracion inicial de bombas sssssssssssssssssssssssss
-        </h5>
+        <h5 style={{ width: "100%" }}>{title}</h5>
         <i
           className="fa-solid fa-xmark text-danger me-0"
           type="button"
