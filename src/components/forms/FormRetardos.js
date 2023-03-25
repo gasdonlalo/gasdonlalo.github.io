@@ -101,7 +101,7 @@ function FormRetardos({
             </select>
           </div>
           <div className="col-6 mb-3">
-            <label className="form-label mb-0">Hora entrada</label>
+            <label className="form-label mb-0">Horario en que entró</label>
             <input
               type="time"
               className="form-control"

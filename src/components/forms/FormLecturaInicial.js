@@ -76,7 +76,8 @@ const Success = ({ datos }) => {
                   </span>
                   <input
                     className="form-control"
-                    type="text"
+                    type="checkbox"
+                    role="sw"
                     aria-label="m1"
                   ></input>
                 </div>

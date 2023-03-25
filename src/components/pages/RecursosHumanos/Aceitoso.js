@@ -78,7 +78,7 @@ function Aceitoso() {
           <IconComponents
             text="Reporte"
             icon="chart-simple text-success"
-            url="../reporte"
+            url="reporte"
           />
           <IconComponents
             text="Registros"

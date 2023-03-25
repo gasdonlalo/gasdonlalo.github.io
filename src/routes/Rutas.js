@@ -156,7 +156,10 @@ function Rutas() {
             <Route path="pasos-despachar/reporte" element={<GPD />} />;
             <Route path="recurso-despachador" element={<RecursosDesp />} />;
             <Route path="recurso-despachador/reporte" element={<GRD />} />
-            <Route path="recurso-despachador/reporte/:idEmpleado" element={<GRDD />} />
+            <Route
+              path="recurso-despachador/reporte/:idEmpleado"
+              element={<GRDD />}
+            />
             <Route path="recurso-despachador/historial" element={<DHRD />} />
             <Route path="*" element={<Notfound />} />
             <Route path="orden-limpieza-isla" element={<OrdenIsla />} />
