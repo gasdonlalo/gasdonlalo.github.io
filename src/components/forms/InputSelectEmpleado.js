@@ -44,6 +44,13 @@ const InputSelectEmpleado = ({
   };
 
   useEffect(() => {
+    if (defaultData) {
+      setText(defaultData.nombre);
+      setId(defaultData.id);
+    }
+  }, [defaultData]);
+
+  useEffect(() => {
     if (reset === null || reset === false) {
       setText("Selecciona empleado");
       setId(null);

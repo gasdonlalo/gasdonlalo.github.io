@@ -31,7 +31,7 @@ export default function useGetData(url, actualizar) {
       setDataError(null);
       setIsPending(true);
     };
-  }, [url, actualizar]);
+  }, [url, actualizar, stateAuth]);
 
   return { data, error, dataError, isPending };
 }
@@ -39,7 +39,7 @@ export default function useGetData(url, actualizar) {
 const consultar = (url) =>
   new Promise(async (resolve, reject) => {
     try {
-      if(!url) return //Para evitar que haga una peticion a la url principal son endpoinds
+      if (!url) return; //Para evitar que haga una peticion a la url principal son endpoinds
       const consulta = await Axios.get(url);
       if (consulta.data.success) {
         resolve(consulta);
