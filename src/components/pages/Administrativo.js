@@ -46,11 +46,11 @@ function Administrativo() {
               url="resumen-despacho"
               icon="fa-solid fa-user-check text-primary"
             />
-            {/* <Card
+            <Card
               icon="fa-thin fa-clipboard-list text-primary"
               url="../liquidacion"
               text="Liquidacion"
-            /> */}
+            />
             {/* <Card
               icon="fa-thin fa-clipboard-list"
               url=""

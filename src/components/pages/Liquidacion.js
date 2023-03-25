@@ -1,9 +1,20 @@
 import { useState, Fragment } from "react";
 import Ventana from "../assets/ventana/Ventana";
+import ConfiguracionInicial from "./administrativo/ConfiguracionLecturasIni";
 
 function Liquidacion() {
   const [showConfig, setshowConfig] = useState(false);
   const [showLiquidacion, setshowLiquidacion] = useState(false);
+  const [contenido, setContenido] = useState(null);
+  const [showVentana, setShowVentana] = useState(false);
+
+  const mostrarVentana = (contenido) => {
+    setContenido(contenido);
+    setShowVentana(true);
+  };
+  const cerrarVentana = () => {
+    setShowVentana(false);
+  };
 
   const mostrarAjustes = () => {
     setshowConfig(true);
@@ -27,15 +38,18 @@ function Liquidacion() {
         <Card text="Liquidación" icon="receipt" action={mostrarLiquidacion} />
       </div>
       {/* Principal */}
-      {/* <div className="d-flex flex-fill flex-wrap justify-content-evenly align-items-center m-5">
-        <Card text="Configuracion de bomba " icon="gas-pump" height="100px" />
-        <Card text="Configuracion de xxxx" />
-      </div> */}
       <div className="d-flex flex-fill justify-content-evenly align-items-center  m-3">
         {!showConfig && !showLiquidacion && (
           <h4>Selecciona una opción para empezar</h4>
         )}
-        {showConfig && <Ajustes />}
+        {showConfig && (
+          <Ajustes
+            showVentana={showVentana}
+            mostrarVentana={mostrarVentana}
+            cerrarVentana={cerrarVentana}
+            contenido={contenido}
+          />
+        )}
         {showLiquidacion && <Liquidaciones />}
       </div>
     </div>
@@ -53,21 +67,21 @@ const Card = ({ text, icon, height, width, action }) => {
     </div>
   );
 };
-const Ajustes = () => {
-  const [showVentana, setShowVentana] = useState(false);
-  const mostrarVentana = () => {
-    setShowVentana(true);
-  };
+const Ajustes = ({ mostrarVentana, cerrarVentana, showVentana, contenido }) => {
   return (
     <Fragment>
       <Card
         text="Ajuste inicial de bomba"
         icon="gas-pump"
-        action={mostrarVentana}
+        action={() => mostrarVentana(ConfiguracionInicial)}
       />
-      <Card text="Ajuste xxxxx" icon="gas-pump" action={mostrarVentana} />
+      <Card
+        text="Ajuste xxxxx"
+        icon="gas-pump"
+        //action={() => mostrarVentana()}
+      />
 
-      {showVentana && <Ventana cerrar={() => setShowVentana(false)} />}
+      {showVentana && <Ventana children={contenido} cerrar={cerrarVentana} />}
     </Fragment>
   );
 };
