@@ -270,7 +270,7 @@ const SalidaNoConforme = () => {
                       className="form-select form-select"
                       onChange={(changeSelectIncumplimiento, handle)}
                       required
-                      // value={defaultIncumpliento}
+                      value={defaultIncumpliento || ""}
                       disabled={defaultEmpleado || false}
                     >
                       <option value="">-- Seleccionar incumplimiento --</option>
