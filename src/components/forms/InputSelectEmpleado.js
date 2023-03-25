@@ -99,10 +99,7 @@ const InputSelectEmpleado = ({
 };
 
 InputSelectEmpleado.defaultProps = {
-  defaultData: {
-    nombre: null,
-    id: null,
-  },
+  defaultData: false,
   disabled: false,
 };
 export default InputSelectEmpleado;

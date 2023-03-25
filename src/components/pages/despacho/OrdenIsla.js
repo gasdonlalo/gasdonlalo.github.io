@@ -13,7 +13,7 @@ function OrdenIsla() {
         <div>
           <IconComponents
             icon="chart-simple text-danger"
-            text="Reportes orden y limpieza"
+            text="Reportes OyL"
             url="reporte"
           />
         </div>
