@@ -37,6 +37,7 @@ function FormDespachar() {
       setModalSuccess(true);
       setTimeout(() => {
         setModalSuccess(false);
+        window.location.reload();
       }, 800);
       setFormPending(false);
       e.target.reset();
