@@ -97,8 +97,10 @@ const Success = ({ show, handleClose, datos, handle, descartar, esconder }) => {
         {datos.length === 0 ? (
           <ErrorHttp msg="No hay registros" />
         ) : (
-          datos.map((el) => {
-            return <Card el={el} handle={handle} descartar={descartar} />;
+          datos.map((el, i) => {
+            return (
+              <Card key={i} el={el} handle={handle} descartar={descartar} />
+            );
           })
         )}
       </Modal.Body>

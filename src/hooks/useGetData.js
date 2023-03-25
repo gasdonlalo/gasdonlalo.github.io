@@ -39,6 +39,7 @@ export default function useGetData(url, actualizar) {
 const consultar = (url) =>
   new Promise(async (resolve, reject) => {
     try {
+      if (!url) return; //Para evitar que haga una peticion a la url principal son endpoinds
       const consulta = await Axios.get(url);
       if (consulta.data.success) {
         resolve(consulta);
@@ -46,7 +47,7 @@ const consultar = (url) =>
         reject(consulta);
       }
     } catch (err) {
-      console.log(err);
+      // console.log(err);
       reject(err.response);
     }
   });
