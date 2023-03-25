@@ -86,3 +86,18 @@ body {
 .btn-select:hover {
   background-color: #e4e4e4;
 }
+.btn-liq {
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+.btn-liq:hover {
+  background-color: #e4e4e4;
+}
+.ventana {
+  background-color: white;
+  z-index: 1;
+  position: absolute;
+  height: 80vh;
+  width: 90vw;
+  padding: 10px;
+}
