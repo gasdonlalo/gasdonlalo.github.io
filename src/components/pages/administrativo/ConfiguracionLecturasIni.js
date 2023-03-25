@@ -5,11 +5,6 @@ import FormLecturaInicial from "../../../components/forms/FormLecturaInicial";
 function ConfiguracionLecturasIni() {
   return (
     <div className="Main">
-      <HeaderComponents
-        urlBack="/"
-        textUrlback="Volver a Administración"
-        title="Configuración de Lecturas Iniciales"
-      ></HeaderComponents>
       <div>
         <FormLecturaInicial />
       </div>

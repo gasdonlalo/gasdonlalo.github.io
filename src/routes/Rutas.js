@@ -75,8 +75,6 @@ import Aceitoso from "../components/pages/RecursosHumanos/Aceitoso";
 import GICO from "../components/pages/RecursosHumanos/Reportes/RepOctanoso";
 import GICA from "../components/pages/RecursosHumanos/Reportes/RepAceitoso";
 
-//pdf prueba
-import PdfV2 from "../components/pdf_generador/PdfV2";
 import ConfiguracionEstacion from "../components/pages/administrativo/ConfiguracionEstacion";
 import RepConfiguracionEstacion from "../components/pages/administrativo/reportes/RepConfiguracionEstacion";
 import ConfiguracionPermisos from "../components/pages/administrativo/ConfiguracionPermisos";
@@ -94,6 +92,7 @@ import Boleta from "../components/pages/administrativo/Boletas/Boleta";
 import DetalleBoletas from "../components/pages/administrativo/Boletas/DetalleBoletas";
 //Auth change
 import ChangePass from "../components/pages/ChangePass";
+import Liquidacion from "../components/pages/Liquidacion";
 
 function Rutas() {
   return (
@@ -222,10 +221,10 @@ function Rutas() {
         {/* Administrativo */}
         <Route path="/administrativo" element={<Layout />}>
           <Route index element={<Administrativo />} />
-          <Route
+          {/* <Route
             path="configuracion-estacion"
             element={<ConfiguracionEstacion />}
-          />
+          /> */}
           <Route
             path="configuracion-permisos"
             element={<ConfiguracionPermisos />}
@@ -261,7 +260,11 @@ function Rutas() {
         <Route path="/documentos-sgc" element={<Layout />}>
           <Route index element={<DocumentosSGC />} />
         </Route>
-        <Route path="/pdf" element={<PdfV2 />} />
+
+        {/* Liquidacion */}
+        <Route path="liquidacion" element={<Layout />}>
+          <Route index element={<Liquidacion />} />
+        </Route>
 
         {/* Siempre debe ir abajo */}
       </Routes>

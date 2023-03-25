@@ -48,8 +48,8 @@ function Administrativo() {
             />
             <Card
               icon="fa-thin fa-clipboard-list text-primary"
-              url="configuracion-estacion"
-              text="Configuración de estación"
+              url="../liquidacion"
+              text="Liquidacion"
             />
             {/* <Card
               icon="fa-thin fa-clipboard-list"
