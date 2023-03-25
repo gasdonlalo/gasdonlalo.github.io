@@ -207,7 +207,7 @@ const TablaEmpleados = ({ id }) => {
 };
 
 const Success = ({ solicitud, estatus, action, mostrar, mostrarUpdFecha }) => {
-  solicitud.sort((a, b) => a + b, 0);
+  solicitud.sort((a, b) => (a.idchecador > b.idchecador ? 1 : -1), 0);
   const [solicitudes, setSolicitudes] = useState(solicitud);
 
   const filterEmp = (e) => {
