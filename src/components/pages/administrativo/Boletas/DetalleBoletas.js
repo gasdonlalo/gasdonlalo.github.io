@@ -192,7 +192,7 @@ const Success = ({ datos, qna, idEmpleado }) => {
             <td>Menor o igual a 3</td>
             <td
               className={
-                datos.response.sncOtras > 3
+                datos.response.sncOtras >= 3
                   ? "bg-danger bg-opacity-75"
                   : "bg-success bg-opacity-75"
               }
@@ -205,7 +205,7 @@ const Success = ({ datos, qna, idEmpleado }) => {
             <td>Menor o igual a 3</td>
             <td
               className={
-                datos.response.sncEvaluacion > 3
+                datos.response.sncEvaluacion >= 3
                   ? "bg-danger bg-opacity-75"
                   : "bg-success bg-opacity-75"
               }

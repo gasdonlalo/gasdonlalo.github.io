@@ -11,14 +11,14 @@ import IconComponents from "../../../assets/IconComponents";
 
 const GraficaRecursosDes = () => {
   const date = new Date();
+  const qnaDefault = date.getDate() > 15 ? 2 : 1;
   const [year, setYear] = useState(date.getFullYear());
   const [month, setMonth] = useState(date.getMonth() + 1);
-  const [quincena, setQuincena] = useState(1);
-  //const despachador = useGetData("/empleado?departamento=1");
+  const [quincena, setQuincena] = useState(qnaDefault);
   const recursos = useGetData(
     `/lista-recurso-despachador/empleados/${year}/${month}/${quincena}`
   );
-  console.log(recursos);
+
   const changeYear = (e) => setYear(e.target.value);
   const changeMonth = (e) => setMonth(e.target.value);
   const handleQuincena = (e) => setQuincena(e.target.value);
@@ -48,8 +48,9 @@ const GraficaRecursosDes = () => {
           <select
             className="form-select"
             onChange={handleQuincena}
-            defaultValue={1}
+            defaultValue={quincena}
           >
+            <option value="">Mensual</option>
             <option value="1">Primer Quincena</option>
             <option value="2">Segunda Quincena</option>
           </select>
@@ -83,6 +84,7 @@ const GraficaRecursosDes = () => {
 
 const Success = ({ recursos, year, month, quincena }) => {
   const table = recursos.filter((re) => re.recursos.length > 0);
+  console.log(recursos);
 
   const tableTotalPuntos = recursos.map((el) => {
     if (el.recursos.length < 0) {
@@ -95,13 +97,13 @@ const Success = ({ recursos, year, month, quincena }) => {
     }
 
     let sumaPuntos = el.recursos
-      .map((re) => (re.evaluacion ? 1 : 0))
+      .map((re) => (re.promedio))
       .reduce((a, b) => a + b, 0);
 
     return {
       idempleado: el.idempleado,
       nombre_completo: el.nombre_completo,
-      cantidad: sumaPuntos,
+      cantidad: sumaPuntos.toFixed(2),
       puntaje_minimo: el.puntaje_minimo,
     };
   });
@@ -123,7 +125,6 @@ const Success = ({ recursos, year, month, quincena }) => {
       },
     ],
   };
-  console.log(dataScale);
 
   return (
     <Fragment>
@@ -154,10 +155,10 @@ const Success = ({ recursos, year, month, quincena }) => {
                         key={re.idrecurso_despachador}
                         className="fw-bold border"
                       >
-                        {re.evaluacion ? (
-                          <span className="text-success">1</span>
+                        {re.promedio >= 1 ? (
+                          <span className="text-success">{re.promedio.toFixed(2)}</span>
                         ) : (
-                          <span className="text-danger">0</span>
+                          <span className="text-danger">{re. promedio.toFixed(2)}</span>
                         )}
                       </td>
                     ))}

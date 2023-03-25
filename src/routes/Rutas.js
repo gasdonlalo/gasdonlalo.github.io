@@ -23,6 +23,7 @@ import SNCP from "../components/pages/salidaNoConforme/SalidaNoConformePendiente
 import SNCPET from "../components/pages/salidaNoConforme/PorEmpleadoTipo";
 import OrdenIsla from "../components/pages/despacho/OrdenIsla";
 import DHOL from "../components/pages/despacho/reporteria/HistorialOyL";
+import GRDD from "../components/pages/despacho/reporteria/GraficaRecursoDesDetalle";
 
 //importacion de graficos despacho
 import GMF from "../components/pages/despacho/reporteria/GraficaMontofaltante";
@@ -155,6 +156,7 @@ function Rutas() {
             <Route path="pasos-despachar/reporte" element={<GPD />} />;
             <Route path="recurso-despachador" element={<RecursosDesp />} />;
             <Route path="recurso-despachador/reporte" element={<GRD />} />
+            <Route path="recurso-despachador/reporte/:idEmpleado" element={<GRDD />} />
             <Route path="recurso-despachador/historial" element={<DHRD />} />
             <Route path="*" element={<Notfound />} />
             <Route path="orden-limpieza-isla" element={<OrdenIsla />} />
