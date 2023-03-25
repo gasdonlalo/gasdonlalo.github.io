@@ -1,9 +1,10 @@
-import React from "react";
+import { useState } from "react";
 import { Modal } from "react-bootstrap";
 import Axios from "../../Caxios/Axios";
 import useGetData from "../../hooks/useGetData";
 import ErrorHttp from "../assets/ErrorHttp";
 import format from "../assets/format";
+import ModalConfirmacion from "./ModalConfirmacion";
 
 function SNCPendienteCaptura({
   show,
@@ -19,6 +20,10 @@ function SNCPendienteCaptura({
     "/salida-no-conforme/pendientes",
     actualizar
   );
+  const [showConfirmacion, setShowConfirmacion] = useState(false);
+  const [esconder, setEsconder] = useState(null);
+  const [id, setId] = useState(null);
+
   const handle = (e, empleado) => {
     handleIncumplimiento(e.idincumplimiento);
     handleEmpleado({
@@ -34,15 +39,34 @@ function SNCPendienteCaptura({
     });
     handleClose();
   };
-  console.log(data);
-  const descartar = async (id) => {
+
+  const descartar = (x) => {
+    setId(x);
+    setEsconder("hidden");
+    setShowConfirmacion(true);
+    //handleClose();
+    /* */
+  };
+  const closeConfirmacion = () => {
+    setShowConfirmacion(false);
+    setEsconder(null);
+  };
+  const enviarDescartar = async () => {
+    setShowConfirmacion(false);
+    closeConfirmacion();
     try {
       await Axios.delete(`/sncacumuladas/eliminar/${id}`);
       setActualizar(!actualizar);
     } catch (err) {}
   };
+
   return (
     <div>
+      <ModalConfirmacion
+        show={showConfirmacion}
+        handleClose={closeConfirmacion}
+        enviar={enviarDescartar}
+      />
       {!error && !isPending && (
         <Success
           show={show}
@@ -50,15 +74,22 @@ function SNCPendienteCaptura({
           datos={data.response}
           handle={handle}
           descartar={descartar}
+          esconder={esconder}
         />
       )}
     </div>
   );
 }
 
-const Success = ({ show, handleClose, datos, handle, descartar }) => {
+const Success = ({ show, handleClose, datos, handle, descartar, esconder }) => {
   return (
-    <Modal show={show} onHide={handleClose} backdrop="static" centered>
+    <Modal
+      show={show}
+      onHide={handleClose}
+      backdrop="static"
+      centered
+      className={`visually-${esconder}`}
+    >
       <Modal.Header closeButton>
         <Modal.Title>SNC pendientes de captura</Modal.Title>
       </Modal.Header>
