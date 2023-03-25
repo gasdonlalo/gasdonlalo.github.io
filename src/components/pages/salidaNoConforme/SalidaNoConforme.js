@@ -17,7 +17,7 @@ import { Per } from "../../Provider/Auth";
 import SNCPendienteCaptura from "../../modals/SNCPendienteCaptura";
 
 const SalidaNoConforme = () => {
-  const [showAlert, setShowAlert] = useState(false);
+  const [showAlert, setShowAlert] = useState({ status: false, msg: "" });
   const [showAlertSuccess, setShowAlertSuccess] = useState(false);
   const [defaultIncumpliento, setDefaultIncumpliento] = useState(null);
   const [defaultEmpleado, setDefaultEmpleado] = useState(null);
@@ -50,7 +50,6 @@ const SalidaNoConforme = () => {
     }`,
     actualizar
   );
-  console.log(porResolver);
 
   const LimpiarDefault = () => {
     setDefaultIncumpliento(null);
@@ -64,7 +63,6 @@ const SalidaNoConforme = () => {
   };
   const enviar = (e) => {
     e.preventDefault();
-    console.log(datos);
     enviarDatos(datos, e);
   };
 
@@ -80,8 +78,8 @@ const SalidaNoConforme = () => {
       setActualizar(!actualizar);
       LimpiarDefault();
       e.target.reset();
-    } catch {
-      setShowAlert(true);
+    } catch (err) {
+      setShowAlert({ status: true, msg: err.response.data.msg || false });
     }
   };
 
@@ -216,6 +214,7 @@ const SalidaNoConforme = () => {
                   setData={setDatos}
                   name="fecha"
                   defaultValue={defaultFecha}
+                  disabled={defaultEmpleado || false}
                 />
               </div>
               <div className="mb">
@@ -258,12 +257,8 @@ const SalidaNoConforme = () => {
                       name="idEmpleadoIncumple"
                       handle={handle}
                       reset={datos}
-                      defaultData={{
-                        nombre: !defaultEmpleado
-                          ? null
-                          : defaultEmpleado.nombre,
-                        id: !defaultEmpleado ? null : defaultEmpleado.id,
-                      }}
+                      defaultData={defaultEmpleado || false}
+                      disabled={defaultEmpleado || false}
                     />
                   </div>
                 )}
@@ -275,7 +270,8 @@ const SalidaNoConforme = () => {
                       className="form-select form-select"
                       onChange={(changeSelectIncumplimiento, handle)}
                       required
-                      value={defaultIncumpliento}
+                      // value={defaultIncumpliento}
+                      disabled={defaultEmpleado || false}
                     >
                       <option value="">-- Seleccionar incumplimiento --</option>
                       {incumplimiento.data.response.map((el) => (
@@ -309,7 +305,11 @@ const SalidaNoConforme = () => {
                   </button>
                 )}
                 <div className="mt-3">
-                  <AlertError show={showAlert} setAlertError={setShowAlert} />
+                  <AlertError
+                    show={showAlert.status}
+                    setAlertError={setShowAlert}
+                    text={showAlert.msg}
+                  />
                   <AlertSuccess show={showAlertSuccess} />
                 </div>
               </div>
