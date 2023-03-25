@@ -161,20 +161,18 @@ const Success = ({
                 ) : (
                   <td className="text-danger">No cumple</td>
                 )}
-                {Per(28) && (
-                  <td style={{ width: " 5px" }} className="text-center">
-                    <i
-                      className="fa-solid fa-pen text-warning btn btn-outline-warning "
-                      role="button"
-                      onClick={() =>
-                        mostrarModal(
-                          e.idempleado,
-                          format.formatTextoMayusPrimeraLetra(e.nombre_completo)
-                        )
-                      }
-                    />
-                  </td>
-                )}
+                <td style={{ width: " 5px" }} className="text-center">
+                  <i
+                    className="fa-solid fa-pen text-warning btn btn-outline-warning "
+                    role="button"
+                    onClick={() =>
+                      mostrarModal(
+                        e.idempleado,
+                        format.formatTextoMayusPrimeraLetra(e.nombre_completo)
+                      )
+                    }
+                  />
+                </td>
               </tr>
             );
           })}
