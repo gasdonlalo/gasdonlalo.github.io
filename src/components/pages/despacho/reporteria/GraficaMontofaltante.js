@@ -36,7 +36,7 @@ function GraficaMontofaltante() {
       })),
     };
   }
-  console.log(dataBar);
+
   return (
     <div className="Main">
       <HeaderComponents
