@@ -65,6 +65,18 @@ const format = {
           : date
       )
     ),
+  formatHours: (date, convert = true) =>
+    new Intl.DateTimeFormat("es-MX", {
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: true,
+    }).format(
+      new Date(
+        convert
+          ? new Date(date).getTime() + new Date().getTimezoneOffset() * 60000
+          : date
+      )
+    ),
 
   formatFechaDB: (date) => new Date(date).toISOString().split("T")[0],
 

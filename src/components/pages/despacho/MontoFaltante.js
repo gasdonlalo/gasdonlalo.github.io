@@ -28,19 +28,19 @@ function MontoFaltante() {
           <div className="d-flex">
             <IconComponents
               icon="chart-simple text-danger"
-              text="MF reporte"
+              text="Reportes"
               url="/despacho/montos-faltantes/reporte"
             />
             {Per(4) && (
               <IconComponents
                 icon="file-lines text-success"
-                text="MF empleado"
-                url="reportes/empleados"
+                text="Detalles"
+                url="/despacho/montos-faltantes/reportes/empleados"
               />
             )}
             <IconComponents
               icon="calendar-days text-warning"
-              text="MF tiempo"
+              text="Historial"
               url="historial"
             />
           </div>

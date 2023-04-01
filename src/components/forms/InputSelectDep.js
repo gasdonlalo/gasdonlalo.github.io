@@ -1,7 +1,7 @@
 import React from "react";
 import useGetData from "../../hooks/useGetData";
 
-const InputSelectDep = ({ name, handle, defaultDept }) => {
+const InputSelectDep = ({ name, handle, value }) => {
   const dept = useGetData("/departamento");
 
   return (
@@ -12,7 +12,7 @@ const InputSelectDep = ({ name, handle, defaultDept }) => {
           name={name}
           onChange={handle}
           required
-          defaultValue={defaultDept}
+          value={value}
         >
           <option value="">--Selecciona un departamento--</option>
           {dept.data.response.map((e) => {
