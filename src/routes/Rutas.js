@@ -190,7 +190,6 @@ function Rutas() {
             path="empleados-dados-baja"
             element={<EmpleadosRechazados />}
           />
-          <Route path="documentos-trabajadores" element={<Documentos />} />
           <Route
             path="grafica-mensual-faltas-retardos"
             element={<FaltaRetardoGrafica />}
