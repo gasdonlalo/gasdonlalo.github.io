@@ -45,7 +45,7 @@ const FaltaRetardoGrafica = () => {
   useEffect(() => {
     const getData = async () => {
       try {
-        const response = await Axios.post(`entrada/buscar-capturas/${emp}`, {
+        const response = await Axios.post(`/entrada/buscar-capturas/${emp}`, {
           dateStart: fechas.fechaI,
           dateEnd: fechas.fechaF,
         });

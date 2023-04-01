@@ -138,6 +138,9 @@ function FaltasRetardos() {
         empEstado={[empleados, setEmpleados]}
         defaultData={defaultData}
       />
+      <div>
+        <Turnos />
+      </div>
       <ModalSuccess show={modalSuccess} close={closeModal} />
       <ModalError
         show={modalError.status}
@@ -204,7 +207,7 @@ const DataChecador = ({ show, setShow, bodyState, capture }) => {
           style={{ width: "300px", height: "100px" }}
           className="border mx-auto d-flex"
         >
-          <p className="m-auto">Subir info</p>
+          <input type="file" />
         </div>
         <div>
           <div className="m-2">
@@ -264,6 +267,34 @@ const DataChecador = ({ show, setShow, bodyState, capture }) => {
         </div>
       </Offcanvas.Body>
     </Offcanvas>
+  );
+};
+
+const Turnos = () => {
+  const { data, error, isPending } = useGetData("/entrada/turnos");
+  return (
+    <div>
+      <table className="table table-bordered w-25 mt-5 mx-auto">
+        <thead>
+          <tr>
+            <th>Horario</th>
+            <th>Hr. Empiezo</th>
+            <th>Hr. Termino</th>
+          </tr>
+        </thead>
+        <tbody>
+          {!isPending &&
+            !error &&
+            data.response.map((el) => (
+              <tr key={el.idturno}>
+                <td>{el.turno}</td>
+                <td>{el.hora_anticipo}</td>
+                <td>{el.hora_termino}</td>
+              </tr>
+            ))}
+        </tbody>
+      </table>
+    </div>
   );
 };
 export default FaltasRetardos;
