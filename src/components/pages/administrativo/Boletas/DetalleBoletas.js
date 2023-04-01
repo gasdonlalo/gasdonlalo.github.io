@@ -9,7 +9,7 @@ import Loader from "../../../assets/Loader";
 function DetalleBoletas() {
   const { id } = useParams();
   const date = new Date(
-    new Date("2023-02-15").getTime() + new Date().getTimezoneOffset() * 60000
+    new Date().getTime() + new Date().getTimezoneOffset() * 60000
   );
   const [year, setYear] = useState(date.getFullYear());
   const [month, setMonth] = useState(date.getMonth() + 1);
@@ -26,6 +26,7 @@ function DetalleBoletas() {
   const handleMonth = (e) => {
     setMonth(e.target.value);
   };
+
   return (
     <div className="Main">
       {!isPending && !error && (

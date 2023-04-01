@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import HeaderComponents from "../../../../GUI/HeaderComponents";
 import useGetData from "../../../../hooks/useGetData";
 import InputSelectDep from "../../../forms/InputSelectDep";
@@ -7,11 +7,11 @@ import format from "../../../assets/format";
 import Axios from "../../../../Caxios/Axios";
 import Bar from "../../../charts/Bar";
 import ErrorHttp from "../../../assets/ErrorHttp";
-import IconComponents from "../../../assets/IconComponents";
-import PdfV2 from "../../../pdf_generador/PdfV2";
+// import IconComponents from "../../../assets/IconComponents";
+// import PdfV2 from "../../../pdf_generador/PdfV2";
 import InputFechaC from "../../../forms/Controlado/InputFechaC";
 import Descanso from "../../../modals/Descanso";
-import EditarEntradas from "../../../modals/EditarEntradas";
+import EditarEntradas, { DelEntradas } from "../../../modals/EditarEntradas";
 
 const FaltaRetardoGrafica = () => {
   const localFechaI = localStorage.getItem("fechaI") || "";
@@ -26,6 +26,7 @@ const FaltaRetardoGrafica = () => {
   const [data, setData] = useState({ success: false });
   const [modal, setModal] = useState(false);
   const [modalEdit, setModalEdit] = useState({ status: false, idCap: "" });
+  const [modalDel, setModalDel] = useState({ status: false, idCap: "" });
 
   const actualizarData = () => setActualizador(!actualizador);
 
@@ -44,7 +45,7 @@ const FaltaRetardoGrafica = () => {
   useEffect(() => {
     const getData = async () => {
       try {
-        const response = await Axios.post(`entrada/buscar-capturas/${emp}`, {
+        const response = await Axios.post(`/entrada/buscar-capturas/${emp}`, {
           dateStart: fechas.fechaI,
           dateEnd: fechas.fechaF,
         });
@@ -130,6 +131,7 @@ const FaltaRetardoGrafica = () => {
             data={data.response}
             state={[modal, setModal]}
             showMEdit={setModalEdit}
+            showMDel={setModalDel}
           />
         )}
         {!data.success && (
@@ -147,20 +149,15 @@ const FaltaRetardoGrafica = () => {
         state={[modalEdit, setModalEdit]}
         actualizador={actualizarData}
       />
+      <DelEntradas
+        state={[modalDel, setModalDel]}
+        actualizador={actualizarData}
+      />
     </div>
   );
 };
 
-const Success = ({ data, showMEdit }) => {
-  // console.log(data.filter((el) => el.idtipo_falta));
-  /* const dataBar = {
-    labels: data.filter((el) => el.tipo_falta).map((el) => el.tipo_falta.tipo),
-    dataset: [
-      {
-        data: data.filter((el) => el.tipo_falta).reduce((a, b) => a + b, 0),
-      },
-    ],
-  }; */
+const Success = ({ data, showMEdit, showMDel }) => {
   const inconformidades = data.filter((el) => el.idtipo_falta);
   const agrupar = {};
   inconformidades.forEach((el) => {
@@ -195,6 +192,7 @@ const Success = ({ data, showMEdit }) => {
               <th>Minutos de retardos</th>
               <th>Inconveniente</th>
               <th>Editar</th>
+              <th>Eliminar</th>
             </tr>
           </thead>
           <tbody>
@@ -209,9 +207,21 @@ const Success = ({ data, showMEdit }) => {
                 <td>
                   <button
                     className="btn btn-light d-block mx-auto"
-                    onClick={() => showMEdit(true)}
+                    onClick={() =>
+                      showMEdit({ status: true, idCap: el.idcaptura_entrada })
+                    }
                   >
                     <li className="fa-solid fa-pen text-warning" />
+                  </button>
+                </td>
+                <td>
+                  <button
+                    className="btn btn-light d-block mx-auto"
+                    onClick={() =>
+                      showMDel({ status: true, idCap: el.idcaptura_entrada })
+                    }
+                  >
+                    <li className="fa-solid fa-trash text-danger" />
                   </button>
                 </td>
               </tr>
@@ -219,7 +229,7 @@ const Success = ({ data, showMEdit }) => {
           </tbody>
         </table>
       </div>
-      <div className="grafica">
+      <div className="grafica w-75 mx-auto">
         <Bar
           datos={dataBar}
           text={`${data[0].empleado.nombre} ${data[0].empleado.apellido_paterno} ${data[0].empleado.apellido_materno} `}

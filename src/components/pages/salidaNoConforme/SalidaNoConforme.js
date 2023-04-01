@@ -19,7 +19,7 @@ import SNCPendienteCaptura from "../../modals/SNCPendienteCaptura";
 const SalidaNoConforme = () => {
   const [showAlert, setShowAlert] = useState({ status: false, msg: "" });
   const [showAlertSuccess, setShowAlertSuccess] = useState(false);
-  const [defaultIncumpliento, setDefaultIncumpliento] = useState(null);
+  const [defaultIncumpliento, setDefaultIncumpliento] = useState();
   const [defaultEmpleado, setDefaultEmpleado] = useState(null);
   const [defaultFecha, setDefaultFecha] = useState(null);
   const [showPendientesCaptura, setShowPendientesCaptura] = useState(false);
@@ -262,6 +262,7 @@ const SalidaNoConforme = () => {
                     />
                   </div>
                 )}
+
                 {!incumplimiento.error && !incumplimiento.isPending && (
                   <div className="col-6">
                     <label className="label-form">Incumplimiento</label>
