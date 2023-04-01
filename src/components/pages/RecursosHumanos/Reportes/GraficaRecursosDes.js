@@ -25,20 +25,20 @@ const GraficaRecursosDes = () => {
   return (
     <div className="Main">
       <HeaderComponents
-        urlBack="/despacho"
-        textUrlback="Volver al despacho"
+        urlBack="/recursos-humanos"
+        textUrlback="Volver a recursos humanos"
         title="Reporte mensual de recursos despachador"
       >
         <div className="d-flex">
           <IconComponents
             icon="stapler text-info"
             text="Evaluar"
-            url="/despacho/recurso-despachador"
+            url="/recursos-humanos/recurso-despachador"
           />
           <IconComponents
             icon="file-lines text-warning"
             text="Historial"
-            url="/despacho/recurso-despachador/historial"
+            url="../Reportes/HistorialRecursoDes"
           />
         </div>
       </HeaderComponents>
@@ -97,7 +97,7 @@ const Success = ({ recursos, year, month, quincena }) => {
     }
 
     let sumaPuntos = el.recursos
-      .map((re) => (re.promedio))
+      .map((re) => re.promedio)
       .reduce((a, b) => a + b, 0);
 
     return {
@@ -156,9 +156,13 @@ const Success = ({ recursos, year, month, quincena }) => {
                         className="fw-bold border"
                       >
                         {re.promedio >= 1 ? (
-                          <span className="text-success">{re.promedio.toFixed(2)}</span>
+                          <span className="text-success">
+                            {re.promedio.toFixed(2)}
+                          </span>
                         ) : (
-                          <span className="text-danger">{re. promedio.toFixed(2)}</span>
+                          <span className="text-danger">
+                            {re.promedio.toFixed(2)}
+                          </span>
                         )}
                       </td>
                     ))}

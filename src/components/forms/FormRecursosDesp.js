@@ -110,7 +110,6 @@ const FormRecursosDesp = () => {
                         <input
                           className="form-check-input"
                           type="checkbox"
-                          role="switch"
                           onClick={handleSwitch}
                           name={e.idrecurso}
                         />

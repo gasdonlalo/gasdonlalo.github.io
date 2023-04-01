@@ -49,13 +49,7 @@ function Despacho() {
                 text="Pasos para despachar"
               />
             )}
-            {Per(17) && (
-              <Card
-                url="recurso-despachador"
-                icon="stapler"
-                text="Recursos despachador"
-              />
-            )}
+
             {Per(20) && (
               <Card
                 url="salida-no-conforme"
@@ -108,13 +102,6 @@ function Despacho() {
                 url="pasos-despachar/reporte"
                 icon="chart-simple"
                 text="Pasos para despachar"
-              />
-            )}
-            {Per(17) && (
-              <Card
-                url="recurso-despachador/reporte"
-                icon="chart-line"
-                text="Recursos despachador"
               />
             )}
             {Per(20) && (
