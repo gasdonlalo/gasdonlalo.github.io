@@ -8,15 +8,17 @@ import Loader from "../../../assets/Loader";
 
 function DetalleBoletas() {
   const { id } = useParams();
-  const date = new Date();
+  const date = new Date(
+    new Date("2023-02-15").getTime() + new Date().getTimezoneOffset() * 60000
+  );
   const [year, setYear] = useState(date.getFullYear());
   const [month, setMonth] = useState(date.getMonth() + 1);
-  const [quincena, setQuincena] = useState(1);
+  const [quincena, setQuincena] = useState(date.getDate() < 16 ? 1 : 2);
 
   const { data, error, isPending } = useGetData(
     `/view/${id}?qna=${quincena}&mes=${month}&ano=${year}`
   );
-  console.log(data);
+
   const handleYear = (e) => {
     setYear(e.target.value);
   };
@@ -24,7 +26,6 @@ function DetalleBoletas() {
   const handleMonth = (e) => {
     setMonth(e.target.value);
   };
-
   return (
     <div className="Main">
       {!isPending && !error && (
@@ -49,6 +50,7 @@ function DetalleBoletas() {
           <select
             className="form-select"
             onChange={(e) => setQuincena(e.target.value)}
+            defaultValue={quincena}
           >
             <option value={1}>1</option>
             <option value={2}>2</option>

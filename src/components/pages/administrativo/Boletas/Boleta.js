@@ -18,6 +18,8 @@ function Boleta() {
   );
 }
 const Tabla = ({ datos }) => {
+  console.log(datos);
+  datos.sort((a, b) => a.idchecador - b.idchecador);
   return (
     <div className="container w-50 mt-3 ">
       <table className="table table-bordered">
@@ -32,7 +34,7 @@ const Tabla = ({ datos }) => {
           {datos.map((el, i) => {
             return (
               <tr key={i}>
-                <td>{el.idempleado}</td>
+                <td>{el.idchecador}</td>
                 <td>
                   <Link
                     to={`detalles/${el.idempleado}`}
