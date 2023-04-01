@@ -35,7 +35,7 @@ const Descanso = ({ state, idEmpleado, setActualizador }) => {
               <label className="form-label">Fecha</label>
               <InputFechaC
                 handle={handle}
-                setBody={setBody}
+                setData={setBody}
                 data={body}
                 name="fecha"
                 value={body.fecha || ""}

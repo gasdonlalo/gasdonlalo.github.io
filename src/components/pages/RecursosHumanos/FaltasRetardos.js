@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Axios from "../../../Caxios/Axios";
 import FormRetardos from "../../forms/FormRetardos";
 import useGetData from "../../../hooks/useGetData";
@@ -77,6 +77,7 @@ function FaltasRetardos() {
         hora_anticipo: "",
       });
       e.target.reset();
+      window.location.reload();
     } catch (err) {
       if (err.hasOwnProperty("response")) {
         setModalError({
