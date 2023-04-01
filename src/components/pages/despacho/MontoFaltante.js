@@ -12,6 +12,7 @@ import ErrorHttp from "../../assets/ErrorHttp";
 import InputChangeMes from "../../forms/InputChangeMes";
 import InputChangeYear from "../../forms/InputChangeYear";
 import { Per } from "../../Provider/Auth";
+import ModalSuccess from "../../modals/ModalSuccess";
 
 function MontoFaltante() {
   const empleados = useGetData(`/empleado?departamento=1`);
@@ -66,6 +67,7 @@ const Success = ({ empleados }) => {
   const [body, setBody] = useState(null);
   const [pendingForm, setPendingForm] = useState(false);
   const [modalError, setModalError] = useState({ status: false, msg: "" });
+  const [modalSuccess, setModalSuccess] = useState(false);
   const [actualizador, setActualizador] = useState(false);
 
   const montoFaltante = useGetData(
@@ -96,11 +98,15 @@ const Success = ({ empleados }) => {
     event.preventDefault();
     setPendingForm(true);
     try {
-      setActualizador(!actualizador);
       await Axios.post("/monto-faltante-despachador", body);
       setPendingForm(false);
       setBody(null);
       event.target.reset();
+      setModalSuccess(true);
+      setActualizador(!actualizador);
+      setTimeout(() => {
+        setModalSuccess(false);
+      }, 500);
     } catch (err) {
       if (err.hasOwnProperty("response")) {
         setModalError({
@@ -134,6 +140,7 @@ const Success = ({ empleados }) => {
         close={closeModal}
         text={modalError.msg}
       />
+      <ModalSuccess show={modalSuccess} close={() => setModalSuccess(false)} />
       {/*Formulario */}
       <div className="lg-w-25 m-3">
         <form className="rounded p-3 shadow" onSubmit={enviar}>
