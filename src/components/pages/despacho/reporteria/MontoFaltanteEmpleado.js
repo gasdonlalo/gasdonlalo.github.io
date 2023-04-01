@@ -38,9 +38,9 @@ const MontoFaltanteEmpleado = () => {
           title="Montos faltantes Mensuales por despachador"
         >
           <IconComponents
-            icon="calendar-week text-danger"
+            icon="chart-simple text-danger"
             url="/despacho/montos-faltantes/reporte"
-            text="General"
+            text="Reportes"
           />
         </HeaderComponents>
       </div>

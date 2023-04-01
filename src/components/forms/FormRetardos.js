@@ -1,45 +1,28 @@
-import { useState, useRef } from "react";
-import useGetData from "../../hooks/useGetData";
 import Loader from "../assets/Loader";
-import InputFecha from "./InputFecha";
 import InputSelectDep from "./InputSelectDep";
 import HeaderForm from "../../GUI/HeaderForm";
 import InputSelectEmpleado from "./InputSelectEmpleado";
+import InputFechaC from "./Controlado/InputFechaC";
 
 function FormRetardos({
-  emp,
+  changeDep,
   enviar,
   turnos,
   body,
   setBody,
   handle,
   formPending,
+  empEstado,
+  defaultData,
 }) {
-  const [showHoraEntradaOpcional, setHoraEntradaOpcional] = useState(false);
-  const [empleados, setEmpleados] = useState(null);
-  const changeDep = (e) => {
-    const filEmp = emp.data.response.filter(
-      (emp) => emp.iddepartamento === Number(e.target.value)
-    );
-    setEmpleados(filEmp);
-  };
-  // const handleCheckSwitch = (e) => setHoraEntradaOpcional(e.target.checked);
-  const InputHora = useRef();
+  const [empleados] = empEstado;
 
-  if (body) {
-    if (body.hasOwnProperty("idTipoFalta")) {
-      if (
-        body.idTipoFalta === "2" ||
-        body.idTipoFalta === "3" ||
-        body.idTipoFalta === "4"
-      ) {
-        InputHora.current.disabled = true;
-        InputHora.current.value = null;
-      } else {
-        InputHora.current.disabled = false;
-      }
-    }
-  }
+  const turno = (e) => {
+    let tur = turnos.data.response.filter(
+      (el) => el.idturno === Number(e.target.value)
+    );
+    setBody({ ...body, hora_anticipo: tur[0].hora_anticipo });
+  };
 
   return (
     <div>
@@ -48,11 +31,12 @@ function FormRetardos({
         <div className="row mb-3">
           <div className="col-4">
             <label className="form-label mb-0">fecha</label>
-            <InputFecha
+            <InputFechaC
               data={body}
               setData={setBody}
               handle={handle}
               name="fecha"
+              value={body.fecha}
               required
             />
           </div>
@@ -60,7 +44,7 @@ function FormRetardos({
         <div className="row mb-3">
           <div className="col-6 mb-3">
             <label>Departamentos</label>
-            <InputSelectDep handle={changeDep} />
+            <InputSelectDep handle={changeDep} value={body.idDepartamento} />
           </div>
           <div className="col-6 mb-3">
             <label>Empleados</label>
@@ -69,19 +53,21 @@ function FormRetardos({
                 empleados={empleados}
                 name="idEmpleado"
                 handle={handle}
+                defaultData={defaultData}
                 reset={body}
               />
             ) : (
               <div className="form-select">Selecciona un departameto</div>
             )}
           </div>
-          <div className="col-6 mb-3">
+          <div className="col-4 mb-3">
             <label className="form-label mb-0">Turno</label>
             <select
               name="idTurno"
               className="form-select"
               defaultValue={1}
-              onChange={handle}
+              onChange={(handle, turno)}
+              required
             >
               {!turnos.error && !turnos.isPending && (
                 <option value=""> -- Seleccionar turno -- </option>
@@ -100,50 +86,24 @@ function FormRetardos({
               {turnos.error && !turnos.isPending && <option value=""></option>}
             </select>
           </div>
-          <div className="col-6 mb-3">
-            <label className="form-label mb-0">Horario en que entró</label>
+          <div className="col-4 mb-3">
+            <label className="form-label mb-0">Hora permitida</label>
+            <select className="form-select" disabled>
+              <option value="">{body.hora_anticipo}</option>
+            </select>
+          </div>
+          <div className="col-4 mb-3">
+            <label className="form-label mb-0">Hora de entrada</label>
             <input
               type="time"
               className="form-control"
               onChange={handle}
               name="horaEntrada"
-              ref={InputHora}
+              value={body.horaEntrada}
               required
             />
           </div>
-          <div className="col-4">
-            <label className="form-label">Tipo falta</label>
-            {!turnos.error && !turnos.isPending && (
-              <SelectTipoFalta handle={handle} />
-            )}
-          </div>
         </div>
-        {/* <div>
-          <div className="form-check form-switch">
-            <label className="form-label">
-              Modificar hora entrada
-              <input
-                type="checkbox"
-                className="form-check-input"
-                onChange={handleCheckSwitch}
-              />
-            </label>
-          </div>
-        </div> */}
-        {showHoraEntradaOpcional && (
-          <div className="row">
-            <div className="col-4">
-              <label className="form-label">Hora de entrada asignada</label>
-              <input
-                title="Solo en caso de que la hora de entrada del empleado cambien momentaneamente"
-                type="time"
-                className="form-control"
-                name="horaEntradaPermitida"
-                required
-              />
-            </div>
-          </div>
-        )}
 
         <div className="mt-4">
           <button
@@ -151,51 +111,12 @@ function FormRetardos({
             className="btn btn-primary mx-auto d-block"
             disabled={formPending}
           >
-            {formPending ? <Loader size="1.5" /> : "Enviar"}
+            {formPending ? <Loader size="1.5" /> : "Guardar"}
           </button>
         </div>
       </form>
     </div>
   );
 }
-
-const SelectTipoFalta = ({ handle }) => {
-  const { data, error, isPending } = useGetData("/entrada/faltas");
-  /* let validar = true;
-  if (body) {
-    if (body.hasOwnProperty("idTurno") && body.hasOwnProperty("horaEntrada")) {
-      let validarRetraso =
-        new Date(
-          `2000-01-01 ${
-            turnos.find((t) => t.idturno === Number(body.idTurno)).hora_anticipo
-          }`
-        ) - new Date(`2000-01-01 ${body.horaEntrada}`);
-      validarRetraso > 0 ? (validar = true) : (validar = false);
-    }
-  } */
-
-  return (
-    <select
-      name="idTipoFalta"
-      onChange={handle}
-      className="form-select"
-      defaultValue={0}
-      // disabled={validar}
-    >
-      <option value="">Ninguna</option>
-      {!error &&
-        !isPending &&
-        data.response.map((el) => (
-          <option
-            value={Number(el.idtipo_falta)}
-            key={el.idtipo_falta}
-            title={el.descripcion}
-          >
-            {el.tipo}
-          </option>
-        ))}
-    </select>
-  );
-};
 
 export default FormRetardos;

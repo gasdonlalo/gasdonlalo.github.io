@@ -52,7 +52,7 @@ const FormEntregaRecurso = ({ enviar, handle, formPending, body, setBody }) => {
           </div>
         </div>
         {/* Recursos */}
-        <div className="pt-4 row">
+        <div className="pt-4 d-flex justify-content-between">
           <div className="left-column">
             {/* 1 */}
             <div class="form-check form-switch text-success">
@@ -62,9 +62,19 @@ const FormEntregaRecurso = ({ enviar, handle, formPending, body, setBody }) => {
                 role="switch"
                 id="flexSwitchCheckDefault1"
               ></input>
-              <label class="form-check-label" for="flexSwitchCheckDefault1">
+              <label className="form-check-label" for="flexSwitchCheckDefault1">
                 Plumón detector
               </label>
+              {/* linea */}
+              <div className="col-5 ms-auto p-2 bd-highligh">
+                <input
+                  className="form-control col-6"
+                  type="number"
+                  placeholder="Activa el recurso."
+                  // disabled={!(aceptado === 1 || aceptado === 2)}
+                  required
+                />
+              </div>
             </div>
             {/* 2 */}
             <div class="form-check form-switch text-success">
@@ -77,6 +87,15 @@ const FormEntregaRecurso = ({ enviar, handle, formPending, body, setBody }) => {
               <label class="form-check-label" for="flexSwitchCheckDefault2">
                 Tabla porta papeles
               </label>
+              {/* linea */}
+              <div className="col-5 ms-auto p-2 bd-highligh">
+                <input
+                  className="form-control col-6"
+                  type="number"
+                  placeholder="Activa el recurso."
+                  required
+                />
+              </div>
             </div>
             {/* 3 */}
             <div class="form-check form-switch text-success">
@@ -89,6 +108,15 @@ const FormEntregaRecurso = ({ enviar, handle, formPending, body, setBody }) => {
               <label class="form-check-label" for="flexSwitchCheckDefault3">
                 Caja de metal para monedas y documentos
               </label>
+              {/* linea */}
+              <div className="col-5 ms-auto p-2 bd-highligh">
+                <input
+                  className="form-control col-6"
+                  type="number"
+                  placeholder="Activa el recurso."
+                  required
+                />
+              </div>
             </div>
             {/* 4 */}
             <div class="form-check form-switch text-success">
@@ -101,6 +129,15 @@ const FormEntregaRecurso = ({ enviar, handle, formPending, body, setBody }) => {
               <label class="form-check-label" for="flexSwitchCheckDefault4">
                 Sobre de plástico
               </label>
+              {/* linea */}
+              <div className="col-5 ms-auto p-2 bd-highligh">
+                <input
+                  className="form-control col-6"
+                  type="number"
+                  placeholder="Activa el recurso."
+                  required
+                />
+              </div>
             </div>
             {/* 5 */}
             <div class="form-check form-switch text-success">
@@ -113,6 +150,15 @@ const FormEntregaRecurso = ({ enviar, handle, formPending, body, setBody }) => {
               <label class="form-check-label" for="flexSwitchCheckDefault5">
                 Hoja de liquidación
               </label>
+              {/* linea */}
+              <div className="col-5 ms-auto p-2 bd-highligh">
+                <input
+                  className="form-control col-6"
+                  type="number"
+                  placeholder="Activa el recurso."
+                  required
+                />
+              </div>
             </div>
             {/* 6 */}
             <div class="form-check form-switch text-success">
@@ -125,6 +171,15 @@ const FormEntregaRecurso = ({ enviar, handle, formPending, body, setBody }) => {
               <label class="form-check-label" for="flexSwitchCheckDefault6">
                 Sobres para recoleccion parcial (25)
               </label>
+              {/* linea */}
+              <div className="col-5 ms-auto p-2 bd-highligh">
+                <input
+                  className="form-control col-6"
+                  type="number"
+                  placeholder="Activa el recurso."
+                  required
+                />
+              </div>
             </div>
             {/* 7 */}
             <div class="form-check form-switch text-success">
@@ -137,6 +192,15 @@ const FormEntregaRecurso = ({ enviar, handle, formPending, body, setBody }) => {
               <label class="form-check-label" for="flexSwitchCheckDefault7">
                 Gafete
               </label>
+              {/* linea */}
+              <div className="col-5 ms-auto p-2 bd-highligh">
+                <input
+                  className="form-control col-6"
+                  type="number"
+                  placeholder="Activa el recurso."
+                  required
+                />
+              </div>
             </div>
             {/* 8 */}
             <div class="form-check form-switch text-success">
@@ -149,6 +213,15 @@ const FormEntregaRecurso = ({ enviar, handle, formPending, body, setBody }) => {
               <label class="form-check-label" for="flexSwitchCheckDefault8">
                 Cartera para vales
               </label>
+              {/* linea */}
+              <div className="col-5 ms-auto p-2 bd-highligh">
+                <input
+                  className="form-control col-6"
+                  type="number"
+                  placeholder="Activa el recurso."
+                  required
+                />
+              </div>
             </div>
             {/* 9 */}
             <div class="form-check form-switch text-success">
@@ -161,6 +234,15 @@ const FormEntregaRecurso = ({ enviar, handle, formPending, body, setBody }) => {
               <label class="form-check-label" for="flexSwitchCheckDefault9">
                 Uniforme
               </label>
+              {/* linea */}
+              <div className="col-5 ms-auto p-2 bd-highligh">
+                <input
+                  className="form-control col-6"
+                  type="number"
+                  placeholder="Activa el recurso."
+                  required
+                />
+              </div>
             </div>
             {/* 10 */}
             <div class="form-check form-switch text-success">
@@ -173,6 +255,15 @@ const FormEntregaRecurso = ({ enviar, handle, formPending, body, setBody }) => {
               <label class="form-check-label" for="flexSwitchCheckDefault10">
                 Gorra
               </label>
+              {/* linea */}
+              <div className="col-5 ms-auto p-2 bd-highligh">
+                <input
+                  className="form-control col-6"
+                  type="number"
+                  placeholder="Activa el recurso."
+                  required
+                />
+              </div>
             </div>
             {/* 11 */}
             <div class="form-check form-switch text-success">
@@ -185,6 +276,15 @@ const FormEntregaRecurso = ({ enviar, handle, formPending, body, setBody }) => {
               <label class="form-check-label" for="flexSwitchCheckDefault11">
                 Impermeable
               </label>
+              {/* linea */}
+              <div className="col-5 ms-auto p-2 bd-highligh">
+                <input
+                  className="form-control col-6"
+                  type="number"
+                  placeholder="Activa el recurso."
+                  required
+                />
+              </div>
             </div>
           </div>
         </div>

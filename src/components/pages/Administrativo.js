@@ -51,16 +51,13 @@ function Administrativo() {
               url="../liquidacion"
               text="Liquidacion"
             />
+
             {/* <Card
               icon="fa-thin fa-clipboard-list"
               url=""
               text="Configuracion de precios"
             />
-            <Card
-              icon="fa-thin fa-clipboard-list text-primary"
-              url="configuracion-estacion"
-              text="Configuración de estación"
-            />
+           
             <Card
               icon="fa-thin fa-clipboard-list"
               url=""

@@ -51,6 +51,10 @@ const InputSelectEmpleado = ({
   }, [defaultData]);
 
   useEffect(() => {
+    setValue(empleados);
+  }, [empleados]);
+
+  useEffect(() => {
     if (reset === null || reset === false) {
       setText("Selecciona empleado");
       setId(null);
@@ -79,7 +83,6 @@ const InputSelectEmpleado = ({
           className="m-auto w-75 ms-3"
           placeholder="Empleado"
           onChange={filterEmp}
-          // value={valueInput[0]}
         />
         {value.map((el) => (
           <Dropdown.Item

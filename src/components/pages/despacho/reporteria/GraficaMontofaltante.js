@@ -36,7 +36,7 @@ function GraficaMontofaltante() {
       })),
     };
   }
-  console.log(dataBar);
+
   return (
     <div className="Main">
       <HeaderComponents
@@ -47,14 +47,14 @@ function GraficaMontofaltante() {
         <div className="d-flex">
           <IconComponents
             icon="calendar-days text-warning"
-            text="MF tiempo"
+            text="Historial"
             url="/despacho/montos-faltantes/historial"
           />
           {Per(4) && (
             <IconComponents
               icon="file-lines text-success"
-              text="MF empleado"
-              url="reportes/empleados"
+              text="Detalles"
+              url="/despacho/montos-faltantes/reportes/empleados"
             />
           )}
         </div>

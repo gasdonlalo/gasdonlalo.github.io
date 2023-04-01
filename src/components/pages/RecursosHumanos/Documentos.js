@@ -100,6 +100,7 @@ const Success = ({
   setShowAlertError,
 }) => {
   const [documentos, setDocumentos] = useState(data);
+  data.sort((a, b) => a.idchecador - b.idchecador);
   console.log(data, "data");
 
   const filterEmp = (e) => {
@@ -140,6 +141,7 @@ const Success = ({
       <table className="table table-bordered shadow">
         <thead className="table-light">
           <tr>
+            <th>ID</th>
             <th>Nombre del empleado</th>
             <th>Número de documentos entregados</th>
             <th>Estatus</th>
@@ -150,6 +152,7 @@ const Success = ({
           {documentos.map((e, i) => {
             return (
               <tr key={i}>
+                <td>{e.idchecador}</td>
                 <td key={e.nombre_completo}>
                   {format.formatTextoMayusPrimeraLetra(e.nombre_completo)}
                 </td>

@@ -57,6 +57,18 @@ function Despacho() {
                 text="Salidas no conformes"
               />
             )}
+            <div
+              className="rounded p-2 btn-select m-1"
+              onClick={() =>
+                window.open("//192.168.10.20:4000", "_blank").focus()
+              }
+            >
+              <i
+                className={`fa-solid fa-file-circle-check`}
+                style={{ fontSize: "50px" }}
+              />
+              <p className="p-0 m-0">Boleta de desempeño</p>
+            </div>
           </div>
         </div>
         <div className="text-center m-auto">
