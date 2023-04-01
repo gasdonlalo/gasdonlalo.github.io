@@ -18,6 +18,7 @@ function FaltasRetardos() {
     horaEntrada: "",
     idTurno: null,
     hora_anticipo: "",
+    index: null,
   });
   const [showOf, setShowOf] = useState(false);
   const [formPending, setFormPending] = useState(false);
@@ -67,6 +68,9 @@ function FaltasRetardos() {
         setModalSuccess(false);
       }, 800);
       setFormPending(false);
+      const dataChecador = JSON.parse(localStorage.getItem("checador")) || [];
+      const nuevoDato = dataChecador.filter((el) => el.index !== body.index);
+      localStorage.setItem("checador", JSON.stringify(nuevoDato));
       setBody({
         fecha: "",
         idDepartamento: "",
@@ -164,6 +168,7 @@ const DataChecador = ({ show, setShow, bodyState, capture }) => {
       idEmpleado: el.empleado.idempleado,
       nombreEmpleado: el.nombreCompleto,
       horaEntrada: format.formatHourMinute(el.fechaTiempo),
+      index: el.index,
     };
 
     setBody({ ...body, ...newBody });
@@ -177,6 +182,25 @@ const DataChecador = ({ show, setShow, bodyState, capture }) => {
   };
 
   const handleClose = () => setShow(false);
+
+  const subir = async (e) => {
+    e.preventDefault();
+    console.log(e);
+    try {
+      const ap = new FormData();
+      ap.append("dataReloj", e.target.dataReloj.files[0]);
+      const response = await Axios.post("/excel/relojChecador", ap, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+
+      localStorage.setItem("checador", JSON.stringify(response.data));
+      window.location.reload();
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   const filtrarData = (e) => {
     let filtrar = dataChecador.filter((el) => {
@@ -192,9 +216,14 @@ const DataChecador = ({ show, setShow, bodyState, capture }) => {
       }
     });
 
-    console.log(filtrar);
-
     setDataC(filtrar);
+  };
+
+  const descartar = (id) => {
+    const dataChecador = JSON.parse(localStorage.getItem("checador")) || [];
+    const nuevoDato = dataChecador.filter((el) => el.index !== id);
+    localStorage.setItem("checador", JSON.stringify(nuevoDato));
+    setDataC(nuevoDato);
   };
 
   return (
@@ -207,7 +236,10 @@ const DataChecador = ({ show, setShow, bodyState, capture }) => {
           style={{ width: "300px", height: "100px" }}
           className="border mx-auto d-flex"
         >
-          <input type="file" />
+          <form onSubmit={subir}>
+            <input type="file" name="dataReloj" required />
+            <button>cargar</button>
+          </form>
         </div>
         <div>
           <div className="m-2">
@@ -256,7 +288,11 @@ const DataChecador = ({ show, setShow, bodyState, capture }) => {
                       </button>
                     </td>
                     <td className="align-middle">
-                      <button className="btn btn-danger" title="descartar">
+                      <button
+                        className="btn btn-danger"
+                        title="descartar"
+                        onClick={() => descartar(el.index)}
+                      >
                         <li className="fa-solid fa-trash" />
                       </button>
                     </td>
