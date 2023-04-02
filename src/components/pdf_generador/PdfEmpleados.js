@@ -15,25 +15,14 @@ Font.register({ family: "calibriN", src: calibriN });
 const styles = StyleSheet.create({
   page: {
     // flexDirection: "row",
+    fontSize: "8pt",
     backgroundColor: "#fff",
-    padding: "20px",
-  },
-  row: {
-    flexDirection: "row",
-    alignItems: "center",
-  },
-  description: {
-    width: "60%",
-  },
-  xyz: {
-    width: "40%",
+    padding: "50px",
+    width: "100%",
   },
   tableContainer: {
-    marginTop: 3,
     flexDirection: "row",
     flexWrap: "wrap",
-    fontSize: "15pt",
-    // width: "450px",
   },
   theaderRow: {
     fontFamily: "calibriN",
@@ -42,10 +31,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#e2e2e2",
     border: 1,
     borderColor: "#000",
-    height: 30,
-    fontSize: "14pt",
     width: "100%",
-    flexGrow: 1,
   },
   theaderRowItems: {
     flexDirection: "row",
@@ -53,19 +39,15 @@ const styles = StyleSheet.create({
     borderBottom: 1,
     borderLeft: 1,
     borderRight: 1,
-    fontSize: "11pt",
     borderColor: "#000",
-    height: 20,
     width: "100%",
     fontStyle: "bold",
-    flexGrow: 1,
   },
   theaderId: {
     paddingTop: 6,
     textAlign: "center",
     borderRight: 1,
     width: 35,
-    height: "100%",
   },
   theaderNombre: {
     paddingTop: 6,
@@ -73,7 +55,6 @@ const styles = StyleSheet.create({
     paddingLeft: 4,
     textAlign: "left",
     width: 190,
-    height: "100%",
   },
   theaderApellidoP: {
     paddingTop: 6,
@@ -81,7 +62,6 @@ const styles = StyleSheet.create({
     paddingLeft: 4,
     textAlign: "left",
     width: 130,
-    height: "100%",
   },
   theaderApellidoM: {
     paddingTop: 6,
@@ -89,52 +69,44 @@ const styles = StyleSheet.create({
     paddingLeft: 4,
     textAlign: "left",
     width: 130,
-    height: "100%",
   },
   theaderDepartamento: {
     paddingTop: 6,
     width: 160,
     paddingLeft: 4,
     textAlign: "left",
-    height: "100%",
   },
   tbodyId: {
-    padding: 2.5,
     textAlign: "center",
     borderRight: 1,
     width: 35,
-    height: "100%",
   },
   tbodyNombre: {
-    paddingTop: 2.5,
     paddingLeft: 4,
     borderRight: 1,
     width: 190,
-    height: "100%",
   },
   tbodyApellidoP: {
-    paddingTop: 2.5,
     paddingLeft: 4,
     borderLef: 1,
     borderRight: 1,
     width: 130,
-    height: "100%",
   },
   tbodyApellidoM: {
-    paddingTop: 2.5,
     paddingLeft: 4,
     borderRight: 1,
     width: 130,
-    height: "100%",
   },
   tbodyDepartamento: {
-    paddingTop: 2.5,
     textAlign: "center",
     width: 160,
-    height: "100%",
   },
   title: {
     textAlign: "center",
+    borderBottom: "2px solid black",
+    paddingBottom: "5px",
+    fontFamily: "calibriN",
+    fontSize: "20pt",
   },
   legendTime: {
     marginTop: 8,
@@ -173,34 +145,38 @@ const Mydoc = ({ data, title }) => {
     <Document title="Control de empleados">
       <Page size="LETTER" style={styles.page}>
         <View style={styles.title}>
-          <Text>{title}</Text>
+          <Text>{`Reporte de información de ${title}`}</Text>
         </View>
 
-        <View style={styles.tableContainer}>
+        <View style={styles.tableContainer} wrap>
           <Theader />
           {data.map((el) => (
             <Tbody key={el.idempleado} data={el} />
           ))}
         </View>
         <View style={styles.legendTime}>
-          <Text>Impreso el día </Text>{" "}
+          <Text>Impreso el </Text>
           <Text>
             {new Intl.DateTimeFormat("es-MX", {
-              dateStyle: "short",
+              dateStyle: "full",
               timeStyle: "short",
             }).format(new Date())}
           </Text>
         </View>
+        <Text
+          render={({ pageNumber, totalPages }) =>
+            `Página ${pageNumber} de ${totalPages}.`
+          }
+          fixed
+        />
       </Page>
     </Document>
   );
 };
 
 const PdfEmpleados = ({ data, title }) => {
-  console.log(title);
   return (
     <div>
-      {/* <PDFViewer width="800px" height={800}> */}
       <BlobProvider document={<Mydoc data={data} title={title} />}>
         {({ url }) => (
           <a
@@ -213,8 +189,6 @@ const PdfEmpleados = ({ data, title }) => {
           </a>
         )}
       </BlobProvider>
-      {/* <Mydoc data={data}></Mydoc> */}
-      {/* </PDFViewer> */}
     </div>
   );
 };

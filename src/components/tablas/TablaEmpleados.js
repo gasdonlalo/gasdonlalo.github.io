@@ -221,12 +221,12 @@ const Success = ({ solicitud, estatus, action, mostrar, mostrarUpdFecha }) => {
 
   //Importante para el completo PDF
   const titulosPDFTabla = [
-    "Empleados Contratados",
-    "Empleados Prácticantes",
-    "Empleados Despedidos",
-    "Empleados Rechazados",
-    "Empleados Pendientes",
-    "Empleados Contratados",
+    "empleados contratados",
+    "empleados prácticantes",
+    "empleados despedidos",
+    "empleados rechazados",
+    "empleados pendientes",
+    "empleados contratados",
   ];
   let id = Number(estatus);
 
