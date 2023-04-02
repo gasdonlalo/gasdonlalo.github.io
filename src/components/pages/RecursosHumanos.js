@@ -51,6 +51,13 @@ function RecursosHumanos() {
                 text="Entrega de recursos"
               />
             )}
+            {Per(17) && (
+              <Card
+                url="recurso-despachador"
+                icon="stapler"
+                text="Recursos despachador"
+              />
+            )}
             {/* <Card
               url="empleados-dados-baja"
               icon="fa-thin  fa-arrows-down-to-people"
@@ -115,6 +122,13 @@ function RecursosHumanos() {
                 url="salida-no-conforme/files"
                 icon="file-pdf"
                 text="Salidas no conformes"
+              />
+            )}
+            {Per(17) && (
+              <Card
+                url="recurso-despachador/reporte"
+                icon="chart-line"
+                text="Recursos despachador"
               />
             )}
           </div>

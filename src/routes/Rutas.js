@@ -15,8 +15,6 @@ import RecolEfect from "../components/pages/despacho/RecolEfect";
 import DHREE from "../components/pages/despacho/reporteria/HistorialRelEfectivo";
 import Pasosdespachar from "../components/pages/despacho/Pasosdespachar";
 import DHPD from "../components/pages/despacho/reporteria/HistorialPasoDes";
-import RecursosDesp from "../components/pages/despacho/RecursosDesp";
-import DHRD from "../components/pages/despacho/reporteria/HistorialRecursoDes";
 import SalidaNoConforme from "../components/pages/salidaNoConforme/SalidaNoConforme";
 import SNR from "../components/pages/salidaNoConforme/SalidasNoConformesReportes";
 import SNCP from "../components/pages/salidaNoConforme/SalidaNoConformePendiente";
@@ -32,12 +30,12 @@ import CCB from "../components/pages/despacho/reporteria/GraficaChecklist";
 import GEU from "../components/pages/despacho/reporteria/GraficaEvUnifome";
 import DRE from "../components/pages/despacho/reporteria/GraficaRecolEfectivo";
 import GPD from "../components/pages/despacho/reporteria/GraficaPasoDes";
-import GRD from "../components/pages/despacho/reporteria/GraficaRecursosDes";
 import GMSN from "../components/pages/salidaNoConforme/SalidaNoConformeGraficaMensual";
 import GOYL from "../components/pages/despacho/reporteria/GraficaOyL";
 import GSNI from "../components/pages/salidaNoConforme/SalidaInconformidadesGrafica";
 import GOYLE from "../components/pages/despacho/reporteria/GraficaOyLEmpleado";
 //importaciones recursos humanos
+import RecursosDesp from "../components/pages/RecursosHumanos/RecursosDesp";
 import RecursosHumanos from "../components/pages/RecursosHumanos";
 import SolicitudesEmpleo from "../components/pages/RecursosHumanos/SolicitudesEmpleo";
 import AltaBaja from "../components/pages/RecursosHumanos/AltaBaja";
@@ -49,6 +47,8 @@ import ERR from "../components/pages/RecursosHumanos/Reportes/EntregaRecursoRegi
 import RGA from "../components/tablas/RegistrosAceitoso";
 // Importación gráficos recursos
 import FRG from "../components/pages/RecursosHumanos/Reportes/FaltaRetardoGrafica";
+import GRD from "../components/pages/RecursosHumanos/Reportes/GraficaRecursosDes";
+import DHRD from "../components/pages/RecursosHumanos/Reportes/HistorialRecursoDes";
 
 //importaciones de calidad
 import Ordtrabajo from "../components/pages/calidad/OrdenTrabajo";
@@ -154,13 +154,6 @@ function Rutas() {
             <Route path="pasos-despachar" element={<Pasosdespachar />} />;
             <Route path="pasos-despachar/historial" element={<DHPD />} />;
             <Route path="pasos-despachar/reporte" element={<GPD />} />;
-            <Route path="recurso-despachador" element={<RecursosDesp />} />;
-            <Route path="recurso-despachador/reporte" element={<GRD />} />
-            <Route
-              path="recurso-despachador/reporte/:idEmpleado"
-              element={<GRDD />}
-            />
-            <Route path="recurso-despachador/historial" element={<DHRD />} />
             <Route path="*" element={<Notfound />} />
             <Route path="orden-limpieza-isla" element={<OrdenIsla />} />
             <Route path="orden-limpieza-isla/reporte" element={<GOYL />} />
@@ -175,6 +168,7 @@ function Rutas() {
         {/* Recursos humanos */}
         <Route path="/recursos-humanos" element={<Layout />}>
           <Route index element={<RecursosHumanos />} />
+          <Route path="recurso-despachador" element={<RecursosDesp />} />;
           <Route path="captura-solicitud" element={<SolicitudesEmpleo />} />
           <Route path="alta-baja-empleados" element={<AltaBaja />} />
           <Route path="departamentos" element={<Departamentos />} />
@@ -184,6 +178,12 @@ function Rutas() {
             <Route index element={<FaltasRetardos />} />
             <Route path="reportes" element={<FRG />} />
           </Route>
+          <Route path="recurso-despachador/reporte" element={<GRD />} />
+          <Route path="recurso-despachador/historial" element={<DHRD />} />
+          <Route
+            path="recurso-despachador/reporte/:idEmpleado"
+            element={<GRDD />}
+          />
           <Route path="documentos-trabajadores" element={<Documentos />} />
           <Route path="concurso-madrugador" element={<ConcursoMadrugador />} />
           <Route

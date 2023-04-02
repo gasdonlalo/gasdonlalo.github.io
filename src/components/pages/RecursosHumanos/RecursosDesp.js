@@ -7,14 +7,14 @@ function RecursosDesp() {
     <Fragment>
       <div className="Main">
         <HeaderComponents
-          urlBack="/despacho"
-          textUrlback="Volver al Despacho"
+          urlBack="/recursos-humanos"
+          textUrlback="Volver a recursos humanos"
           title="Recursos de Despachador"
         >
           <IconComponents
             icon="chart-line text-danger"
             text="Reportes"
-            url="/despacho/recurso-despachador/reporte"
+            url="/recursos-humanos/recurso-despachador/reporte"
           ></IconComponents>
         </HeaderComponents>
         <FormRecursosDesp />

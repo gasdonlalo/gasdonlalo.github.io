@@ -1,6 +1,6 @@
 import { useState } from "react";
 import HeaderComponents from "../../../GUI/HeaderComponents";
-import FormEntregaRecurso from "../../forms/FormEntregaRecurso";
+import FormEntregaRecurso from "../../forms/FormEntregaRecursosNuevo";
 import ModalSuccess from "../../modals/ModalSuccess";
 import ModalError from "../../modals/ModalError";
 import Axios from "../../../Caxios/Axios";
