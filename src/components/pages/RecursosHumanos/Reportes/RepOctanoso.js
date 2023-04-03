@@ -313,7 +313,7 @@ const Correcto = ({ datosTabla, colores, fechaFin, fechaInicio, estacion }) => {
           </table>
         </div>
       </div>
-      <div className="container-fluid    mt-3" id="render">
+      <div className="container-fluid    mt-3">
         <div className="container mt-3">
           <table className="table table-bordered border-dark align-middle text-center">
             <thead>
@@ -351,7 +351,7 @@ const Correcto = ({ datosTabla, colores, fechaFin, fechaInicio, estacion }) => {
           </table>
         </div>
         {/* Tabla principal */}
-        <div className="d-flex align-items-center mt-3">
+        <div className="d-flex align-items-center mt-3" id="render">
           <div className="w-25">
             <table className="table table-bordered  border-dark align-middle text-center">
               <thead>
@@ -390,7 +390,7 @@ const Correcto = ({ datosTabla, colores, fechaFin, fechaInicio, estacion }) => {
         fechaInicio={fechaInicio}
         fechaFin={fechaFin}
         estacion={estacion}
-        tabla="tabla"
+        //tabla="tabla"
         orientacion="portrait"
       />
     </div>
