@@ -9,9 +9,11 @@ import AlertSuccess from "../alerts/AlertSuccess";
 import AlertError from "../alerts/AlertError";
 import Loader from "../assets/Loader";
 import { Per } from "../Provider/Auth";
+import { useLocation } from "react-router-dom";
 
 function ActualizarSNC({ show, handleClose, id, setActualizar, actualizar }) {
   const data = useGetData(`salida-no-conforme/${id}`);
+  const url = useLocation().pathname;
 
   return (
     <div>
@@ -23,13 +25,22 @@ function ActualizarSNC({ show, handleClose, id, setActualizar, actualizar }) {
           actualizar={actualizar}
           SNC={data}
           id={id}
+          url={url}
         />
       )}
     </div>
   );
 }
 
-const Success = ({ show, handleClose, id, setActualizar, actualizar, SNC }) => {
+const Success = ({
+  show,
+  handleClose,
+  id,
+  setActualizar,
+  actualizar,
+  SNC,
+  url,
+}) => {
   const [showAlertSucces, setShowAlertSucces] = useState(false);
   const [showError, setShowError] = useState(false);
   const [pendiente, setPendiente] = useState(false);
@@ -100,7 +111,10 @@ const Success = ({ show, handleClose, id, setActualizar, actualizar, SNC }) => {
       {!SNC.error && !SNC.isPending && (
         <Modal show={show} onHide={handleClose} backdrop="static" centered>
           <Modal.Header closeButton>
-            <Modal.Title>Actualizar salida no conforme No.{id}</Modal.Title>
+            <Modal.Title>
+              {url.match("pendiente") ? "Validar" : "Actualizar"} salida no
+              conforme No.{id}
+            </Modal.Title>
           </Modal.Header>
           <Modal.Body>
             <form onSubmit={enviar}>
