@@ -1,14 +1,13 @@
 import { useRef } from "react";
 import format from "../../assets/format";
 
-const InputFechaC = ({ handle, name, data, setData, disabled, min, value }) => {
+const InputFechaC = ({ handle, name, disabled, min, value }) => {
   const inputFecha = useRef();
   const establecerFecha = () => {
     let hoy = new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
       .toISOString()
       .split("T")[0]; //Obtiene la fecha actual
-    inputFecha.current.value = hoy;
-    setData({ ...data, [name]: hoy });
+    handle({ target: { name, value: hoy } });
   };
   return (
     <div className="input-group">
