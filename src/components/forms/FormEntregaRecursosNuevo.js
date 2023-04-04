@@ -5,6 +5,10 @@ import InputSelectEmpleado from "./InputSelectEmpleado";
 import useGetData from "../../hooks/useGetData";
 import Loader from "../assets/Loader";
 
+//uniforme: playera y pantalón
+//opción nueva: nuevo o semi-usado
+//opción nueva: por área
+
 const FormEntregaRecurso = ({ enviar, handle, formPending, body, setBody }) => {
   const empleados = useGetData(`/empleado`);
   console.log(empleados);
@@ -34,7 +38,8 @@ const FormEntregaRecurso = ({ enviar, handle, formPending, body, setBody }) => {
             >
               <option value="">Tipos de entradas</option>
               <option value={1}>Entrega</option>
-              <option value={2}>Recibe</option>
+              <option value={2}>Devolución</option>
+              <option value={3}>Cambio</option>
             </select>
           </div>
         </div>
@@ -50,9 +55,24 @@ const FormEntregaRecurso = ({ enviar, handle, formPending, body, setBody }) => {
               />
             )}
           </div>
+          <div className="col-6">
+            <label className="form-label mb-0 mt-2">
+              Elige el estado del recurso
+            </label>
+            <select
+              className="form-select"
+              // onChange={handle}
+              // id=""
+              name="estado"
+              required
+            >
+              <option value="">Estados</option>
+            </select>
+          </div>
         </div>
+
         {/* Recursos */}
-        <div className="pt-4 d-flex justify-content-between">
+        <div className="pt-4 d-flex justify-content-center">
           <div className="left-column">
             {/* 1 */}
             <div class="form-check form-switch text-success">
@@ -66,10 +86,11 @@ const FormEntregaRecurso = ({ enviar, handle, formPending, body, setBody }) => {
                 Plumón detector
               </label>
               {/* linea */}
-              <div className="col-5 ms-auto p-2 bd-highligh">
+              <div className="col-7 ms-auto p-2 bd-highligh">
                 <input
                   className="form-control col-6"
                   type="number"
+                  min="0"
                   placeholder="Activa el recurso."
                   // disabled={!(aceptado === 1 || aceptado === 2)}
                   required
@@ -88,10 +109,11 @@ const FormEntregaRecurso = ({ enviar, handle, formPending, body, setBody }) => {
                 Tabla porta papeles
               </label>
               {/* linea */}
-              <div className="col-5 ms-auto p-2 bd-highligh">
+              <div className="col-7 ms-auto p-2 bd-highligh">
                 <input
                   className="form-control col-6"
                   type="number"
+                  min="0"
                   placeholder="Activa el recurso."
                   required
                 />
@@ -109,10 +131,11 @@ const FormEntregaRecurso = ({ enviar, handle, formPending, body, setBody }) => {
                 Caja de metal para monedas y documentos
               </label>
               {/* linea */}
-              <div className="col-5 ms-auto p-2 bd-highligh">
+              <div className="col-7 ms-auto p-2 bd-highligh">
                 <input
                   className="form-control col-6"
                   type="number"
+                  min="0"
                   placeholder="Activa el recurso."
                   required
                 />
@@ -130,10 +153,11 @@ const FormEntregaRecurso = ({ enviar, handle, formPending, body, setBody }) => {
                 Sobre de plástico
               </label>
               {/* linea */}
-              <div className="col-5 ms-auto p-2 bd-highligh">
+              <div className="col-7 ms-auto p-2 bd-highligh">
                 <input
                   className="form-control col-6"
                   type="number"
+                  min="0"
                   placeholder="Activa el recurso."
                   required
                 />
@@ -151,10 +175,11 @@ const FormEntregaRecurso = ({ enviar, handle, formPending, body, setBody }) => {
                 Hoja de liquidación
               </label>
               {/* linea */}
-              <div className="col-5 ms-auto p-2 bd-highligh">
+              <div className="col-7 ms-auto p-2 bd-highligh">
                 <input
                   className="form-control col-6"
                   type="number"
+                  min="0"
                   placeholder="Activa el recurso."
                   required
                 />
@@ -172,10 +197,11 @@ const FormEntregaRecurso = ({ enviar, handle, formPending, body, setBody }) => {
                 Sobres para recoleccion parcial (25)
               </label>
               {/* linea */}
-              <div className="col-5 ms-auto p-2 bd-highligh">
+              <div className="col-7 ms-auto p-2 bd-highligh">
                 <input
                   className="form-control col-6"
                   type="number"
+                  min="0"
                   placeholder="Activa el recurso."
                   required
                 />
@@ -193,10 +219,11 @@ const FormEntregaRecurso = ({ enviar, handle, formPending, body, setBody }) => {
                 Gafete
               </label>
               {/* linea */}
-              <div className="col-5 ms-auto p-2 bd-highligh">
+              <div className="col-7 ms-auto p-2 bd-highligh">
                 <input
                   className="form-control col-6"
                   type="number"
+                  min="0"
                   placeholder="Activa el recurso."
                   required
                 />
@@ -214,10 +241,11 @@ const FormEntregaRecurso = ({ enviar, handle, formPending, body, setBody }) => {
                 Cartera para vales
               </label>
               {/* linea */}
-              <div className="col-5 ms-auto p-2 bd-highligh">
+              <div className="col-7 ms-auto p-2 bd-highligh">
                 <input
                   className="form-control col-6"
                   type="number"
+                  min="0"
                   placeholder="Activa el recurso."
                   required
                 />
@@ -235,10 +263,11 @@ const FormEntregaRecurso = ({ enviar, handle, formPending, body, setBody }) => {
                 Uniforme
               </label>
               {/* linea */}
-              <div className="col-5 ms-auto p-2 bd-highligh">
+              <div className="col-7 ms-auto p-2 bd-highligh">
                 <input
                   className="form-control col-6"
                   type="number"
+                  min="0"
                   placeholder="Activa el recurso."
                   required
                 />
@@ -256,10 +285,11 @@ const FormEntregaRecurso = ({ enviar, handle, formPending, body, setBody }) => {
                 Gorra
               </label>
               {/* linea */}
-              <div className="col-5 ms-auto p-2 bd-highligh">
+              <div className="col-7 ms-auto p-2 bd-highligh">
                 <input
                   className="form-control col-6"
                   type="number"
+                  min="0"
                   placeholder="Activa el recurso."
                   required
                 />
@@ -277,10 +307,11 @@ const FormEntregaRecurso = ({ enviar, handle, formPending, body, setBody }) => {
                 Impermeable
               </label>
               {/* linea */}
-              <div className="col-5 ms-auto p-2 bd-highligh">
+              <div className="col-7 ms-auto p-2 bd-highligh">
                 <input
                   className="form-control col-6"
                   type="number"
+                  min="0"
                   placeholder="Activa el recurso."
                   required
                 />
