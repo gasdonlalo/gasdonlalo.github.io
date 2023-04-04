@@ -45,10 +45,10 @@ function FormOrdenIsla() {
       setBody(null);
       setTimeout(() => {
         setModalSuccess(false);
+        window.location.reload();
       }, 800);
       setRadio([]);
       e.target.reset();
-      window.location.reload();
     } catch (err) {
       if (err.hasOwnProperty("response")) {
         setModalError({

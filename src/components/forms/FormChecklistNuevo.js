@@ -6,7 +6,6 @@ import Loader from "../assets/Loader";
 import Axios from "../../Caxios/Axios";
 import ModalSuccess from "../modals/ModalSuccess";
 import ModalError from "../modals/ModalError";
-import InputFechaC from "./Controlado/InputFechaC";
 
 function FormChecklistNuevo() {
   const [formPending, setFormPending] = useState(false);
@@ -72,7 +71,6 @@ function FormChecklistNuevo() {
     setModalSuccess(false);
     setModalError({ status: false });
   };
-  console.log(body);
 
   return (
     <div className="container-lg">
@@ -94,7 +92,7 @@ function FormChecklistNuevo() {
             {!despachador.error && !despachador.isPending && (
               <InputSelectEmpleado
                 empleados={despachadoresEmp}
-                reset={body}
+                reset={body.hasOwnProperty("idEmpleado")}
                 name="idEmpleado"
                 handle={handle}
               />
@@ -110,7 +108,7 @@ function FormChecklistNuevo() {
             {!despachador.error && !despachador.isPending && (
               <InputSelectEmpleado
                 empleados={despachador.data.response}
-                reset={body}
+                reset={body.hasOwnProperty("idEmpleadoSaliente")}
                 name="idEmpleadoSaliente"
                 handle={handle}
               />

@@ -66,7 +66,11 @@ function RegistrosAceitoso() {
         handleClose={closeModal}
         enviar={EnviarEliminar}
       />
-      <HeaderComponents title="Registros aceitoso" />
+      <HeaderComponents
+        urlBack="../"
+        title="Registros aceitoso"
+        textUrlback="Atras"
+      />
       <div className="row">
         <div className="col-6">
           <label className="form-label">Mes</label>
@@ -94,9 +98,9 @@ function RegistrosAceitoso() {
 const Success = ({ datos, eliminar }) => {
   return (
     <div className="container-fluid ">
-      <table className="table table-bordered border-dark shadow">
+      <table className="table table-bordered shadow">
         <thead>
-          <tr className="table-secondary border-dark">
+          <tr className="table-secondary ">
             <th>ID registro</th>
             <th>Fecha</th>
             <th>Nombre</th>
@@ -118,13 +122,12 @@ const Success = ({ datos, eliminar }) => {
                 <td>{el.apellido_materno}</td>
                 <td>GDL {el.idestacion_servicio}</td>
                 <td>${el.cantidad}</td>
-                <td className="d-flex justify-content-center">
-                  <button
-                    className="btn btn-danger"
+                <td className="text-center">
+                  <i
+                    role="button"
+                    className="fa-solid fa-trash text-danger"
                     onClick={() => eliminar(el.idventa_aceite)}
-                  >
-                    Eliminar
-                  </button>
+                  />
                 </td>
               </tr>
             );
