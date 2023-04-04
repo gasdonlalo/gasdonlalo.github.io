@@ -1,6 +1,6 @@
 import { useState } from "react";
 import useGetData from "../../hooks/useGetData";
-import InputFecha from "./InputFecha";
+import InputFechaC from "./Controlado/InputFechaC";
 import InputSelectEmpleado from "./InputSelectEmpleado";
 import Loader from "../assets/Loader";
 import Axios from "../../Caxios/Axios";
@@ -77,12 +77,7 @@ function FormChecklistNuevo() {
         <div className="row p-2">
           <div className="col-4">
             <label>Fecha</label>
-            <InputFecha
-              data={body}
-              setData={setBody}
-              handle={handle}
-              name="fecha"
-            />
+            <InputFechaC value={body} handle={handle} name="fecha" />
           </div>
         </div>
         <div className="row p-2">

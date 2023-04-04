@@ -4,7 +4,7 @@ import useGetData from "../../hooks/useGetData";
 import Loader from "../assets/Loader";
 import ModalError from "../modals/ModalError";
 import ModalSuccess from "../modals/ModalSuccess";
-import InputFecha from "./InputFecha";
+import InputFechaC from "./Controlado/InputFechaC";
 import InputSelectEmpleado from "./InputSelectEmpleado";
 
 function FormOrdenIsla() {
@@ -70,12 +70,7 @@ function FormOrdenIsla() {
         <div className="d-flex flex-wrap justify-content-around mb-3 w-100">
           <div className="p-2" style={{ flexGrow: 1 }}>
             <label className="form-label">Fecha de evaluación</label>
-            <InputFecha
-              data={body}
-              setData={setBody}
-              handle={handle}
-              name="fecha"
-            />
+            <InputFechaC handle={handle} value={body} name="fecha" />
           </div>
           <div className="p-2" style={{ flexGrow: 1 }}>
             <label className="form-label">Nombre del evaluado</label>

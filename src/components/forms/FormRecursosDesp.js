@@ -1,6 +1,6 @@
 import { useState } from "react";
 import useGetData from "../../hooks/useGetData";
-import InputFecha from "./InputFecha";
+import InputFechaC from "./Controlado/InputFechaC";
 import InputSelectEmpleados from "./InputSelectEmpleado";
 import ModalSuccess from "../modals/ModalSuccess";
 import ModalError from "../modals/ModalError";
@@ -40,7 +40,7 @@ const FormRecursosDesp = () => {
     e.preventDefault();
     setFormPending(true);
     try {
-      const res = await Axios.post("/lista-recurso-despachador", body);
+      /* const res =  */ await Axios.post("/lista-recurso-despachador", body);
       setModalSuccess(true);
       setTimeout(() => {
         setModalSuccess(false);
@@ -76,12 +76,7 @@ const FormRecursosDesp = () => {
         <div className="row">
           <div className="col-md-6">
             <label className="form-label">Fecha</label>
-            <InputFecha
-              handle={handle}
-              setData={setBody}
-              data={body}
-              name="fecha"
-            />
+            <InputFechaC handle={handle} value={body} name="fecha" />
           </div>
           <div className="col-md-6">
             <label className="form-label">Empleado despachador</label>

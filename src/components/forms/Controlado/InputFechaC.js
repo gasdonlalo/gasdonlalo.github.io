@@ -18,7 +18,8 @@ const InputFechaC = ({ handle, name, disabled, min, value }) => {
         ref={inputFecha}
         onChange={handle}
         disabled={disabled}
-        value={value && value}
+        //El value es la variable de estado que se manejara por ejemplo el body o el data.
+        value={value ? (value.hasOwnProperty(name) ? value[name] : "") : ""}
         min={min}
         max={format.formatFechaDB(new Date())}
         required

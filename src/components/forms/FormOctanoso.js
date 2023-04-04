@@ -1,5 +1,5 @@
 import useGetData from "../../hooks/useGetData";
-import InputFecha from "./InputFecha";
+import InputFechaC from "./Controlado/InputFechaC";
 import Loader from "../assets/Loader";
 import { useLocation } from "react-router-dom";
 import HeaderForm from "../../GUI/HeaderForm";
@@ -68,12 +68,7 @@ const Success = ({
           </div>
           <div className="mb-3 col-4">
             <label>Fecha</label>
-            <InputFecha
-              handle={handle}
-              name="fecha"
-              data={data}
-              setData={setData}
-            />
+            <InputFechaC handle={handle} name="fecha" value={data} />
           </div>
           <div className="mb-3 col-4">
             <label>Estacion de servicio</label>
