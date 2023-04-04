@@ -1,18 +1,18 @@
 import { useState } from "react";
 import useGetData from "../../hooks/useGetData";
-import InputFecha from "./InputFecha";
 import InputSelectEmpleado from "./InputSelectEmpleado";
 import Loader from "../assets/Loader";
 import Axios from "../../Caxios/Axios";
 import ModalSuccess from "../modals/ModalSuccess";
 import ModalError from "../modals/ModalError";
+import InputFechaC from "./Controlado/InputFechaC";
 
 function FormChecklistNuevo() {
   const [formPending, setFormPending] = useState(false);
   const [modalSuccess, setModalSuccess] = useState(false);
   const [modalError, setModalError] = useState({ status: false, msg: "" });
   const despachador = useGetData(`/empleado`);
-  const [body, setBody] = useState(null);
+  const [body, setBody] = useState({});
   const [radio, setRadio] = useState({
     islaLimpia: false,
     aceitesCompletos: false,
@@ -28,18 +28,19 @@ function FormChecklistNuevo() {
     );
   }
 
-  const handle = (e) => setBody({ ...body, [e.target.name]: e.target.value });
+  const handle = (e) => {
+    setBody({ ...body, [e.target.name]: e.target.value });
+  };
 
   const enviar = async (e) => {
     e.preventDefault();
     setFormPending(true);
-    console.log(body);
-    console.log(radio);
+
     try {
       await Axios.post("/bomba-check", { ...body, ...radio });
       setFormPending(false);
       setModalSuccess(true);
-      setBody(null);
+      setBody({});
       setTimeout(() => {
         setModalSuccess(false);
       }, 800);
@@ -70,6 +71,7 @@ function FormChecklistNuevo() {
     setModalSuccess(false);
     setModalError({ status: false });
   };
+  console.log(body);
 
   return (
     <div className="container-lg">
@@ -77,12 +79,14 @@ function FormChecklistNuevo() {
         <div className="row p-2">
           <div className="col-4">
             <label>Fecha</label>
-            <InputFecha
+            {/* <InputFecha
               data={body}
               setData={setBody}
               handle={handle}
               name="fecha"
-            />
+              reset={true}
+            /> */}
+            <InputFechaC />
           </div>
         </div>
         <div className="row p-2">

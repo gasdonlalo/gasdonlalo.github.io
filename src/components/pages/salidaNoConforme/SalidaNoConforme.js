@@ -15,6 +15,7 @@ import HeaderComponents from "../../../GUI/HeaderComponents";
 import { useParams } from "react-router-dom";
 import { Per } from "../../Provider/Auth";
 import SNCPendienteCaptura from "../../modals/SNCPendienteCaptura";
+import InputFechaC from "../../forms/Controlado/InputFechaC";
 
 const SalidaNoConforme = () => {
   const [showAlert, setShowAlert] = useState({ status: false, msg: "" });
@@ -208,14 +209,15 @@ const SalidaNoConforme = () => {
               <HeaderForm />
               <div className="col-md-5 mb-3">
                 <label className="form-label">Fecha</label>
-                <InputFecha
+                {/* <InputFecha
                   handle={handle}
                   data={datos}
                   setData={setDatos}
                   name="fecha"
                   defaultValue={defaultFecha}
                   disabled={defaultEmpleado || false}
-                />
+                /> */}
+                <InputFechaC />
               </div>
               <div className="mb">
                 <label className="form-label">Descripcion de la falla</label>

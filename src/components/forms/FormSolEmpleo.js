@@ -11,8 +11,6 @@ function FormSolEmpleo({ handle, enviar, pendiente }) {
     setestatus(Number(e.target.value));
   };
 
-  console.log(estatus);
-
   return (
     <div className="container w-50 shadow">
       <HeaderForm />
@@ -65,18 +63,22 @@ function FormSolEmpleo({ handle, enviar, pendiente }) {
               className="form-control"
               name="idDepartamento"
               onChange={handle}
-              required
             >
               <option value="">
                 {dept.isPending
                   ? "Cargando departamentos..."
-                  : "--Selecciona una opción--"}
+                  : "---No cambiar si no se especifico---"}
               </option>
               {!dept.data
                 ? false
                 : dept.data.response.map((e) => {
                     return (
-                      <option value={e.iddepartamento}>{e.departamento}</option>
+                      <option
+                        value={Number(e.iddepartamento)}
+                        key={e.iddepartamento}
+                      >
+                        {e.departamento}
+                      </option>
                     );
                   })}
             </select>

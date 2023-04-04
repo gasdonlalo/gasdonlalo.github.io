@@ -131,7 +131,7 @@ const Success = ({ data, setData, setDel, setEdit }) => {
               <th>Isla</th>
               <th>Turno</th>
               <th>Puntos obtenidos</th>
-              <th>Motivo</th>
+              <th>Incidentes</th>
             </tr>
           </thead>
           <tbody>
@@ -145,7 +145,7 @@ const Success = ({ data, setData, setDel, setEdit }) => {
                 <td>{el.isla}</td>
                 <td>{el.turno}</td>
                 <td>{el.total}</td>
-                <td>{el.motivo || "---"}</td>
+                <td>{el.incidentes || "---"}</td>
                 {Per(19) && (
                   <td
                     className="btn btn-light d-table-cell"

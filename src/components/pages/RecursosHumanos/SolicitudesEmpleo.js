@@ -7,7 +7,7 @@ import HeaderComponents from "../../../GUI/HeaderComponents";
 import IconComponents from "../../assets/IconComponents";
 
 function SolicitudesEmpleo() {
-  const [datos, setDatos] = useState([]);
+  const [datos, setDatos] = useState({ idDepartamento: 0 });
   const [modalSuccess, setModalSuccess] = useState(false);
   const [modalError, setModalError] = useState({ status: false, msg: "" });
   const [pendiente, setPendiente] = useState(false);
@@ -37,6 +37,7 @@ function SolicitudesEmpleo() {
         cerrarModal();
       }, "1500"); //cierra el modal automaticamente
       e.target.reset();
+      setDatos({ idDepartamento: 0 });
     } catch (err) {
       console.log(err);
       if (err.hasOwnProperty("response")) {
