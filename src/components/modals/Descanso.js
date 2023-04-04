@@ -33,14 +33,7 @@ const Descanso = ({ state, idEmpleado, setActualizador }) => {
           <form className="w-75 mx-auto" onSubmit={enviar}>
             <div>
               <label className="form-label">Fecha</label>
-              <InputFechaC
-                handle={handle}
-                setData={setBody}
-                data={body}
-                name="fecha"
-                value={body.fecha || ""}
-                requered
-              />
+              <InputFechaC handle={handle} name="fecha" value={body} requered />
             </div>
             <div>
               <button className="btn btn-info mt-2 mx-auto d-block">

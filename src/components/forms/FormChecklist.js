@@ -1,5 +1,5 @@
 import useGetData from "../../hooks/useGetData";
-import InputFecha from "./InputFecha";
+import InputFechaC from "./InputFechaC";
 import InputSelectEmpleado from "./InputSelectEmpleado";
 import Loader from "../assets/Loader";
 import { useRef, useState } from "react";
@@ -118,12 +118,7 @@ function FormChecklist() {
 
         <div className="col-6">
           <label className="form-label">Fecha de check</label>
-          <InputFecha
-            data={body}
-            setData={setBody}
-            handle={handle}
-            name="fecha"
-          />
+          <InputFechaC value={body} handle={handle} name="fecha" />
         </div>
         <div className="col-md-6">
           <label className="form-label">Escoje la estacion de servicio</label>

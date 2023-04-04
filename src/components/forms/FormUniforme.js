@@ -1,4 +1,4 @@
-import InputFecha from "./InputFecha";
+import InputFechaC from "./Controlado/InputFechaC";
 import InputSelectEmpleado from "./InputSelectEmpleado";
 import useGetData from "../../hooks/useGetData";
 import ModalError from "../modals/ModalError";
@@ -95,12 +95,7 @@ function FormUniforme() {
         <HeaderForm />
         <div className="col-md-6">
           <label className="form-label">Fecha a evaluar</label>
-          <InputFecha
-            handle={handle}
-            data={body}
-            setData={setBody}
-            name="fecha"
-          />
+          <InputFechaC handle={handle} value={body} name="fecha" />
         </div>
         <div className="col-md-6 mb-3">
           <label className="form-label">Empleado a evaluar</label>

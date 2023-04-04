@@ -3,7 +3,6 @@ import useGetData from "../../../hooks/useGetData";
 import InputSelectEmpleado from "../../forms/InputSelectEmpleado";
 import ModalAddIncumplimiento from "../../modals/ModalAddIncumplimiento";
 import Axios from "../../../Caxios/Axios";
-import InputFecha from "../../forms/InputFecha";
 import PDFSalidaNoConforme from "../despacho/PDFSalidaNoConforme";
 import HeaderForm from "../../../GUI/HeaderForm";
 import format from "../../assets/format";
@@ -22,7 +21,7 @@ const SalidaNoConforme = () => {
   const [showAlertSuccess, setShowAlertSuccess] = useState(false);
   const [defaultIncumpliento, setDefaultIncumpliento] = useState();
   const [defaultEmpleado, setDefaultEmpleado] = useState(null);
-  const [defaultFecha, setDefaultFecha] = useState(null);
+  // const [fecha, setFecha] = useState("");
   const [showPendientesCaptura, setShowPendientesCaptura] = useState(false);
   const [actualizar, setActualizar] = useState(false);
   const [deshabilitar, setDeshabilitar] = useState({
@@ -54,7 +53,6 @@ const SalidaNoConforme = () => {
 
   const LimpiarDefault = () => {
     setDefaultIncumpliento(null);
-    setDefaultFecha(null);
     setDefaultEmpleado(null);
     setDatos(null);
     setDeshabilitar({
@@ -84,9 +82,7 @@ const SalidaNoConforme = () => {
     }
   };
 
-  const handle = (e) => {
-    setDatos({ ...datos, [e.target.name]: e.target.value });
-  };
+  const handle = (e) => setDatos({ ...datos, [e.target.name]: e.target.value });
 
   const handleAcciones = (e) => {
     if (e.target.value.length === 0) {
@@ -131,7 +127,7 @@ const SalidaNoConforme = () => {
         handleClose={closePendientesCaptura}
         handleIncumplimiento={setDefaultIncumpliento}
         handleEmpleado={setDefaultEmpleado}
-        handleFecha={setDefaultFecha}
+        // handleFecha={setFecha}
         setDatos={setDatos}
         actualizar={actualizar}
         setActualizar={setActualizar}
@@ -209,15 +205,12 @@ const SalidaNoConforme = () => {
               <HeaderForm />
               <div className="col-md-5 mb-3">
                 <label className="form-label">Fecha</label>
-                {/* <InputFecha
+                <InputFechaC
                   handle={handle}
-                  data={datos}
-                  setData={setDatos}
                   name="fecha"
-                  defaultValue={defaultFecha}
+                  value={datos}
                   disabled={defaultEmpleado || false}
-                /> */}
-                <InputFechaC />
+                />{" "}
               </div>
               <div className="mb">
                 <label className="form-label">Descripcion de la falla</label>
@@ -296,9 +289,7 @@ const SalidaNoConforme = () => {
                 >
                   Crear salida no conforme
                 </button>
-                {!defaultEmpleado &&
-                !defaultFecha &&
-                !defaultIncumpliento ? null : (
+                {!defaultEmpleado && !defaultIncumpliento ? null : (
                   <button
                     type="button"
                     className="btn btn-danger d-block m-auto mt-2"

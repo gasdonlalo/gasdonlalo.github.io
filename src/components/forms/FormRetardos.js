@@ -31,14 +31,7 @@ function FormRetardos({
         <div className="row mb-3">
           <div className="col-4">
             <label className="form-label mb-0">fecha</label>
-            <InputFechaC
-              data={body}
-              setData={setBody}
-              handle={handle}
-              name="fecha"
-              value={body.fecha}
-              required
-            />
+            <InputFechaC handle={handle} name="fecha" value={body} required />
           </div>
         </div>
         <div className="row mb-3">

@@ -11,7 +11,6 @@ function SNCPendienteCaptura({
   handleClose,
   handleIncumplimiento,
   handleEmpleado,
-  handleFecha,
   setDatos,
   actualizar,
   setActualizar,
@@ -30,7 +29,6 @@ function SNCPendienteCaptura({
       nombre: `${empleado.nombre} ${empleado.apellido_paterno} ${empleado.apellido_materno}`,
       id: empleado.idempleado,
     });
-    handleFecha(format.formatFechaDB(e.fecha));
     setDatos({
       fecha: format.formatFechaDB(e.fecha),
       idEmpleadoIncumple: e.idempleado,
@@ -44,8 +42,6 @@ function SNCPendienteCaptura({
     setId(x);
     setEsconder("hidden");
     setShowConfirmacion(true);
-    //handleClose();
-    /* */
   };
   const closeConfirmacion = () => {
     setShowConfirmacion(false);

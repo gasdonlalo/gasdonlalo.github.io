@@ -72,10 +72,8 @@ const FaltaRetardoGrafica = () => {
               Fecha Inicio
               <InputFechaC
                 handle={changeFechaInicio}
-                setData={setFechas}
-                data={fechas}
                 name="fechaI"
-                value={fechas.fechaI}
+                value={fechas}
                 required
               />
             </label>
@@ -85,10 +83,8 @@ const FaltaRetardoGrafica = () => {
               Fecha Final
               <InputFechaC
                 handle={changeFechaInicio}
-                setData={setFechas}
-                data={fechas}
                 name="fechaF"
-                value={fechas.fechaF}
+                value={fechas}
                 required
               />
             </label>

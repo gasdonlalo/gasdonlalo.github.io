@@ -3,7 +3,7 @@ import Loader from "../../assets/Loader";
 import InputSelectEmpleado from "../../forms/InputSelectEmpleado";
 import HeaderComponents from "../../../GUI/HeaderComponents";
 import IconComponents from "../../assets/IconComponents";
-import InputFecha from "../../forms/InputFecha";
+import InputFechaC from "../../forms/Controlado/InputFechaC";
 import useGetData from "../../../hooks/useGetData";
 import Axios from "../../../Caxios/Axios";
 import Grafica from "../../charts/Bar";
@@ -155,12 +155,7 @@ const Success = ({ empleados }) => {
           </div>
           <div className="p-2">
             <label className="form-label">Fecha</label>
-            <InputFecha
-              handle={handle}
-              data={body}
-              setData={setBody}
-              name="fecha"
-            />
+            <InputFechaC handle={handle} name="fecha" value={body} />
           </div>
           <div className="p-2">
             <label>Ingresa el monto</label>

@@ -1,5 +1,5 @@
 import React from "react";
-import InputFecha from "./InputFecha";
+import InputFechaC from "./Controlado/InputFechaC";
 import HeaderForm from "../../GUI/HeaderForm";
 import InputSelectEmpleado from "./InputSelectEmpleado";
 import useGetData from "../../hooks/useGetData";
@@ -19,12 +19,7 @@ const FormEntregaRecurso = ({ enviar, handle, formPending, body, setBody }) => {
         <div className="row">
           <div className="col-5">
             <label className="form-label mb-0">Fecha</label>
-            <InputFecha
-              name="fecha"
-              handle={handle}
-              data={body}
-              setData={setBody}
-            />
+            <InputFechaC name="fecha" value={body} handle={handle} />
           </div>
           {/* Tipo de entrada */}
           <div className="col-7">

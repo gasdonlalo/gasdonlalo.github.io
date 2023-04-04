@@ -1,5 +1,5 @@
 import { useState } from "react";
-import InputFecha from "./InputFecha";
+import InputFechaC from "./Controlado/InputFechaC";
 import InputSelectEmpleados from "./InputSelectEmpleado";
 import Loader from "../assets/Loader";
 import useGetData from "../../hooks/useGetData";
@@ -37,7 +37,6 @@ function FormDespachar() {
       setModalSuccess(true);
       setTimeout(() => {
         setModalSuccess(false);
-        window.location.reload();
       }, 800);
       setFormPending(false);
       e.target.reset();
@@ -74,12 +73,7 @@ function FormDespachar() {
         <HeaderForm />
         <div className="col-6">
           <label className="form-label">Fecha</label>
-          <InputFecha
-            handle={handle}
-            data={body}
-            setData={setBody}
-            name="fecha"
-          />
+          <InputFechaC handle={handle} value={body} name="fecha" />
         </div>
         <div className="col-6">
           <label className="form-label">Selecciona el empleado</label>
