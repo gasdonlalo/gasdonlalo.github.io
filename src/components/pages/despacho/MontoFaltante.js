@@ -1,6 +1,6 @@
 import { Fragment, useState } from "react";
 import Loader from "../../assets/Loader";
-import InputSelectEmpleado from "../../forms/InputSelectEmpleado";
+import InputSelectEmpleado from "../../forms/Controlado/InputSelectEmp";
 import HeaderComponents from "../../../GUI/HeaderComponents";
 import IconComponents from "../../assets/IconComponents";
 import InputFechaC from "../../forms/Controlado/InputFechaC";
@@ -147,9 +147,10 @@ const Success = ({ empleados }) => {
           <div className="p-2">
             <label>Selecciona el despachador</label>
             <InputSelectEmpleado
-              reset={body} //Le paso el body para validar si esta null limpiar el input
               empleados={empleados}
               handle={handle}
+              required
+              value={body}
               name="empleado"
             />
           </div>

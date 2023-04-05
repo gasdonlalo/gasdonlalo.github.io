@@ -5,7 +5,7 @@ import Loader from "../assets/Loader";
 import ModalError from "../modals/ModalError";
 import ModalSuccess from "../modals/ModalSuccess";
 import InputFechaC from "./Controlado/InputFechaC";
-import InputSelectEmpleado from "./InputSelectEmpleado";
+import InputSelectEmpleado from "./Controlado/InputSelectEmp";
 
 function FormOrdenIsla() {
   const [body, setBody] = useState(null);
@@ -77,9 +77,10 @@ function FormOrdenIsla() {
             {!despachador.error & !despachador.isPending && (
               <InputSelectEmpleado
                 empleados={despachador.data.response}
-                reset={body}
+                value={body}
                 name="idEmpleado"
                 handle={handle}
+                required
               />
             )}
           </div>

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import useGetData from "../../../hooks/useGetData";
-import InputSelectEmpleado from "../../forms/InputSelectEmpleado";
+import InputSelectEmpleado from "../../forms/Controlado/InputSelectEmp";
 import ModalAddIncumplimiento from "../../modals/ModalAddIncumplimiento";
 import Axios from "../../../Caxios/Axios";
 import PDFSalidaNoConforme from "../despacho/PDFSalidaNoConforme";
@@ -251,8 +251,7 @@ const SalidaNoConforme = () => {
                       empleados={empleadoS.data.response}
                       name="idEmpleadoIncumple"
                       handle={handle}
-                      reset={datos}
-                      defaultData={defaultEmpleado || false}
+                      value={datos}
                       disabled={defaultEmpleado || false}
                     />
                   </div>

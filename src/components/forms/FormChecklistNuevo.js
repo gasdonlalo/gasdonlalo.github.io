@@ -1,7 +1,7 @@
 import { useState } from "react";
 import useGetData from "../../hooks/useGetData";
 import InputFechaC from "./Controlado/InputFechaC";
-import InputSelectEmpleado from "./InputSelectEmpleado";
+import InputSelectEmpleado from "./Controlado/InputSelectEmp";
 import Loader from "../assets/Loader";
 import Axios from "../../Caxios/Axios";
 import ModalSuccess from "../modals/ModalSuccess";
@@ -92,9 +92,10 @@ function FormChecklistNuevo() {
             {!despachador.error && !despachador.isPending && (
               <InputSelectEmpleado
                 empleados={despachadoresEmp}
-                reset={body.hasOwnProperty("idEmpleado")}
+                value={body}
                 name="idEmpleado"
                 handle={handle}
+                required
               />
             )}
           </div>
@@ -108,9 +109,10 @@ function FormChecklistNuevo() {
             {!despachador.error && !despachador.isPending && (
               <InputSelectEmpleado
                 empleados={despachador.data.response}
-                reset={body.hasOwnProperty("idEmpleadoSaliente")}
+                value={body}
                 name="idEmpleadoSaliente"
                 handle={handle}
+                required
               />
             )}
           </div>
