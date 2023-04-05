@@ -3,21 +3,39 @@ import useGetData from "../../../hooks/useGetData";
 import ErrorHttp from "../../assets/ErrorHttp";
 import format from "../../assets/format";
 import Loader from "../../assets/Loader";
+import Select from "react-select";
+import HeaderComponents from "../../../GUI/HeaderComponents";
+import HeaderForm from "../../../GUI/HeaderForm";
 
 const SNCEmpleado = () => {
   const [idChecador, setIdChecador] = useState(null);
-  const handleChecador = (e) => setIdChecador(Number(e.target.value));
+  const handleChecador = (e) => setIdChecador(Number(e.value));
+  const { data, error, isPending } = useGetData("/empleado");
+
+  const datosEmp =
+    !error &&
+    !isPending &&
+    data.response.map((el) => ({
+      value: el.idchecador,
+      label: `${el.nombre} ${el.apellido_paterno} ${el.apellido_materno}`,
+    }));
+
   return (
-    <div>
+    <div className="Main">
+      <HeaderComponents
+        title="SNC por empleados"
+        urlBack="../"
+        textUrlback="Regresar"
+      />
       <div className="container-sm ">
         <div className="row">
-          <div className="col-3 shadow p-2 mt-4">
-            <label className="label-form">Id del empleado</label>
-            <input
-              className="form-control"
-              type="number"
-              placeholder="idEmpleado"
-              onBlur={handleChecador}
+          <div className="col-5 shadow p-2 mt-4">
+            <HeaderForm />
+            <label className="label-form fw-semibold">Empleado</label>
+            <Select
+              options={datosEmp}
+              isLoading={isPending}
+              onChange={handleChecador}
             />
           </div>
         </div>

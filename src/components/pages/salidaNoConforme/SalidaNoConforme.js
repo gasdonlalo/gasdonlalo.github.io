@@ -253,6 +253,7 @@ const SalidaNoConforme = () => {
                       handle={handle}
                       value={datos}
                       disabled={defaultEmpleado || false}
+                      required
                     />
                   </div>
                 )}

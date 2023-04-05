@@ -1,4 +1,3 @@
-import React from "react";
 import Select from "react-select";
 
 const InputSelectEmp = ({
@@ -10,6 +9,7 @@ const InputSelectEmp = ({
   multiple,
   disabled,
   clearable,
+  loading,
   required,
 }) => {
   const options = empleados.map((el) => ({
@@ -45,6 +45,7 @@ const InputSelectEmp = ({
         value={defaultValue()}
         isDisabled={disabled}
         isMulti={multiple}
+        isLoading={loading}
         required={required}
       />
     </div>
@@ -59,4 +60,5 @@ InputSelectEmp.defaultProps = {
   disabled: false,
   placeholder: "Selecciona el empleado",
   clearable: false,
+  loading: false,
 };
