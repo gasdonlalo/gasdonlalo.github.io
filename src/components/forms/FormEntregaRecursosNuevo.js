@@ -164,15 +164,13 @@ const Recurso = ({ recursos, empleados, id, dataHead, setBody, body }) => {
 
   const handleDatos = (e, recurso) => {
     let { name, value } = e.target;
-    //let cuerpo = body.filter((el) => el.recurso !== recurso);
-    setTemporal({ ...temporal, [name]: value });
-    /*  cuerpo.push({
+    let cuerpo = body.filter((el) => el.recurso !== recurso);
+    setTemporal({ ...temporal, [name]: value, ...dataHead });
+    cuerpo.push({
       ...temporal,
-      ...dataHead,
       recurso: recurso,
     });
-    setBody(cuerpo); */
-    setBody(temporal);
+    setBody(cuerpo);
   }; //guarda los datos de los campos del formulario
   console.log(temporal, "entemp");
 
@@ -201,7 +199,7 @@ const Recurso = ({ recursos, empleados, id, dataHead, setBody, body }) => {
                       type="number"
                       min="0"
                       name="cantidad"
-                      onChange={handleDatos}
+                      onChange={(e) => handleDatos(e, el.nombre)}
                       required
                       ref={(el) => (refCantidad.current[i] = el)}
                       disabled
@@ -212,7 +210,7 @@ const Recurso = ({ recursos, empleados, id, dataHead, setBody, body }) => {
                     <select
                       className="form-select"
                       name="estado"
-                      onChange={handleDatos}
+                      onChange={(e) => handleDatos(e, el.nombre)}
                       required
                       ref={(el) => (refEstado.current[i] = el)}
                       disabled
@@ -227,7 +225,7 @@ const Recurso = ({ recursos, empleados, id, dataHead, setBody, body }) => {
                     <select
                       className="form-select"
                       name="tipoRecibo"
-                      onChange={handleDatos}
+                      onChange={(e) => handleDatos(e, el.nombre)}
                       required
                       disabled
                       ref={(el) => (refEntrega.current[i] = el)}

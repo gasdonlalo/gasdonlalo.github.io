@@ -37,6 +37,7 @@ const EntregaRecurso = () => {
       setFormPending(false);
     } */
   };
+  console.log(body);
 
   return (
     <div className="Main">
