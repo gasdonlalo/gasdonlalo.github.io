@@ -1,79 +1,139 @@
-import { useRef, useState } from "react";
+import { useState } from "react";
 //import InputFecha from "./InputFecha";
 import HeaderForm from "../../GUI/HeaderForm";
-import InputSelectEmpleado from "./InputSelectEmpleado";
+import InputSelectEmpleado from "./Controlado/InputSelectEmp";
 import useGetData from "../../hooks/useGetData";
 import Loader from "../assets/Loader";
 import InputFechaC from "./Controlado/InputFechaC";
 
+const recursos = [
+  {
+    nombre: "Plumón detector",
+    cantidad: 0,
+    estado: 1,
+    tipo: 1,
+    iddepartamentos: [1],
+  },
+  {
+    nombre: "Tabla portapapeles",
+    cantidad: 0,
+    estado: 1,
+    tipo: 1,
+    iddepartamentos: [1, 4],
+  },
+  {
+    nombre: "Caja de metal para monedas y documentos",
+    cantidad: 0,
+    estado: 1,
+    tipo: 1,
+    iddepartamentos: [1],
+  },
+  {
+    nombre: "Sobre de plástico",
+    cantidad: 0,
+    estado: 1,
+    tipo: 1,
+    iddepartamentos: [1],
+  },
+  {
+    nombre: "Hoja de liquidación",
+    cantidad: 0,
+    estado: 1,
+    tipo: 1,
+    iddepartamentos: [1],
+  },
+  {
+    nombre: "Sobres de recolección parcial",
+    cantidad: 0,
+    estado: 1,
+    tipo: 1,
+    iddepartamentos: [1],
+  },
+  { nombre: "Gafete", cantidad: 0, estado: 1, tipo: 1, iddepartamentos: [1] },
+  {
+    nombre: "Cartera para vales",
+    cantidad: 0,
+    estado: 1,
+    tipo: 1,
+    iddepartamentos: [1],
+  },
+  {
+    nombre: "Playera de despachador",
+    cantidad: 0,
+    estado: 1,
+    tipo: 1,
+    iddepartamentos: [1, 2, 5],
+  },
+  {
+    nombre: "Pantalón de despachador",
+    cantidad: 0,
+    estado: 1,
+    tipo: 1,
+    iddepartamentos: [1, 2],
+  },
+  { nombre: "Gorra", cantidad: 0, estado: 1, tipo: 1, iddepartamentos: [1] },
+  {
+    nombre: "Impermeable",
+    cantidad: 0,
+    estado: 1,
+    tipo: 1,
+    iddepartamentos: [1],
+  },
+  {
+    nombre: "Playera de supervisor",
+    cantidad: 0,
+    estado: 1,
+    tipo: 1,
+    iddepartamentos: [3, 4],
+  },
+  {
+    nombre: "Camisa de supervisor",
+    cantidad: 0,
+    estado: 1,
+    tipo: 1,
+    iddepartamentos: [3],
+  },
+];
+
 const FormEntregaRecurso = ({ enviar, formPending, body, setBody }) => {
+  const [recursosFil, setRecursosFil] = useState([]);
   const empleados = useGetData(`/empleado`);
-  const [idEmpleado, setIdEmpleado] = useState(null);
-  const [head, setHead] = useState(null);
 
-  const handleHead = (e) => {
-    setHead({ ...head, [e.target.name]: e.target.value });
+  const handle = (e) => {
+    setBody({ ...body, [e.target.name]: e.target.value });
   };
 
-  const handleId = (e) => {
-    setIdEmpleado(e.target.value);
-    handleHead(e);
+  const handleDepartamento = (e) => {
+    setBody({ ...body, [e.target.name]: e.target.value });
+    const filterRecursos = recursos.filter((el) =>
+      el.iddepartamentos.some((r) => r === e.target.iddepartamento)
+    );
+    setRecursosFil(filterRecursos);
   };
 
-  const recursos = [
-    {
-      id: 1,
-      recursos: [
-        { nombre: "Plumon detector" },
-        { nombre: "Tabla portapapeles" },
-        { nombre: "Caja de metal para monedas y documentos" },
-        { nombre: "Sobre de plastico" },
-        { nombre: "Hoja de liquidación" },
-        { nombre: "Sobres de recolección parcial" },
-        { nombre: "Gafete" },
-        { nombre: "Cartera para vales" },
-        { nombre: "Playera de despachador" },
-        { nombre: "Pantalon de despachador" },
-        { nombre: "Gorra" },
-        { nombre: "Impermeable" },
-      ],
-    },
-    {
-      id: 2,
-      recursos: [
-        { nombre: "Playera de despachador" },
-        { nombre: "Pantalon de despachador" },
-      ],
-    },
-    {
-      id: 3,
-      recursos: [
-        { nombre: "Playera de supervisor" },
-        { nombre: "Camisa de supervisor" },
-      ],
-    },
-    {
-      id: 4,
-      recursos: [
-        { nombre: "Playera de  supervisor" },
-        { nombre: "Camisa de supervisor" },
-        { nombre: "Tabla portapapeles" },
-      ],
-    },
-    {
-      id: 5,
-      recursos: [{ nombre: "Playera de despachador" }],
-    },
-  ];
+  const save = async (e) => {
+    e.preventDefault();
+    const recursosF = recursosFil.filter((el) => el.cantidad > 0);
+    const cuerpo = recursosF.map((el) => ({
+      fecha: body.fecha,
+      idEmpleado: body.idEmpleado,
+      cantidad: el.cantidad,
+      recurso: el.nombre,
+      estado: el.estado,
+      tipoRecibo: el.tipo,
+    }));
+    setRecursosFil([]);
+    enviar(e, cuerpo);
+  };
 
   return (
-    <div className="shadow p-2 w-50 m-auto mt-2">
-      <form onSubmit={enviar}>
+    <div className="shadow p-2 w-50 m-auto mt-5">
+      <form onSubmit={save}>
         <HeaderForm />
         <div className="row">
           <div className="col-6">
             <label className="form-label mb-0">Fecha</label>
-            <InputFechaC name="fecha" handle={handleHead} value={head} />
+            <InputFechaC name="fecha" handle={handle} value={body} />
           </div>
           <div className="col-6">
             <label>Empleado</label>
@@ -81,198 +141,150 @@ const FormEntregaRecurso = ({ enviar, formPending, body, setBody }) => {
               <InputSelectEmpleado
                 empleados={empleados.data.response}
                 name="idEmpleado"
-                handle={handleId}
+                handle={handleDepartamento}
+                value={body}
               />
             )}
           </div>
         </div>
-
-        {/* Recursos */}
-
-        {!empleados.isPending && !empleados.error && (
-          <Recurso
-            recursos={recursos}
-            id={idEmpleado}
-            empleados={empleados.data.response}
-            dataHead={head}
-            body={body}
-            setBody={setBody}
-          />
-        )}
-
-        <button
-          type="submit"
-          className="btn btn-primary mx-auto d-block"
-          //disabled={formPending}
-        >
-          {formPending ? <Loader size="1.5" /> : "Guardar"}
-        </button>
+        <div>
+          <Recursos recursos={recursosFil} setRecursos={setRecursosFil} />
+        </div>
+        <div className="mt-2">
+          <button
+            type="submit"
+            className="btn btn-primary mx-auto d-block"
+            disabled={formPending}
+          >
+            {formPending ? <Loader size="1.5" /> : "Guardar"}
+          </button>
+        </div>
       </form>
     </div>
   );
 };
-const Recurso = ({ recursos, empleados, id, dataHead, setBody, body }) => {
-  //const [datos, setDatos] = useState([]);
-  const [temporal, setTemporal] = useState({}); //guarda los datos de las propiedades de los recursos de manera temporal
 
-  let deptSeleccionado = empleados.filter((el) => el.idempleado === Number(id));
-  let recursosFiltrados = [];
-  //refparacontrlar campos del formulario
-  const refCantidad = useRef([]);
-  const refEstado = useRef([]);
-  const refEntrega = useRef([]);
-  /////////////////////////////////
+const Recursos = ({ recursos, setRecursos }) => {
+  const handle = (e, i) => {
+    let newRecurso = [...recursos];
+    newRecurso[i][e.target.name] = Number(e.target.value);
+    setRecursos(newRecurso);
+  };
 
-  //Asigna los recursos de acuerdo al departamentos
-
-  switch (deptSeleccionado.length !== 0 && deptSeleccionado[0].departamento) {
-    case "Despacho":
-      recursosFiltrados = recursos.filter((el) => el.id === 1);
-      break;
-    case "Mantenimiento":
-    case "Almacen":
-      recursosFiltrados = recursos.filter((el) => el.id === 2);
-      break;
-    case "Administrativo":
-    case "Recursos Humanos":
-      recursosFiltrados = recursos.filter((el) => el.id === 3);
-      break;
-    case "Calidad":
-      recursosFiltrados = recursos.filter((el) => el.id === 4);
-      break;
-    case "Servicios Complementarios":
-      recursosFiltrados = recursos.filter((el) => el.id === 5);
-      break;
-    default:
-      recursosFiltrados = [];
-      break;
-  }
-  ///////////////////////////////////////////
-  const handleSwitch = (e, index, recurso) => {
-    if (e.target.checked) {
-      refCantidad.current[index].removeAttribute("disabled");
-      refEstado.current[index].removeAttribute("disabled");
-      refEntrega.current[index].removeAttribute("disabled");
-    } else {
-      refCantidad.current[index].setAttribute("disabled", true);
-      refEstado.current[index].setAttribute("disabled", true);
-      refEntrega.current[index].setAttribute("disabled", true);
-      let cuerpo = body.filter((el) => el.recurso !== recurso);
-      setBody(cuerpo);
+  const addRecurso = (e) => {
+    let espacioBlanco = new RegExp("^\\s*$", "g");
+    if (!espacioBlanco.test(e.target.value)) {
+      setRecursos([
+        ...recursos,
+        { nombre: e.target.value, estado: 1, cantidad: 1, tipo: 1 },
+      ]);
     }
-  }; //activa los campos de los formularios y al desactivarlo los datos de dicho recurso se eliminan
+    e.target.value = "";
+  };
 
-  const handleDatos = (e, recurso) => {
-    let { name, value } = e.target;
-    //let cuerpo = body.filter((el) => el.recurso !== recurso);
-    setTemporal({ ...temporal, [name]: value });
-    /*  cuerpo.push({
-      ...temporal,
-      ...dataHead,
-      recurso: recurso,
-    });
-    setBody(cuerpo); */
-    setBody(temporal);
-  }; //guarda los datos de los campos del formulario
-  console.log(temporal, "entemp");
+  const deleteRecurso = (i) => {
+    let newRecurso = [...recursos];
+    newRecurso.splice(i, 1);
+    setRecursos(newRecurso);
+  };
 
   return (
-    <>
-      {recursosFiltrados.length !== 0 ? (
-        recursosFiltrados[0].recursos.map((el, i) => {
-          return (
-            <div key={i} className="mt-2 mb-2">
-              <div className="d-flex flex-column border-bottom pb-3 mx-auto">
-                <div className="d-flex align-items-center">
-                  <label>
-                    <input
-                      className="form-check-input me-1"
-                      type="checkbox"
-                      onClick={(e) => handleSwitch(e, i, el.nombre)}
-                    />
-                    {el.nombre}
-                  </label>
-                </div>
-                <div className="row">
-                  <div className="col-4">
-                    <label>Cantidad </label>
-                    <input
-                      className="form-control"
-                      type="number"
-                      min="0"
-                      name="cantidad"
-                      onChange={handleDatos}
-                      required
-                      ref={(el) => (refCantidad.current[i] = el)}
-                      disabled
-                    />
-                  </div>
-                  <div className="col-4">
-                    <label>Estado</label>
-                    <select
-                      className="form-select"
-                      name="estado"
-                      onChange={handleDatos}
-                      required
-                      ref={(el) => (refEstado.current[i] = el)}
-                      disabled
-                    >
-                      <option value="">--Seleccionar estado---</option>
-                      <option value={1}>Nuevo</option>
-                      <option value={2}>Usado</option>
-                    </select>
-                  </div>
-                  <div className="col-4">
-                    <label>Tipo de entrega</label>
-                    <select
-                      className="form-select"
-                      name="tipoRecibo"
-                      onChange={handleDatos}
-                      required
-                      disabled
-                      ref={(el) => (refEntrega.current[i] = el)}
-                    >
-                      <option value="">--Seleccionar tipo de entrega---</option>
-                      <option value={1}>Entrega</option>
-                      <option value={2}>Devolucion</option>
-                      <option value={3}>Cambio</option>
-                    </select>
-                  </div>
-                </div>
-              </div>
-            </div>
-          );
-        })
-      ) : (
-        <h4 className="text-center mt-3 fst-italic">
-          Selecciona un empleado...
-        </h4>
-      )}
-    </>
-  );
-};
-
-const AddRecurso = () => {
-  return (
-    <div className="row">
-      <div className="col-3">
-        <label>Nombre del recurso</label>
-        <input type="text" className="form-control" name="recurso" />
-      </div>
-      <div className="col-3">
-        <label>Cantidad</label>
-        <input type="text" className="form-control" name="cantidad" />
-      </div>
-      <div className="col-3">
-        <label>Tipo de entrega</label>
-        <input type="text" className="form-control" name="tipoRecibo" />
-      </div>
-      <div className="col-3">
-        <label>Estado</label>
-        <input type="text" className="form-control" name="estado" />
-      </div>
+    <div>
+      <table className="table">
+        <thead>
+          <tr>
+            <th></th>
+            <th>Recurso</th>
+            <th className="text-center">Cantidad</th>
+            <th className="text-center">Estado del recurso</th>
+            <th className="text-center">Tipo Entrega</th>
+          </tr>
+        </thead>
+        <tbody>
+          {recursos &&
+            recursos.map((el, i) => (
+              <tr key={i}>
+                <th>
+                  <button
+                    className="btn btn-danger"
+                    type="button"
+                    onClick={() => deleteRecurso(i)}
+                  >
+                    <li className="fa-solid fa-trash text-white" />
+                  </button>
+                </th>
+                <th>
+                  <input
+                    type="text"
+                    value={el.nombre || ""}
+                    className="form-control"
+                    readOnly
+                  />
+                </th>
+                <th>
+                  <input
+                    type="number"
+                    value={el.cantidad}
+                    className="form-control"
+                    name="cantidad"
+                    onChange={(e) => handle(e, i)}
+                  />
+                </th>
+                <th>
+                  <select
+                    className="form-select"
+                    name="estado"
+                    value={el.estado}
+                    onChange={(e) => handle(e, i)}
+                  >
+                    <option value="1">Nuevo</option>
+                    <option value="2">Usado</option>
+                  </select>
+                </th>
+                <th>
+                  <select
+                    className="form-select"
+                    name="tipo"
+                    value={el.tipo}
+                    onChange={(e) => handle(e, i)}
+                  >
+                    <option value="1">Entrega</option>
+                    <option value="2">Devolución</option>
+                    <option value="3">A cambio</option>
+                  </select>
+                </th>
+              </tr>
+            ))}
+          <tr>
+            <th></th>
+            <th>
+              <input
+                type="text"
+                className="form-control"
+                placeholder="Otro Recurso"
+                onBlur={addRecurso}
+              />
+            </th>
+            <th>
+              <input type="text" value={0} className="form-control" disabled />
+            </th>
+            <th>
+              <select className="form-select" disabled>
+                <option value="1">Nuevo</option>
+                <option value="1">Usado</option>
+              </select>
+            </th>
+            <th>
+              <select className="form-select" disabled>
+                <option value="1">Entrega</option>
+                <option value="2">Devolución</option>
+                <option value="3">A cambio</option>
+              </select>
+            </th>
+          </tr>
+        </tbody>
+      </table>
     </div>
   );
 };
-
 export default FormEntregaRecurso;

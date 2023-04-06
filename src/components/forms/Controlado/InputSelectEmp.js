@@ -13,23 +13,27 @@ const InputSelectEmp = ({
   required,
 }) => {
   const options = empleados.map((el) => ({
-    value: el.idempleado,
+    id: el.idempleado,
+    value: el.idchecador,
+    iddepartamento: el.iddepartamento,
+    departamento: el.departamento,
     label: `${el.nombre} ${el.apellido_paterno} ${el.apellido_materno}`,
   }));
 
   const change = (e) => {
-    handle({ target: { value: e ? e.value : "", name } });
+    handle({
+      target: { value: e ? e.id : "", name, iddepartamento: e.iddepartamento },
+    });
   };
 
   const defaultValue = () => {
     let dvalue = null;
     if (value) {
       if (value.hasOwnProperty(name)) {
-        let filter = options.filter((el) => el.value === Number(value[name]));
+        let filter = options.filter((el) => el.id === Number(value[name]));
         dvalue = filter[0];
       }
     }
-
     return dvalue;
   };
 
