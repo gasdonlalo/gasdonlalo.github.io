@@ -7,6 +7,7 @@ import Select from "react-select";
 import HeaderComponents from "../../../GUI/HeaderComponents";
 import HeaderForm from "../../../GUI/HeaderForm";
 import DataTable from "react-data-table-component";
+import PdfHistorialSNC from "../../pdf_generador/PdfHistorialSNC";
 
 const SNCEmpleado = () => {
   const [idChecador, setIdChecador] = useState(null);
@@ -153,6 +154,7 @@ const Success = ({ data }) => {
           conditionalRowStyles={conditionalRow}
           customStyles={customStyle}
         />
+        <PdfHistorialSNC datos={data} />
       </div>
     </div>
   );
