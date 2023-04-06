@@ -1,35 +1,18 @@
-import { createRef, forwardRef, useRef, useState } from "react";
+import { useRef, useState } from "react";
 //import InputFecha from "./InputFecha";
 import HeaderForm from "../../GUI/HeaderForm";
 import InputSelectEmpleado from "./InputSelectEmpleado";
 import useGetData from "../../hooks/useGetData";
 import Loader from "../assets/Loader";
 import InputFechaC from "./Controlado/InputFechaC";
-import { Button } from "bootstrap/dist/js/bootstrap.bundle";
-
-//uniforme: playera y pantalón
-//opción nueva: nuevo o semi-usado
-//opción nueva: por área
 
 const FormEntregaRecurso = ({ enviar, formPending, body, setBody }) => {
   const empleados = useGetData(`/empleado`);
   const [idEmpleado, setIdEmpleado] = useState(null);
-  const [save, setSave] = useState({});
   const [head, setHead] = useState(null);
-  let data = [];
 
-  const handleRecursos = (e) => {
-    if (e.target.checked) {
-      setHead({ ...head, recurso: e.target.name });
-    }
-  };
   const handleHead = (e) => {
     setHead({ ...head, [e.target.name]: e.target.value });
-  };
-
-  const handleProps = (e) => {
-    setSave({ ...save, [e.target.name]: e.target.value });
-    data.push({ ...head, ...save });
   };
 
   const handleId = (e) => {
@@ -82,7 +65,6 @@ const FormEntregaRecurso = ({ enviar, formPending, body, setBody }) => {
       recursos: [{ nombre: "Playera de despachador" }],
     },
   ];
-  console.log(head);
 
   return (
     <div className="shadow p-2 w-50 m-auto mt-2">
@@ -91,12 +73,6 @@ const FormEntregaRecurso = ({ enviar, formPending, body, setBody }) => {
         <div className="row">
           <div className="col-6">
             <label className="form-label mb-0">Fecha</label>
-            {/*       <InputFecha
-              name="fecha"
-              handle={handleHead}
-              data={head}
-              setData={setHead}
-            /> */}
             <InputFechaC name="fecha" handle={handleHead} value={head} />
           </div>
           <div className="col-6">
@@ -106,7 +82,6 @@ const FormEntregaRecurso = ({ enviar, formPending, body, setBody }) => {
                 empleados={empleados.data.response}
                 name="idEmpleado"
                 handle={handleId}
-                handleProps={handleProps}
               />
             )}
           </div>
@@ -119,36 +94,26 @@ const FormEntregaRecurso = ({ enviar, formPending, body, setBody }) => {
             recursos={recursos}
             id={idEmpleado}
             empleados={empleados.data.response}
-            handle={handleRecursos}
-            handleProps={handleProps}
             dataHead={head}
+            body={body}
+            setBody={setBody}
           />
         )}
 
-        <div className="mt-2">
-          <button
-            type="submit"
-            className="btn btn-primary mx-auto d-block"
-            disabled={formPending}
-          >
-            {formPending ? <Loader size="1.5" /> : "Guardar"}
-          </button>
-        </div>
+        <button
+          type="submit"
+          className="btn btn-primary mx-auto d-block"
+          //disabled={formPending}
+        >
+          {formPending ? <Loader size="1.5" /> : "Guardar"}
+        </button>
       </form>
     </div>
   );
 };
-const Recurso = ({
-  recursos,
-  empleados,
-  id,
-  handle,
-  handleProps,
-  dataHead,
-}) => {
-  const [datos, setDatos] = useState();
-  const [temporal, setTemporal] = useState([]);
-  const [recurso, setRecurso] = useState(null);
+const Recurso = ({ recursos, empleados, id, dataHead, setBody, body }) => {
+  //const [datos, setDatos] = useState([]);
+  const [temporal, setTemporal] = useState({}); //guarda los datos de las propiedades de los recursos de manera temporal
 
   let deptSeleccionado = empleados.filter((el) => el.idempleado === Number(id));
   let recursosFiltrados = [];
@@ -156,6 +121,7 @@ const Recurso = ({
   const refCantidad = useRef([]);
   const refEstado = useRef([]);
   const refEntrega = useRef([]);
+  /////////////////////////////////
 
   //Asigna los recursos de acuerdo al departamentos
 
@@ -181,9 +147,9 @@ const Recurso = ({
       recursosFiltrados = [];
       break;
   }
+  ///////////////////////////////////////////
   const handleSwitch = (e, index, recurso) => {
     if (e.target.checked) {
-      setRecurso(recurso);
       refCantidad.current[index].removeAttribute("disabled");
       refEstado.current[index].removeAttribute("disabled");
       refEntrega.current[index].removeAttribute("disabled");
@@ -191,17 +157,24 @@ const Recurso = ({
       refCantidad.current[index].setAttribute("disabled", true);
       refEstado.current[index].setAttribute("disabled", true);
       refEntrega.current[index].setAttribute("disabled", true);
+      let cuerpo = body.filter((el) => el.recurso !== recurso);
+      setBody(cuerpo);
     }
-  };
+  }; //activa los campos de los formularios y al desactivarlo los datos de dicho recurso se eliminan
 
-  const handleDatos = (e) => {
-    setTemporal({
+  const handleDatos = (e, recurso) => {
+    let { name, value } = e.target;
+    //let cuerpo = body.filter((el) => el.recurso !== recurso);
+    setTemporal({ ...temporal, [name]: value });
+    /*  cuerpo.push({
       ...temporal,
       ...dataHead,
-      [e.target.name]: e.target.value,
       recurso: recurso,
     });
-  };
+    setBody(cuerpo); */
+    setBody(temporal);
+  }; //guarda los datos de los campos del formulario
+  console.log(temporal, "entemp");
 
   return (
     <>
@@ -211,7 +184,7 @@ const Recurso = ({
             <div key={i} className="mt-2 mb-2">
               <div className="d-flex flex-column border-bottom pb-3 mx-auto">
                 <div className="d-flex align-items-center">
-                  <label className="flex-fill">
+                  <label>
                     <input
                       className="form-check-input me-1"
                       type="checkbox"
@@ -220,9 +193,9 @@ const Recurso = ({
                     {el.nombre}
                   </label>
                 </div>
-                <div className="d-flex">
+                <div className="row">
                   <div className="col-4">
-                    <label>Cantidad</label>
+                    <label>Cantidad </label>
                     <input
                       className="form-control"
                       type="number"

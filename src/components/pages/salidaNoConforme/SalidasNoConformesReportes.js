@@ -116,6 +116,8 @@ const Success = ({
   const [idSalida, setIdSalida] = useState(null);
   const [idActualizar, setIdActualizar] = useState(null);
   const salidaNoConforme = useGetData(`salida-no-conforme/${idSalida}`);
+  data.sort((a, b) => new Date(a.fecha) - new Date(b.fecha));
+  const [archivos, setArchivos] = useState(data);
 
   const closeConfirmacion = () => {
     setShowConfirmacion(false);
@@ -145,6 +147,13 @@ const Success = ({
       }, 800);
     } catch (error) {}
   };
+  const filtrarArchivos = (e) => {
+    const regExp = new RegExp(`${e.target.value}`, "gi");
+    const search = data.filter((el) => {
+      return regExp.test(`${el.nombre_completo_incumple}`);
+    });
+    setArchivos(search);
+  };
 
   return (
     <div className="d-flex mt-2">
@@ -156,7 +165,7 @@ const Success = ({
       <ModalSuccess show={showSuccess} />
       <div
         className="d-flex flex-column   w-25"
-        style={{ overflowY: "scroll", maxHeight: "100vh" }}
+        style={{ overflowX: "hidden", maxHeight: "100vh" }}
       >
         <ActualizarSNC
           show={showActualizar}
@@ -165,7 +174,23 @@ const Success = ({
           setActualizar={setActualizar}
           actualizar={actualizar}
         />
-        {data.map((el) => (
+        <div className="pt-0">
+          <div className="row">
+            <div className="offset-md-6 col-md-6">
+              <div className="d-flex gap-2">
+                <input
+                  type="text"
+                  className="form-control"
+                  name="buscador"
+                  id="buscador"
+                  onChange={filtrarArchivos}
+                  placeholder="Buscar un empleado..."
+                ></input>
+              </div>
+            </div>
+          </div>
+        </div>
+        {archivos.map((el) => (
           <div
             className="m-2 rounded d-flex p-2"
             key={el.idsalida_noconforme}
