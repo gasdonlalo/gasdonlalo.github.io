@@ -35,7 +35,7 @@ const EntregaRecurso = () => {
         setModalError({ status: true, msg: err.code });
       }
       setFormPending(false);
-    } */
+    }
   };
 
   return (
