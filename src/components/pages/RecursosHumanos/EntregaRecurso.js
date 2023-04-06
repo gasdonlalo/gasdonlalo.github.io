@@ -7,7 +7,7 @@ import Axios from "../../../Caxios/Axios";
 import IconComponents from "../../assets/IconComponents";
 
 const EntregaRecurso = () => {
-  const [body, setBody] = useState([]);
+  const [body, setBody] = useState({});
   const [formPending, setFormPending] = useState(false);
   const [modalSuccess, setModalSuccess] = useState(false);
   const [modalError, setModalError] = useState({ status: false, msg: "" });
@@ -17,14 +17,14 @@ const EntregaRecurso = () => {
     setModalSuccess(false);
   };
 
-  const enviar = async (e) => {
+  const enviar = async (e, cuerpo) => {
     e.preventDefault();
-    console.log(body);
     setFormPending(true);
-    /*    try {
-      await Axios.post(`/entrega-recursos/registro`, body);
+    try {
+      await Axios.post(`/entrega-recursos/registro`, cuerpo);
       setModalSuccess(true);
       setFormPending(false);
+      setBody({});
     } catch (err) {
       if (err.hasOwnProperty("response")) {
         setModalError({
@@ -35,7 +35,7 @@ const EntregaRecurso = () => {
         setModalError({ status: true, msg: err.code });
       }
       setFormPending(false);
-    } */
+    }
   };
   console.log(body);
 
