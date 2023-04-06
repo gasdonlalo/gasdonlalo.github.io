@@ -1,12 +1,16 @@
-import React from "react";
+import { useState } from "react";
 import useGetData from "../../../../hooks/useGetData";
 import HeaderComponents from "../../../../GUI/HeaderComponents";
 import format from "../../../assets/format";
 import Loader from "../../../assets/Loader";
 import ErrorHttp from "../../../assets/ErrorHttp";
+import { ModalEditRecursoEntrega } from "../../../modals/ModalEditRecursoEntrega";
 
 const EntregaRecursoRegistro = () => {
-  const recursos = useGetData(`/entrega-recursos`);
+  const [modalDel, setModalDel] = useState({ status: false, idrecurso: "" });
+  const [actualizador, setActualizador] = useState(false);
+  const recursos = useGetData(`/entrega-recursos`, actualizador);
+  const actualizar = () => setActualizador(!actualizador);
   return (
     <div className="Main">
       <HeaderComponents
@@ -23,39 +27,58 @@ const EntregaRecursoRegistro = () => {
         </div>
       )}
       {!recursos.error && !recursos.isPending && (
-        <Success data={recursos.data.response} />
+        <Success data={recursos.data.response} setModalDel={setModalDel} />
       )}
       {recursos.isPending && <Loader />}
+      <ModalEditRecursoEntrega
+        state={[modalDel, setModalDel]}
+        actualizador={actualizar}
+      />
     </div>
   );
 };
 
-const Success = ({ data }) => {
+const Success = ({ data, setModalDel }) => {
+  const [datos, setDatos] = useState(data);
   return (
-    <div className="mt-4">
-      <table className="mx-auto">
+    <div className="mt-4 w-75 mx-auto">
+      <table className="mx-auto table table-bordered">
         <thead>
           <tr>
-            <th className="border px-2">Empleado</th>
-            <th className="border px-2">Tipo de entrada</th>
-            <th className="border px-2">Fecha</th>
-            <th className="border px-2">Recurso</th>
-            <th className="border px-2">Cantidad</th>
+            <th>Empleado</th>
+            <th>Tipo de entrada</th>
+            <th>Fecha</th>
+            <th>Recurso</th>
+            <th>Estado del recurso</th>
+            <th>Cantidad</th>
+            <th>Eliminar</th>
           </tr>
         </thead>
         <tbody>
-          {data.map((el) => (
+          {datos.map((el) => (
             <tr key={el.idrecurso_entrega}>
-              <td className="border px-2 fw-semibold">
+              <td className="border px-2">
                 {el.nombre} {el.apellido_paterno} {el.apellido_materno}
               </td>
-              <td className="border px-2 fw-semibold">{el.tipo_recibo}</td>
-              <td className="border px-2 fw-semibold">
+              <td className="border px-2">{el.tipo_recibo}</td>
+              <td className="border px-2">
                 {format.formatFechaComplete(el.fecha)}
               </td>
-              <td className="border px-2 fw-semibold">{el.recurso}</td>
-              <td className="border px-2 fw-semibold text-center">
-                {el.cantidad}
+              <td className="border px-2">{el.recurso}</td>
+              <td className="border px-2 text-center">{el.estado}</td>
+              <td className="border px-2 text-center">{el.cantidad}</td>
+              <td className="border px-2 text-center">
+                <button
+                  className="btn btn-danger"
+                  onClick={() =>
+                    setModalDel({
+                      status: true,
+                      idrecurso: el.idrecurso_entrega,
+                    })
+                  }
+                >
+                  <li className="fa-regular fa-trash-can text-white" />
+                </button>
               </td>
             </tr>
           ))}

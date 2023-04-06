@@ -1,6 +1,6 @@
 import { useState } from "react";
 import InputFechaC from "./Controlado/InputFechaC";
-import InputSelectEmpleados from "./InputSelectEmpleado";
+import InputSelectEmpleados from "./Controlado/InputSelectEmp";
 import Loader from "../assets/Loader";
 import useGetData from "../../hooks/useGetData";
 import Axios from "../../Caxios/Axios";
@@ -79,10 +79,11 @@ function FormDespachar() {
           <label className="form-label">Selecciona el empleado</label>
           {!despachador.error && !despachador.isPending && (
             <InputSelectEmpleados
-              reset={body.hasOwnProperty("empleado")}
+              value={body}
               name="empleado"
               empleados={despachador.data.response}
               handle={handle}
+              required
             />
           )}
           {despachador.isPending && (

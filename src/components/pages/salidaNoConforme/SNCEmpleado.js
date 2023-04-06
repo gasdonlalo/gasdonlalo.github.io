@@ -3,21 +3,40 @@ import useGetData from "../../../hooks/useGetData";
 import ErrorHttp from "../../assets/ErrorHttp";
 import format from "../../assets/format";
 import Loader from "../../assets/Loader";
+import Select from "react-select";
+import HeaderComponents from "../../../GUI/HeaderComponents";
+import HeaderForm from "../../../GUI/HeaderForm";
+import DataTable from "react-data-table-component";
 
 const SNCEmpleado = () => {
   const [idChecador, setIdChecador] = useState(null);
-  const handleChecador = (e) => setIdChecador(Number(e.target.value));
+  const handleChecador = (e) => setIdChecador(Number(e.value));
+  const { data, error, isPending } = useGetData("/empleado");
+
+  const datosEmp =
+    !error &&
+    !isPending &&
+    data.response.map((el) => ({
+      value: el.idchecador,
+      label: `${el.nombre} ${el.apellido_paterno} ${el.apellido_materno}`,
+    }));
+
   return (
-    <div>
+    <div className="Main">
+      <HeaderComponents
+        title="SNC por empleados"
+        urlBack="../"
+        textUrlback="Regresar"
+      />
       <div className="container-sm ">
         <div className="row">
-          <div className="col-3 shadow p-2 mt-4">
-            <label className="label-form">Id del empleado</label>
-            <input
-              className="form-control"
-              type="number"
-              placeholder="idEmpleado"
-              onBlur={handleChecador}
+          <div className="col-5 shadow p-2 mt-4">
+            <HeaderForm />
+            <label className="label-form fw-semibold">Empleado</label>
+            <Select
+              options={datosEmp}
+              isLoading={isPending}
+              onChange={handleChecador}
             />
           </div>
         </div>
@@ -37,7 +56,7 @@ const FindData = ({ idChecador }) => {
   const { data, error, isPending } = useGetData(
     `salida-no-conforme/detalleEmpleado/${idChecador}`
   );
-  console.log(data);
+
   return (
     <div className="mt-4">
       {error && !isPending && <ErrorHttp msg={"No se encontraron SNC"} />}
@@ -48,6 +67,78 @@ const FindData = ({ idChecador }) => {
 };
 
 const Success = ({ data }) => {
+  const conditionalRow = [
+    {
+      when: (row) => row.autorizo === "Pendiente",
+      style: {
+        backgroundColor: "#ff808b",
+      },
+    },
+  ];
+
+  const customStyle = {
+    headCells: {
+      style: {
+        fontSize: "15px",
+        fontWeight: 900,
+        textAling: "center",
+        backgroundColor: "silver",
+      },
+    },
+    cells: {
+      style: {
+        fontSize: "15px",
+        padding: "8px",
+      },
+    },
+  };
+
+  const columnas = [
+    {
+      name: "Folio",
+      selector: (row) => row.id,
+      sortable: true,
+    },
+    {
+      name: "Fecha",
+      selector: (row) => row.fecha,
+      sortable: true,
+    },
+    {
+      name: "Descripción de la falla",
+      selector: (row) => row.descripcion,
+      wrap: true,
+    },
+    {
+      name: "Correcciones",
+      selector: (row) => row.correcciones,
+    },
+    {
+      name: "Concesiones",
+      selector: (row) => row.concesiones,
+    },
+    {
+      name: "Autorizo",
+      selector: (row) => row.autorizo,
+    },
+    {
+      name: "Tema",
+      selector: (row) => row.tema,
+    },
+  ];
+
+  const datas = data.map((el) => ({
+    id: el.idsalida_noconforme,
+    fecha: format.formatFechaComplete(el.fecha),
+    descripcion: el.descripcion_falla,
+    correcciones: el.acciones_corregir,
+    concesiones: el.concesiones,
+    autorizo: el.empleadoAutoriza
+      ? `${el.empleadoAutoriza.nombre} ${el.empleadoAutoriza.apellido_paterno} ${el.empleadoAutoriza.apellido_materno}`
+      : "Pendiente",
+    tema: el.incumplimiento,
+  }));
+
   return (
     <div>
       <p className="text-center fw-semibold">
@@ -55,45 +146,13 @@ const Success = ({ data }) => {
         {data[0].empleado.apellido_materno}
       </p>
       <div className="container-sm">
-        <table className="table table-bordered">
-          <thead>
-            <tr>
-              <th>Folio</th>
-              <th>Fecha</th>
-              <th>Descripcion de la falla</th>
-              <th>Correciones</th>
-              <th>Concesiones</th>
-              <th>Autorizo</th>
-              <th>Tema</th>
-            </tr>
-          </thead>
-          <tbody>
-            {data.map((el) => (
-              <tr
-                key={el.idsalida_noconforme}
-                className={`${
-                  !el.empleadoAutoriza && "bg-danger bg-opacity-25"
-                }`}
-              >
-                <td>{el.idsalida_noconforme}</td>
-                <td>{format.formatFechaComplete(el.fecha)}</td>
-                <td>{el.descripcion_falla}</td>
-                <td>{el.acciones_corregir}</td>
-                <td>{el.concesiones}</td>
-                {el.empleadoAutoriza ? (
-                  <td>
-                    {el.empleadoAutoriza.nombre}{" "}
-                    {el.empleadoAutoriza.apellido_paterno}{" "}
-                    {el.empleadoAutoriza.materno}
-                  </td>
-                ) : (
-                  <td>Pendiente</td>
-                )}
-                <td>{el.incumplimiento}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+        <DataTable
+          columns={columnas}
+          data={datas}
+          pagination
+          conditionalRowStyles={conditionalRow}
+          customStyles={customStyle}
+        />
       </div>
     </div>
   );

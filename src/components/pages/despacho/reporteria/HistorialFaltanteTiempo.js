@@ -1,7 +1,7 @@
 import { useState } from "react";
 import HeaderComponents from "../../../../GUI/HeaderComponents";
 import useGetData from "../../../../hooks/useGetData";
-import InputSelectEmpleado from "../../../forms/InputSelectEmpleado";
+import InputSelectEmpleado from "../../../forms/Controlado/InputSelectEmp";
 import HeaderForm from "../../../../GUI/HeaderForm";
 import Axios from "../../../../Caxios/Axios";
 import Decimal from "decimal.js-light";
@@ -203,7 +203,9 @@ const FormFind = ({ setData }) => {
               <InputSelectEmpleado
                 empleados={data.response}
                 handle={handle}
+                value={body}
                 name="idEmpleado"
+                required
               />
             )}
           </div>

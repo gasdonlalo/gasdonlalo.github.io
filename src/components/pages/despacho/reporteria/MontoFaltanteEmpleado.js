@@ -5,7 +5,7 @@ import Loader from "../../../assets/Loader";
 import ErrorHttp from "../../../assets/ErrorHttp";
 import InputChangeYear from "../../../forms/InputChangeYear";
 import InputChangeMes from "../../../forms/InputChangeMes";
-import InputSelectEmpleado from "../../../forms/InputSelectEmpleado";
+import InputSelectEmpleado from "../../../forms/Controlado/InputSelectEmp";
 import HeaderComponents from "../../../../GUI/HeaderComponents";
 import Bar from "../../../charts/Bar";
 import ModalSuccess from "../../../modals/ModalSuccess";
@@ -88,6 +88,8 @@ const Success = ({ empleados, url, date }) => {
   const [actualizador, setActualizador] = useState(false);
   const dEmpleado = useGetData(`${url}/${idEmpleado}`, actualizador);
 
+  console.log({ idEmpleado });
+
   let dataBar = {};
   const setEmpleado = (e) => {
     setIdEmpleado(e.target.value);
@@ -116,7 +118,12 @@ const Success = ({ empleados, url, date }) => {
     <div>
       <div className="w-25 ms-2">
         <label>Selecciona el empleado</label>
-        <InputSelectEmpleado empleados={empleados} handle={setEmpleado} />
+        <InputSelectEmpleado
+          empleados={empleados}
+          value={idEmpleado ? { idEmpleado } : idEmpleado}
+          name="idEmpleado"
+          handle={setEmpleado}
+        />
       </div>
       {!dEmpleado.error && !dEmpleado.isPending && (
         <div className="d-flex justify-content-center">

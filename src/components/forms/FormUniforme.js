@@ -1,5 +1,5 @@
 import InputFechaC from "./Controlado/InputFechaC";
-import InputSelectEmpleado from "./InputSelectEmpleado";
+import InputSelectEmpleado from "./Controlado/InputSelectEmp";
 import useGetData from "../../hooks/useGetData";
 import ModalError from "../modals/ModalError";
 import ModalSuccess from "../modals/ModalSuccess";
@@ -102,8 +102,10 @@ function FormUniforme() {
           {!despachadores.error && !despachadores.isPending && (
             <InputSelectEmpleado
               name="empleado"
+              value={body}
               empleados={despachadores.data.response}
               handle={handle}
+              required
             />
           )}
         </div>

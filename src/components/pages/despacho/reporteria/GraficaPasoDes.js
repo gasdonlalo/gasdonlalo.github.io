@@ -1,7 +1,7 @@
 import { Fragment, useState } from "react";
 import HeaderComponents from "../../../../GUI/HeaderComponents";
 import useGetData from "../../../../hooks/useGetData";
-import InputSelectEmpleado from "../../../forms/InputSelectEmpleado";
+import InputSelectEmpleado from "../../../forms/Controlado/InputSelectEmp";
 import InputChangeYear from "../../../forms/InputChangeYear";
 import InputChangeMes from "../../../forms/InputChangeMes";
 import Loader from "../../../assets/Loader";
@@ -59,9 +59,11 @@ const GraficaPasoDes = () => {
           <label className="form-label">Selecciona el empleado</label>
           {!despachador.error && !despachador.isPending && (
             <InputSelectEmpleado
-              defaultValue={idEmpleado}
+              value={{ idEmpleado }}
+              name="idEmpleado"
               empleados={despachador.data.response}
               handle={changeDespachador}
+              required
             />
           )}
           {despachador.isPending && (
