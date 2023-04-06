@@ -7,14 +7,10 @@ import Axios from "../../../Caxios/Axios";
 import IconComponents from "../../assets/IconComponents";
 
 const EntregaRecurso = () => {
-  const [body, setBody] = useState({});
+  const [body, setBody] = useState([{}]);
   const [formPending, setFormPending] = useState(false);
   const [modalSuccess, setModalSuccess] = useState(false);
   const [modalError, setModalError] = useState({ status: false, msg: "" });
-
-  const handle = (e) => {
-    setBody({ ...body, [e.target.name]: e.target.value });
-  };
 
   const closeModal = () => {
     setModalError({ status: false, msg: "" });
@@ -56,7 +52,6 @@ const EntregaRecurso = () => {
         />
       </HeaderComponents>
       <FormEntregaRecurso
-        handle={handle}
         enviar={enviar}
         formPending={formPending}
         body={body}
