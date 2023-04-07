@@ -113,18 +113,22 @@ const Success = ({ data }) => {
     {
       name: "Correcciones",
       selector: (row) => row.correcciones,
+      wrap: true,
     },
     {
       name: "Concesiones",
       selector: (row) => row.concesiones,
+      wrap: true,
     },
     {
       name: "Autorizo",
       selector: (row) => row.autorizo,
+      wrap: true,
     },
     {
       name: "Tema",
       selector: (row) => row.tema,
+      wrap: true,
     },
   ];
 
