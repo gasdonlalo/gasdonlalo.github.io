@@ -1,6 +1,6 @@
 import Axios from "../../../../Caxios/Axios";
 import useGetData from "../../../../hooks/useGetData";
-import { Fragment, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import HeaderComponents from "../../../../GUI/HeaderComponents";
 import format from "../../../assets/format";
 import Bar from "../../../charts/Bar";
@@ -9,6 +9,7 @@ import IconComponents from "../../../assets/IconComponents";
 import OffCanvasConfigIncumplimientos from "../../../assets/OffCanvasConfigIncumplientos";
 import Loader from "../../../assets/Loader";
 import PdfV2 from "../../../pdf_generador/PdfV2";
+import InputFechaC from "../../../forms/Controlado/InputFechaC";
 
 function RepAceitoso() {
   let colores = [
@@ -20,10 +21,8 @@ function RepAceitoso() {
   ];
 
   const estaciones = useGetData("/estaciones-servicio");
-  const [fechaInicio, setFechaInicio] = useState(null);
-  const [fechaFin, setFechaFin] = useState(null);
-  const [estacion, setEstacion] = useState(null);
-  const [datos, setDatos] = useState([]);
+
+  const [datos, setDatos] = useState({});
   const [actualizador, setActualizador] = useState(false);
 
   const [datosTabla, setDatosTabla] = useState(null);
@@ -34,42 +33,27 @@ function RepAceitoso() {
   const setShowCanvaOpen = () => setShowCanva(true);
   const setShowCanvaClose = () => setShowCanva(false);
 
-  const changeFechaInicio = (e) => {
-    setFechaInicio(e.target.value);
+  const handle = (e) => {
     setDatos({ ...datos, [e.target.name]: e.target.value });
   };
-
-  const changeFechaFin = (e) => {
-    setFechaFin(e.target.value);
-    setDatos({ ...datos, [e.target.name]: e.target.value });
-  };
-
-  const changeEstacion = (e) => {
-    setEstacion(e.target.value);
-    setDatos({ ...datos, [e.target.name]: e.target.value });
-  };
-
-  const enviar = (e) => {
-    e.preventDefault();
-    enviarDatos();
-    setPendiente(true);
-  };
-
-  const enviarDatos = async () => {
-    try {
-      const req = await Axios.post("/aceitoso/obtener", datos);
-      console.log(req, "datos crudos");
-      setDatosTabla(req);
-      setError(null);
-      setPendiente(false);
-    } catch (error) {
-      setDatosTabla(null);
-      setError(error.response.data.msg);
-      setPendiente(false);
-    }
-  };
-  console.log(error, "error");
-  console.log(datosTabla, "tabla");
+  console.log(datos);
+  useEffect(() => {
+    const consultarDatos = async () => {
+      setPendiente(true);
+      try {
+        const req = await Axios.post("/aceitoso/obtener", datos);
+        setDatosTabla(req.data.response);
+        setError(null);
+        setPendiente(false);
+      } catch (error) {
+        setDatosTabla(null);
+        setError(error.response.data.msg);
+        setPendiente(false);
+      }
+    };
+    if (actualizador || datos.hasOwnProperty("idEstacionServicio"))
+      consultarDatos();
+  }, [actualizador, datos]);
   return (
     <div className="Main">
       <HeaderComponents
@@ -88,71 +72,50 @@ function RepAceitoso() {
         toogle={[actualizador, setActualizador]}
       />
       <div className="container">
-        <form onSubmit={enviar}>
-          <div className="row">
-            <div className="mb-3 col-3">
-              <label>Selecciona una fecha de inicio</label>
-              <input
-                className="form-control"
-                type="date"
-                name="fechaInicio"
-                onChange={changeFechaInicio}
-                required
-              />
-            </div>
-            <div className="mb-3 col-3">
-              <label>Selecciona una fecha de fin</label>
-              <input
-                className="form-control"
-                type="date"
-                name="fechaFinal"
-                onChange={changeFechaFin}
-                required
-              />
-            </div>
-            <div className="mb-3 col-3">
-              <label>Selecciona una estacion</label>
-              <select
-                className="form-control"
-                onChange={changeEstacion}
-                name="idEstacionServicio"
-                required
-              >
-                <option value="">--Selecciona una estación--</option>
-                {!estaciones.data
-                  ? false
-                  : estaciones.data.response.map((e) => {
-                      return (
-                        <option
-                          value={e.idestacion_servicio}
-                          key={e.idestacion_servicio}
-                        >
-                          {e.nombre}
-                        </option>
-                      );
-                    })}
-              </select>
-            </div>
-            <button
-              type="submit"
-              className="btn btn-primary col-3 mb-3 m-auto"
-              style={{ width: "100px" }}
-            >
-              {pendiente ? <Loader size="1.5rem" /> : "Consultar"}
-            </button>
+        <div className="row">
+          <div className="mb-3 col-4">
+            <label>Selecciona una fecha de inicio</label>
+
+            <InputFechaC name="fechaInicio" handle={handle} value={datos} />
           </div>
-        </form>
+          <div className="mb-3 col-4">
+            <label>Selecciona una fecha de fin</label>
+
+            <InputFechaC name="fechaFinal" handle={handle} value={datos} />
+          </div>
+          <div className="mb-3 col-4">
+            <label>Selecciona una estacion</label>
+            <select
+              className="form-control"
+              onChange={handle}
+              name="idEstacionServicio"
+              required
+            >
+              <option value="">--Selecciona una estación--</option>
+              {!estaciones.data
+                ? false
+                : estaciones.data.response.map((e) => {
+                    return (
+                      <option
+                        value={e.idestacion_servicio}
+                        key={e.idestacion_servicio}
+                      >
+                        {e.nombre}
+                      </option>
+                    );
+                  })}
+            </select>
+          </div>
+        </div>
       </div>
       <div>
-        {!datosTabla ? (
-          false
-        ) : (
+        {datosTabla && !pendiente && (
           <Correcto
             datosTabla={datosTabla}
             colores={colores}
-            fechaInicio={fechaInicio}
-            fechaFin={fechaFin}
-            estacion={estacion}
+            fechaInicio={datos.fechaInicio}
+            fechaFin={datos.fechaFinal}
+            estacion={datos.idEstacionServicio}
           />
         )}
         {error !== null ? <h4>{error}</h4> : null}
@@ -162,7 +125,7 @@ function RepAceitoso() {
   );
 }
 const Correcto = ({ datosTabla, colores, fechaFin, fechaInicio, estacion }) => {
-  const totalTabla = datosTabla.data.response
+  const totalTabla = datosTabla
     .map((e) => {
       let nombres = !e.empleado
         ? false
@@ -243,55 +206,49 @@ const Correcto = ({ datosTabla, colores, fechaFin, fechaInicio, estacion }) => {
               <th scope="col" rowSpan={2}>
                 Nombre de los despachadores
               </th>
-              {!datosTabla.data.response[0].datos
-                ? false
-                : datosTabla.data.response[0].datos.map((e) => {
-                    return (
-                      <th colSpan={2} key={e.fecha}>
-                        <span>{format.formatFechaComplete(e.fecha)}</span>
-                      </th>
-                    );
-                  })}
+              {datosTabla[0].datos.map((e) => {
+                return (
+                  <th colSpan={2} key={e.fecha}>
+                    <span>{format.formatFechaComplete(e.fecha)}</span>
+                  </th>
+                );
+              })}
             </tr>
             <tr>
-              {!datosTabla.data.response[0].datos
-                ? false
-                : datosTabla.data.response[0].datos.map((e, i) => (
-                    <Fragment>
-                      <th key={e}>Pesos de aceites vendidos</th>
-                      <th key={i}>Salidas no conformes generadas</th>
-                    </Fragment>
-                  ))}
+              {datosTabla[0].datos.map((e, i) => (
+                <Fragment>
+                  <th key={e}>Pesos de aceites vendidos</th>
+                  <th key={i}>Salidas no conformes generadas</th>
+                </Fragment>
+              ))}
             </tr>
           </thead>
           <tbody>
-            {!datosTabla.data
-              ? false
-              : datosTabla.data.response.map((e, i) => {
-                  return (
-                    <tr>
-                      {!e.empleado ? (
-                        false
-                      ) : (
-                        <td key={i}>
-                          {format.formatTextoMayusPrimeraLetra(
-                            `${e.empleado.nombre} ${e.empleado.apellido_paterno} ${e.empleado.apellido_materno}`
-                          )}
-                        </td>
+            {datosTabla.map((e, i) => {
+              return (
+                <tr>
+                  {!e.empleado ? (
+                    false
+                  ) : (
+                    <td key={i}>
+                      {format.formatTextoMayusPrimeraLetra(
+                        `${e.empleado.nombre} ${e.empleado.apellido_paterno} ${e.empleado.apellido_materno}`
                       )}
-                      {!e.datos
-                        ? false
-                        : e.datos.map((e, i, j) => {
-                            return (
-                              <Fragment>
-                                <td key={i}>$ {e.cantidad}</td>
-                                <td key={j}>{e.salidaNC}</td>
-                              </Fragment>
-                            );
-                          })}
-                    </tr>
-                  );
-                })}
+                    </td>
+                  )}
+                  {!e.datos
+                    ? false
+                    : e.datos.map((e, i, j) => {
+                        return (
+                          <Fragment>
+                            <td key={i}>$ {e.cantidad}</td>
+                            <td key={j}>{e.salidaNC}</td>
+                          </Fragment>
+                        );
+                      })}
+                </tr>
+              );
+            })}
           </tbody>
         </table>
       </div>

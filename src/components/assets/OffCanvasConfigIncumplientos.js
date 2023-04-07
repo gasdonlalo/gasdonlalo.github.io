@@ -26,7 +26,6 @@ const OffCanvasConfigIncumplimientos = ({
   if (departamento) url += `/${departamento}`;
 
   const { data, error, isPending } = useGetData(url, actualizador);
-  console.log(url);
 
   const handle = async (e) => {
     try {
@@ -44,6 +43,9 @@ const OffCanvasConfigIncumplimientos = ({
       setActualiza(!actualiza);
       setActualizador(!actualizador);
       setModalSuccess(true);
+      setTimeout(() => {
+        setModalSuccess(false);
+      }, 500);
     } catch (err) {
       if (err.hasOwnProperty("response")) {
         setModalError({
