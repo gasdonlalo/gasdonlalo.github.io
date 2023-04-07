@@ -68,6 +68,8 @@ const FindData = ({ idChecador }) => {
 };
 
 const Success = ({ data }) => {
+  data.sort((a, b) => new Date(a.fecha) - new Date(b.fecha));
+
   const conditionalRow = [
     {
       when: (row) => row.autorizo === "Pendiente",

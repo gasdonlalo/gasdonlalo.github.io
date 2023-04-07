@@ -41,16 +41,13 @@ function PdfHistorialSNC({ datos }) {
       alignItems: "center",
       fontFamily: "calibriN",
     },
-    container: {
-      minHeight: "85%",
-    },
+
     row: {
       display: "flex",
       flexDirection: "row",
       backgroundColor: "#eaeaea",
       height: "20px",
       fontFamily: "calibriN",
-      marginVertical: "auto",
     },
     cuerpo: {
       display: "flex",
@@ -58,19 +55,21 @@ function PdfHistorialSNC({ datos }) {
       textAlign: "center",
     },
     rowfecha: {
-      width: "20%",
-
+      width: "15%",
       borderRight: "1px solid black",
       borderBottom: "1px solid black",
+      paddingBottom: "5px",
     },
     rowInfo: {
-      width: "50%",
+      width: "55%",
       borderRight: "1px solid black",
       borderBottom: "1px solid black",
+      paddingBottom: "5px",
     },
     rowTema: {
       width: "30%",
       borderBottom: "1px solid black",
+      paddingBottom: "5px",
     },
     tablaContainer: {
       textAlign: "center",
@@ -97,7 +96,9 @@ function PdfHistorialSNC({ datos }) {
     return (
       <View style={styles.cuerpo}>
         <Text style={styles.rowfecha}>{format.formatFechaDB(el.fecha)}</Text>
-        <Text style={styles.rowInfo}>{el.descripcion_falla}</Text>
+        <Text style={[styles.rowInfo, { textAlign: "justify" }]}>
+          {el.descripcion_falla}
+        </Text>
         <Text style={styles.rowTema}>{el.incumplimiento}</Text>
       </View>
     );
@@ -123,13 +124,11 @@ function PdfHistorialSNC({ datos }) {
           {/* Titulos */}
           <Image src={pemex} style={{ width: "80px" }}></Image>
         </View>
-        <View style={styles.container}>
-          <View style={styles.tablaContainer}>
-            <Thead />
-            {datos.map((el) => (
-              <Tcuerpo el={el} />
-            ))}
-          </View>
+        <View style={styles.tablaContainer}>
+          <Thead />
+          {datos.map((el) => (
+            <Tcuerpo el={el} />
+          ))}
         </View>
 
         <Text
