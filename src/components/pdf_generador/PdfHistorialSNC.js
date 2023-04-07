@@ -41,12 +41,16 @@ function PdfHistorialSNC({ datos }) {
       alignItems: "center",
       fontFamily: "calibriN",
     },
+    container: {
+      minHeight: "85%",
+    },
     row: {
       display: "flex",
       flexDirection: "row",
       backgroundColor: "#eaeaea",
       height: "20px",
       fontFamily: "calibriN",
+      marginVertical: "auto",
     },
     cuerpo: {
       display: "flex",
@@ -68,7 +72,7 @@ function PdfHistorialSNC({ datos }) {
       width: "30%",
       borderBottom: "1px solid black",
     },
-    container: {
+    tablaContainer: {
       textAlign: "center",
       borderTop: "1px solid black",
       borderLeft: "1px solid black",
@@ -120,11 +124,14 @@ function PdfHistorialSNC({ datos }) {
           <Image src={pemex} style={{ width: "80px" }}></Image>
         </View>
         <View style={styles.container}>
-          <Thead />
-          {datos.map((el) => (
-            <Tcuerpo el={el} />
-          ))}
+          <View style={styles.tablaContainer}>
+            <Thead />
+            {datos.map((el) => (
+              <Tcuerpo el={el} />
+            ))}
+          </View>
         </View>
+
         <Text
           style={styles.paginacion}
           render={({ pageNumber, totalPages }) =>
