@@ -61,7 +61,7 @@ function FormRetardos({
               </div>
             )}
           </div>
-          <div className="col-4 mb-3">
+          {/* <div className="col-4 mb-3">
             <label className="form-label mb-0">Turno</label>
             <select
               name="idTurno"
@@ -86,12 +86,21 @@ function FormRetardos({
               {turnos.isPending && <option value="">Cargando turnos</option>}
               {turnos.error && !turnos.isPending && <option value=""></option>}
             </select>
-          </div>
+          </div> */}
           <div className="col-4 mb-3">
             <label className="form-label mb-0">Hora permitida</label>
-            <select className="form-select" disabled>
+            <input
+              type="time"
+              className="form-control"
+              onChange={handle}
+              name="horaAnticipo"
+              value={body.hora_anticipo}
+              //disabled
+              required
+            />
+            {/* <select className="form-select" disabled>
               <option value="">{body.hora_anticipo}</option>
-            </select>
+            </select> */}
           </div>
           <div className="col-4 mb-3">
             <label className="form-label mb-0">Hora de entrada</label>

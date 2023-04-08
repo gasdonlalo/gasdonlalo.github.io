@@ -146,12 +146,12 @@ function FaltasRetardos() {
         defaultData={defaultData}
       />
       <div>
-        <Turnos
+        {/* <Turnos
           actualizar={actualizar}
           setActualizar={setActualizar}
           modalSuccess={setModalSuccess}
           modalError={setModalError}
-        />
+        /> */}
       </div>
       <ModalSuccess show={modalSuccess} close={closeModal} />
       <ModalError
@@ -313,7 +313,7 @@ const DataChecador = ({ show, setShow, bodyState, capture }) => {
     </Offcanvas>
   );
 };
-
+/* 
 const Turnos = ({ actualizar, setActualizar, modalSuccess, modalError }) => {
   const [modalConfig, setModalConfig] = useState({
     show: false,
@@ -453,7 +453,7 @@ const Modales = ({
     </div>
   );
 };
-
+ */
 const FormTurnos = ({
   servicio,
   actualizar,
