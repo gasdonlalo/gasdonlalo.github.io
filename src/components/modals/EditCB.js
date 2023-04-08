@@ -31,6 +31,9 @@ export const EditCB = ({
   const handleEmp = (e) => {
     setBody({ ...body, [e.target.name]: Number(e.target.value) });
   };
+  const handleIncidentes = (e) => {
+    setBody({ ...body, [e.target.name]: e.target.value });
+  };
 
   const act = async (e) => {
     e.preventDefault();
@@ -47,8 +50,8 @@ export const EditCB = ({
       empleadoEntrante: data.response[0].empleado_entrante,
       empleadoSaliente: data.response[0].empleado_saliente,
       fechac: data.response[0].fechac,
+      incidentes: data.response[0].incidentes,
     };
-    console.log({ ...datos, ...body });
     try {
       e.target.reset();
       setShow({ status: false, id: null });
@@ -201,6 +204,15 @@ export const EditCB = ({
                   />
                 </label>
               </div>
+            </div>
+            <div>
+              <label>Incidentes</label>
+              <textarea
+                className="form-control"
+                defaultValue={data.response[0].incidentes}
+                name="incidentes"
+                onChange={handleIncidentes}
+              />
             </div>
             <div className="mb-3">
               <div>
