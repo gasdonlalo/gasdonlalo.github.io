@@ -1,8 +1,8 @@
 import Loader from "../assets/Loader";
 import InputSelectDep from "./InputSelectDep";
 import HeaderForm from "../../GUI/HeaderForm";
-import InputSelectEmpleado from "./InputSelectEmpleado";
 import InputFechaC from "./Controlado/InputFechaC";
+import InputSelectEmp from "./Controlado/InputSelectEmp";
 
 function FormRetardos({
   changeDep,
@@ -42,15 +42,23 @@ function FormRetardos({
           <div className="col-6 mb-3">
             <label>Empleados</label>
             {empleados ? (
-              <InputSelectEmpleado
+              /* <InputSelectEmpleado
                 empleados={empleados}
                 name="idEmpleado"
                 handle={handle}
                 defaultData={defaultData}
                 reset={body}
+              /> */
+              <InputSelectEmp
+                value={body}
+                handle={handle}
+                name="idEmpleado"
+                empleados={empleados}
               />
             ) : (
-              <div className="form-select">Selecciona un departameto</div>
+              <div className="form-select text-danger">
+                Primero selecciona un departamento
+              </div>
             )}
           </div>
           <div className="col-4 mb-3">

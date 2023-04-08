@@ -3,7 +3,7 @@ import InputFechaC from "./Controlado/InputFechaC";
 import Loader from "../assets/Loader";
 import { useLocation } from "react-router-dom";
 import HeaderForm from "../../GUI/HeaderForm";
-import InputSelectEmpleado from "./InputSelectEmpleado";
+import InputSelectEmp from "./Controlado/InputSelectEmp";
 
 function FormOctanoso({
   enviar,
@@ -14,10 +14,8 @@ function FormOctanoso({
   handleSwitch,
 }) {
   const ruta = useLocation().pathname;
-  console.log(ruta);
   const empleado = useGetData("/empleado?departamento=1");
   const estaciones = useGetData("/estaciones-servicio");
-  console.log(pendiente);
 
   return (
     <div className="container w-50 shadow mt-3">
@@ -58,12 +56,12 @@ const Success = ({
         <div className="row pt-3">
           <div className="mb-3 col-4">
             <label>Empleado:</label>
-
-            <InputSelectEmpleado
-              empleados={empleado.data.response}
-              handle={handle}
+            <InputSelectEmp
               name="idEmpleado"
-              reset={data.hasOwnProperty("idEmpleado")}
+              value={data}
+              required
+              handle={handle}
+              empleados={empleado.data.response}
             />
           </div>
           <div className="mb-3 col-4">
