@@ -61,7 +61,6 @@ function FaltasRetardos() {
       idEmpleado: Number(body.idEmpleado),
       horaEntrada: form.horaEntrada.value || null,
       fecha: form.fecha.value,
-      idTurno: Number(form.idTurno.value) || null,
     };
 
     try {
@@ -69,6 +68,7 @@ function FaltasRetardos() {
       setModalSuccess(true);
       setTimeout(() => {
         setModalSuccess(false);
+        window.location.reload();
       }, 800);
       setFormPending(false);
       const dataChecador = JSON.parse(localStorage.getItem("checador")) || [];
@@ -84,7 +84,6 @@ function FaltasRetardos() {
         hora_anticipo: "",
       });
       e.target.reset();
-      window.location.reload();
     } catch (err) {
       if (err.hasOwnProperty("response")) {
         setModalError({
