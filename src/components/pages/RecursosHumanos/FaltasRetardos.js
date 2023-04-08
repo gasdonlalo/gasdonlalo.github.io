@@ -113,7 +113,7 @@ function FaltasRetardos() {
   return (
     <div className="Main">
       <HeaderComponents
-        title="Faltas y Retardos"
+        title="Captura de entradas"
         urlBack="/recursos-humanos"
         textUrlback="Volver a recursos humanos"
       >

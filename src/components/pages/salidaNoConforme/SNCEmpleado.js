@@ -78,20 +78,31 @@ const Success = ({ data }) => {
       },
     },
   ];
-
+  const sortFechas = (rowA, rowB) => {
+    let a = new Date(rowA.fecha);
+    let b = new Date(rowB.fecha);
+    if (a > b) {
+      return 1;
+    }
+    if (b > a) {
+      return -1;
+    }
+    return 0;
+  };
   const customStyle = {
     headCells: {
       style: {
-        fontSize: "15px",
-        fontWeight: 900,
-        textAling: "center",
+        fontSize: "14pt",
+        fontWeight: "bold",
         backgroundColor: "silver",
       },
     },
     cells: {
       style: {
-        fontSize: "15px",
-        padding: "8px",
+        fontSize: "12pt",
+        padding: "5px",
+
+        textAlign: "center",
       },
     },
   };
@@ -101,11 +112,14 @@ const Success = ({ data }) => {
       name: "Folio",
       selector: (row) => row.id,
       sortable: true,
+      center: true,
     },
     {
       name: "Fecha",
       selector: (row) => row.fecha,
       sortable: true,
+      center: true,
+      sortFunction: sortFechas,
     },
     {
       name: "Descripción de la falla",
@@ -136,7 +150,7 @@ const Success = ({ data }) => {
 
   const datas = data.map((el) => ({
     id: el.idsalida_noconforme,
-    fecha: format.formatFechaComplete(el.fecha),
+    fecha: format.formatFechaDB(el.fecha),
     descripcion: el.descripcion_falla,
     correcciones: el.acciones_corregir,
     concesiones: el.concesiones,
