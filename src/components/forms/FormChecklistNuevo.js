@@ -35,6 +35,7 @@ function FormChecklistNuevo() {
   const enviar = async (e) => {
     e.preventDefault();
     setFormPending(true);
+    console.log(body);
 
     try {
       await Axios.post("/bomba-check", { ...body, ...radio });
@@ -67,10 +68,14 @@ function FormChecklistNuevo() {
     });
   };
 
+  const validacion = new RegExp(/^\s*$/, "g");
+
   const closeModal = () => {
     setModalSuccess(false);
     setModalError({ status: false });
   };
+
+  console.log(validacion.test(body.incidentes));
 
   return (
     <div className="container-lg">
@@ -152,8 +157,27 @@ function FormChecklistNuevo() {
           </table>
         </div>
 
-        <div className="d-flex justify-content-center">
-          <button type="submit" className="btn btn-primary m-auto d-block">
+        <div className="row m-2">
+          <label> Incidentes</label>
+          <textarea
+            className="form-control"
+            placeholder="Redactar si hubo incidentes"
+            name="incidentes"
+            onChange={handle}
+          />
+          {validacion.test(body.incidentes) && (
+            <p className="text-danger">
+              **No debes dejar espacios vacios en el campo de incidentes
+            </p>
+          )}
+        </div>
+
+        <div className="d-flex flex-column justify-content-center">
+          <button
+            type="submit"
+            className="btn btn-primary m-auto d-block"
+            disabled={validacion.test(body.incidentes)}
+          >
             {formPending ? <Loader size="1.5" /> : "Guardar Check"}
           </button>
         </div>

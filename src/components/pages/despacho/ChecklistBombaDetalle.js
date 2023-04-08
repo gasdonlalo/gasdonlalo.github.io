@@ -134,6 +134,7 @@ const Success = ({ data, setMDel, setMEdit, datosGrafica }) => {
             <th className="border px-2 text-center">Bomba</th>
             <th className="border px-2 text-center">Isla limpia</th>
             <th className="border px-2 text-center">Aceites completos</th>
+            <th className="border px-2 text-center">Incidente</th>
             <th className="border px-2 text-center">
               Empleado empleado entrante
             </th>
@@ -189,6 +190,9 @@ const Success = ({ data, setMDel, setMEdit, datosGrafica }) => {
                 ) : (
                   <span className="text-danger fw-semibold">No cumple</span>
                 )}
+              </td>
+              <td className="border text-center px-2">
+                {el.incidentes || "-----"}
               </td>
               <td className="border text-center px-2">
                 {el.empleado_entrante ? (
