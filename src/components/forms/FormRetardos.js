@@ -21,7 +21,7 @@ function FormRetardos({
     let tur = turnos.data.response.filter(
       (el) => el.idturno === Number(e.target.value)
     );
-    setBody({ ...body, hora_anticipo: tur[0].hora_anticipo });
+    setBody({ ...body, horaEstablecida: tur[0].horaEstablecida });
   };
 
   return (
@@ -93,8 +93,8 @@ function FormRetardos({
               type="time"
               className="form-control"
               onChange={handle}
-              name="horaAnticipo"
-              value={body.hora_anticipo}
+              name="horaEstablecida"
+              value={body.horaEstablecida}
               //disabled
               required
             />
