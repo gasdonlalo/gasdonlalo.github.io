@@ -261,6 +261,7 @@ function FormChecklist() {
           )}
         </div>
         <InputEmpleados despachador={despachador} handle={handle} />
+
         <div className="col-md-12 mt-4">
           <button type="submit" className="btn btn-primary m-auto d-block">
             {formPending ? <Loader size="1.5" /> : "Guardar Check"}
