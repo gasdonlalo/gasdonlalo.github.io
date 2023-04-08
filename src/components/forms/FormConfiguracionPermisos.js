@@ -52,7 +52,6 @@ function FormConfiguracionPemisos() {
       if (!add) establecer.push(el);
     });
     try {
-      console.log(quitar, establecer);
       if (establecer.length > 0) {
         await Axios.post(`auth/registrar/permiso`, {
           user: usuarios.data.response.username,
@@ -136,7 +135,7 @@ function FormConfiguracionPemisos() {
                 <input
                   type="text"
                   className="form-control"
-                  placeholder="Nombre del empleado"
+                  placeholder="Sin usuario asignado"
                   aria-label="Username"
                   defaultValue={
                     usuarios.data.response
@@ -248,11 +247,10 @@ const ModalChangePass = ({
     e.preventDefault();
     setFormPending(true);
     try {
-      let res = await Axios.put("/auth/changePass", {
+      await Axios.put("/auth/changePassa", {
         ...pass,
         user: usuarios.data.response.username,
       });
-      console.log(res);
       setFormPending(false);
       setModalSuccess(true);
       close();
@@ -281,7 +279,7 @@ const ModalChangePass = ({
               <input
                 type="text"
                 className="form-control"
-                placeholder="Nombre del empleado"
+                placeholder="Sin usuario asignado"
                 aria-label="Username"
                 defaultValue={
                   usuarios.data.response ? usuarios.data.response.username : " "
