@@ -58,18 +58,27 @@ function PdfHistorialSNC({ datos }) {
       width: "15%",
       borderRight: "1px solid black",
       borderBottom: "1px solid black",
-      paddingBottom: "5px",
     },
     rowInfo: {
       width: "55%",
       borderRight: "1px solid black",
       borderBottom: "1px solid black",
-      paddingBottom: "5px",
+      padding: "5px",
+      paddingTop: "2px",
+    },
+    rowInfoHead: {
+      width: "55%",
+      borderRight: "1px solid black",
+      borderBottom: "1px solid black",
+    },
+    infoText: {
+      margin: "5px",
+      marginTop: "2px",
+      textAlign: "left",
     },
     rowTema: {
       width: "30%",
       borderBottom: "1px solid black",
-      paddingBottom: "5px",
     },
     tablaContainer: {
       textAlign: "center",
@@ -82,12 +91,15 @@ function PdfHistorialSNC({ datos }) {
       textAlign: "right",
       fontSize: "10pt",
     },
+    marginTop: {
+      marginTop: "5px",
+    },
   });
   const Thead = () => {
     return (
       <View style={styles.row}>
         <Text style={styles.rowfecha}>Fecha</Text>
-        <Text style={styles.rowInfo}>Descripción</Text>
+        <Text style={styles.rowInfoHead}>Descripción</Text>
         <Text style={styles.rowTema}>Tema</Text>
       </View>
     );
@@ -95,11 +107,17 @@ function PdfHistorialSNC({ datos }) {
   const Tcuerpo = ({ el }) => {
     return (
       <View style={styles.cuerpo}>
-        <Text style={styles.rowfecha}>{format.formatFechaDB(el.fecha)}</Text>
-        <Text style={[styles.rowInfo, { textAlign: "justify" }]}>
-          {el.descripcion_falla}
-        </Text>
-        <Text style={styles.rowTema}>{el.incumplimiento}</Text>
+        <View style={styles.rowfecha}>
+          <Text style={styles.marginTop}>
+            {format.formatFechaComplete(el.fecha)}
+          </Text>
+        </View>
+        <View style={styles.rowInfo}>
+          <Text style={styles.infoText}>{el.descripcion_falla}</Text>
+        </View>
+        <View style={{ ...styles.rowTema, paddingHorizontal: "5px" }}>
+          <Text style={styles.marginTop}>{el.incumplimiento}</Text>
+        </View>
       </View>
     );
   };
@@ -126,8 +144,8 @@ function PdfHistorialSNC({ datos }) {
         </View>
         <View style={styles.tablaContainer}>
           <Thead />
-          {datos.map((el) => (
-            <Tcuerpo el={el} />
+          {datos.map((el, i) => (
+            <Tcuerpo el={el} key={i} />
           ))}
         </View>
 

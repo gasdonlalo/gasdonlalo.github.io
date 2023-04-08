@@ -1,6 +1,7 @@
 const format = {
   formatFechaLocale: (date) =>
     new Date(new Date(date).getTime() + new Date().getTimezoneOffset() * 60000),
+
   formatFecha: (date) =>
     new Intl.DateTimeFormat("es-MX", {
       day: "numeric",
@@ -46,7 +47,9 @@ const format = {
 
   formatFechaComplete: (date, convert = true) =>
     new Intl.DateTimeFormat("es-MX", {
-      dateStyle: "short",
+      day: "2-digit",
+      month: "2-digit",
+      year: "numeric",
     }).format(
       new Date(
         convert
