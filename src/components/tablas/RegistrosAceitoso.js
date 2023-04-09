@@ -10,6 +10,7 @@ import ErrorHttp from "../assets/ErrorHttp";
 import Axios from "../../Caxios/Axios";
 import Loader from "../assets/Loader";
 import format from "../assets/format";
+import Filtrador from "../filtrador/Filtrador";
 
 function RegistrosAceitoso() {
   const date = new Date();
@@ -96,8 +97,11 @@ function RegistrosAceitoso() {
   );
 }
 const Success = ({ datos, eliminar }) => {
+  const [data, setData] = useState(datos);
+
   return (
     <div className="container-fluid ">
+      <Filtrador datosFiltrar={datos} guardarFiltro={setData} />
       <table className="table table-bordered shadow">
         <thead>
           <tr className="table-secondary ">
@@ -112,7 +116,7 @@ const Success = ({ datos, eliminar }) => {
           </tr>
         </thead>
         <tbody>
-          {datos.map((el) => {
+          {data.map((el) => {
             return (
               <tr>
                 <td>{el.idventa_aceite}</td>

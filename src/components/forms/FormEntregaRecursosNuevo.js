@@ -238,7 +238,7 @@ const Recursos = ({ recursos, setRecursos }) => {
                     onChange={(e) => handle(e, i)}
                   >
                     <option value="1">Nuevo</option>
-                    <option value="2">Usado</option>
+                    <option value="2">Medio uso</option>
                   </select>
                 </th>
                 <th>
