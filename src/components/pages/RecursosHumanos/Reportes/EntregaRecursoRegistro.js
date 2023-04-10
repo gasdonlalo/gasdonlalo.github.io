@@ -6,7 +6,7 @@ import Loader from "../../../assets/Loader";
 import ErrorHttp from "../../../assets/ErrorHttp";
 import { ModalEditRecursoEntrega } from "../../../modals/ModalEditRecursoEntrega";
 import Filtrador from "../../../filtrador/Filtrador";
-import DataTable from "react-data-table-component";
+import TableCustom from "../../../tablas/TableCustom";
 
 const EntregaRecursoRegistro = () => {
   const [modalDel, setModalDel] = useState({ status: false, idrecurso: "" });
@@ -43,41 +43,13 @@ const EntregaRecursoRegistro = () => {
 const Success = ({ data, setModalDel }) => {
   data.sort((a, b) => new Date(a.fecha) - new Date(b.fecha));
   const [datos, setDatos] = useState(data);
-  const sortFechas = (rowA, rowB) => {
-    let a = new Date(rowA.fecha);
-    let b = new Date(rowB.fecha);
-    if (a > b) {
-      return 1;
-    }
-    if (b > a) {
-      return -1;
-    }
-    return 0;
-  };
-  const customStyle = {
-    headCells: {
-      style: {
-        fontSize: "14pt",
-        fontWeight: "bold",
-        backgroundColor: "silver",
-      },
-    },
-    cells: {
-      style: {
-        fontSize: "12pt",
-        padding: "5px",
 
-        textAlign: "center",
-      },
-    },
-  };
   const columns = [
     { name: "Empleado", selector: (row) => row.nombre, wrap: true },
     {
       name: "Fecha",
       selector: (row) => row.fecha,
       sortable: true,
-      sortFunction: sortFechas,
     },
     {
       name: "Recurso",
@@ -94,7 +66,19 @@ const Success = ({ data, setModalDel }) => {
     },
     {
       name: "Acciones",
-      cell: (row) => <Eliminar id={row.id} />,
+      cell: (row) => (
+        <button
+          className="btn btn-danger"
+          onClick={() =>
+            setModalDel({
+              status: true,
+              idrecurso: row.id,
+            })
+          }
+        >
+          <li className="fa-regular fa-trash-can text-white" />
+        </button>
+      ),
     },
   ];
 
@@ -106,22 +90,6 @@ const Success = ({ data, setModalDel }) => {
     cantidad: el.cantidad,
     id: el.idrecurso_entrega,
   }));
-
-  const Eliminar = ({ id }) => {
-    return (
-      <button
-        className="btn btn-danger"
-        onClick={() =>
-          setModalDel({
-            status: true,
-            idrecurso: id,
-          })
-        }
-      >
-        <li className="fa-regular fa-trash-can text-white" />
-      </button>
-    );
-  };
 
   return (
     <>
@@ -169,12 +137,8 @@ const Success = ({ data, setModalDel }) => {
             ))}
           </tbody>
         </table> */}
-        <DataTable
-          columns={columns}
-          data={dataTable}
-          pagination
-          customStyles={customStyle}
-        />
+
+        <TableCustom datos={dataTable} columnas={columns} />
       </div>
     </>
   );

@@ -11,6 +11,7 @@ import Axios from "../../Caxios/Axios";
 import Loader from "../assets/Loader";
 import format from "../assets/format";
 import Filtrador from "../filtrador/Filtrador";
+import TableCustom from "./TableCustom";
 
 function RegistrosAceitoso() {
   const date = new Date();
@@ -74,15 +75,15 @@ function RegistrosAceitoso() {
       />
       <div className="row">
         <div className="col-6">
-          <label className="form-label">Mes</label>
+          <label>Mes</label>
           <InputChangeMes handle={changeMonth} defaultMes={month} />
         </div>
         <div className="col-6">
-          <label className="form-label">Año</label>
+          <label>Año</label>
           <InputChangeYear handle={changeYear} defaultYear={year} />
         </div>
       </div>
-      <div className="mt-5">
+      <div className="mt-3">
         {!error && !isPending && (
           <Success datos={data.response} eliminar={eliminar} />
         )}
@@ -97,12 +98,44 @@ function RegistrosAceitoso() {
   );
 }
 const Success = ({ datos, eliminar }) => {
+  datos.sort((a, b) => new Date(a.fecha) - new Date(b.fecha));
   const [data, setData] = useState(datos);
 
+  const columnas = [
+    {
+      name: "ID registro",
+      selector: (row) => row.id,
+    },
+    {
+      name: "Fecha",
+      selector: (row) => row.fecha,
+      sortable: true,
+    },
+    { name: "Empleado", selector: (row) => row.nombre, wrap: true },
+    { name: "Estación de servicio", selector: (row) => row.estacion },
+    { name: "Cantidad", selector: (row) => row.cantidad },
+    {
+      name: "Acciones",
+      cell: (row) => (
+        <i
+          role="button"
+          className="fa-solid fa-trash text-danger"
+          onClick={() => eliminar(row.id)}
+        />
+      ),
+    },
+  ];
+  const datosTabla = data.map((el) => ({
+    id: el.idventa_aceite,
+    fecha: format.formatFechaDB(el.fecha),
+    nombre: `${el.nombre} ${el.apellido_paterno} ${el.apellido_materno}`,
+    estacion: el.idestacion_servicio,
+    cantidad: `${el.cantidad}L`,
+  }));
   return (
-    <div className="container-fluid ">
+    <>
       <Filtrador datosFiltrar={datos} guardarFiltro={setData} />
-      <table className="table table-bordered shadow">
+      {/* <table className="table table-bordered shadow">
         <thead>
           <tr className="table-secondary ">
             <th>ID registro</th>
@@ -137,8 +170,9 @@ const Success = ({ datos, eliminar }) => {
             );
           })}
         </tbody>
-      </table>
-    </div>
+      </table> */}
+      <TableCustom columnas={columnas} datos={datosTabla} />
+    </>
   );
 };
 export default RegistrosAceitoso;

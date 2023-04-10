@@ -8,6 +8,8 @@ import InputChangeMes from "../../../forms/InputChangeMes";
 import InputChangeYear from "../../../forms/InputChangeYear";
 import useGetData from "../../../../hooks/useGetData";
 import format from "../../../assets/format";
+import TableCustom from "../../../tablas/TableCustom";
+import Filtrador from "../../../filtrador/Filtrador";
 
 const OctanosoRegistros = () => {
   const date = new Date();
@@ -55,7 +57,7 @@ const OctanosoRegistros = () => {
         </div>
       </div>
 
-      <div className="mt-5">
+      <div className="mt-3">
         {!error && !isPending && (
           <Success data={data.response} setDel={setDel} />
         )}
@@ -81,9 +83,53 @@ const OctanosoRegistros = () => {
 };
 
 const Success = ({ data, setDel }) => {
+  data.sort((a, b) => new Date(a.fecha) - new Date(b.fecha));
+  const [registros, setRegistros] = useState(data);
+  const conditionalRow = [
+    {
+      when: (row) => row.descalificado === "Si",
+      style: {
+        backgroundColor: "#ff808b",
+      },
+    },
+  ];
+  const columnas = [
+    {
+      name: "ID registro",
+      selector: (row) => row.id,
+    },
+    {
+      name: "Fecha",
+      selector: (row) => row.fecha,
+      sortable: true,
+    },
+    { name: "Empleado", selector: (row) => row.nombre, wrap: true },
+    { name: "Estación de servicio", selector: (row) => row.estacion },
+    { name: "Cantidad", selector: (row) => row.cantidad },
+    { name: "Descalificado", selector: (row) => row.descalificado },
+    {
+      name: "Acciones",
+      cell: (row) => (
+        <i
+          role="button"
+          className="fa-solid fa-trash text-danger"
+          onClick={() => setDel({ status: true, id: row.id })}
+        />
+      ),
+    },
+  ];
+  const datosTabla = registros.map((el) => ({
+    id: el.idventa_litros,
+    fecha: format.formatFechaDB(el.fecha),
+    nombre: `${el.nombre} ${el.apellido_paterno} ${el.apellido_materno}`,
+    estacion: el.estacion_servicio,
+    cantidad: `$${el.cantidad}`,
+    descalificado: el.descalificado ? "Si" : "No",
+  }));
   return (
     <div className="container-fluid">
-      <table className="table table-bordered shadow">
+      <Filtrador datosFiltrar={data} guardarFiltro={setRegistros} />
+      {/* <table className="table table-bordered shadow">
         <thead>
           <tr className="table-secondary">
             <th>Estacion Servicio</th>
@@ -94,7 +140,7 @@ const Success = ({ data, setDel }) => {
           </tr>
         </thead>
         <tbody>
-          {data.map((el) => (
+          {registros.map((el) => (
             <tr key={el.idventa_litros}>
               <td>{el.estacion_servicio}</td>
               <td>
@@ -114,7 +160,12 @@ const Success = ({ data, setDel }) => {
             </tr>
           ))}
         </tbody>
-      </table>
+      </table> */}
+      <TableCustom
+        columnas={columnas}
+        datos={datosTabla}
+        conditionalRow={conditionalRow}
+      />
     </div>
   );
 };

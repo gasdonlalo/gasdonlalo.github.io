@@ -228,6 +228,7 @@ const Recursos = ({ recursos, setRecursos }) => {
                     className="form-control"
                     name="cantidad"
                     onChange={(e) => handle(e, i)}
+                    min="0"
                   />
                 </th>
                 <th>

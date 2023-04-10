@@ -24,6 +24,9 @@ const EntregaRecurso = () => {
       await Axios.post(`/entrega-recursos/registro`, cuerpo);
       setModalSuccess(true);
       setFormPending(false);
+      setTimeout(() => {
+        setModalSuccess(false);
+      }, 500);
       setBody({});
     } catch (err) {
       if (err.hasOwnProperty("response")) {

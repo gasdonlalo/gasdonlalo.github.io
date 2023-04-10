@@ -20,6 +20,9 @@ const Delete = ({
       setModalSuccess(true);
       setActualizador(!actualizador);
       close();
+      setTimeout(() => {
+        setModalSuccess(false);
+      }, 500);
     } catch (err) {
       if (err.hasOwnProperty("response")) {
         setModalError({

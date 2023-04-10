@@ -6,8 +6,8 @@ import Loader from "../../assets/Loader";
 import Select from "react-select";
 import HeaderComponents from "../../../GUI/HeaderComponents";
 import HeaderForm from "../../../GUI/HeaderForm";
-import DataTable from "react-data-table-component";
 import PdfHistorialSNC from "../../pdf_generador/PdfHistorialSNC";
+import TableCustom from "../../tablas/TableCustom";
 
 const SNCEmpleado = () => {
   const [idChecador, setIdChecador] = useState(null);
@@ -89,23 +89,6 @@ const Success = ({ data }) => {
     }
     return 0;
   };
-  const customStyle = {
-    headCells: {
-      style: {
-        fontSize: "14pt",
-        fontWeight: "bold",
-        backgroundColor: "silver",
-      },
-    },
-    cells: {
-      style: {
-        fontSize: "12pt",
-        padding: "5px",
-
-        textAlign: "center",
-      },
-    },
-  };
 
   const columnas = [
     {
@@ -167,12 +150,10 @@ const Success = ({ data }) => {
         {data[0].empleado.apellido_materno}
       </p>
       <div className="container-sm">
-        <DataTable
-          columns={columnas}
-          data={datas}
-          pagination
-          conditionalRowStyles={conditionalRow}
-          customStyles={customStyle}
+        <TableCustom
+          columnas={columnas}
+          datos={datas}
+          conditionalRow={conditionalRow}
         />
         <PdfHistorialSNC datos={data} />
       </div>
