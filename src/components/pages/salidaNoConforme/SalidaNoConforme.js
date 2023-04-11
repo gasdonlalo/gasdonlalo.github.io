@@ -220,6 +220,13 @@ const SalidaNoConforme = () => {
                   placeholder="Motivo de la inconformidad"
                   rows={5}
                   required
+                  value={
+                    datos
+                      ? datos.hasOwnProperty("descripcionFalla")
+                        ? datos["descripcionFalla"]
+                        : ""
+                      : ""
+                  }
                   onChange={handle}
                 />
               </div>
