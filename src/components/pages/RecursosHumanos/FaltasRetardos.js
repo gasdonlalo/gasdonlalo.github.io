@@ -148,6 +148,8 @@ function FaltasRetardos() {
 }
 
 const DataChecador = ({ show, setShow, bodyState, capture }) => {
+  const [file, setFile] = useState("");
+
   const { data, error, isPending } = useGetData("/departamento");
   const dataChecador = JSON.parse(localStorage.getItem("checador"));
   const [body, setBody] = bodyState;
@@ -218,6 +220,14 @@ const DataChecador = ({ show, setShow, bodyState, capture }) => {
     setDataC(nuevoDato);
   };
 
+  const uploadFile = (e) => {
+    if (e.target.files.length > 0) {
+      setFile(e.target.files[0].name);
+    } else {
+      setFile("");
+    }
+  };
+
   return (
     <Offcanvas show={show} onHide={handleClose}>
       <Offcanvas.Header closeButton>
@@ -228,9 +238,37 @@ const DataChecador = ({ show, setShow, bodyState, capture }) => {
           style={{ width: "300px", height: "100px" }}
           className="border mx-auto d-flex"
         >
-          <form onSubmit={subir}>
-            <input type="file" name="dataReloj" required />
-            <button>cargar</button>
+          <form onSubmit={subir} className="m-auto">
+            <div className="d-flex align-items-center w-100 h-100">
+              {!file && (
+                <label
+                  className="btn btn-info d-flex flex-column m-auto"
+                  htmlFor="relojChecador"
+                >
+                  <span>Subir registro</span>
+                  <li className="fa-solid fa-upload" />
+                </label>
+              )}
+              <input
+                type="file"
+                name="dataReloj"
+                id="relojChecador"
+                required
+                onChange={uploadFile}
+                accept=".xls, .xlsx"
+                className="d-none"
+              />
+            </div>
+            {file && (
+              <div>
+                <p className="mb-1">
+                  <span className="fw-semibold text-danger">{file}</span>
+                </p>
+                <button className="btn btn-success mx-auto d-block">
+                  cargar archivo
+                </button>
+              </div>
+            )}
           </form>
         </div>
         <div>
