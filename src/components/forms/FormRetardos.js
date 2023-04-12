@@ -7,22 +7,12 @@ import InputSelectEmp from "./Controlado/InputSelectEmp";
 function FormRetardos({
   changeDep,
   enviar,
-  turnos,
   body,
-  setBody,
   handle,
   formPending,
   empEstado,
-  defaultData,
 }) {
   const [empleados] = empEstado;
-
-  const turno = (e) => {
-    let tur = turnos.data.response.filter(
-      (el) => el.idturno === Number(e.target.value)
-    );
-    setBody({ ...body, horaEstablecida: tur[0].horaEstablecida });
-  };
 
   return (
     <div>
@@ -42,18 +32,12 @@ function FormRetardos({
           <div className="col-6 mb-3">
             <label>Empleados</label>
             {empleados ? (
-              /* <InputSelectEmpleado
-                empleados={empleados}
-                name="idEmpleado"
-                handle={handle}
-                defaultData={defaultData}
-                reset={body}
-              /> */
               <InputSelectEmp
                 value={body}
                 handle={handle}
                 name="idEmpleado"
                 empleados={empleados}
+                clearable
               />
             ) : (
               <div className="form-select text-danger">
@@ -61,48 +45,18 @@ function FormRetardos({
               </div>
             )}
           </div>
-          {/* <div className="col-4 mb-3">
-            <label className="form-label mb-0">Turno</label>
-            <select
-              name="idTurno"
-              className="form-select"
-              defaultValue={1}
-              onChange={(handle, turno)}
-              required
-            >
-              {!turnos.error && !turnos.isPending && (
-                <option value=""> -- Seleccionar turno -- </option>
-              )}
-              {turnos.isPending && (
-                <option value=""> -- Cargando turnos -- </option>
-              )}
-              {!turnos.error &&
-                !turnos.isPending &&
-                turnos.data.response.map((el) => (
-                  <option key={el.idturno} value={el.idturno}>
-                    {el.turno}
-                  </option>
-                ))}
-              {turnos.isPending && <option value="">Cargando turnos</option>}
-              {turnos.error && !turnos.isPending && <option value=""></option>}
-            </select>
-          </div> */}
-          <div className="col-4 mb-3">
-            <label className="form-label mb-0">Hora permitida</label>
+          <div className="col-6 mb-3">
+            <label className="form-label mb-0">Hora establecida</label>
             <input
               type="time"
               className="form-control"
               onChange={handle}
               name="horaEstablecida"
               value={body.horaEstablecida}
-              //disabled
               required
             />
-            {/* <select className="form-select" disabled>
-              <option value="">{body.hora_anticipo}</option>
-            </select> */}
           </div>
-          <div className="col-4 mb-3">
+          <div className="col-6 mb-3">
             <label className="form-label mb-0">Hora de entrada</label>
             <input
               type="time"

@@ -25,7 +25,11 @@ const FaltaRetardoGrafica = () => {
   const [idDep, setIdDep] = useState(null);
   const [data, setData] = useState({ success: false });
   const [modal, setModal] = useState(false);
-  const [modalEdit, setModalEdit] = useState({ status: false, idCap: "" });
+  const [modalEdit, setModalEdit] = useState({
+    status: false,
+    idCap: "",
+    data: null,
+  });
   const [modalDel, setModalDel] = useState({ status: false, idCap: "" });
 
   const actualizarData = () => setActualizador(!actualizador);
@@ -184,7 +188,8 @@ const Success = ({ data, showMEdit, showMDel }) => {
           <thead>
             <tr>
               <th>Fecha</th>
-              <th>Turno</th>
+              <th>Hora Establecida</th>
+              <th>Hora Entrada</th>
               <th>Minutos de retardos</th>
               <th>Inconveniente</th>
               <th>Editar</th>
@@ -195,8 +200,29 @@ const Success = ({ data, showMEdit, showMDel }) => {
             {data.map((el) => (
               <tr key={el.idcaptura_entrada}>
                 <td>{format.formatFechaComplete(el.fecha)}</td>
-                <td>{el.turno}</td>
-                <td>{el.minutos_retardos}</td>
+                <td>
+                  {el.hora_establecida
+                    ? format.formatHours(`2022-01-01 ${el.hora_establecida}`)
+                    : "--"}
+                </td>
+                <td>
+                  {el.hora_entrada
+                    ? format.formatHours(`2022-01-01 ${el.hora_entrada}`)
+                    : "--"}
+                </td>
+                <td className="text-center">
+                  {el.minutos_retardos ? (
+                    <span
+                      className={`fw-semibold text-${
+                        el.minutos_retardos === "00:00" ? "success" : "danger"
+                      }`}
+                    >
+                      {el.minutos_retardos}
+                    </span>
+                  ) : (
+                    "--"
+                  )}
+                </td>
                 <td>
                   {el.hasOwnProperty("tipo_falta") ? el.tipo_falta.tipo : ""}
                 </td>
@@ -204,7 +230,12 @@ const Success = ({ data, showMEdit, showMDel }) => {
                   <button
                     className="btn btn-light d-block mx-auto"
                     onClick={() =>
-                      showMEdit({ status: true, idCap: el.idcaptura_entrada })
+                      showMEdit({
+                        status: true,
+                        idCap: el.idcaptura_entrada,
+                        horaEstablecida: el.hora_establecida || "",
+                        horaEntrada: el.hora_entrada || "",
+                      })
                     }
                   >
                     <li className="fa-solid fa-pen text-warning" />

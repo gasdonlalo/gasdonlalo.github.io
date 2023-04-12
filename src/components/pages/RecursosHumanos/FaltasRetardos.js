@@ -6,9 +6,8 @@ import ModalError from "../../modals/ModalError";
 import ModalSuccess from "../../modals/ModalSuccess";
 import HeaderComponents from "../../../GUI/HeaderComponents";
 import IconComponents from "../../assets/IconComponents";
-import { Offcanvas, Modal } from "react-bootstrap";
+import { Offcanvas } from "react-bootstrap";
 import format from "../../assets/format";
-import ModalConfirmacion from "../../modals/ModalConfirmacion";
 
 function FaltasRetardos() {
   const [body, setBody] = useState({
@@ -19,6 +18,7 @@ function FaltasRetardos() {
     horaEntrada: "",
     idTurno: null,
     hora_anticipo: "",
+    horaEstablecida: "",
     index: null,
   });
   const [showOf, setShowOf] = useState(false);
@@ -28,11 +28,10 @@ function FaltasRetardos() {
   const [defaultData, setDefaultData] = useState(false);
   const [modalError, setModalError] = useState({ status: false, msg: "" });
 
-  const [actualizar, setActualizar] = useState(false);
-
   //recibe los datos del formulario
   const handle = (e) => {
     setBody({ ...body, [e.target.name]: e.target.value });
+    console.log(body);
   };
 
   const closeModal = () => {
@@ -41,7 +40,6 @@ function FaltasRetardos() {
   };
 
   const empleado = useGetData("/empleado");
-  const turnos = useGetData("/estaciones-servicio/turnos", actualizar);
 
   const capture = (iddep, idemp, nombre) => {
     setDefaultData({ id: idemp, nombre });
@@ -49,22 +47,17 @@ function FaltasRetardos() {
   };
 
   const enviar = async (e) => {
-    if (!body.hasOwnProperty("idEmpleado"))
-      setModalError({ status: true, msg: "Falta el id de empleado" });
     e.preventDefault();
+
+    if (!body.idEmpleado) {
+      setModalError({ status: true, msg: "Falta el id de empleado" });
+      return;
+    }
 
     setFormPending(true);
 
-    let form = e.target;
-
-    const cuerpo = {
-      idEmpleado: Number(body.idEmpleado),
-      horaEntrada: form.horaEntrada.value || null,
-      fecha: form.fecha.value,
-    };
-
     try {
-      await Axios.post("/entrada/captura", cuerpo);
+      await Axios.post("/entrada/captura", body);
       setModalSuccess(true);
       setTimeout(() => {
         setModalSuccess(false);
@@ -80,6 +73,7 @@ function FaltasRetardos() {
         idEmpleado: null,
         nombreEmpleado: null,
         horaEntrada: "",
+        horaEstablecida: "",
         idTurno: null,
         hora_anticipo: "",
       });
@@ -136,7 +130,6 @@ function FaltasRetardos() {
       <FormRetardos
         handle={handle}
         enviar={enviar}
-        turnos={turnos}
         body={body}
         setBody={setBody}
         formPending={formPending}
@@ -144,14 +137,6 @@ function FaltasRetardos() {
         empEstado={[empleados, setEmpleados]}
         defaultData={defaultData}
       />
-      <div>
-        {/* <Turnos
-          actualizar={actualizar}
-          setActualizar={setActualizar}
-          modalSuccess={setModalSuccess}
-          modalError={setModalError}
-        /> */}
-      </div>
       <ModalSuccess show={modalSuccess} close={closeModal} />
       <ModalError
         show={modalError.status}
@@ -312,281 +297,5 @@ const DataChecador = ({ show, setShow, bodyState, capture }) => {
     </Offcanvas>
   );
 };
-/* 
-const Turnos = ({ actualizar, setActualizar, modalSuccess, modalError }) => {
-  const [modalConfig, setModalConfig] = useState({
-    show: false,
-    props: "",
-    servicio: "",
-  });
-  const { data, error, isPending } = useGetData("/entrada/turnos", actualizar);
-  const [showConfirmacion, setShowConfirmacion] = useState(false);
-  const [id, setId] = useState(null);
 
-  const showConfigTurnos = (title, servicio, id) => {
-    setModalConfig({ show: true, props: title, servicio: servicio, id: id });
-  };
-
-  const handleId = (x) => {
-    setId(x);
-    setShowConfirmacion(true);
-  };
-
-  const eliminar = async () => {
-    try {
-      await Axios.delete(`/entrada/eliminar/turno/${id}`);
-      setActualizar(!actualizar);
-      setShowConfirmacion(false);
-      modalSuccess(true);
-      setTimeout(() => {
-        modalSuccess(false);
-      }, 500);
-    } catch (error) {
-      setShowConfirmacion(false);
-      modalError({ status: true, msg: error.code });
-    }
-  };
-
-  return (
-    <div className="w-25 mt-5 mx-auto">
-      {!isPending && !error && (
-        <Modales
-          show={modalConfig.show}
-          handleClose={() => setModalConfig({ show: false })}
-          title={modalConfig.props}
-          servicio={modalConfig.servicio}
-          actualizar={actualizar}
-          setActualizar={setActualizar}
-          id={modalConfig.id}
-          data={data.response}
-          modalSuccess={modalSuccess}
-          modalError={modalError}
-        />
-      )}
-      <ModalConfirmacion
-        show={showConfirmacion}
-        handleClose={() => setShowConfirmacion(false)}
-        enviar={eliminar}
-      />
-      <table className="table table-bordered ">
-        <thead>
-          <tr>
-            <th>Horario</th>
-            <th>Hr. Empiezo</th>
-            <th>Hr. Termino</th>
-            <th colSpan={2}>Acciones</th>
-          </tr>
-        </thead>
-        <tbody>
-          {!isPending &&
-            !error &&
-            data.response.map((el) => (
-              <tr key={el.idturno}>
-                <td>{el.turno}</td>
-                <td>{el.hora_anticipo}</td>
-                <td>{el.hora_termino}</td>
-                <td>
-                  <i
-                    role="button"
-                    className="fa-solid fa-pen text-warning"
-                    onClick={() =>
-                      showConfigTurnos("Editar turno", "actualizar", el.idturno)
-                    }
-                  />
-                </td>
-                <td>
-                  <i
-                    role="button"
-                    className="fa-regular fa-trash-can text-danger"
-                    onClick={() => handleId(el.idturno)}
-                  />
-                </td>
-              </tr>
-            ))}
-        </tbody>
-      </table>
-      <div className="d-flex justify-content-evenly">
-        <button
-          onClick={() => showConfigTurnos("Añadir turno", "añadir")}
-          className="btn btn-success"
-        >
-          Añadir turno
-        </button>
-      </div>
-    </div>
-  );
-};
-
-const Modales = ({
-  show,
-  handleClose,
-  title,
-  servicio,
-  actualizar,
-  setActualizar,
-  id,
-  data,
-  modalSuccess,
-  modalError,
-}) => {
-  return (
-    <div>
-      <Modal show={show} onHide={handleClose}>
-        <Modal.Header closeButton>
-          <Modal.Title>{title}</Modal.Title>
-        </Modal.Header>
-
-        <Modal.Body>
-          <FormTurnos
-            servicio={servicio}
-            actualizar={actualizar}
-            setActualizar={setActualizar}
-            cerrar={handleClose}
-            id={id}
-            dataTurnos={data}
-            modalSuccess={modalSuccess}
-            modalError={modalError}
-          />
-        </Modal.Body>
-      </Modal>
-    </div>
-  );
-};
- */
-const FormTurnos = ({
-  servicio,
-  actualizar,
-  setActualizar,
-  cerrar,
-  id,
-  dataTurnos,
-  modalSuccess,
-  modalError,
-}) => {
-  const [datos, setDatos] = useState(null); //datos de envio de formulario
-  const filtrar = dataTurnos.filter((el) => {
-    return el.idturno === id;
-  });
-  const [defaultDatos, setDefaultDatos] = useState({
-    idTurno: filtrar.length !== 0 ? filtrar[0].idturno : "",
-    turno: filtrar.length !== 0 ? filtrar[0].turno : null,
-    hora_empiezo: filtrar.length !== 0 ? filtrar[0].hora_empiezo : null,
-    hora_termino: filtrar.length !== 0 ? filtrar[0].hora_termino : null,
-    hora_anticipo: filtrar.length !== 0 ? filtrar[0].hora_anticipo : null,
-  });
-
-  const handle = (e) => {
-    setDatos({ ...datos, [e.target.name]: e.target.value });
-  };
-
-  const handleActualizar = (e) => {
-    setDefaultDatos({ ...defaultDatos, [e.target.name]: e.target.value });
-  };
-  const actualizarTurno = async (e) => {
-    e.preventDefault();
-    try {
-      await Axios.put("entrada/editar/turno", defaultDatos);
-      setActualizar(!actualizar);
-      cerrar();
-      modalSuccess(true);
-      setTimeout(() => {
-        modalSuccess(false);
-      }, 500);
-    } catch (error) {
-      cerrar();
-      modalError({ status: true, msg: error.code });
-    }
-  };
-  const add = async (e) => {
-    e.preventDefault();
-    try {
-      await Axios.post("entrada/turno", datos);
-      setActualizar(!actualizar);
-      cerrar();
-      modalSuccess(true);
-      setTimeout(() => {
-        modalSuccess(false);
-      }, 500);
-    } catch (error) {
-      cerrar();
-      modalError({ status: true, msg: error.code });
-    }
-  };
-
-  return (
-    <>
-      {" "}
-      <form onSubmit={servicio === "actualizar" ? actualizarTurno : add}>
-        {servicio === "actualizar" && (
-          <div>
-            <label>Turno</label>
-            <select
-              className="form-select"
-              name="idTurno"
-              onChange={servicio === "actualizar" ? handleActualizar : handle}
-              defaultValue={defaultDatos.idTurno}
-              disabled
-            >
-              <option value="">---Selecciona un turno---</option>
-              {dataTurnos.map((el, i) => {
-                return (
-                  <option value={Number(el.idturno)} key={i}>
-                    {el.turno}
-                  </option>
-                );
-              })}
-            </select>
-          </div>
-        )}
-        <div>
-          <label>Nombre del turno</label>
-          <input
-            type="text"
-            className="form-control"
-            name="turno"
-            onChange={servicio === "actualizar" ? handleActualizar : handle}
-            defaultValue={defaultDatos.turno}
-            required
-          />
-        </div>
-        <div>
-          <label>Hora de tolerancia</label>
-          <input
-            type="time"
-            className="form-control"
-            name="hora_anticipo"
-            onChange={servicio === "actualizar" ? handleActualizar : handle}
-            defaultValue={defaultDatos.hora_anticipo}
-            required
-          />
-        </div>
-        <div>
-          <label>Hora de inicio de turno</label>
-          <input
-            type="time"
-            className="form-control"
-            name="hora_empiezo"
-            onChange={servicio === "actualizar" ? handleActualizar : handle}
-            defaultValue={defaultDatos.hora_empiezo}
-            required
-          />
-        </div>
-        <div>
-          <label>Hora de fin de turno</label>
-          <input
-            type="time"
-            className="form-control"
-            name="hora_termino"
-            onChange={servicio === "actualizar" ? handleActualizar : handle}
-            defaultValue={defaultDatos.hora_termino}
-            required
-          />
-        </div>
-        <button type="submit" className="btn btn-primary mt-3">
-          Enviar
-        </button>
-      </form>
-    </>
-  );
-};
 export default FaltasRetardos;
