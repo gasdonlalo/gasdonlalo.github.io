@@ -100,7 +100,7 @@ function PdfHistorialSNC({ datos }) {
       <View style={styles.row}>
         <Text style={styles.rowfecha}>Fecha</Text>
         <Text style={styles.rowInfoHead}>Descripción</Text>
-        <Text style={styles.rowTema}>Tema</Text>
+        <Text style={styles.rowTema}>Incumplimiento</Text>
       </View>
     );
   };

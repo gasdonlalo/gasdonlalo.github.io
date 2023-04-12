@@ -125,7 +125,7 @@ const Success = ({ data }) => {
       wrap: true,
     },
     {
-      name: "Tema",
+      name: "Incumplimiento",
       selector: (row) => row.tema,
       wrap: true,
     },
