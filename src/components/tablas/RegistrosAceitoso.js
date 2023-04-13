@@ -167,6 +167,14 @@ const Success = ({
       showError(true);
     }
   };
+  const conditionalRow = [
+    {
+      when: (row) => row.descalificado === 1,
+      style: {
+        backgroundColor: "#ff808b",
+      },
+    },
+  ];
   const columnas = [
     {
       name: "ID registro",
@@ -221,7 +229,11 @@ const Success = ({
         pendiente={pendienteAct}
       />
       <Filtrador datosFiltrar={datos} guardarFiltro={setData} />
-      <TableCustom columnas={columnas} datos={datosTabla} />
+      <TableCustom
+        columnas={columnas}
+        datos={datosTabla}
+        conditionalRow={conditionalRow}
+      />
     </>
   );
 };
