@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ModalError from "../../../modals/ModalError";
 import ModalSuccess from "../../../modals/ModalSuccess";
 import Delete from "../../../modals/Delete";
@@ -72,7 +72,9 @@ const OctanosoRegistros = () => {
           !estacion.isPending &&
           !estacion.error && (
             <Success
-              data={data.response}
+              data={data.response.sort(
+                (a, b) => new Date(a.fecha) - new Date(b.fecha)
+              )}
               setDel={setDel}
               actualizador={actualizador}
               setActualizador={setActualizador}
@@ -83,6 +85,7 @@ const OctanosoRegistros = () => {
             />
           )}
       </div>
+      {isPending && <Loader />}
       {error && <ErrorHttp msg={dataError.msg} />}
 
       {del.id && (
@@ -114,50 +117,16 @@ const Success = ({
   empleados,
   estacion,
 }) => {
-  data.sort((a, b) => new Date(a.fecha) - new Date(b.fecha));
-  const [registros, setRegistros] = useState(data);
+  const [registros, setRegistros] = useState(data); //problema aqui no se detecta el cambio en el estado
+
+  useEffect(() => {
+    setRegistros(data);
+  }, [data]); // solucion al error anterior
+
   const [showUpdate, setShowUpdate] = useState(false);
   const [datosActualizar, setDatosActualizar] = useState({});
   const [idRegistro, setIdRegistro] = useState(null);
   const [pendienteAct, setPendienteAct] = useState(false);
-
-  const mostrarActualizar = (el) => {
-    setIdRegistro(el.id);
-    setDatosActualizar({
-      idEmpleado: el.idempleado,
-      litrosVendidos: Number(el.cantidad),
-      fecha: el.fecha,
-      idEstacionServicio: el.estacion,
-      descalificado: el.descalificado,
-    });
-    setShowUpdate(true);
-  };
-
-  const handle = (e) => {
-    setDatosActualizar({
-      ...datosActualizar,
-      [e.target.name]: e.target.value,
-    });
-  };
-
-  const actualizarRegistro = async (e) => {
-    setPendienteAct(true);
-    e.preventDefault();
-    try {
-      await Axios.put(`/octanoso/edit/${idRegistro}`, datosActualizar);
-      setShowUpdate(false);
-      showCorrecto(true);
-      setTimeout(() => {
-        showCorrecto(false);
-      }, 500);
-      setActualizador(!actualizador);
-      setPendienteAct(false);
-      e.target.reset();
-    } catch (error) {
-      setShowUpdate(false);
-      showError(true);
-    }
-  };
 
   const conditionalRow = [
     {
@@ -208,6 +177,44 @@ const Success = ({
     descalificado: el.descalificado ? 1 : 0,
     idempleado: el.idempleado,
   }));
+  const mostrarActualizar = (el) => {
+    setIdRegistro(el.id);
+    setDatosActualizar({
+      idEmpleado: el.idempleado,
+      litrosVendidos: Number(el.cantidad),
+      fecha: el.fecha,
+      idEstacionServicio: el.estacion,
+      descalificado: el.descalificado,
+    });
+    setShowUpdate(true);
+  };
+
+  const handle = (e) => {
+    setDatosActualizar({
+      ...datosActualizar,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const actualizarRegistro = async (e) => {
+    setPendienteAct(true);
+    e.preventDefault();
+    try {
+      await Axios.put(`/octanoso/edit/${idRegistro}`, datosActualizar);
+      setShowUpdate(false);
+      showCorrecto(true);
+      setTimeout(() => {
+        showCorrecto(false);
+      }, 500);
+      setActualizador(!actualizador);
+      setPendienteAct(false);
+      e.target.reset();
+    } catch (error) {
+      setShowUpdate(false);
+      showError(true);
+    }
+  };
+
   return (
     <div className="container-fluid">
       <ModalActualizar

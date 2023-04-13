@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import HeaderComponents from "../../GUI/HeaderComponents";
 import ModalConfirmacion from "../modals/ModalConfirmacion";
 import InputChangeYear from "../forms/InputChangeYear";
@@ -96,7 +96,9 @@ function RegistrosAceitoso() {
           !estacion.isPending &&
           !estacion.error && (
             <Success
-              datos={data.response}
+              datos={data.response.sort(
+                (a, b) => new Date(a.fecha) - new Date(b.fecha)
+              )}
               eliminar={eliminar}
               empleados={empleados.data.response}
               estacion={estacion.data.response}
@@ -126,8 +128,13 @@ const Success = ({
   showCorrecto,
   showError,
 }) => {
-  datos.sort((a, b) => new Date(a.fecha) - new Date(b.fecha));
+  //datos;
   const [data, setData] = useState(datos);
+
+  useEffect(() => {
+    setData(datos);
+  }, [datos]);
+
   const [showUpdate, setShowUpdate] = useState(false);
   const [datosActualizar, setDatosActualizar] = useState({});
   const [idRegistro, setIdRegistro] = useState(null);
