@@ -30,6 +30,7 @@ const SalidaNoConforme = () => {
   });
   //recupera la id del formulario enviado para generar el pdf
   const [idsalida, setIdsalida] = useState(null);
+  const [pendientePet, setPendientePet] = useState(false);
 
   const [show, setShow] = useState(false);
   const date = new Date();
@@ -66,9 +67,11 @@ const SalidaNoConforme = () => {
   };
 
   const enviarDatos = async (x, e) => {
+    setPendientePet(true);
     try {
       const req = await Axios.post("/salida-no-conforme", x);
       setIdsalida(req.data.response);
+      setPendientePet(false);
       setShowAlertSuccess(true);
       setTimeout(() => {
         setShowAlertSuccess(false);
@@ -79,6 +82,7 @@ const SalidaNoConforme = () => {
       e.target.reset();
     } catch (err) {
       setShowAlert({ status: true, msg: err.response.data.msg || false });
+      setPendientePet(false);
     }
   };
 
@@ -293,8 +297,13 @@ const SalidaNoConforme = () => {
                 <button
                   type="submit"
                   className="btn btn-primary d-block m-auto"
+                  disabled={pendientePet}
                 >
-                  Crear salida no conforme
+                  {pendientePet ? (
+                    <Loader size="1.5rem" />
+                  ) : (
+                    "Crear salida no conforme"
+                  )}
                 </button>
                 {!defaultEmpleado && !defaultIncumpliento ? null : (
                   <button

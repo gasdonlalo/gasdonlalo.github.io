@@ -12,6 +12,9 @@ import Loader from "../assets/Loader";
 import format from "../assets/format";
 import Filtrador from "../filtrador/Filtrador";
 import TableCustom from "./TableCustom";
+import { Modal } from "react-bootstrap";
+import InputSelectEmp from "../forms/Controlado/InputSelectEmp";
+import InputFechaC from "../forms/Controlado/InputFechaC";
 
 function RegistrosAceitoso() {
   const date = new Date();
@@ -26,6 +29,8 @@ function RegistrosAceitoso() {
     `/aceitoso/${year}/${month}`,
     actualizar
   );
+  const empleados = useGetData("/empleado");
+  const estacion = useGetData("/estaciones-servicio");
   const [idAceite, setIdAceite] = useState(null);
 
   const changeMonth = (e) => setMonth(e.target.value);
@@ -84,9 +89,23 @@ function RegistrosAceitoso() {
         </div>
       </div>
       <div className="mt-3">
-        {!error && !isPending && (
-          <Success datos={data.response} eliminar={eliminar} />
-        )}
+        {!error &&
+          !isPending &&
+          !empleados.isPending &&
+          !empleados.error &&
+          !estacion.isPending &&
+          !estacion.error && (
+            <Success
+              datos={data.response}
+              eliminar={eliminar}
+              empleados={empleados.data.response}
+              estacion={estacion.data.response}
+              actualizar={actualizar}
+              setActualizar={setActualizar}
+              showCorrecto={setShowCorrecto}
+              showError={setshowError}
+            />
+          )}
         {error && !isPending && (
           <div>
             <ErrorHttp msg={dataError.msg} />
@@ -97,10 +116,57 @@ function RegistrosAceitoso() {
     </div>
   );
 }
-const Success = ({ datos, eliminar }) => {
+const Success = ({
+  datos,
+  eliminar,
+  empleados,
+  estacion,
+  actualizar,
+  setActualizar,
+  showCorrecto,
+  showError,
+}) => {
   datos.sort((a, b) => new Date(a.fecha) - new Date(b.fecha));
   const [data, setData] = useState(datos);
+  const [showUpdate, setShowUpdate] = useState(false);
+  const [datosActualizar, setDatosActualizar] = useState({});
+  const [idRegistro, setIdRegistro] = useState(null);
+  const [pendienteAct, setPendienteAct] = useState(false);
 
+  const mostrarActualizar = (el) => {
+    setIdRegistro(el.id);
+    setDatosActualizar({
+      idEmpleado: el.idempleado,
+      litrosVendidos: Number(el.cantidad),
+      fecha: el.fecha,
+      idEstacionServicio: el.estacion,
+      descalificado: el.descalificado,
+    });
+    setShowUpdate(true);
+  };
+
+  const handle = (e) => {
+    setDatosActualizar({ ...datosActualizar, [e.target.name]: e.target.value });
+  };
+
+  const actualizarRegistro = async (e) => {
+    setPendienteAct(true);
+    e.preventDefault();
+    try {
+      await Axios.put(`/aceitoso/edit/${idRegistro}`, datosActualizar);
+      setShowUpdate(false);
+      showCorrecto(true);
+      setTimeout(() => {
+        showCorrecto(false);
+      }, 500);
+      setActualizar(!actualizar);
+      setPendienteAct(false);
+      e.target.reset();
+    } catch (error) {
+      setShowUpdate(false);
+      showError(true);
+    }
+  };
   const columnas = [
     {
       name: "ID registro",
@@ -113,15 +179,22 @@ const Success = ({ datos, eliminar }) => {
     },
     { name: "Empleado", selector: (row) => row.nombre, wrap: true },
     { name: "Estación de servicio", selector: (row) => row.estacion },
-    { name: "Cantidad", selector: (row) => row.cantidad },
+    { name: "Cantidad en litros", selector: (row) => row.cantidad },
     {
       name: "Acciones",
       cell: (row) => (
-        <i
-          role="button"
-          className="fa-solid fa-trash text-danger"
-          onClick={() => eliminar(row.id)}
-        />
+        <div className="d-flex justify-content-center gap-4 ">
+          <i
+            role="button"
+            className="fa-solid fa-trash text-danger"
+            onClick={() => eliminar(row.id)}
+          />
+          <i
+            role="button"
+            className="fa-regular fa-pen-to-square text-warning"
+            onClick={() => mostrarActualizar(row)}
+          />
+        </div>
       ),
     },
   ];
@@ -130,49 +203,109 @@ const Success = ({ datos, eliminar }) => {
     fecha: format.formatFechaDB(el.fecha),
     nombre: `${el.nombre} ${el.apellido_paterno} ${el.apellido_materno}`,
     estacion: el.idestacion_servicio,
-    cantidad: `${el.cantidad}L`,
+    cantidad: el.cantidad,
+    idempleado: el.idempleado,
+    descalificado: el.descalificado ? 1 : 0,
   }));
+
   return (
     <>
+      <ModalActualizar
+        show={showUpdate}
+        handleClose={() => setShowUpdate(false)}
+        empleados={empleados}
+        estacion={estacion}
+        datos={datosActualizar}
+        handle={handle}
+        enviar={actualizarRegistro}
+        pendiente={pendienteAct}
+      />
       <Filtrador datosFiltrar={datos} guardarFiltro={setData} />
-      {/* <table className="table table-bordered shadow">
-        <thead>
-          <tr className="table-secondary ">
-            <th>ID registro</th>
-            <th>Fecha</th>
-            <th>Nombre</th>
-            <th>Apellido Paterno</th>
-            <th>Apellido Materno</th>
-            <th>Estacion de servicio</th>
-            <th>Cantidad</th>
-            <th>Eliminar</th>
-          </tr>
-        </thead>
-        <tbody>
-          {data.map((el) => {
-            return (
-              <tr>
-                <td>{el.idventa_aceite}</td>
-                <td>{format.formatFechaComplete(el.fecha)}</td>
-                <td>{el.nombre}</td>
-                <td>{el.apellido_paterno}</td>
-                <td>{el.apellido_materno}</td>
-                <td>GDL {el.idestacion_servicio}</td>
-                <td>${el.cantidad}</td>
-                <td className="text-center">
-                  <i
-                    role="button"
-                    className="fa-solid fa-trash text-danger"
-                    onClick={() => eliminar(el.idventa_aceite)}
-                  />
-                </td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </table> */}
       <TableCustom columnas={columnas} datos={datosTabla} />
     </>
+  );
+};
+const ModalActualizar = ({
+  show,
+  handleClose,
+  empleados,
+  estacion,
+  datos,
+  handle,
+  enviar,
+  pendiente,
+}) => {
+  return (
+    <Modal show={show} onHide={handleClose} centered>
+      <Modal.Header closeButton>
+        <Modal.Title>Actualizar venta de aceite</Modal.Title>
+      </Modal.Header>
+      <Modal.Body>
+        <form onSubmit={enviar}>
+          <div>
+            <label>Empleado</label>
+            <InputSelectEmp
+              name="idEmpleado"
+              empleados={empleados}
+              value={datos}
+              handle={handle}
+            />
+          </div>
+          <div>
+            <label>Litros vendidos</label>
+            <input
+              type="number"
+              className="form-control"
+              name="litrosVendidos"
+              value={datos["litrosVendidos"]}
+              min="0"
+              onChange={handle}
+            />
+          </div>
+          <div>
+            <label>Fecha</label>
+            <InputFechaC name="fecha" value={datos} handle={handle} />
+          </div>
+          <div>
+            <label>Estacion de servicio</label>
+            <select
+              className="form-select"
+              name="idEstacionServicio"
+              value={datos["idEstacionServicio"]}
+              onChange={handle}
+            >
+              {estacion.map((el) => (
+                <option
+                  value={Number(el.idestacion_servicio)}
+                  key={el.idestacion_servicio}
+                >
+                  {el.nombre}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div>
+            <label>Descalificado</label>
+            <select
+              className="form-select"
+              name="descalificado"
+              value={datos["descalificado"]}
+              onChange={handle}
+            >
+              <option value={Number(1)}>Sí</option>
+              <option value={Number(0)}>No</option>
+            </select>
+          </div>
+          <button
+            type="submit"
+            className="btn btn-primary mt-3"
+            disabled={pendiente}
+          >
+            {pendiente ? <Loader size="1.5rem" /> : "Actualizar"}
+          </button>
+        </form>
+      </Modal.Body>
+    </Modal>
   );
 };
 export default RegistrosAceitoso;
