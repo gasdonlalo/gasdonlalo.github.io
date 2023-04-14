@@ -249,7 +249,7 @@ const ModalActualizar = ({
   return (
     <Modal show={show} onHide={handleClose} centered>
       <Modal.Header closeButton>
-        <Modal.Title>Actualizar venta de aceite</Modal.Title>
+        <Modal.Title>Actualizar venta de combustible</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <form onSubmit={enviar}>
@@ -263,7 +263,7 @@ const ModalActualizar = ({
             />
           </div>
           <div>
-            <label>Litros vendidos</label>
+            <label>Cantidad vendida</label>
             <input
               type="number"
               className="form-control"
