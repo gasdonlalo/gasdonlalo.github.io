@@ -128,7 +128,7 @@ export const DelEntradas = ({ state, actualizador }) => {
 const InputEditarHoras = ({ handle, body, modal, setBody }) => {
   const [disabled, setDisabled] = useState(true);
   const toggleDisable = () => {
-    setDisabled(!disabled);
+    setDisabled(false);
     if (disabled) {
       setBody({
         ...body,
@@ -147,9 +147,7 @@ const InputEditarHoras = ({ handle, body, modal, setBody }) => {
           onChange={handle}
           name="horaEstablecida"
           value={
-            body.hasOwnProperty("horaEstablecida")
-              ? body.horaEstablecida
-              : modal.horaEstablecida
+            body.hasOwnProperty("horaEstablecida") ? body.horaEstablecida : ""
           }
           disabled={disabled}
           required
@@ -162,19 +160,15 @@ const InputEditarHoras = ({ handle, body, modal, setBody }) => {
           className="form-control"
           onChange={handle}
           name="horaEntrada"
-          value={
-            body.hasOwnProperty("horaEntrada")
-              ? body.horaEntrada
-              : modal.horaEntrada
-          }
+          value={body.hasOwnProperty("horaEntrada") ? body.horaEntrada : ""}
           disabled={disabled}
           required
         />
       </div>
       <p className="m-0 text-end">
-        <span className={disabled ? "text-secondary" : "text-danger"}>
-          Doble click para {disabled ? "habilitar" : "deshabilitar"}
-        </span>
+        {disabled && (
+          <span className="text-secondary">Doble click para habilitar</span>
+        )}
       </p>
     </div>
   );

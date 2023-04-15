@@ -1,4 +1,4 @@
-import { Fragment, useState } from "react";
+import { Fragment, useCallback, useMemo, useRef, useState } from "react";
 import useGetData from "../../hooks/useGetData";
 import format from "../assets/format";
 //import { OverlayTrigger, Tooltip } from "react-bootstrap";
@@ -232,9 +232,29 @@ const Success = ({ solicitud, estatus, action, mostrar, mostrarUpdFecha }) => {
 
   //const practicantes = solicitud.filter((el) => el.estatus === "Practica");
 
+  const inputColor = useRef();
+
+  const setColor = useCallback((el) => {
+    const changeColor = (e) => {
+      console.log(e.target.value);
+    };
+
+    let inputC = inputColor.current;
+    inputC.click();
+    inputC.addEventListener("change", (e) => console.log(e));
+  }, []);
+
   return (
     <div>
       {/* Buscador */}
+
+      <input
+        type="color"
+        className="d-none"
+        ref={inputColor}
+        // onChangeCapture={changeColor}
+      />
+
       <div className="pt-0">
         <div className="row">
           <div className="offset-md-6 col-md-6">
@@ -286,8 +306,14 @@ const Success = ({ solicitud, estatus, action, mostrar, mostrarUpdFecha }) => {
           </thead>
           <tbody>
             {solicitudes.map((el, i) => (
-              <tr key={i} id={`sinvalidar${el.idchecador || i}`}>
-                <td>{el.idchecador || "--"}</td>
+              <tr
+                key={i}
+                id={`sinvalidar${el.idchecador || i}`}
+                style={{ backgroundColor: el.color ? el.color : "" }}
+              >
+                <td onDoubleClick={() => setColor(el)}>
+                  {el.idchecador || "--"}
+                </td>
                 <td
                   onDoubleClick={(e) => (e.target.contentEditable = true)}
                   onBlur={(e) => (e.target.contentEditable = false)}

@@ -72,7 +72,8 @@ const format = {
     new Intl.DateTimeFormat("es-MX", {
       hour: "2-digit",
       minute: "2-digit",
-      hour12: true,
+      // hour12: true,
+      hourCycle: "h12",
     }).format(
       new Date(
         convert

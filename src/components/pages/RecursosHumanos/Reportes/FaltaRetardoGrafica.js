@@ -202,12 +202,15 @@ const Success = ({ data, showMEdit, showMDel }) => {
                 <td>{format.formatFechaComplete(el.fecha)}</td>
                 <td>
                   {el.hora_establecida
-                    ? format.formatHours(`2022-01-01 ${el.hora_establecida}`)
+                    ? format.formatHours(
+                        `2022-01-01 ${el.hora_establecida}`,
+                        false
+                      )
                     : "--"}
                 </td>
                 <td>
                   {el.hora_entrada
-                    ? format.formatHours(`2022-01-01 ${el.hora_entrada}`)
+                    ? format.formatHours(`2022-01-01 ${el.hora_entrada}`, false)
                     : "--"}
                 </td>
                 <td className="text-center">
