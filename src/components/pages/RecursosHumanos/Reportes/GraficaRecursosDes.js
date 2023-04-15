@@ -38,7 +38,7 @@ const GraficaRecursosDes = () => {
           <IconComponents
             icon="file-lines text-warning"
             text="Historial"
-            url="../Reportes/HistorialRecursoDes"
+            url="/recursos-humanos/recurso-despachador/historial"
           />
         </div>
       </HeaderComponents>
