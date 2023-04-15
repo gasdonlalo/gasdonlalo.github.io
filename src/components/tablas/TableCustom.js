@@ -18,10 +18,10 @@ function TableCustom({ columnas, datos, nameFecha, conditionalRow }) {
       },
     },
   };
-  const fixHeader = {
+  /*   const fixHeader = {
     fixedHeader: true,
     fixedHeaderScrollHeight: "300px",
-  };
+  }; */
   const opcionesPaginacion = {
     rowsPerPageText: "Filas por página",
     rangeSeparatorText: "de",
@@ -58,7 +58,7 @@ function TableCustom({ columnas, datos, nameFecha, conditionalRow }) {
       pagination
       paginationComponentOptions={opcionesPaginacion}
       noDataComponent={<Nodata />}
-      fixedHeader={fixHeader}
+      //fixedHeader={fixHeader}
       conditionalRowStyles={conditionalRow}
     />
   );
