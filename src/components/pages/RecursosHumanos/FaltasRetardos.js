@@ -303,7 +303,7 @@ const DataChecador = ({ show, setShow, bodyState, capture }) => {
                     <td className="align-middle">
                       <div className="d-flex flex-column align-items-center">
                         <span>
-                          {format.formatFechaComplete(el.fechaTiempo)}
+                          {format.formatFechaComplete(el.fechaTiempo, false)}
                         </span>
                         <span>{format.formatHours(el.fechaTiempo)}</span>
                       </div>
