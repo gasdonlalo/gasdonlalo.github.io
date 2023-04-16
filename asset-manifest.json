@@ -1,0 +1,26 @@
+{
+  "files": {
+    "main.css": "/static/css/main.75c37102.css",
+    "main.js": "/static/js/main.486abdae.js",
+    "static/js/787.36656dc7.chunk.js": "/static/js/787.36656dc7.chunk.js",
+    "static/media/calibri.ttf": "/static/media/calibri.5051e9c44ad675ae413d.ttf",
+    "static/media/calibrib.ttf": "/static/media/calibrib.ef9b8d6950fd26d414e2.ttf",
+    "static/media/fa-solid-900.ttf": "/static/media/fa-solid-900.b1a653db79258eeccc5d.ttf",
+    "static/media/GDL.png": "/static/media/GDL.f1df0a4d5d50dfb5049c.png",
+    "static/media/fa-brands-400.ttf": "/static/media/fa-brands-400.450a5c898f0b184b968b.ttf",
+    "static/media/bootstrap-icons.woff?": "/static/media/bootstrap-icons.6959d0d983ee318f8880.woff",
+    "static/media/fa-solid-900.woff2": "/static/media/fa-solid-900.41c0f706d8ce93933771.woff2",
+    "static/media/bootstrap-icons.woff2?": "/static/media/bootstrap-icons.b2e5aab643c6f0fd2da6.woff2",
+    "static/media/fa-brands-400.woff2": "/static/media/fa-brands-400.3ac6859b28be946745f9.woff2",
+    "static/media/LogoGL.png": "/static/media/LogoGL.d40926c3d840071e1f3a.png",
+    "static/media/pemex.png": "/static/media/pemex.f25d6cedadbebbbb1f03.png",
+    "index.html": "/index.html",
+    "main.75c37102.css.map": "/static/css/main.75c37102.css.map",
+    "main.486abdae.js.map": "/static/js/main.486abdae.js.map",
+    "787.36656dc7.chunk.js.map": "/static/js/787.36656dc7.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.75c37102.css",
+    "static/js/main.486abdae.js"
+  ]
+}
