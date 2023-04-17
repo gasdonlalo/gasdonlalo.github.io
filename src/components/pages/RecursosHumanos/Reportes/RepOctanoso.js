@@ -190,8 +190,7 @@ const Correcto = ({ datosTabla, colores, fechaFin, fechaInicio, estacion }) => {
             return colores[4];
           }
         }),
-        borderColor: "rgba(6,43,223,1)",
-        label: "Litros vendidos",
+        label: "N/A",
       },
       {
         data: totalTabla.map((e) => e.cantidadNC),
@@ -342,7 +341,32 @@ const Correcto = ({ datosTabla, colores, fechaFin, fechaInicio, estacion }) => {
           </div>
 
           <div className="w-75 m-auto">
-            <Bar datos={datosBar} text="" />
+            <Bar
+              datos={datosBar}
+              text=""
+              optionsCustom={{
+                scales: {
+                  x: {
+                    title: {
+                      display: true,
+                      text: "Despachadores",
+                      font: {
+                        size: "20pt",
+                      },
+                    },
+                  },
+                  y: {
+                    title: {
+                      display: true,
+                      text: "Litros",
+                      font: {
+                        size: "20pt",
+                      },
+                    },
+                  },
+                },
+              }}
+            />
           </div>
         </div>
       </div>

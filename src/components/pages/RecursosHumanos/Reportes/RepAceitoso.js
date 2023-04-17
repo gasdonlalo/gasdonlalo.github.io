@@ -187,7 +187,7 @@ const Correcto = ({ datosTabla, colores, fechaFin, fechaInicio, estacion }) => {
           }
         }),
         borderColor: "rgba(6,43,223,1)",
-        label: "Litros vendidos",
+        label: "N/A",
       },
       {
         data: totalTabla.map((e) => e.cantidadNC),
@@ -241,7 +241,7 @@ const Correcto = ({ datosTabla, colores, fechaFin, fechaInicio, estacion }) => {
                     : e.datos.map((e, i, j) => {
                         return (
                           <Fragment>
-                            <td key={i}>$ {e.cantidad}</td>
+                            <td key={i}>{format.formatDinero(e.cantidad)}</td>
                             <td key={j}>{e.salidaNC}</td>
                           </Fragment>
                         );
@@ -262,7 +262,7 @@ const Correcto = ({ datosTabla, colores, fechaFin, fechaInicio, estacion }) => {
               <tbody>
                 <tr>
                   <th scope="col">Total vendido</th>
-                  <td>$ {totalVendidoMes}</td>
+                  <td>{format.formatDinero(totalVendidoMes)}</td>
                 </tr>
               </tbody>
             </table>
@@ -285,12 +285,11 @@ const Correcto = ({ datosTabla, colores, fechaFin, fechaInicio, estacion }) => {
                           {index + 1}° lugar
                         </td>
                         <td>
-                          $
-                          {new Decimal(Number(e.cantidadLitros))
-                            .times(
+                          {format.formatDinero(
+                            new Decimal(Number(e.cantidadLitros)).times(
                               index === 0 ? 0.05 : index === 1 ? 0.03 : 0.02
                             )
-                            .toFixed(2)}
+                          )}
                         </td>
                       </tr>
                     );
@@ -329,7 +328,7 @@ const Correcto = ({ datosTabla, colores, fechaFin, fechaInicio, estacion }) => {
                       }
                     >
                       <td>{e.nombre}</td>
-                      <td>$ {e.cantidadLitros}</td>
+                      <td>{format.formatDinero(e.cantidadLitros)}</td>
                       <td>
                         {e.descalificado
                           ? "Descalificado"
@@ -373,7 +372,35 @@ const Correcto = ({ datosTabla, colores, fechaFin, fechaInicio, estacion }) => {
             </div>
 
             <div className="w-75 m-auto">
-              <Bar datos={datosBar} text="" />
+              <Bar
+                datos={datosBar}
+                text=""
+                optionsCustom={{
+                  scales: {
+                    x: {
+                      title: {
+                        display: true,
+                        text: "Despachadores",
+                        font: {
+                          size: "20pt",
+                        },
+                      },
+                    },
+                    y: {
+                      title: {
+                        display: true,
+                        text: "Cantidad en pesos",
+                        font: {
+                          size: "20pt",
+                        },
+                      },
+                      ticks: {
+                        callback: (value) => format.formatDinero(value),
+                      },
+                    },
+                  },
+                }}
+              />
             </div>
           </div>
         </div>

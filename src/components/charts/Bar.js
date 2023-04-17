@@ -49,6 +49,9 @@ function Grafica({ datos, text, legend, optionsCustom }) {
         position: "right",
         scale: "",
         CategoryScale: "3",
+        labels: {
+          filter: (el) => el.text !== "N/A",
+        },
       },
       title: {
         display: true,

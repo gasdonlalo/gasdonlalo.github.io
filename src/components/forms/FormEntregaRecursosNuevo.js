@@ -6,96 +6,101 @@ import useGetData from "../../hooks/useGetData";
 import Loader from "../assets/Loader";
 import InputFechaC from "./Controlado/InputFechaC";
 
-const recursos = [
-  {
-    nombre: "Plumón detector",
-    cantidad: 0,
-    estado: 1,
-    tipo: 1,
-    iddepartamentos: [1],
-  },
-  {
-    nombre: "Tabla portapapeles",
-    cantidad: 0,
-    estado: 1,
-    tipo: 1,
-    iddepartamentos: [1, 4],
-  },
-  {
-    nombre: "Caja de metal para monedas y documentos",
-    cantidad: 0,
-    estado: 1,
-    tipo: 1,
-    iddepartamentos: [1],
-  },
-  {
-    nombre: "Sobre de plástico",
-    cantidad: 0,
-    estado: 1,
-    tipo: 1,
-    iddepartamentos: [1],
-  },
-  {
-    nombre: "Hoja de liquidación",
-    cantidad: 0,
-    estado: 1,
-    tipo: 1,
-    iddepartamentos: [1],
-  },
-  {
-    nombre: "Sobres de recolección parcial",
-    cantidad: 0,
-    estado: 1,
-    tipo: 1,
-    iddepartamentos: [1],
-  },
-  { nombre: "Gafete", cantidad: 0, estado: 1, tipo: 1, iddepartamentos: [1] },
-  {
-    nombre: "Cartera para vales",
-    cantidad: 0,
-    estado: 1,
-    tipo: 1,
-    iddepartamentos: [1],
-  },
-  {
-    nombre: "Playera de despachador",
-    cantidad: 0,
-    estado: 1,
-    tipo: 1,
-    iddepartamentos: [1, 2, 5],
-  },
-  {
-    nombre: "Pantalón de despachador",
-    cantidad: 0,
-    estado: 1,
-    tipo: 1,
-    iddepartamentos: [1, 2],
-  },
-  { nombre: "Gorra", cantidad: 0, estado: 1, tipo: 1, iddepartamentos: [1] },
-  {
-    nombre: "Impermeable",
-    cantidad: 0,
-    estado: 1,
-    tipo: 1,
-    iddepartamentos: [1],
-  },
-  {
-    nombre: "Playera de supervisor",
-    cantidad: 0,
-    estado: 1,
-    tipo: 1,
-    iddepartamentos: [3, 4],
-  },
-  {
-    nombre: "Camisa de supervisor",
-    cantidad: 0,
-    estado: 1,
-    tipo: 1,
-    iddepartamentos: [3],
-  },
-];
-
 const FormEntregaRecurso = ({ enviar, formPending, body, setBody }) => {
+  const recursos = [
+    {
+      nombre: "Plumón detector",
+      cantidad: "",
+      estado: 1,
+      tipo: 1,
+      iddepartamentos: [1],
+    },
+    {
+      nombre: "Tabla portapapeles",
+      cantidad: "",
+      estado: 1,
+      tipo: 1,
+      iddepartamentos: [1, 4],
+    },
+    {
+      nombre: "Caja de metal para monedas y documentos",
+      cantidad: "",
+      estado: 1,
+      tipo: 1,
+      iddepartamentos: [1],
+    },
+    {
+      nombre: "Sobre de plástico",
+      cantidad: "",
+      estado: 1,
+      tipo: 1,
+      iddepartamentos: [1],
+    },
+    {
+      nombre: "Hoja de liquidación",
+      cantidad: "",
+      estado: 1,
+      tipo: 1,
+      iddepartamentos: [1],
+    },
+    {
+      nombre: "Sobres de recolección parcial",
+      cantidad: "",
+      estado: 1,
+      tipo: 1,
+      iddepartamentos: [1],
+    },
+    {
+      nombre: "Gafete",
+      cantidad: "",
+      estado: 1,
+      tipo: 1,
+      iddepartamentos: [1],
+    },
+    {
+      nombre: "Cartera para vales",
+      cantidad: "",
+      estado: 1,
+      tipo: 1,
+      iddepartamentos: [1],
+    },
+    {
+      nombre: "Playera de despachador",
+      cantidad: "",
+      estado: 1,
+      tipo: 1,
+      iddepartamentos: [1, 2, 5],
+    },
+    {
+      nombre: "Pantalón de despachador",
+      cantidad: "",
+      estado: 1,
+      tipo: 1,
+      iddepartamentos: [1, 2],
+    },
+    { nombre: "Gorra", cantidad: "", estado: 1, tipo: 1, iddepartamentos: [1] },
+    {
+      nombre: "Impermeable",
+      cantidad: "",
+      estado: 1,
+      tipo: 1,
+      iddepartamentos: [1],
+    },
+    {
+      nombre: "Playera de supervisor",
+      cantidad: "",
+      estado: 1,
+      tipo: 1,
+      iddepartamentos: [3, 4],
+    },
+    {
+      nombre: "Camisa de supervisor",
+      cantidad: "",
+      estado: 1,
+      tipo: 1,
+      iddepartamentos: [3],
+    },
+  ];
   const [recursosFil, setRecursosFil] = useState([]);
   const empleados = useGetData(`/empleado`);
 
@@ -225,6 +230,7 @@ const Recursos = ({ recursos, setRecursos }) => {
                   <input
                     type="number"
                     value={el.cantidad}
+                    placeholder="0"
                     className="form-control"
                     name="cantidad"
                     onChange={(e) => handle(e, i)}
