@@ -148,7 +148,7 @@ const Success = ({
     } catch (error) {}
   };
   const filtrarArchivos = (e) => {
-    const regExp = new RegExp(`${e.target.value}`, "gi");
+    const regExp = new RegExp(`${e.target.value}`, "i");
     const search = data.filter((el) => {
       return regExp.test(`${el.nombre_completo_incumple}`);
     });
